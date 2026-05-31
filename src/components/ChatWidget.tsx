@@ -45,7 +45,7 @@ export default function ChatWidget() {
         <div className="chat-panel">
           <div className="chat-panel-header">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-sidebar.png" alt="Axia Atlas" />
+            <img src="/logo-amark-bone.svg" alt="Axia Atlas" />
             <span className="chat-panel-title">Ask us anything</span>
             <button className="chat-close" onClick={() => setOpen(false)}>×</button>
           </div>
@@ -81,7 +81,7 @@ export default function ChatWidget() {
 
       <button className="chat-btn" onClick={() => setOpen(o => !o)} aria-label="Open chat">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-sidebar.png" alt="Chat" />
+        <img src="/logo-amark-bone.svg" alt="Chat" />
       </button>
     </>
   )

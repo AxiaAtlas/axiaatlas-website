@@ -7,8 +7,7 @@ export default function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-sidebar.png" alt="Axia Atlas" />
-            <div className="nav-wordmark" style={{ color: 'var(--bone)', fontSize: 13, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 8 }}>Axia Atlas</div>
+            <img src="/logo-wordmark-bone.svg" alt="Axia Atlas" height="28" style={{ objectFit: 'contain', marginBottom: 12 }} />
             <p className="footer-tagline">Growth, Engineered. Strategy-first digital marketing for businesses that want to compound.</p>
           </div>
 

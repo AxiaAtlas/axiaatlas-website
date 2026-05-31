@@ -9,8 +9,9 @@ export default function Nav() {
     <nav className="nav">
       <Link href="/" className="nav-brand" onClick={() => setOpen(false)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-sidebar.png" alt="Axia Atlas" />
-        <span className="nav-wordmark">Axia Atlas</span>
+        <img src="/logo-amark-bone.svg" alt="Axia Atlas" width="32" height="32" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-wordmark-bone.svg" alt="AXIA ATLAS" height="20" style={{ objectFit: 'contain' }} />
       </Link>
 
       <ul className={`nav-links${open ? ' open' : ''}`}>

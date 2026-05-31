@@ -64,3 +64,13 @@ INSERT INTO case_studies (industry, company_type, challenge, approach, result_he
  'Founder LinkedIn grew from 200 to 2,800 followers in 4 months. 2 enterprise deals attributed to thought leadership content.',
  'GEO/AEO + Executive Brand')
 ON CONFLICT DO NOTHING;
+
+-- Newsletter Subscribers table
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  email text UNIQUE NOT NULL,
+  source text DEFAULT 'website',
+  subscribed_at timestamptz DEFAULT now()
+);
+ALTER TABLE newsletter_subscribers DISABLE ROW LEVEL SECURITY;
+GRANT ALL ON newsletter_subscribers TO anon, authenticated;
