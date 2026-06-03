@@ -6,8 +6,9 @@ export default function Footer() {
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
+            {/* Bone wordmark lockup on the dark footer; sizing handled in .footer-brand img */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-wordmark-bone.svg" alt="Axia Atlas" height="28" style={{ objectFit: 'contain', marginBottom: 12 }} />
+            <img src="/logo-wordmark-bone.svg" alt="Axia Atlas" />
             <p className="footer-tagline">Growth, Engineered. Strategy-first digital marketing for businesses that want to compound.</p>
           </div>
 
@@ -38,8 +39,8 @@ export default function Footer() {
             <ul className="footer-links">
               <li><Link href="/contact">Book a Free Audit</Link></li>
               <li><a href="mailto:strategy@axiaatlas.com">strategy@axiaatlas.com</a></li>
-              <li><span style={{ color: 'rgba(241,240,234,0.35)', fontSize: 11 }}>Based in Toronto, ON</span></li>
-              <li><span style={{ color: 'rgba(241,240,234,0.35)', fontSize: 11 }}>Serving clients globally</span></li>
+              <li><span style={{ color: 'rgba(var(--alabaster-rgb),0.35)', fontSize: 11 }}>Based in Toronto, ON</span></li>
+              <li><span style={{ color: 'rgba(var(--alabaster-rgb),0.35)', fontSize: 11 }}>Serving clients globally</span></li>
             </ul>
           </div>
         </div>

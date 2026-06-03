@@ -75,7 +75,7 @@ export default function ContactPage() {
 
           <div className="contact-info-item">
             <div className="contact-info-label">What happens next</div>
-            <div className="contact-info-value" style={{ fontWeight: 400, fontSize: 13, lineHeight: 1.7, color: 'rgba(7,12,9,0.6)' }}>
+            <div className="contact-info-value" style={{ fontWeight: 400, fontSize: 13, lineHeight: 1.7, color: 'rgba(var(--spruce-darker-rgb),0.6)' }}>
               We review your submission, do a quick audit of your current online presence, and come to the call with specific observations and recommendations. No generic pitch deck.
             </div>
           </div>
@@ -86,8 +86,8 @@ export default function ContactPage() {
             <div className="contact-form">
               <div style={{ textAlign: 'center', padding: '32px 0' }}>
                 <div style={{ fontSize: 40, marginBottom: 16 }}>✓</div>
-                <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--midnight)', marginBottom: 12 }}>Got it — we&apos;ll be in touch.</h2>
-                <p style={{ fontSize: 14, color: 'rgba(7,12,9,0.55)', lineHeight: 1.7 }}>Expect a reply within 24 hours. In the meantime, you can reach us directly at <a href="mailto:strategy@axiaatlas.com" style={{ color: 'var(--spruce)' }}>strategy@axiaatlas.com</a>.</p>
+                <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--spruce-darker)', marginBottom: 12 }}>Got it — we&apos;ll be in touch.</h2>
+                <p style={{ fontSize: 14, color: 'rgba(var(--spruce-darker-rgb),0.55)', lineHeight: 1.7 }}>Expect a reply within 24 hours. In the meantime, you can reach us directly at <a href="mailto:strategy@axiaatlas.com" style={{ color: 'var(--spruce)' }}>strategy@axiaatlas.com</a>.</p>
               </div>
             </div>
           ) : (
@@ -127,7 +127,7 @@ export default function ContactPage() {
                 />
               </div>
 
-              {error && <div style={{ fontSize: 12, color: '#c0392b', marginBottom: 16 }}>{error}</div>}
+              {error && <div style={{ fontSize: 12, color: 'var(--negative)', marginBottom: 16 }}>{error}</div>}
 
               <button type="submit" className="btn-primary" disabled={sending} style={{ width: '100%', justifyContent: 'center', opacity: sending ? 0.7 : 1 }}>
                 {sending ? 'Sending…' : 'Book a Free Audit →'}

@@ -22,7 +22,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="about-section" style={{ background: '#f4f3ec' }}>
+      <div className="about-section" style={{ background: 'var(--app-bg-light)' }}>
         <div className="about-inner">
           <h2 className="about-headline">&quot;To be found is to be seen.&quot;</h2>
           <div className="about-body">

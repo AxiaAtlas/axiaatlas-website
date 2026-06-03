@@ -9,8 +9,11 @@ To book a consultation: strategy@axiaatlas.com
 Be direct, helpful, and never use jargon. Keep responses under 3 sentences.
 Do not mention any tools, AI, or technology — focus only on outcomes and strategy.`
 
+// Server-only: must NOT be prefixed with NEXT_PUBLIC_ so the key never ships to the browser.
+export const runtime = 'nodejs'
+
 export async function POST(req: NextRequest) {
-  const apiKey = process.env.NEXT_PUBLIC_ANTHROPIC_KEY
+  const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) return NextResponse.json({ reply: 'Chat unavailable. Email us at strategy@axiaatlas.com' })
 
   const { messages } = await req.json()

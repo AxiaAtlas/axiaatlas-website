@@ -167,7 +167,7 @@ export default async function HomePage() {
         <div className="section-eyebrow">Free Growth Audit</div>
         <h2 className="section-headline">Find out exactly where your growth is leaking.</h2>
         <p className="section-sub">A 30-minute audit call. We map your signal architecture and show you the 3 highest-leverage moves you could make right now. No pitch, no fluff.</p>
-        <Link href="/contact" className="btn-primary" style={{ background: 'var(--bone)', color: 'var(--midnight)' }}>Book Your Free Audit →</Link>
+        <Link href="/contact" className="btn-primary" style={{ background: 'var(--alabaster)', color: 'var(--spruce-darker)' }}>Book Your Free Audit →</Link>
       </section>
 
       <Footer />

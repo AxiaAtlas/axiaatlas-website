@@ -8,10 +8,9 @@ export default function Nav() {
   return (
     <nav className="nav">
       <Link href="/" className="nav-brand" onClick={() => setOpen(false)}>
+        {/* Bone wordmark lockup (includes the a-mark) on the dark nav. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-amark-bone.svg" alt="Axia Atlas" width="32" height="32" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-wordmark-bone.svg" alt="AXIA ATLAS" height="20" style={{ objectFit: 'contain' }} />
+        <img src="/logo-wordmark-bone.svg" alt="Axia Atlas" />
       </Link>
 
       <ul className={`nav-links${open ? ' open' : ''}`}>

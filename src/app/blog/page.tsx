@@ -28,11 +28,11 @@ export default async function BlogPage() {
       </div>
 
       {posts.length === 0 ? (
-        <div style={{ background: 'var(--bone)', padding: '80px 40px' }}>
+        <div style={{ background: 'var(--alabaster)', padding: '80px 40px' }}>
           <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
             <div style={{ fontSize: 40, marginBottom: 20 }}>📡</div>
-            <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--midnight)', marginBottom: 12 }}>Coming soon</h2>
-            <p style={{ fontSize: 15, color: 'rgba(7,12,9,0.55)', lineHeight: 1.7, marginBottom: 36 }}>Our growth intelligence blog launches soon. Get first access when we publish — no fluff, just signal.</p>
+            <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--spruce-darker)', marginBottom: 12 }}>Coming soon</h2>
+            <p style={{ fontSize: 15, color: 'rgba(var(--spruce-darker-rgb),0.55)', lineHeight: 1.7, marginBottom: 36 }}>Our growth intelligence blog launches soon. Get first access when we publish — no fluff, just signal.</p>
             <div className="newsletter-section" style={{ borderRadius: 12, padding: '40px 32px' }}>
               <div className="newsletter-title" style={{ fontSize: 18 }}>Get notified when we launch</div>
               <p className="newsletter-sub">Weekly insights on compounding growth, AI search, and marketing architecture.</p>

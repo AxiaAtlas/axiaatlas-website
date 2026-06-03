@@ -183,7 +183,7 @@ export default function ServicesPage() {
         <div className="section-eyebrow">Not sure where to start?</div>
         <h2 className="section-headline">Let us map your architecture.</h2>
         <p className="section-sub">A free 30-minute audit call. We review what you have, identify the gaps, and recommend the 2–3 services that will compound fastest for your business.</p>
-        <Link href="/contact" className="btn-primary" style={{ background: 'var(--bone)', color: 'var(--midnight)' }}>Book a Free Audit →</Link>
+        <Link href="/contact" className="btn-primary" style={{ background: 'var(--alabaster)', color: 'var(--spruce-darker)' }}>Book a Free Audit →</Link>
       </section>
 
       <Footer />

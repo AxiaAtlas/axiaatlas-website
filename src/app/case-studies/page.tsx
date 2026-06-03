@@ -84,7 +84,7 @@ export default async function CaseStudiesPage() {
         <div className="section-eyebrow">Your business could be next</div>
         <h2 className="section-headline">Ready to engineer your growth?</h2>
         <p className="section-sub">Book a free audit call. We&apos;ll show you exactly where your growth is leaking and what we&apos;d do about it.</p>
-        <Link href="/contact" className="btn-primary" style={{ background: 'var(--bone)', color: 'var(--midnight)' }}>Book a Free Audit →</Link>
+        <Link href="/contact" className="btn-primary" style={{ background: 'var(--alabaster)', color: 'var(--spruce-darker)' }}>Book a Free Audit →</Link>
       </section>
 
       <Footer />
