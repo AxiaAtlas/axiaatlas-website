@@ -16,17 +16,17 @@ async function getCaseStudies() {
 }
 
 const SERVICES = [
-  { icon: '📱', name: 'Social Media Strategy', desc: 'Platform-native content, full calendar management, and data-driven creative that actually builds an audience.', href: '/services#social' },
-  { icon: '🤖', name: 'GEO / AEO', desc: 'Get cited by ChatGPT, Perplexity, and Gemini. Be the answer, not just a result.', href: '/services#geo' },
-  { icon: '✍️', name: 'SEO & Content', desc: 'Long-form articles that rank, build authority, and convert readers into buyers.', href: '/services#seo' },
-  { icon: '📍', name: 'Local Presence', desc: 'Google Business Profile, local citations, and review management — dominate your market.', href: '/services#local' },
-  { icon: '👤', name: 'Executive Brand', desc: 'Turn your founder into a category authority on LinkedIn. Content that builds trust at scale.', href: '/services#executive' },
-  { icon: '🌐', name: 'Website Design', desc: 'Direct-response websites built to convert. No bloat — just strategy and speed.', href: '/services#website' },
+  { icon: '📣', name: 'Social Media', desc: 'Content built for each platform, managed end to end, designed to grow an audience that actually buys.', href: '/services#social' },
+  { icon: '🤖', name: 'AI Search (GEO/AEO)', desc: 'Get cited by ChatGPT, Perplexity, and Gemini. When buyers ask AI, you want to be the answer.', href: '/services#geo' },
+  { icon: '🔎', name: 'SEO & Content', desc: 'Articles and pages that rank, earn trust, and turn readers into customers — month after month.', href: '/services#seo' },
+  { icon: '📍', name: 'Local Presence', desc: 'Win the map pack and the "near me" searches. Google Business Profile, reviews, and local pages.', href: '/services#local' },
+  { icon: '👤', name: 'Founder Brand', desc: 'Turn the face of your business into a name people trust before the first conversation.', href: '/services#executive' },
+  { icon: '🖥️', name: 'Website Design', desc: 'Fast, clean sites built to convert the traffic every other channel sends you.', href: '/services#website' },
 ]
 
 const PLACEHOLDER_CASES = [
-  { industry: 'Professional Services', result_headline: '340% organic growth in 90 days', result_detail: 'B2B consulting firm — from zero organic traffic to 4,200 monthly sessions.', service_used: 'Social Media + SEO' },
-  { industry: 'Technology / SaaS', result_headline: 'Cited by ChatGPT in 45 days', result_detail: 'SaaS startup — founder LinkedIn grew from 200 to 2,800 followers in 4 months.', service_used: 'GEO/AEO + Executive Brand' },
+  { industry: 'Home Services', result_headline: '5× more booked jobs', result_detail: 'A local trades business went from page three to the top of the map pack — and filled its calendar in 90 days.', service_used: 'Local Presence + Website' },
+  { industry: 'Consumer Brand', result_headline: 'Cited by ChatGPT in 6 weeks', result_detail: 'A DTC brand became the answer AI gives for its category, lifting organic discovery and on-site sales.', service_used: 'AI Search + SEO' },
 ]
 
 export default async function HomePage() {
@@ -39,17 +39,17 @@ export default async function HomePage() {
       {/* ── HERO ── */}
       <div className="hero">
         <div className="hero-inner">
-          <div className="hero-eyebrow">Growth, Engineered</div>
+          <div className="hero-eyebrow">Digital marketing studio</div>
           <h1 className="hero-headline">
-            Not more content.<br />
-            <em>A signal that compounds.</em>
+            Your buyers are looking.<br />
+            <em>Make sure they find you.</em>
           </h1>
           <p className="hero-sub">
-            Axia Atlas is a strategy-first digital marketing agency. We engineer compounding growth — not vanity metrics. Every tactic we deploy is designed to build momentum that pays off for years.
+            Every day, your customers search Google, scroll their feeds, and ask AI what to buy and who to trust. Axia Atlas puts your business in those moments — for brands, local businesses, and the founders behind them.
           </p>
           <div className="hero-actions">
             <Link href="/contact" className="btn-primary">Book a Free Audit →</Link>
-            <Link href="/services" className="btn-outline">See Our Services</Link>
+            <Link href="/services" className="btn-outline">See How It Works</Link>
           </div>
         </div>
       </div>
@@ -57,10 +57,10 @@ export default async function HomePage() {
       {/* ── STATS BAR ── */}
       <div className="stats-bar">
         {[
-          { value: '3×', label: 'Average pipeline growth' },
-          { value: '8', label: 'Integrated services' },
-          { value: 'Day 1', label: 'Execution from onboarding' },
-          { value: '100%', label: 'Outcome-focused billing' },
+          { value: '8', label: 'Channels we cover' },
+          { value: 'Week 1', label: 'Work starts, not onboarding' },
+          { value: 'B2B + B2C', label: 'Brands, local, and founders' },
+          { value: 'Always', label: 'Reporting you can read' },
         ].map(s => (
           <div key={s.label} className="stat-item">
             <div className="stat-value">{s.value}</div>
@@ -73,19 +73,19 @@ export default async function HomePage() {
       <section className="problem-section">
         <div className="section-inner">
           <div className="section-eyebrow">The Problem</div>
-          <h2 className="section-headline">You&apos;re active.<br />You&apos;re not growing.</h2>
+          <h2 className="section-headline">Being good isn&apos;t enough<br />if no one can find you.</h2>
           <div className="problem-grid">
             <div className="problem-text">
-              <p>Most marketing agencies optimise for activity — posts, reports, meetings. You get deliverables. You don&apos;t get growth.</p>
-              <p>The businesses compounding fastest right now have one thing in common: they&apos;re building signal architecture, not just publishing content. They show up in AI answers, dominate local search, and have founders people trust before they ever get on a call.</p>
-              <p>That&apos;s what we build.</p>
-              <Link href="/contact" className="btn-primary" style={{ marginTop: 8 }}>Fix Your Growth Architecture →</Link>
+              <p>You can have the better product, the fairer price, and the happier customers — and still lose to the business that simply shows up first.</p>
+              <p>Attention has moved. Buyers search, scroll, and ask AI before they ever call. The companies winning right now aren&apos;t louder. They&apos;re easier to find, in more of the places that matter, more of the time.</p>
+              <p>That&apos;s the gap we close.</p>
+              <Link href="/contact" className="btn-primary" style={{ marginTop: 8 }}>Find Your Gaps →</Link>
             </div>
             <div className="problem-cards">
               {[
-                { title: 'Content without strategy', desc: 'Publishing consistently but reaching nobody new. The algorithm isn\'t the problem — your architecture is.' },
-                { title: 'Invisible to AI search', desc: 'ChatGPT, Perplexity, and Gemini answer buyer questions. If you\'re not cited, you don\'t exist to that buyer.' },
-                { title: 'No compounding asset', desc: 'Every tactic resets. Your competitors are building assets — authority, rankings, trust — that work harder every month.' },
+                { title: 'Invisible in search', desc: 'If you\'re not on page one for what you sell, you\'re losing those buyers to someone who is.' },
+                { title: 'Left out of AI answers', desc: 'ChatGPT, Perplexity, and Gemini recommend businesses every day. If they don\'t know you, you\'re not in the running.' },
+                { title: 'Forgettable feeds', desc: 'Posting without a plan fills a calendar but builds nothing. Reach fades the moment you stop paying.' },
               ].map(c => (
                 <div key={c.title} className="problem-card">
                   <div className="problem-card-title">{c.title}</div>
@@ -97,12 +97,45 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── SERVICES ── */}
+      {/* ── THE SYSTEM (bento) ── */}
       <section className="services-section">
         <div className="section-inner">
-          <div className="section-eyebrow">Our Services</div>
-          <h2 className="section-headline">Eight ways we engineer growth</h2>
-          <p className="section-sub">Each service is designed to compound. Most clients combine 3–4 services for full-spectrum growth architecture.</p>
+          <div className="section-eyebrow">The System</div>
+          <h2 className="section-headline">One plan. Every place buyers look.</h2>
+          <p className="section-sub">We don&apos;t sell random tactics. We build a connected system across the channels that move your business — then make each part work harder every month.</p>
+          <div className="bento">
+            <div className="bento-card feature">
+              <div>
+                <div className="bento-num">The approach</div>
+                <div className="bento-title">Get found, get chosen, get remembered.</div>
+              </div>
+              <p className="bento-desc">Strategy first — we map where your buyers already are and where you&apos;re missing. Then we build presence in search, AI answers, local, and social, and tie it back to leads and sales you can measure.</p>
+            </div>
+            <div className="bento-card">
+              <div className="bento-num">01 — Find</div>
+              <div className="bento-title">Show up first</div>
+              <p className="bento-desc">Rank in search, win local, and get cited in AI answers where buyers are already looking.</p>
+            </div>
+            <div className="bento-card">
+              <div className="bento-num">02 — Convert</div>
+              <div className="bento-title">Turn attention into customers</div>
+              <p className="bento-desc">A site and content built to move people from curious to booked, not just to bounce.</p>
+            </div>
+            <div className="bento-card wide">
+              <div className="bento-num">03 — Compound</div>
+              <div className="bento-title">Build assets that keep paying off</div>
+              <p className="bento-desc">Rankings, reviews, citations, and a founder reputation don&apos;t reset each month — they grow. We optimize the system until every channel pulls its weight.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SERVICES ── */}
+      <section className="case-studies-section">
+        <div className="section-inner">
+          <div className="section-eyebrow">What We Do</div>
+          <h2 className="section-headline">Eight ways to get found.</h2>
+          <p className="section-sub">Pick the channels that fit your business. Most clients combine three or four into one plan.</p>
           <div className="services-grid">
             {SERVICES.map(s => (
               <div key={s.name} className="service-card">
@@ -113,17 +146,17 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
-          <div style={{ textAlign: 'center', marginTop: 36 }}>
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
             <Link href="/services" className="btn-dark">View all 8 services →</Link>
           </div>
         </div>
       </section>
 
-      {/* ── CASE STUDIES ── */}
-      <section className="case-studies-section">
+      {/* ── RESULTS ── */}
+      <section className="services-section">
         <div className="section-inner">
           <div className="section-eyebrow">Results</div>
-          <h2 className="section-headline">Built for outcomes.<br />Measured in growth.</h2>
+          <h2 className="section-headline">Measured in customers,<br />not vanity metrics.</h2>
           <div className="case-grid">
             {displayCases.map((c: any, i: number) => (
               <div key={i} className="case-card">
@@ -134,8 +167,8 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
-          <div style={{ textAlign: 'center', marginTop: 32 }}>
-            <Link href="/case-studies" className="btn-dark">Read all case studies →</Link>
+          <div style={{ textAlign: 'center', marginTop: 36 }}>
+            <Link href="/case-studies" className="btn-dark">Read the case studies →</Link>
           </div>
         </div>
       </section>
@@ -144,13 +177,13 @@ export default async function HomePage() {
       <section className="process-section">
         <div className="section-inner">
           <div className="section-eyebrow">How We Work</div>
-          <h2 className="section-headline">Strategy before execution. Every time.</h2>
+          <h2 className="section-headline">Strategy before spend. Every time.</h2>
           <div className="process-steps">
             {[
-              { n: '01', title: 'Growth Audit', desc: 'We map your current signal architecture — what\'s working, what\'s invisible, and where your biggest compounding opportunities are.' },
-              { n: '02', title: 'Architecture Design', desc: 'We build a 90-day growth plan: which services, which sequence, which metrics. Strategy first, execution second.' },
-              { n: '03', title: 'Day 1 Execution', desc: 'No 30-day onboarding. Work starts immediately. You see deliverables in week one.' },
-              { n: '04', title: 'Compound & Optimise', desc: 'Monthly reviews, live dashboards, and continuous iteration. We optimise until every channel compounds.' },
+              { n: '01', title: 'Audit', desc: 'We map where you show up today, where you don\'t, and where the fastest wins are hiding.' },
+              { n: '02', title: 'Plan', desc: 'A clear 90-day plan: which channels, in what order, measured against goals you care about.' },
+              { n: '03', title: 'Build', desc: 'No 30-day warm-up. Work starts in week one and you see real output fast.' },
+              { n: '04', title: 'Grow', desc: 'Monthly reviews, plain-English reporting, and steady tuning until every channel pays off.' },
             ].map(s => (
               <div key={s.n} className="process-step">
                 <div className="process-num">{s.n}</div>
@@ -164,10 +197,10 @@ export default async function HomePage() {
 
       {/* ── CTA ── */}
       <section className="cta-section">
-        <div className="section-eyebrow">Free Growth Audit</div>
-        <h2 className="section-headline">Find out exactly where your growth is leaking.</h2>
-        <p className="section-sub">A 30-minute audit call. We map your signal architecture and show you the 3 highest-leverage moves you could make right now. No pitch, no fluff.</p>
-        <Link href="/contact" className="btn-primary" style={{ background: 'var(--alabaster)', color: 'var(--spruce-darker)' }}>Book Your Free Audit →</Link>
+        <div className="section-eyebrow">Free Audit</div>
+        <h2 className="section-headline">See exactly where you&apos;re invisible.</h2>
+        <p className="section-sub">Book a 30-minute audit. We&apos;ll show you where buyers are looking for what you sell, where you&apos;re missing, and the three moves that would change it. No pitch deck, no pressure.</p>
+        <Link href="/contact" className="btn-primary">Book Your Free Audit →</Link>
       </section>
 
       <Footer />

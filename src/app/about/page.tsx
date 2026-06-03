@@ -1,39 +1,46 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
+
+export const metadata: Metadata = {
+  title: 'About',
+  description:
+    'Axia Atlas is a digital marketing studio built on one idea: to be found is to be chosen. We help brands, local businesses, and founders show up where their buyers are looking.',
+}
 
 export default function AboutPage() {
   return (
     <div className="page">
       <div className="about-hero">
         <div className="section-eyebrow">About</div>
-        <h1 className="section-headline">We started Axia Atlas because the agency model was broken.</h1>
+        <h1 className="section-headline">We started Axia Atlas because most marketing sells activity, not results.</h1>
       </div>
 
       <div className="about-section">
         <div className="about-inner">
-          <h2 className="about-headline">The founding story</h2>
+          <h2 className="about-headline">Why we exist</h2>
           <div className="about-body">
-            <p>Amit Arbili founded Axia Atlas after watching too many good businesses get mediocre marketing results. Not because their agencies were lazy — but because the model was built around billing hours, not delivering growth.</p>
-            <p>The typical agency relationship looks like this: you pay a retainer, you get a content calendar, you get a monthly report. Activity is delivered. Growth is not guaranteed. Six months later, you have a library of posts and no new clients.</p>
-            <p>That model works for agencies. It doesn&apos;t work for businesses.</p>
-            <p>Axia Atlas is built differently. Every engagement starts with strategy. Every tactic is selected because it compounds. Every month, we ask one question: is this building something that will work harder next month than it did this month?</p>
-            <p>We don&apos;t take on clients whose growth we can&apos;t architect. We don&apos;t sell services that don&apos;t fit the business. And we don&apos;t disappear into a reporting dashboard — we work in your business, with you, until the signal compounds.</p>
+            <p>Amit Arbili founded Axia Atlas after watching too many good businesses get mediocre results from agencies that were busy, not effective. The reason was rarely effort — it was the model. Most agencies bill for hours and deliverables, so that&apos;s what they optimize for.</p>
+            <p>The usual relationship goes like this: you pay a retainer, you get a content calendar, you get a monthly report full of charts. Plenty of activity. No promise that any of it brings you a single new customer. Six months later you have a library of posts and not much else.</p>
+            <p>That works for the agency. It doesn&apos;t work for you.</p>
+            <p>We do it differently. Every engagement starts with strategy. We only recommend channels we believe will pay off, and every month we ask one question: is this making the business easier to find and quicker to choose than it was last month?</p>
+            <p>We take on fewer clients than most agencies — on purpose — so we can go deep instead of wide.</p>
           </div>
         </div>
       </div>
 
       <div className="about-section" style={{ background: 'var(--app-bg-light)' }}>
         <div className="about-inner">
-          <h2 className="about-headline">&quot;To be found is to be seen.&quot;</h2>
+          <h2 className="about-headline">&quot;To be found is to be chosen.&quot;</h2>
           <div className="about-body">
-            <p>That&apos;s the principle behind everything we build. Visibility that compounds — in search engines, in AI answers, in your market, in the mind of your ideal buyer — is the most durable competitive advantage a business can build.</p>
-            <p>It&apos;s not glamorous. It&apos;s not fast. But it&apos;s real. And once it&apos;s built, it&apos;s yours.</p>
+            <p>That&apos;s the idea behind everything we build. When your business shows up where buyers are already looking — in search, in AI answers, in your local market, in the feeds people scroll — you don&apos;t have to convince anyone you exist. You just have to be the obvious choice.</p>
+            <p>Visibility like that isn&apos;t flashy and it isn&apos;t instant. But once it&apos;s built, it&apos;s yours — and it keeps working.</p>
           </div>
           <div className="beliefs-grid">
             {[
-              { n: '01', title: 'Outcomes over activity', desc: 'We measure success in pipeline, revenue, and compounding assets — not posts published or hours billed.' },
-              { n: '02', title: 'Strategy before execution', desc: 'We don\'t start writing until we understand what you\'re building, who you\'re building it for, and how each tactic compounds.' },
-              { n: '03', title: 'Intelligence before action', desc: 'We run data, read signals, and study your competitors before we recommend anything. Action without intelligence is just noise.' },
+              { n: '01', title: 'Results over activity', desc: 'We measure success in customers, rankings, and reputation — not posts published or hours billed.' },
+              { n: '02', title: 'Strategy before spend', desc: 'We don\'t start until we understand your business, your buyers, and where the real opportunity is.' },
+              { n: '03', title: 'Plain talk, always', desc: 'No jargon, no smoke. You\'ll always know what we\'re doing, why, and whether it\'s working.' },
             ].map(b => (
               <div key={b.n} className="belief-card">
                 <div className="belief-num">{b.n}</div>
@@ -47,12 +54,12 @@ export default function AboutPage() {
 
       <div className="about-section">
         <div className="about-inner">
-          <h2 className="about-headline">How we work</h2>
+          <h2 className="about-headline">How working with us feels</h2>
           <div className="about-body">
-            <p>Every client engagement starts with a Growth Audit. We map your current marketing architecture, identify the signals you&apos;re missing, and design a 90-day growth plan built around compounding tactics.</p>
-            <p>Then we execute — fast. No 30-day onboarding. No committee approvals. Work starts in week one.</p>
-            <p>We operate as an extension of your team, not a vendor. You get direct access to the people doing the work. Monthly strategy calls, live dashboards, and clear attribution so you always know what&apos;s driving growth.</p>
-            <p>We take on fewer clients than most agencies. Intentionally. It means we can go deep, not wide. And deep is what compounds.</p>
+            <p>Every engagement starts with an audit. We map where you show up today, where you don&apos;t, and the fastest wins available — then build a clear 90-day plan around them.</p>
+            <p>Then we get to work. No 30-day onboarding, no committee approvals. Real output lands in week one.</p>
+            <p>We operate as an extension of your team, not a faceless vendor. You get direct access to the people doing the work, monthly strategy calls, a live dashboard, and reporting written in language you can actually read.</p>
+            <p>Whether you&apos;re a growing brand, a local business, or the founder who is the brand — the goal is the same: make you impossible to miss.</p>
           </div>
           <div style={{ marginTop: 36 }}>
             <Link href="/contact" className="btn-primary">Work With Us →</Link>

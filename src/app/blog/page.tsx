@@ -1,7 +1,14 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase/client'
 import Footer from '@/components/Footer'
 import NewsletterForm from '@/components/NewsletterForm'
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description:
+    'Practical, no-fluff thinking on getting found — search, AI answers, local, social, and the marketing that actually moves a business.',
+}
 
 async function getPosts() {
   try {
@@ -22,9 +29,9 @@ export default async function BlogPage() {
   return (
     <div className="page">
       <div className="blog-hero">
-        <div className="section-eyebrow">Growth Intelligence</div>
-        <h1 className="section-headline">The Axia Atlas Blog</h1>
-        <p className="section-sub">Strategy, signals, and the tactics that compound.</p>
+        <div className="section-eyebrow">The Field Notes</div>
+        <h1 className="section-headline">How to get found.</h1>
+        <p className="section-sub">Plain, practical thinking on search, AI answers, local, and social — no fluff.</p>
       </div>
 
       {posts.length === 0 ? (
@@ -32,10 +39,10 @@ export default async function BlogPage() {
           <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
             <div style={{ fontSize: 40, marginBottom: 20 }}>📡</div>
             <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--spruce-darker)', marginBottom: 12 }}>Coming soon</h2>
-            <p style={{ fontSize: 15, color: 'rgba(var(--spruce-darker-rgb),0.55)', lineHeight: 1.7, marginBottom: 36 }}>Our growth intelligence blog launches soon. Get first access when we publish — no fluff, just signal.</p>
-            <div className="newsletter-section" style={{ borderRadius: 12, padding: '40px 32px' }}>
+            <p style={{ fontSize: 15, color: 'rgba(var(--spruce-darker-rgb),0.55)', lineHeight: 1.7, marginBottom: 36 }}>Our field notes launch soon — practical playbooks on getting found. Get first access when we publish.</p>
+            <div className="newsletter-section" style={{ borderRadius: 'var(--r)', padding: '40px 32px' }}>
               <div className="newsletter-title" style={{ fontSize: 18 }}>Get notified when we launch</div>
-              <p className="newsletter-sub">Weekly insights on compounding growth, AI search, and marketing architecture.</p>
+              <p className="newsletter-sub">No-fluff tactics on search, AI answers, local, and social.</p>
               <NewsletterForm />
             </div>
           </div>

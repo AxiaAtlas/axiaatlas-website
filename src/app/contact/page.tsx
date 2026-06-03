@@ -3,11 +3,11 @@ import { useState } from 'react'
 import Footer from '@/components/Footer'
 
 const SERVICES = [
-  'Social Media Strategy',
-  'GEO / AEO (AI Search)',
-  'SEO & Content Marketing',
-  'Local Digital Presence',
-  'Executive Brand',
+  'Social Media',
+  'AI Search (GEO / AEO)',
+  'SEO & Content',
+  'Local Presence',
+  'Founder / Executive Brand',
   'Website Design',
   'Campaigns',
   'Lead Generation',
@@ -48,8 +48,8 @@ export default function ContactPage() {
     <div className="page">
       <div className="contact-hero">
         <div className="section-eyebrow">Contact</div>
-        <h1 className="section-headline">Let&apos;s map your growth architecture.</h1>
-        <p className="section-sub">A 30-minute call. We review what you have, find the gaps, and tell you what we&apos;d do about it.</p>
+        <h1 className="section-headline">Let&apos;s find where you&apos;re invisible.</h1>
+        <p className="section-sub">A free 30-minute audit. We review what you have, find the gaps, and tell you exactly what we&apos;d do — and what it would cost.</p>
       </div>
 
       <div className="contact-body">
@@ -76,7 +76,7 @@ export default function ContactPage() {
           <div className="contact-info-item">
             <div className="contact-info-label">What happens next</div>
             <div className="contact-info-value" style={{ fontWeight: 400, fontSize: 13, lineHeight: 1.7, color: 'rgba(var(--spruce-darker-rgb),0.6)' }}>
-              We review your submission, do a quick audit of your current online presence, and come to the call with specific observations and recommendations. No generic pitch deck.
+              We review your submission, run a quick check of how you show up online today, and come to the call with specific observations and recommendations. No generic pitch deck.
             </div>
           </div>
         </div>
@@ -119,11 +119,11 @@ export default function ContactPage() {
               </div>
 
               <div className="form-row">
-                <label>Tell us about your growth challenge</label>
+                <label>What are you trying to grow?</label>
                 <textarea
                   value={form.message}
                   onChange={set('message')}
-                  placeholder="What are you trying to grow? What's not working? What have you tried?"
+                  placeholder="What's the goal? Where do you feel invisible? What have you already tried?"
                 />
               </div>
 

@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Axia Atlas — Marketing Website
 
-## Getting Started
+Marketing site for **Axia Atlas**, a digital marketing studio that makes brands, local businesses, and founders impossible to miss — in search, in AI answers, and in the feeds where buyers decide.
 
-First, run the development server:
+Built with Next.js (App Router) + Tailwind, with Supabase powering the contact form, case studies, and blog.
+
+## Stack
+
+- **Next.js 14** (App Router, server components)
+- **Tailwind CSS** + a hand-built design system in `src/app/globals.css`
+- **Supabase** for contact submissions, case studies, and blog posts
+- Deployed on **Vercel**
+
+## Brand
+
+Single source of truth lives in the `:root` tokens in `src/app/globals.css`.
+
+- Deep Spruce `#354940` (primary) · Bone Alabaster `#F1F0EA` · Sage `#C8D1C5` · Gold accent `#b8893a`
+- Montserrat for display/UI, Arial for body copy
+- 0–4px radii, bento-grid layouts, generous whitespace
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # fill in Supabase values
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
 
-## Learn More
+Both are public (browser-safe) Supabase config. There are **no server-side secrets** in this app.
 
-To learn more about Next.js, take a look at the following resources:
+## Project layout
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/app/            Routes: /, /services, /pricing, /case-studies, /about, /blog, /contact
+src/app/api/contact Contact form → Supabase (contact_submissions + prospects)
+src/components/      Nav, Footer, ChatWidget (local Q&A, no API), NewsletterForm
+src/lib/supabase/    Supabase browser client
+supabase/migrations/ SQL schema
+public/              Logos, favicon set, OG image
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Client portal
 
-## Deploy on Vercel
+The app/client portal lives separately at **https://app.axiaatlas.com** (linked from the nav and footer).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Build
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+```
