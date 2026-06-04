@@ -72,8 +72,8 @@ export default function PricingPage() {
               {t.features.map((f) => <li key={f}><Check />{f}</li>)}
             </ul>
             <Link
-              href="/contact"
-              className={t.featured ? 'btn-primary' : 'btn-dark'}
+              href="/demo"
+              className={t.featured ? "btn-primary" : "btn-dark"}
               style={{ width: '100%', justifyContent: 'center' }}
             >
               Book a Free Audit <Arrow className="arr" />
@@ -91,7 +91,7 @@ export default function PricingPage() {
           <div className="section-eyebrow">Still deciding?</div>
           <h2 className="section-headline">Let&apos;s find the right tier together.</h2>
           <p className="section-sub">Tell us your goals and we&apos;ll recommend the smallest plan that gets you there — and exactly what it costs. No pressure to go bigger than you need.</p>
-          <Link href="/contact" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
+          <Link href="/demo" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
         </div>
       </section>
 

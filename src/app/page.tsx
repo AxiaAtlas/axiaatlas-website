@@ -65,7 +65,7 @@ export default async function HomePage() {
             Every day, your customers search Google, scroll their feeds, and ask answer engines what to buy and who to trust. Axia Atlas puts your business in those moments — for brands, local businesses, and the founders behind them.
           </p>
           <div className="hero-actions">
-            <Link href="/contact" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
+            <Link href="/demo" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
             <Link href="/services" className="btn-outline">See How It Works</Link>
           </div>
 
@@ -108,7 +108,7 @@ export default async function HomePage() {
               <p>You can have the better product, the fairer price, and the happier customers — and still lose to the business that simply shows up first.</p>
               <p>Attention has moved. Buyers search, scroll, and ask answer engines before they ever call. The companies winning right now aren&apos;t louder. They&apos;re easier to find, in more of the places that matter, more of the time.</p>
               <p>That&apos;s the gap we close.</p>
-              <Link href="/contact" className="btn-primary">Find Your Gaps <Arrow className="arr" /></Link>
+              <Link href="/demo" className="btn-primary">Find Your Gaps <Arrow className="arr" /></Link>
             </div>
             <div className="problem-cards">
               {[
@@ -241,7 +241,7 @@ export default async function HomePage() {
           <div className="section-eyebrow">Free Audit</div>
           <h2 className="section-headline">See exactly where you&apos;re invisible.</h2>
           <p className="section-sub">Book a 30-minute audit. We&apos;ll show you where buyers are looking for what you sell, where you&apos;re missing, and the three moves that would change it. No pitch deck, no pressure.</p>
-          <Link href="/contact" className="btn-primary">Book Your Free Audit <Arrow className="arr" /></Link>
+          <Link href="/demo" className="btn-primary">Book Your Free Audit <Arrow className="arr" /></Link>
         </div>
       </section>
 

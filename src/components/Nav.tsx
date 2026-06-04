@@ -3,7 +3,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Wordmark } from './Logo'
-import ThemeToggle from './ThemeToggle'
 
 const PORTAL_URL = 'https://app.axiaatlas.com'
 
@@ -41,9 +40,8 @@ export default function Nav() {
           </li>
         ))}
         <li className="nav-actions">
-          <ThemeToggle />
           <a href={PORTAL_URL} className="nav-login" onClick={close}>Client Login</a>
-          <Link href="/contact" className="nav-cta" onClick={close}>Book a Free Audit</Link>
+          <Link href="/demo" className="nav-cta" onClick={close}>Book a Free Audit</Link>
         </li>
       </ul>
 

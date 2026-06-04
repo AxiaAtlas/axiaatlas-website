@@ -64,7 +64,7 @@ export default function AboutPage() {
             <p>Whether you&apos;re a growing brand, a local business, or the founder who is the brand — the goal is the same: make you impossible to miss.</p>
           </div>
           <div style={{ marginTop: 36 }}>
-            <Link href="/contact" className="btn-primary">Work With Us <Arrow className="arr" /></Link>
+            <Link href="/demo" className="btn-primary">Work With Us <Arrow className="arr" /></Link>
           </div>
         </div>
       </div>

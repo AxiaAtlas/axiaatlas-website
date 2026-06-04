@@ -39,7 +39,7 @@ export default function Footer() {
           <div>
             <div className="footer-col-title">Get Started</div>
             <ul className="footer-links">
-              <li><Link href="/contact">Book a Free Audit</Link></li>
+              <li><Link href="/demo">Book a Free Audit</Link></li>
               <li><a href={PORTAL_URL}>Client Login</a></li>
               <li><a href="mailto:strategy@axiaatlas.com">strategy@axiaatlas.com</a></li>
               <li><span className="footer-muted">Toronto, ON — serving clients globally</span></li>

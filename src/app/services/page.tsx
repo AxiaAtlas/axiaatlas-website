@@ -165,7 +165,7 @@ export default function ServicesPage() {
                 <p className="service-who">{s.who}</p>
                 <div className="service-tier-badge">Available in: {s.tier}</div>
                 <div>
-                  <Link href="/contact" className="btn-primary">Get Started <Arrow className="arr" /></Link>
+                  <Link href="/demo" className="btn-primary">Get Started <Arrow className="arr" /></Link>
                 </div>
               </div>
               <div>
@@ -184,7 +184,7 @@ export default function ServicesPage() {
           <div className="section-eyebrow">Not sure where to start?</div>
           <h2 className="section-headline">We&apos;ll tell you what to do first.</h2>
           <p className="section-sub">Book a free 30-minute audit. We review what you have, find the gaps, and recommend the two or three channels that will pay off fastest for your business.</p>
-          <Link href="/contact" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
+          <Link href="/demo" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
         </div>
       </section>
 

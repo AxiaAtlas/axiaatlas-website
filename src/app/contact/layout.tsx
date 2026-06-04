@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contact — Book a free audit',
+  title: 'Contact — Get in touch',
   description:
-    "Book a free 30-minute audit with Axia Atlas. We review what you have, find the gaps, and tell you exactly what we'd do — and what it would cost.",
+    'Questions about Axia Atlas? Send us a message and read answers to the most common questions on services, process, pricing, and getting started. We reply within 24 hours.',
   alternates: { canonical: '/contact' },
 }
 

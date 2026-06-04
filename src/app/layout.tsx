@@ -41,13 +41,6 @@ export const metadata: Metadata = {
   creator: 'Axia Atlas',
   publisher: 'Axia Atlas',
   robots: { index: true, follow: true },
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
-    ],
-    apple: '/apple-touch-icon.png',
-  },
   openGraph: {
     type: 'website',
     url: SITE_URL,
@@ -73,7 +66,7 @@ const JSON_LD = {
       '@id': `${SITE_URL}/#organization`,
       name: 'Axia Atlas',
       url: SITE_URL,
-      logo: `${SITE_URL}/icon-512.png`,
+      logo: `${SITE_URL}/apple-icon`,
       description: DESCRIPTION,
       email: 'strategy@axiaatlas.com',
       address: {
@@ -96,14 +89,10 @@ const JSON_LD = {
   ],
 }
 
-// No-FOUC theme bootstrap: runs before paint, honours saved choice then system.
-const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem('aa-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();`
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={montserrat.variable} suppressHydrationWarning>
+    <html lang="en" className={montserrat.variable}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}

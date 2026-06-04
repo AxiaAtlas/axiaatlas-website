@@ -20,6 +20,10 @@ export const Check = (p: IconProps) => (
   <svg {...base} {...p}><path d="M4 12.5l5 5 11-12" /></svg>
 )
 
+export const Plus = (p: IconProps) => (
+  <svg {...base} {...p}><path d="M12 5v14M5 12h14" /></svg>
+)
+
 export const Sun = (p: IconProps) => (
   <svg {...base} {...p}>
     <circle cx="12" cy="12" r="4.2" />

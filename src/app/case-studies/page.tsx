@@ -94,7 +94,7 @@ export default async function CaseStudiesPage() {
           <div className="section-eyebrow">You could be next</div>
           <h2 className="section-headline">Ready to get found?</h2>
           <p className="section-sub">Book a free audit. We&apos;ll show you exactly where buyers are missing you and what we&apos;d do about it.</p>
-          <Link href="/contact" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
+          <Link href="/demo" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
         </div>
       </section>
 
