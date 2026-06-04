@@ -718,6 +718,16 @@ footer::before {
 .about-headline { font-family: var(--font-head); font-size: var(--t-h3); font-weight: 700; color: var(--text); margin-bottom: 24px; letter-spacing: -0.02em; }
 .about-body { font-size: var(--t-body); line-height: 1.85; color: var(--text-muted); }
 .about-body p { margin-bottom: 20px; }
+
+/* legal pages (/privacy, /terms) */
+.legal-updated { font-family: var(--font-head); font-size: var(--t-xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 28px; }
+.legal-body h3 { font-family: var(--font-head); font-size: var(--t-h4); font-weight: 600; color: var(--text); letter-spacing: -0.01em; margin: 36px 0 14px; }
+.legal-body p { margin-bottom: 18px; }
+.legal-body ul { margin: 0 0 18px; padding-left: 22px; list-style: disc; }
+.legal-body li { margin-bottom: 8px; }
+.legal-body a { color: var(--accent); font-weight: 500; }
+.legal-body a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.legal-body strong { color: var(--text); font-weight: 600; }
 .beliefs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
 .belief-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 28px; transition: box-shadow 0.3s var(--ease), transform 0.3s var(--ease); }
 .belief-card:hover { box-shadow: var(--shadow-sm); transform: translateY(-2px); }
