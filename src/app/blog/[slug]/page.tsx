@@ -59,7 +59,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         {related.length > 0 && (
           <div style={{ marginTop: 64, paddingTop: 40, borderTop: '1px solid rgba(var(--spruce-rgb),0.1)' }}>
             <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(var(--spruce-darker-rgb),0.4)', marginBottom: 24 }}>Related Articles</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
               {related.map((r: any) => (
                 <Link key={r.id} href={`/blog/${r.slug}`} style={{ textDecoration: 'none' }}>
                   <div style={{ background: '#fff', border: '1px solid rgba(var(--spruce-rgb),0.1)', borderRadius: 10, padding: 20 }}>
@@ -74,8 +74,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       </div>
 
       <div className="newsletter-section">
-        <div className="newsletter-title">Get weekly growth intelligence</div>
-        <p className="newsletter-sub">Strategy, signals, and the tactics that compound. No fluff.</p>
+        <div className="newsletter-title">Get the field notes</div>
+        <p className="newsletter-sub">Practical tactics on getting found — search, AI, local, and social. No fluff.</p>
         <NewsletterForm />
       </div>
 

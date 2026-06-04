@@ -1,150 +1,149 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
+
+export const metadata: Metadata = {
+  title: 'Services',
+  description:
+    'Eight ways Axia Atlas gets you found and chosen: Social Media, AI Search (GEO/AEO), SEO & Content, Local Presence, Founder Brand, Website Design, Campaigns, and Lead Generation.',
+}
 
 const SERVICES = [
   {
     id: 'social',
-    icon: '📱',
+    icon: '📣',
     label: '01 — Social Media',
-    headline: 'Social Media Strategy',
-    tagline: 'From platform-specific content to full calendar management',
-    desc: 'Most social media "strategies" are just posting schedules. We build architecture: platform selection, content pillars, voice, creative frameworks, and a system that compounds reach every month.',
-    who: 'For: B2B and B2C businesses ready to invest in organic social as a growth channel.',
+    headline: 'Social Media',
+    desc: 'Most "social strategies" are just a posting schedule. We build the whole thing: which platforms fit you, what to say, how it looks, and a steady stream of content that actually grows an audience — not just a feed that stays busy.',
+    who: 'For brands and businesses ready to treat social as a real growth channel, B2B or B2C.',
     deliverables: [
-      'Platform strategy and channel selection',
+      'Platform and channel strategy',
       'Monthly content calendar (30+ posts)',
-      'Platform-native content: LinkedIn, Instagram, X, Facebook',
-      'Engagement and community management',
-      'Monthly performance report with insights',
-      'Trend monitoring and reactive content',
+      'Content made for each platform: Instagram, LinkedIn, TikTok, Facebook, X',
+      'Community management and replies',
+      'Trend-driven, reactive content',
+      'Monthly report in plain English',
     ],
-    tier: 'Starter / Growth / Authority',
+    tier: 'Starter, Growth, Authority',
   },
   {
     id: 'geo',
     icon: '🤖',
-    label: '02 — GEO / AEO',
-    headline: 'Generative Engine Optimisation',
-    tagline: 'Get cited by ChatGPT, Perplexity, and Gemini',
-    desc: 'AI models answer questions your buyers are asking right now. If you\'re not in those answers, you\'re invisible. We audit your citation gaps, build structured content, and get you into AI answers in 30–60 days.',
-    who: 'For: Founders, agencies, consultants, and B2B service businesses who want to own AI search.',
+    label: '02 — AI Search',
+    headline: 'AI Search (GEO / AEO)',
+    desc: 'Your customers ask ChatGPT, Perplexity, and Gemini what to buy and who to hire. If the answer never mentions you, you never had a chance. We find where you\'re missing, publish content built to be quoted, and get you into those answers.',
+    who: 'For any business whose buyers research online before they decide — brands, services, and founders alike.',
     deliverables: [
-      'AEO/GEO audit — identify your citation gaps',
-      '6–12 structured articles targeting AI-indexed queries',
-      'Schema markup and technical AEO setup',
-      'Monthly citation tracking report',
-      'Prompt engineering for featured AI answers',
+      'AI visibility audit — where you\'re missing and why',
+      '6–12 articles built to be cited by AI',
+      'Schema markup and technical setup',
+      'Citation tracking, month over month',
+      'Question and answer content for your category',
       'Competitor citation analysis',
     ],
-    tier: 'Growth / Authority',
+    tier: 'Growth, Authority',
   },
   {
     id: 'seo',
-    icon: '✍️',
+    icon: '🔎',
     label: '03 — SEO & Content',
-    headline: 'SEO & Content Marketing',
-    tagline: 'Long-form articles that rank, educate, and convert',
-    desc: 'SEO in 2025 means combining technical excellence with content that actually answers buyer intent. We research, write, and publish articles that rank and build domain authority over time.',
-    who: 'For: Businesses that want sustainable organic traffic without depending on paid ads.',
+    headline: 'SEO & Content',
+    desc: 'Good SEO today means pairing technical fundamentals with content that genuinely answers what people are searching for. We research, write, and publish pages that rank, build trust, and keep bringing in customers without you paying per click.',
+    who: 'For businesses that want steady traffic and leads they don\'t have to rent from ad platforms.',
     deliverables: [
-      'Keyword research and gap analysis',
-      '4–8 long-form SEO articles per month (800–3,000 words)',
-      'On-page optimisation for all content',
-      'Internal linking architecture',
+      'Keyword and opportunity research',
+      '4–8 articles per month (800–3,000 words)',
+      'On-page optimization for every page',
+      'Internal linking structure',
+      'Refresh plan for existing pages',
       'Monthly rankings and traffic report',
-      'Content refresh strategy for existing pages',
     ],
-    tier: 'Starter / Growth / Authority',
+    tier: 'Starter, Growth, Authority',
   },
   {
     id: 'local',
     icon: '📍',
     label: '04 — Local',
-    headline: 'Local Digital Presence',
-    tagline: 'Google Business Profile, citations, and review management',
-    desc: 'For businesses that serve a local or regional market, local SEO is the highest-ROI channel available. We build complete local signal architecture: GBP, citations, reviews, and local content.',
-    who: 'For: Service businesses, professional practices, retail, and any company with a physical location or local market.',
+    headline: 'Local Presence',
+    desc: 'If people find you by searching "near me" or tapping the map, local is the highest-return channel you have. We build the whole local footprint — profile, citations, reviews, and local pages — so you own your area.',
+    who: 'For clinics, trades, shops, restaurants, practices, and any business that serves a local or regional market.',
     deliverables: [
-      'Google Business Profile setup and optimisation',
-      'Local citation building (50+ directories)',
-      'Review acquisition strategy and management',
-      'Local landing pages with schema markup',
-      'Competitor local ranking analysis',
+      'Google Business Profile setup and optimization',
+      'Local citations across 50+ directories',
+      'Review strategy and management',
+      'Local landing pages with schema',
+      'Map-pack ranking analysis',
       'Monthly local rankings report',
     ],
-    tier: 'Starter / Growth',
+    tier: 'Starter, Growth',
   },
   {
     id: 'executive',
     icon: '👤',
-    label: '05 — Executive Brand',
-    headline: 'Executive Brand',
-    tagline: 'LinkedIn authority for founders and executives',
-    desc: 'The founders who win in 2025 are the ones buyers trust before they ever get on a call. We build that trust through LinkedIn content that establishes authority, not just presence.',
-    who: 'For: Founders, partners, executives, and professionals who want to build a personal brand that drives business.',
+    label: '05 — Founder Brand',
+    headline: 'Founder & Executive Brand',
+    desc: 'People buy from people they trust. We turn the face of your business into a name buyers recognize before the first call — through content in your own voice that builds authority instead of just adding noise.',
+    who: 'For founders, owners, and executives who are the front of their business.',
     deliverables: [
-      'LinkedIn profile optimisation',
-      'Personal brand strategy and content pillars',
-      '12–16 posts per month in founder voice',
-      'Thought leadership articles',
+      'LinkedIn profile and positioning',
+      'Personal brand strategy and themes',
+      '12–16 posts per month in your voice',
+      'Thought-leadership articles',
       'Engagement and connection strategy',
-      'Monthly analytics: reach, followers, inbound leads',
+      'Monthly reach, follower, and inbound report',
     ],
-    tier: 'Growth / Authority',
+    tier: 'Growth, Authority',
   },
   {
     id: 'website',
-    icon: '🌐',
+    icon: '🖥️',
     label: '06 — Website',
     headline: 'Website Design',
-    tagline: 'Conversion-optimised, direct-response websites',
-    desc: 'Your website is the floor, not the ceiling. It should convert traffic from every channel you operate. We design sites built on direct-response principles — no bloat, just strategy, speed, and conversion.',
-    who: 'For: Businesses launching new sites or redesigning an underperforming site.',
+    desc: 'Every channel you run sends people to your site. If it\'s slow, confusing, or off-brand, that traffic leaks away. We design fast, clear sites built around one job: turning visitors into customers.',
+    who: 'For businesses launching a new site or fixing one that looks fine but doesn\'t convert.',
     deliverables: [
-      'Strategy session: buyer journey mapping',
-      'Conversion-focused website design and development',
-      'Copywriting and messaging architecture',
-      'SEO technical foundation',
-      'Page speed and Core Web Vitals optimisation',
-      'CMS setup and content management training',
+      'Strategy session and buyer-journey mapping',
+      'Conversion-focused design and build',
+      'Copywriting and messaging',
+      'Technical SEO foundation',
+      'Speed and Core Web Vitals tuning',
+      'CMS setup and training',
     ],
-    tier: 'Growth / Authority',
+    tier: 'Growth, Authority',
   },
   {
     id: 'campaigns',
     icon: '🎯',
     label: '07 — Campaigns',
-    headline: 'Campaign Strategy & Execution',
-    tagline: 'Full campaign strategy, creative, and execution',
-    desc: 'Seasonal campaigns, product launches, event promotions — we plan and execute integrated campaigns across every channel you operate: social, email, ads, and PR.',
-    who: 'For: Businesses with a key event, launch, or seasonal moment that needs full-channel execution.',
+    headline: 'Campaigns',
+    desc: 'A launch, a season, a big event — some moments deserve a real push. We plan and run integrated campaigns across every channel you use: social, email, ads, and landing pages, all pointed at one goal.',
+    who: 'For brands and businesses with a launch, promotion, or seasonal moment that needs full-channel firepower.',
     deliverables: [
       'Campaign strategy and creative brief',
-      'Multi-channel content creation (social, email, ads)',
+      'Content across social, email, and ads',
       'Ad copy and creative for paid channels',
       'Landing page or microsite copy',
-      'Campaign reporting and post-mortem',
-      'Retargeting content and sequences',
+      'Retargeting sequences',
+      'Campaign reporting and recap',
     ],
-    tier: 'Growth / Authority',
+    tier: 'Growth, Authority',
   },
   {
     id: 'leadgen',
-    icon: '🔍',
+    icon: '✉️',
     label: '08 — Lead Generation',
     headline: 'Lead Generation',
-    tagline: 'Outbound systems that find and warm your ideal clients',
-    desc: 'Inbound takes time to compound. Outbound fills the pipeline now. We build targeted prospecting systems: ICP definition, list building, personalised outreach sequences, and warm-up strategy.',
-    who: 'For: B2B businesses with a defined ideal client profile who need pipeline growth now.',
+    desc: 'Search and content compound over time. Outbound fills the pipeline now. We build targeted prospecting that finds your ideal customers and warms them up with messages that don\'t sound like spam.',
+    who: 'For B2B and service businesses that know who their best customers are and want more conversations now.',
     deliverables: [
-      'ICP definition and targeting criteria',
-      'Prospect list building (250–500 verified contacts)',
-      'Outreach sequence (email + LinkedIn, 5-step)',
-      'Personalisation playbook',
-      'A/B testing of subject lines and messaging',
+      'Ideal-customer profile and targeting',
+      '250–500 verified, researched contacts',
+      'Five-step outreach (email + LinkedIn)',
+      'Personalization playbook',
+      'A/B testing on subject lines and messaging',
       'Weekly pipeline report',
     ],
-    tier: 'Starter / Growth / Authority',
+    tier: 'Starter, Growth, Authority',
   },
 ]
 
@@ -153,11 +152,11 @@ export default function ServicesPage() {
     <div className="page">
       <div className="services-hero">
         <div className="section-eyebrow">Services</div>
-        <h1 className="section-headline">Eight services.<br />One growth architecture.</h1>
-        <p className="section-sub">Each service is designed to compound. Most clients combine 3–4 for full-spectrum growth.</p>
+        <h1 className="section-headline">Eight ways to get found.<br />One plan that fits together.</h1>
+        <p className="section-sub">Start with one channel or build the full system. Either way, it begins with strategy — never random tactics.</p>
       </div>
 
-      {SERVICES.map((s, i) => (
+      {SERVICES.map((s) => (
         <div key={s.id} id={s.id} className="service-detail">
           <div className="service-detail-inner">
             <div>
@@ -181,9 +180,9 @@ export default function ServicesPage() {
 
       <section className="cta-section">
         <div className="section-eyebrow">Not sure where to start?</div>
-        <h2 className="section-headline">Let us map your architecture.</h2>
-        <p className="section-sub">A free 30-minute audit call. We review what you have, identify the gaps, and recommend the 2–3 services that will compound fastest for your business.</p>
-        <Link href="/contact" className="btn-primary" style={{ background: 'var(--alabaster)', color: 'var(--spruce-darker)' }}>Book a Free Audit →</Link>
+        <h2 className="section-headline">We&apos;ll tell you what to do first.</h2>
+        <p className="section-sub">Book a free 30-minute audit. We review what you have, find the gaps, and recommend the two or three channels that will pay off fastest for your business.</p>
+        <Link href="/contact" className="btn-primary">Book a Free Audit →</Link>
       </section>
 
       <Footer />

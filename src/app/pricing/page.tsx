@@ -1,0 +1,96 @@
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import Footer from '@/components/Footer'
+
+export const metadata: Metadata = {
+  title: 'Pricing',
+  description:
+    'Three Axia Atlas tiers — Starter, Growth, and Authority — scoped to how fast you want to move. See what each includes; exact pricing is shared on a free audit call.',
+}
+
+const TIERS = [
+  {
+    name: 'Starter',
+    blurb: 'Get momentum on one or two channels and prove the model before you scale.',
+    features: [
+      'One or two channels (e.g. Local + SEO, or Social)',
+      'Strategy and 90-day plan',
+      'Monthly content and execution',
+      'Core setup: profile, on-page, tracking',
+      'Monthly report in plain English',
+      'Email support',
+    ],
+    cta: 'Start here',
+    featured: false,
+  },
+  {
+    name: 'Growth',
+    blurb: 'A connected multi-channel system — our most popular tier for businesses ready to move.',
+    features: [
+      'Three to four channels working together',
+      'Everything in Starter',
+      'AI Search (GEO/AEO) included',
+      'Website or landing-page work',
+      'Monthly strategy call',
+      'Live dashboard and priority support',
+    ],
+    cta: 'Most popular',
+    featured: true,
+  },
+  {
+    name: 'Authority',
+    blurb: 'Full-spectrum visibility, founder brand, and campaigns — for businesses that want to own their category.',
+    features: [
+      'Full channel coverage',
+      'Everything in Growth',
+      'Founder / executive brand program',
+      'Campaign strategy and execution',
+      'Lead generation, if it fits',
+      'Senior strategist as your lead contact',
+    ],
+    cta: 'Go all in',
+    featured: false,
+  },
+]
+
+export default function PricingPage() {
+  return (
+    <div className="page pricing-page">
+      <div className="pricing-hero">
+        <div className="section-eyebrow">Pricing</div>
+        <h1 className="section-headline">Three tiers. Pick your pace.</h1>
+        <p className="section-sub">Every tier is a monthly partnership scoped to your goals. We share exact pricing on a free audit call — once we understand what you need, you&apos;ll know precisely what it costs.</p>
+      </div>
+
+      <div className="pricing-grid">
+        {TIERS.map(t => (
+          <div key={t.name} className={`pricing-card${t.featured ? ' featured' : ''}`}>
+            {t.featured && <div className="pricing-flag">Most popular</div>}
+            <div className="pricing-tier">{t.name}</div>
+            <div className="pricing-amount">Custom <span>/ scoped to you</span></div>
+            <p className="pricing-blurb">{t.blurb}</p>
+            <ul className="pricing-features">
+              {t.features.map(f => <li key={f}>{f}</li>)}
+            </ul>
+            <Link href="/contact" className={t.featured ? 'btn-primary' : 'btn-dark'} style={{ width: '100%', justifyContent: 'center' }}>
+              Book a Free Audit →
+            </Link>
+          </div>
+        ))}
+      </div>
+
+      <p className="pricing-note">
+        No long lock-ins and no surprise add-ons. Pricing depends on the channels you choose and how much we&apos;re building — we&apos;ll quote it clearly on your audit call, and you decide from there.
+      </p>
+
+      <section className="cta-section">
+        <div className="section-eyebrow">Still deciding?</div>
+        <h2 className="section-headline">Let&apos;s find the right tier together.</h2>
+        <p className="section-sub">Tell us your goals and we&apos;ll recommend the smallest plan that gets you there — and exactly what it costs. No pressure to go bigger than you need.</p>
+        <Link href="/contact" className="btn-primary">Book a Free Audit →</Link>
+      </section>
+
+      <Footer />
+    </div>
+  )
+}
