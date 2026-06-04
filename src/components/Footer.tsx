@@ -41,15 +41,18 @@ export default function Footer() {
             <ul className="footer-links">
               <li><Link href="/demo">Book a Free Audit</Link></li>
               <li><a href={PORTAL_URL}>Client Login</a></li>
-              <li><a href="mailto:strategy@axiaatlas.com">strategy@axiaatlas.com</a></li>
-              <li><span className="footer-muted">Toronto, ON — serving clients globally</span></li>
+              <li><a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a></li>
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom">
           <span className="footer-copy">© {new Date().getFullYear()} Axia Atlas. All rights reserved.</span>
-          <a href={PORTAL_URL} className="footer-copy footer-portal-link">Client Login →</a>
+          <nav className="footer-legal">
+            <Link href="/privacy" className="footer-copy">Privacy</Link>
+            <Link href="/terms" className="footer-copy">Terms</Link>
+            <a href={PORTAL_URL} className="footer-copy footer-portal-link">Client Login →</a>
+          </nav>
         </div>
       </div>
     </footer>

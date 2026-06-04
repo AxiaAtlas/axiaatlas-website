@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { AMark } from '@/components/Logo'
+import { Wordmark } from '@/components/Logo'
 import { Arrow } from '@/components/icons'
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function NotFound() {
       </div>
 
       <div className="nf-inner">
-        <AMark className="nf-mark" />
+        <Wordmark className="nf-mark" />
         <div className="nf-code">404</div>
         <span className="nf-eyebrow">Off the map</span>
         <h1 className="nf-title">You’ve wandered off the map.</h1>

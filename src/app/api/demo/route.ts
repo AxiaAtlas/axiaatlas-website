@@ -12,23 +12,32 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json()
   const {
+    firstName,
+    lastName,
+    email,
+    phone,
     companyName,
     websiteUrl,
+    position,
     linkedin,
     instagram,
     facebook,
     x,
-    name,
-    role,
-    email,
-    goal,
-    challenge,
-    budget,
+    growthArea,
+    preferredDate,
+    preferredTime,
+    notes: extraNotes,
   } = body
 
-  if (!name || !email || !companyName) {
-    return NextResponse.json({ error: 'Company, name, and email are required' }, { status: 400 })
+  // Required: first name, email, company name, website.
+  if (!firstName || !email || !companyName || !websiteUrl) {
+    return NextResponse.json(
+      { error: 'First name, email, company name, and website are required' },
+      { status: 400 },
+    )
   }
+
+  const fullName = [firstName, lastName].filter(Boolean).join(' ').trim()
 
   const socials = [
     linkedin && `LinkedIn: ${linkedin}`,
@@ -37,14 +46,17 @@ export async function POST(req: NextRequest) {
     x && `X: ${x}`,
   ].filter(Boolean).join('\n')
 
+  const preferredCall = [preferredDate, preferredTime].filter(Boolean).join(' · ')
+
   const notes = [
     '[Website audit request]',
-    role && `Role: ${role}`,
+    phone && `Phone: ${phone}`,
+    position && `Position/role: ${position}`,
     websiteUrl && `Website: ${websiteUrl}`,
     socials && `Socials:\n${socials}`,
-    goal && `Primary goal: ${goal}`,
-    challenge && `Biggest challenge: ${challenge}`,
-    budget && `Approx monthly budget: ${budget}`,
+    growthArea && `Growth areas: ${growthArea}`,
+    preferredCall && `Preferred call time: ${preferredCall}`,
+    extraNotes && `Notes: ${extraNotes}`,
   ].filter(Boolean).join('\n')
 
   const headers = {
@@ -61,7 +73,7 @@ export async function POST(req: NextRequest) {
       headers,
       body: JSON.stringify({
         company_name: companyName,
-        contact_name: name,
+        contact_name: fullName || firstName,
         contact_email: email,
         notes,
         status: 'new',
@@ -73,10 +85,10 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        name,
+        name: fullName || firstName,
         email,
         company: companyName,
-        service: goal || 'Audit request',
+        service: growthArea || 'Audit request',
         message: notes,
       }),
     })

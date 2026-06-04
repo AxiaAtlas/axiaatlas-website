@@ -95,7 +95,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['where', 'located', 'location', 'remote', 'city', 'based'],
     answer:
-      "We're based in Toronto and work with clients across North America and beyond — fully remote, with regular strategy calls and live reporting.",
+      "We're a fully remote studio and work with clients across North America and beyond — with regular strategy calls and live reporting.",
     links: [L.demo, L.contact],
     followups: ['What services do you offer?', 'How do I get started?'],
   },

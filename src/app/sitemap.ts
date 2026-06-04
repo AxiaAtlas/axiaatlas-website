@@ -13,6 +13,8 @@ const STATIC_ROUTES: { path: string; priority: number; freq: MetadataRoute.Sitem
   { path: '/demo', priority: 0.9, freq: 'monthly' },
   { path: '/contact', priority: 0.6, freq: 'monthly' },
   { path: '/links', priority: 0.5, freq: 'monthly' },
+  { path: '/privacy', priority: 0.3, freq: 'yearly' },
+  { path: '/terms', priority: 0.3, freq: 'yearly' },
 ]
 
 async function getPostSlugs(): Promise<{ slug: string; updated?: string }[]> {

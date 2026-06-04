@@ -63,9 +63,9 @@ export default function ContactPage() {
         body: JSON.stringify({ ...form, service: 'General inquiry' }),
       })
       if (res.ok) setSent(true)
-      else setError('Something went wrong. Please email strategy@axiaatlas.com directly.')
+      else setError('Something went wrong. Please email partner@axiaatlas.com directly.')
     } catch {
-      setError('Network error. Please email strategy@axiaatlas.com directly.')
+      setError('Network error. Please email partner@axiaatlas.com directly.')
     }
     setSending(false)
   }
@@ -84,12 +84,7 @@ export default function ContactPage() {
 
           <div className="contact-info-item">
             <div className="contact-info-label">Email</div>
-            <div className="contact-info-value"><a href="mailto:strategy@axiaatlas.com">strategy@axiaatlas.com</a></div>
-          </div>
-
-          <div className="contact-info-item">
-            <div className="contact-info-label">Based in</div>
-            <div className="contact-info-value">Toronto, Ontario — serving clients globally</div>
+            <div className="contact-info-value"><a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a></div>
           </div>
 
           <div className="contact-info-item">
@@ -113,7 +108,7 @@ export default function ContactPage() {
                   <Check style={{ width: 40, height: 40 }} />
                 </div>
                 <h2 style={{ fontFamily: 'var(--font-head)', fontSize: '1.375rem', fontWeight: 600, color: 'var(--text)', marginBottom: 12 }}>Message sent.</h2>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>We&apos;ll reply within 24 hours at <a href="mailto:strategy@axiaatlas.com" style={{ color: 'var(--accent)' }}>strategy@axiaatlas.com</a>. In a hurry? <Link href="/demo" style={{ color: 'var(--accent)' }}>Book a free audit →</Link></p>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>We&apos;ll reply within 24 hours at <a href="mailto:partner@axiaatlas.com" style={{ color: 'var(--accent)' }}>partner@axiaatlas.com</a>. In a hurry? <Link href="/demo" style={{ color: 'var(--accent)' }}>Book a free audit →</Link></p>
               </div>
             </div>
           ) : (
