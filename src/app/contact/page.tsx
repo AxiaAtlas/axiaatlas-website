@@ -1,10 +1,11 @@
 'use client'
 import { useState } from 'react'
 import Footer from '@/components/Footer'
+import { Arrow, Check } from '@/components/icons'
 
 const SERVICES = [
   'Social Media',
-  'AI Search (GEO / AEO)',
+  'Answer-Engine Optimization (GEO / AEO)',
   'SEO & Content',
   'Local Presence',
   'Founder / Executive Brand',
@@ -21,7 +22,7 @@ export default function ContactPage() {
   const [error, setError] = useState('')
 
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    setForm(f => ({ ...f, [k]: e.target.value }))
+    setForm((f) => ({ ...f, [k]: e.target.value }))
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -45,7 +46,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="page">
+    <div className="page contact-page">
       <div className="contact-hero">
         <div className="section-eyebrow">Contact</div>
         <h1 className="section-headline">Let&apos;s find where you&apos;re invisible.</h1>
@@ -75,7 +76,7 @@ export default function ContactPage() {
 
           <div className="contact-info-item">
             <div className="contact-info-label">What happens next</div>
-            <div className="contact-info-value" style={{ fontWeight: 400, fontSize: 13, lineHeight: 1.7, color: 'rgba(var(--spruce-darker-rgb),0.6)' }}>
+            <div className="contact-info-value" style={{ fontWeight: 400, fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-muted)' }}>
               We review your submission, run a quick check of how you show up online today, and come to the call with specific observations and recommendations. No generic pitch deck.
             </div>
           </div>
@@ -85,9 +86,11 @@ export default function ContactPage() {
           {sent ? (
             <div className="contact-form">
               <div style={{ textAlign: 'center', padding: '32px 0' }}>
-                <div style={{ fontSize: 40, marginBottom: 16 }}>✓</div>
-                <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--spruce-darker)', marginBottom: 12 }}>Got it — we&apos;ll be in touch.</h2>
-                <p style={{ fontSize: 14, color: 'rgba(var(--spruce-darker-rgb),0.55)', lineHeight: 1.7 }}>Expect a reply within 24 hours. In the meantime, you can reach us directly at <a href="mailto:strategy@axiaatlas.com" style={{ color: 'var(--spruce)' }}>strategy@axiaatlas.com</a>.</p>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16, color: 'var(--accent)' }}>
+                  <Check style={{ width: 40, height: 40 }} />
+                </div>
+                <h2 style={{ fontFamily: 'var(--font-head)', fontSize: '1.375rem', fontWeight: 600, color: 'var(--text)', marginBottom: 12 }}>Got it — we&apos;ll be in touch.</h2>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>Expect a reply within 24 hours. In the meantime, you can reach us directly at <a href="mailto:strategy@axiaatlas.com" style={{ color: 'var(--accent)' }}>strategy@axiaatlas.com</a>.</p>
               </div>
             </div>
           ) : (
@@ -114,7 +117,7 @@ export default function ContactPage() {
                 <label>Which service are you interested in?</label>
                 <select value={form.service} onChange={set('service')}>
                   <option value="">— Select a service —</option>
-                  {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
+                  {SERVICES.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
 
@@ -127,10 +130,10 @@ export default function ContactPage() {
                 />
               </div>
 
-              {error && <div style={{ fontSize: 12, color: 'var(--negative)', marginBottom: 16 }}>{error}</div>}
+              {error && <div style={{ fontSize: '0.75rem', color: 'var(--negative)', marginBottom: 16 }}>{error}</div>}
 
               <button type="submit" className="btn-primary" disabled={sending} style={{ width: '100%', justifyContent: 'center', opacity: sending ? 0.7 : 1 }}>
-                {sending ? 'Sending…' : 'Book a Free Audit →'}
+                {sending ? 'Sending…' : <>Book a Free Audit <Arrow className="arr" /></>}
               </button>
             </form>
           )}

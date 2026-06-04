@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
+import { Arrow, Check } from '@/components/icons'
 
 export const metadata: Metadata = {
-  title: 'Pricing',
+  title: 'Pricing — Three tiers, scoped to you',
   description:
     'Three Axia Atlas tiers — Starter, Growth, and Authority — scoped to how fast you want to move. See what each includes; exact pricing is shared on a free audit call.',
+  alternates: { canonical: '/pricing' },
 }
 
 const TIERS = [
@@ -20,7 +22,6 @@ const TIERS = [
       'Monthly report in plain English',
       'Email support',
     ],
-    cta: 'Start here',
     featured: false,
   },
   {
@@ -29,12 +30,11 @@ const TIERS = [
     features: [
       'Three to four channels working together',
       'Everything in Starter',
-      'AI Search (GEO/AEO) included',
+      'Answer-Engine Optimization (GEO/AEO) included',
       'Website or landing-page work',
       'Monthly strategy call',
       'Live dashboard and priority support',
     ],
-    cta: 'Most popular',
     featured: true,
   },
   {
@@ -48,7 +48,6 @@ const TIERS = [
       'Lead generation, if it fits',
       'Senior strategist as your lead contact',
     ],
-    cta: 'Go all in',
     featured: false,
   },
 ]
@@ -63,17 +62,21 @@ export default function PricingPage() {
       </div>
 
       <div className="pricing-grid">
-        {TIERS.map(t => (
+        {TIERS.map((t) => (
           <div key={t.name} className={`pricing-card${t.featured ? ' featured' : ''}`}>
             {t.featured && <div className="pricing-flag">Most popular</div>}
             <div className="pricing-tier">{t.name}</div>
             <div className="pricing-amount">Custom <span>/ scoped to you</span></div>
             <p className="pricing-blurb">{t.blurb}</p>
             <ul className="pricing-features">
-              {t.features.map(f => <li key={f}>{f}</li>)}
+              {t.features.map((f) => <li key={f}><Check />{f}</li>)}
             </ul>
-            <Link href="/contact" className={t.featured ? 'btn-primary' : 'btn-dark'} style={{ width: '100%', justifyContent: 'center' }}>
-              Book a Free Audit →
+            <Link
+              href="/contact"
+              className={t.featured ? 'btn-primary' : 'btn-dark'}
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              Book a Free Audit <Arrow className="arr" />
             </Link>
           </div>
         ))}
@@ -84,10 +87,12 @@ export default function PricingPage() {
       </p>
 
       <section className="cta-section">
-        <div className="section-eyebrow">Still deciding?</div>
-        <h2 className="section-headline">Let&apos;s find the right tier together.</h2>
-        <p className="section-sub">Tell us your goals and we&apos;ll recommend the smallest plan that gets you there — and exactly what it costs. No pressure to go bigger than you need.</p>
-        <Link href="/contact" className="btn-primary">Book a Free Audit →</Link>
+        <div className="cta-inner">
+          <div className="section-eyebrow">Still deciding?</div>
+          <h2 className="section-headline">Let&apos;s find the right tier together.</h2>
+          <p className="section-sub">Tell us your goals and we&apos;ll recommend the smallest plan that gets you there — and exactly what it costs. No pressure to go bigger than you need.</p>
+          <Link href="/contact" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
+        </div>
       </section>
 
       <Footer />

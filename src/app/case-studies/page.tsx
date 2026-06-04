@@ -2,11 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase/client'
 import Footer from '@/components/Footer'
+import { Arrow } from '@/components/icons'
 
 export const metadata: Metadata = {
-  title: 'Case Studies',
+  title: 'Case Studies — Real businesses, real results',
   description:
-    'Real outcomes from Axia Atlas — local businesses, consumer brands, and founders made impossible to miss in search, AI answers, and social.',
+    'Real outcomes from Axia Atlas — local businesses, consumer brands, and founders made impossible to miss in search, answer engines, and social.',
+  alternates: { canonical: '/case-studies' },
 }
 
 async function getCaseStudies() {
@@ -37,18 +39,18 @@ const PLACEHOLDERS = [
     id: '2',
     industry: 'Consumer Brand',
     company_type: 'DTC E-commerce',
-    challenge: 'Strong product, generic marketing. Heavy ad spend, little organic discovery, and invisible to AI assistants.',
-    approach: 'Sharpened the brand voice, built a content-pillar system on Instagram and TikTok, and published structured content built to be cited by AI.',
+    challenge: 'Strong product, generic marketing. Heavy ad spend, little organic discovery, and invisible to answer engines.',
+    approach: 'Sharpened the brand voice, built a content-pillar system on Instagram and TikTok, and published structured content built to be cited by answer engines.',
     result_headline: 'Cited by ChatGPT in 6 weeks',
-    result_detail: 'Became the answer AI gives for its category. Organic reach climbed, on-site sales rose, and the email list grew 40% from content alone.',
-    service_used: 'AI Search + Social Media',
+    result_detail: 'Became the answer engines give for its category. Organic reach climbed, on-site sales rose, and the email list grew 40% from content alone.',
+    service_used: 'Answer Engines + Social Media',
   },
   {
     id: '3',
     industry: 'Professional Services',
     company_type: 'B2B Consulting Firm',
     challenge: 'No organic traffic, no thought leadership, and a founder with 200 LinkedIn followers and a lot to say.',
-    approach: 'Published eight buyer-focused SEO articles, built the founder\'s LinkedIn presence in their own voice, and tied everything back to inbound.',
+    approach: "Published eight buyer-focused SEO articles, built the founder's LinkedIn presence in their own voice, and tied everything back to inbound.",
     result_headline: '340% organic growth in 90 days',
     result_detail: 'From near-zero to 4,200 monthly sessions. The founder grew to 2,800 followers and two enterprise deals traced back to the content.',
     service_used: 'SEO + Founder Brand',
@@ -60,7 +62,7 @@ export default async function CaseStudiesPage() {
   const cases = data.length > 0 ? data : PLACEHOLDERS
 
   return (
-    <div className="page">
+    <div className="page cs-page">
       <div className="cs-hero">
         <div className="section-eyebrow">Case Studies</div>
         <h1 className="section-headline">Real businesses.<br />Real results.</h1>
@@ -88,10 +90,12 @@ export default async function CaseStudiesPage() {
       </div>
 
       <section className="cta-section">
-        <div className="section-eyebrow">You could be next</div>
-        <h2 className="section-headline">Ready to get found?</h2>
-        <p className="section-sub">Book a free audit. We&apos;ll show you exactly where buyers are missing you and what we&apos;d do about it.</p>
-        <Link href="/contact" className="btn-primary">Book a Free Audit →</Link>
+        <div className="cta-inner">
+          <div className="section-eyebrow">You could be next</div>
+          <h2 className="section-headline">Ready to get found?</h2>
+          <p className="section-sub">Book a free audit. We&apos;ll show you exactly where buyers are missing you and what we&apos;d do about it.</p>
+          <Link href="/contact" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
+        </div>
       </section>
 
       <Footer />

@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
+import { AMark } from './Logo'
+import { Send } from './icons'
 
 type Message = { role: 'user' | 'assistant'; content: string }
 
@@ -9,24 +11,24 @@ const WELCOME =
 const CONTACT_LINE =
   "The fastest way to a real answer is a free audit call. Tell us about your goals at axiaatlas.com/contact or email strategy@axiaatlas.com — we reply within 24 hours."
 
-// ── Predetermined Q&A. No API. First entry whose keywords all-or-any match wins. ──
+// ── Predetermined Q&A. No external calls. First entry that matches wins. ──
 type QA = { keywords: string[]; answer: string }
 
 const QA_SET: QA[] = [
   {
     keywords: ['what do you do', 'what is axia', 'who are you', 'about', 'services overview', 'what you offer'],
     answer:
-      "Axia Atlas is a digital marketing studio. We make brands, local businesses, and founders impossible to miss — in Google, in AI answers (ChatGPT, Perplexity, Gemini), in local search, and across social. We start with strategy, then build content and systems that compound month over month.",
+      "Axia Atlas is a digital marketing studio. We make brands, local businesses, and founders impossible to miss — in Google, in answer engines (ChatGPT, Perplexity, Gemini), in local search, and across social. We start with strategy, then build content and systems that compound month over month.",
   },
   {
     keywords: ['service', 'offer', 'what can you', 'help with'],
     answer:
-      "We run eight services: Social Media, AI Search (GEO/AEO), SEO & Content, Local Presence, Founder/Executive Brand, Website Design, Campaigns, and Lead Generation. Most clients combine three or four. See them all at axiaatlas.com/services.",
+      "We run eight services: Social Media, Answer-Engine Optimization (GEO/AEO), SEO & Content, Local Presence, Founder/Executive Brand, Website Design, Campaigns, and Lead Generation. Most clients combine three or four. See them all at axiaatlas.com/services.",
   },
   {
-    keywords: ['ai search', 'chatgpt', 'perplexity', 'gemini', 'geo', 'aeo', 'cited', 'ai answer'],
+    keywords: ['answer engine', 'chatgpt', 'perplexity', 'gemini', 'geo', 'aeo', 'cited', 'answer'],
     answer:
-      "AI Search (GEO/AEO) gets you cited inside ChatGPT, Perplexity, and Gemini answers. We audit where you're missing, publish structured content built to be quoted, and track your citations. Buyers ask AI before they ask you — this puts you in the answer.",
+      "Answer-Engine Optimization (GEO/AEO) gets you cited inside ChatGPT, Perplexity, and Gemini results. We audit where you're missing, publish structured content built to be quoted, and track your citations. Buyers ask answer engines before they ask you — this puts you in the answer.",
   },
   {
     keywords: ['local', 'google business', 'maps', 'near me', 'reviews'],
@@ -85,7 +87,7 @@ const SUGGESTIONS = ['What do you do?', 'What are your tiers?', 'How do I get st
 function findAnswer(text: string): string {
   const q = text.toLowerCase()
   for (const qa of QA_SET) {
-    if (qa.keywords.some(k => q.includes(k))) return qa.answer
+    if (qa.keywords.some((k) => q.includes(k))) return qa.answer
   }
   return `Good question — I don't have a canned answer for that one. ${CONTACT_LINE}`
 }
@@ -104,7 +106,7 @@ export default function ChatWidget() {
     const text = (preset ?? input).trim()
     if (!text) return
     setInput('')
-    setMessages(m => [
+    setMessages((m) => [
       ...m,
       { role: 'user', content: text },
       { role: 'assistant', content: findAnswer(text) },
@@ -118,9 +120,11 @@ export default function ChatWidget() {
       {open && (
         <div className="chat-panel" role="dialog" aria-label="Axia Atlas assistant">
           <div className="chat-panel-header">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-amark-bone.svg" alt="Axia Atlas" />
-            <span className="chat-panel-title">Ask Axia Atlas</span>
+            <AMark className="amark" />
+            <div style={{ flex: 1 }}>
+              <div className="chat-panel-title">Ask Axia Atlas</div>
+              <span className="chat-status"><span className="dot" /> Typically replies in 24h</span>
+            </div>
             <button className="chat-close" onClick={() => setOpen(false)} aria-label="Close chat">×</button>
           </div>
 
@@ -131,7 +135,7 @@ export default function ChatWidget() {
 
             {showSuggestions && (
               <div className="chat-suggestions">
-                {SUGGESTIONS.map(s => (
+                {SUGGESTIONS.map((s) => (
                   <button key={s} className="chat-chip" onClick={() => send(s)}>{s}</button>
                 ))}
               </div>
@@ -144,23 +148,19 @@ export default function ChatWidget() {
             <input
               className="chat-input"
               value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && send()}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && send()}
               placeholder="Ask a question…"
             />
             <button className="chat-send" onClick={() => send()} aria-label="Send">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13" />
-                <polygon points="22 2 15 22 11 13 2 9 22 2" fill="white" stroke="none" />
-              </svg>
+              <Send />
             </button>
           </div>
         </div>
       )}
 
-      <button className="chat-btn" onClick={() => setOpen(o => !o)} aria-label="Open chat">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-amark-bone.svg" alt="Chat" />
+      <button className="chat-btn" onClick={() => setOpen((o) => !o)} aria-label="Open chat">
+        <AMark className="amark" />
       </button>
     </>
   )
