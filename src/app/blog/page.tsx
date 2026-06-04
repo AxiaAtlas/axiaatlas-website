@@ -3,11 +3,13 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabase/client'
 import Footer from '@/components/Footer'
 import NewsletterForm from '@/components/NewsletterForm'
+import { Compass, Doc } from '@/components/icons'
 
 export const metadata: Metadata = {
-  title: 'Blog',
+  title: 'Field Notes — How to get found',
   description:
-    'Practical, no-fluff thinking on getting found — search, AI answers, local, social, and the marketing that actually moves a business.',
+    'Practical, no-fluff thinking on getting found — search, answer engines, local, social, and the marketing that actually moves a business.',
+  alternates: { canonical: '/blog' },
 }
 
 async function getPosts() {
@@ -27,32 +29,36 @@ export default async function BlogPage() {
   const posts = await getPosts()
 
   return (
-    <div className="page">
+    <div className="page blog-page">
       <div className="blog-hero">
         <div className="section-eyebrow">The Field Notes</div>
         <h1 className="section-headline">How to get found.</h1>
-        <p className="section-sub">Plain, practical thinking on search, AI answers, local, and social — no fluff.</p>
+        <p className="section-sub">Plain, practical thinking on search, answer engines, local, and social — no fluff.</p>
       </div>
 
       {posts.length === 0 ? (
-        <div style={{ background: 'var(--alabaster)', padding: '80px 40px' }}>
+        <section>
           <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
-            <div style={{ fontSize: 40, marginBottom: 20 }}>📡</div>
-            <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--spruce-darker)', marginBottom: 12 }}>Coming soon</h2>
-            <p style={{ fontSize: 15, color: 'rgba(var(--spruce-darker-rgb),0.55)', lineHeight: 1.7, marginBottom: 36 }}>Our field notes launch soon — practical playbooks on getting found. Get first access when we publish.</p>
-            <div className="newsletter-section" style={{ borderRadius: 'var(--r)', padding: '40px 32px' }}>
-              <div className="newsletter-title" style={{ fontSize: 18 }}>Get notified when we launch</div>
-              <p className="newsletter-sub">No-fluff tactics on search, AI answers, local, and social.</p>
-              <NewsletterForm />
+            <div style={{ color: 'var(--accent)', marginBottom: 20, display: 'flex', justifyContent: 'center' }}>
+              <Compass style={{ width: 40, height: 40 }} />
+            </div>
+            <h2 style={{ fontFamily: 'var(--font-head)', fontSize: '1.5rem', fontWeight: 600, color: 'var(--text)', marginBottom: 12 }}>Coming soon</h2>
+            <p style={{ fontSize: '0.9375rem', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 36 }}>Our field notes launch soon — practical playbooks on getting found. Get first access when we publish.</p>
+            <div className="newsletter-section" style={{ borderRadius: 'var(--r)', padding: '40px 32px', background: 'var(--inverse-bg)' }}>
+              <div className="newsletter-inner">
+                <div className="newsletter-title" style={{ fontSize: '1.125rem' }}>Get notified when we launch</div>
+                <p className="newsletter-sub">No-fluff tactics on search, answer engines, local, and social.</p>
+                <NewsletterForm />
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       ) : (
         <div className="blog-grid">
           {posts.map((post: any) => (
             <Link key={post.id} href={`/blog/${post.slug}`} className="blog-title-link">
               <div className="blog-card">
-                <div className="blog-card-img">📝</div>
+                <div className="blog-card-img"><Doc /></div>
                 <div className="blog-card-body">
                   <div className="blog-category">{post.category || 'Growth Strategy'}</div>
                   <div className="blog-title">{post.title}</div>

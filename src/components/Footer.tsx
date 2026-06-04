@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Wordmark } from './Logo'
 
 const PORTAL_URL = 'https://app.axiaatlas.com'
 
@@ -8,17 +9,15 @@ export default function Footer() {
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
-            {/* Bone wordmark lockup on the dark footer; sizing handled in .footer-brand img */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-wordmark-bone.svg" alt="Axia Atlas" />
-            <p className="footer-tagline">Marketing that makes you impossible to miss — in search, in AI answers, and in the feeds where your buyers decide.</p>
+            <Wordmark className="logo" />
+            <p className="footer-tagline">Marketing that makes you impossible to miss — in search, in answer engines, and in the feeds where your buyers decide.</p>
           </div>
 
           <div>
             <div className="footer-col-title">Services</div>
             <ul className="footer-links">
               <li><Link href="/services#social">Social Media</Link></li>
-              <li><Link href="/services#geo">AI Search (GEO/AEO)</Link></li>
+              <li><Link href="/services#geo">Answer-Engine Optimization</Link></li>
               <li><Link href="/services#seo">SEO &amp; Content</Link></li>
               <li><Link href="/services#local">Local Presence</Link></li>
               <li><Link href="/services#executive">Founder Brand</Link></li>

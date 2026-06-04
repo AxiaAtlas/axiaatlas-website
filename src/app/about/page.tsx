@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
+import { Arrow } from '@/components/icons'
 
 export const metadata: Metadata = {
-  title: 'About',
+  title: 'About — To be found is to be chosen',
   description:
     'Axia Atlas is a digital marketing studio built on one idea: to be found is to be chosen. We help brands, local businesses, and founders show up where their buyers are looking.',
+  alternates: { canonical: '/about' },
 }
 
 export default function AboutPage() {
@@ -29,19 +31,19 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="about-section" style={{ background: 'var(--app-bg-light)' }}>
+      <div className="about-section">
         <div className="about-inner">
           <h2 className="about-headline">&quot;To be found is to be chosen.&quot;</h2>
           <div className="about-body">
-            <p>That&apos;s the idea behind everything we build. When your business shows up where buyers are already looking — in search, in AI answers, in your local market, in the feeds people scroll — you don&apos;t have to convince anyone you exist. You just have to be the obvious choice.</p>
+            <p>That&apos;s the idea behind everything we build. When your business shows up where buyers are already looking — in search, in answer engines, in your local market, in the feeds people scroll — you don&apos;t have to convince anyone you exist. You just have to be the obvious choice.</p>
             <p>Visibility like that isn&apos;t flashy and it isn&apos;t instant. But once it&apos;s built, it&apos;s yours — and it keeps working.</p>
           </div>
           <div className="beliefs-grid">
             {[
               { n: '01', title: 'Results over activity', desc: 'We measure success in customers, rankings, and reputation — not posts published or hours billed.' },
-              { n: '02', title: 'Strategy before spend', desc: 'We don\'t start until we understand your business, your buyers, and where the real opportunity is.' },
-              { n: '03', title: 'Plain talk, always', desc: 'No jargon, no smoke. You\'ll always know what we\'re doing, why, and whether it\'s working.' },
-            ].map(b => (
+              { n: '02', title: 'Strategy before spend', desc: "We don't start until we understand your business, your buyers, and where the real opportunity is." },
+              { n: '03', title: 'Plain talk, always', desc: "No jargon, no smoke. You'll always know what we're doing, why, and whether it's working." },
+            ].map((b) => (
               <div key={b.n} className="belief-card">
                 <div className="belief-num">{b.n}</div>
                 <div className="belief-title">{b.title}</div>
@@ -62,7 +64,7 @@ export default function AboutPage() {
             <p>Whether you&apos;re a growing brand, a local business, or the founder who is the brand — the goal is the same: make you impossible to miss.</p>
           </div>
           <div style={{ marginTop: 36 }}>
-            <Link href="/contact" className="btn-primary">Work With Us →</Link>
+            <Link href="/contact" className="btn-primary">Work With Us <Arrow className="arr" /></Link>
           </div>
         </div>
       </div>
