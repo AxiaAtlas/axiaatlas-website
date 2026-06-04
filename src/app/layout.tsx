@@ -1,9 +1,6 @@
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
-import Nav from '@/components/Nav'
-import ChatWidget from '@/components/ChatWidget'
-import SiteFX from '@/components/SiteFX'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 const montserrat = Montserrat({
@@ -99,10 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <Nav />
         {children}
-        <ChatWidget />
-        <SiteFX />
         <GoogleAnalytics />
       </body>
     </html>

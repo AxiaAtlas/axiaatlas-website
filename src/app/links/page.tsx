@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Footer from '@/components/Footer'
 import { AMark } from '@/components/Logo'
 import {
   Home, Compass, Mail, Arrow,
@@ -10,76 +9,101 @@ import {
 export const metadata: Metadata = {
   title: 'Links — Find Axia Atlas everywhere',
   description:
-    'One place for everything Axia Atlas — our website, a free audit, and every social channel. Strategy-led marketing that makes brands, local businesses, and founders impossible to miss.',
+    'One place for everything Axia Atlas — visit our website, book a free audit, and follow along on LinkedIn, Instagram, Facebook, X, and YouTube.',
   alternates: { canonical: '/links' },
 }
 
-type Item = {
+type Variant = 'feature' | 'featured' | 'social'
+type Tile = {
+  key: string
   label: string
+  sub: string
   href: string
   Icon: (p: { className?: string }) => JSX.Element
+  variant: Variant
   external?: boolean
-  featured?: boolean
+  pill?: string
 }
 
-const ITEMS: Item[] = [
-  { label: 'Visit our website', href: '/', Icon: Home },
-  { label: 'Book a free audit', href: '/demo', Icon: Compass, featured: true },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/axia-atlas', Icon: LinkedIn, external: true },
-  { label: 'Instagram', href: 'https://www.instagram.com/axiaatlas/', Icon: Instagram, external: true },
-  { label: 'Facebook', href: 'https://www.facebook.com/AxiaAtlas', Icon: Facebook, external: true },
-  { label: 'X (Twitter)', href: 'https://x.com/AxiaAtlas', Icon: XLogo, external: true },
-  { label: 'YouTube', href: 'https://www.youtube.com/@AxiaAtlas', Icon: YouTube, external: true },
-  { label: 'Get in touch', href: '/contact', Icon: Mail },
+const TILES: Tile[] = [
+  { key: 'website', label: 'Website', sub: 'axiaatlas.com', href: '/', Icon: Home, variant: 'feature' },
+  { key: 'audit', label: 'Book a Free Audit', sub: 'See exactly where buyers miss you — no pitch.', href: '/demo', Icon: Compass, variant: 'featured', pill: 'Free audit' },
+  { key: 'linkedin', label: 'LinkedIn', sub: 'Axia Atlas', href: 'https://www.linkedin.com/company/axia-atlas', Icon: LinkedIn, variant: 'social', external: true },
+  { key: 'instagram', label: 'Instagram', sub: '@axiaatlas', href: 'https://www.instagram.com/axiaatlas/', Icon: Instagram, variant: 'social', external: true },
+  { key: 'facebook', label: 'Facebook', sub: '@AxiaAtlas', href: 'https://www.facebook.com/AxiaAtlas', Icon: Facebook, variant: 'social', external: true },
+  { key: 'x', label: 'X', sub: '@AxiaAtlas', href: 'https://x.com/AxiaAtlas', Icon: XLogo, variant: 'social', external: true },
+  { key: 'youtube', label: 'YouTube', sub: '@AxiaAtlas', href: 'https://www.youtube.com/@AxiaAtlas', Icon: YouTube, variant: 'social', external: true },
+  { key: 'contact', label: 'Contact', sub: 'Get in touch', href: '/contact', Icon: Mail, variant: 'social' },
 ]
 
 export default function LinksPage() {
   return (
-    <div className="page links-page">
-      <main className="links-main">
-        <div className="links-col">
-          <AMark className="links-mark" />
-          <h1 className="links-tagline">To be found is to be chosen.</h1>
-          <p className="links-desc">
+    <main className="lt-page">
+      <div className="lt-bg" aria-hidden="true">
+        <span className="lt-blob a" />
+        <span className="lt-blob b" />
+      </div>
+
+      <div className="lt-col">
+        <header className="lt-hero">
+          <span className="lt-mark-wrap">
+            <AMark className="lt-mark" />
+          </span>
+          <span className="lt-eyebrow">Axia Atlas</span>
+          <h1 className="lt-tagline">To be found is to be chosen.</h1>
+          <p className="lt-desc">
             Strategy-led marketing that makes brands, local businesses, and founders
             impossible to miss — in search, in answer engines, and in the feeds where buyers decide.
           </p>
+        </header>
 
-          <nav className="links-stack" aria-label="Axia Atlas links">
-            {ITEMS.map(({ label, href, Icon, external, featured }) => {
-              const inner = (
-                <>
-                  <span className="lb-ico"><Icon /></span>
-                  <span className="lb-label">{label}</span>
-                  <Arrow className="lb-chev" />
-                </>
-              )
-              const className = `lb-link${featured ? ' featured' : ''}`
-              return external ? (
-                <a
-                  key={label}
-                  className={className}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {inner}
-                </a>
-              ) : (
-                <Link key={label} className={className} href={href}>
-                  {inner}
-                </Link>
-              )
-            })}
-          </nav>
+        <nav className="lt-grid" aria-label="Axia Atlas links">
+          {TILES.map((t, i) => {
+            const Icon = t.Icon
+            const className =
+              `lt-tile lt-tile--${t.variant}` + (t.variant === 'social' ? '' : ' lt-span2')
+            const style = { animationDelay: `${0.28 + i * 0.06}s` }
+            const inner = (
+              <>
+                <div className="lt-tile-top">
+                  <span className="lt-tile-ico"><Icon /></span>
+                  <Arrow className="lt-tile-arrow" />
+                </div>
+                <div className="lt-tile-text">
+                  {t.pill && <span className="lt-pill">{t.pill}</span>}
+                  <span className="lt-tile-label">{t.label}</span>
+                  <span className="lt-tile-sub">{t.sub}</span>
+                </div>
+                {t.variant === 'social' && (
+                  <span className="lt-tile-wm" aria-hidden="true"><Icon /></span>
+                )}
+              </>
+            )
 
-          <p className="links-footnote">
-            Prefer email? <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a>
-          </p>
-        </div>
-      </main>
+            return t.external ? (
+              <a
+                key={t.key}
+                className={className}
+                style={style}
+                href={t.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={t.label}
+              >
+                {inner}
+              </a>
+            ) : (
+              <Link key={t.key} className={className} style={style} href={t.href} aria-label={t.label}>
+                {inner}
+              </Link>
+            )
+          })}
+        </nav>
 
-      <Footer />
-    </div>
+        <p className="lt-foot">
+          Prefer email? <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a>
+        </p>
+      </div>
+    </main>
   )
 }
