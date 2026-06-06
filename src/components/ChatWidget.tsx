@@ -5,7 +5,8 @@ import { AMark } from './Logo'
 import { Send, Arrow } from './icons'
 
 type ChatLink = { label: string; href: string }
-type Message = { role: 'user' | 'assistant'; content: string; links?: ChatLink[]; followups?: string[] }
+type Message = { role: 'user' | 'assistant'; content: string; at?: string; links?: ChatLink[]; followups?: string[] }
+type VisitorInfo = { name?: string; email?: string; phone?: string; company?: string }
 
 const WELCOME =
   "Hi — I'm the Axia Atlas assistant. Ask me what we do, how we work, our tiers, or how to get started. Pick a question below or type your own."
@@ -134,21 +135,75 @@ function answerFor(text: string): Message {
   }
 }
 
+// ── Conversation logging. Fire-and-forget: never blocks or breaks the UI. ──
+const EMAIL_RE = /[\w.+-]+@[\w-]+\.[\w.-]+\w/
+const PHONE_RE = /(\+?\d[\d\s().-]{7,}\d)/
+const NAME_RE = /(?:my name is|name's|this is)\s+([a-z][a-z'’-]*(?:\s+[a-z][a-z'’-]*)?)/i
+const IM_RE = /\bi(?:'m| am)\s+([a-z][a-z'’-]*(?:\s+[a-z][a-z'’-]*)?)/i
+// Words that follow "I'm …" but aren't a name.
+const NOT_NAMES = new Set([
+  'interested', 'looking', 'trying', 'wondering', 'curious', 'asking', 'just', 'not',
+  'a', 'an', 'the', 'here', 'ready', 'new', 'from', 'in', 'on', 'at', 'with', 'sure', 'good',
+])
+const COMPANY_RE = /(?:my company(?: name)? is|our company(?: name)? is|i work (?:at|for)|we(?:'re| are) called|on behalf of|company:)\s+([\w&.'’-][\w&.,'’ -]{1,59})/i
+
+function extractVisitorInfo(text: string, into: VisitorInfo) {
+  const email = text.match(EMAIL_RE)
+  if (email && !into.email) into.email = email[0]
+  const phone = text.match(PHONE_RE)
+  if (phone && !into.phone) into.phone = phone[1].trim()
+  const name = text.match(NAME_RE) ?? text.match(IM_RE)
+  if (name && !into.name && !NOT_NAMES.has(name[1].split(/\s+/)[0].toLowerCase())) into.name = name[1].trim()
+  const company = text.match(COMPANY_RE)
+  if (company && !into.company) into.company = company[1].trim()
+}
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([{ role: 'assistant', content: WELCOME }])
   const [input, setInput] = useState('')
   const bottomRef = useRef<HTMLDivElement>(null)
+  const sessionRef = useRef<string | null>(null)
+  const visitorRef = useRef<VisitorInfo>({})
 
   useEffect(() => {
     if (open) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, open])
 
+  function logConversation(thread: Message[]) {
+    try {
+      if (!sessionRef.current) {
+        sessionRef.current =
+          typeof crypto !== 'undefined' && crypto.randomUUID
+            ? crypto.randomUUID()
+            : `s-${Date.now()}-${Math.random().toString(36).slice(2)}`
+      }
+      fetch('/api/chat-log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        keepalive: true,
+        body: JSON.stringify({
+          sessionId: sessionRef.current,
+          page: window.location.pathname,
+          referrer: document.referrer || null,
+          visitor: visitorRef.current,
+          messages: thread.map((m) => ({ role: m.role, text: m.content, at: m.at })),
+        }),
+      }).catch(() => {})
+    } catch {
+      // Logging must never break the widget.
+    }
+  }
+
   function send(preset?: string) {
     const text = (preset ?? input).trim()
     if (!text) return
     setInput('')
-    setMessages((m) => [...m, { role: 'user', content: text }, answerFor(text)])
+    extractVisitorInfo(text, visitorRef.current)
+    const at = new Date().toISOString()
+    const next = [...messages, { role: 'user' as const, content: text, at }, { ...answerFor(text), at }]
+    setMessages(next)
+    logConversation(next)
   }
 
   const showSuggestions = messages.length <= 1
