@@ -11,7 +11,6 @@ const LINKS = [
   { href: '/pricing', label: 'Pricing' },
   { href: '/case-studies', label: 'Case Studies' },
   { href: '/about', label: 'About' },
-  { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ]
 
@@ -41,7 +40,7 @@ export default function Nav() {
         ))}
         <li className="nav-actions">
           <a href={PORTAL_URL} className="nav-login" onClick={close}>Client Login</a>
-          <Link href="/demo" className="nav-cta" onClick={close}>Book a Free Audit</Link>
+          <Link href="/demo" className="nav-cta" onClick={close}>Book a Demo</Link>
         </li>
       </ul>
 

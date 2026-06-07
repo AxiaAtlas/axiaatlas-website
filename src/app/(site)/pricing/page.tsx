@@ -6,7 +6,7 @@ import { Arrow, Check } from '@/components/icons'
 export const metadata: Metadata = {
   title: 'Pricing — Three tiers, scoped to you',
   description:
-    'Three Axia Atlas tiers — Starter, Growth, and Authority — scoped to how fast you want to move. See what each includes; exact pricing is shared on a free audit call.',
+    'Three Axia Atlas tiers — Starter, Growth, and Authority — scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.',
   alternates: { canonical: '/pricing' },
 }
 
@@ -58,7 +58,7 @@ export default function PricingPage() {
       <div className="pricing-hero">
         <div className="section-eyebrow">Pricing</div>
         <h1 className="section-headline">Three tiers. Pick your pace.</h1>
-        <p className="section-sub">Every tier is a monthly partnership scoped to your goals. We share exact pricing on a free audit call — once we understand what you need, you&apos;ll know precisely what it costs.</p>
+        <p className="section-sub">Every tier is a monthly partnership scoped to your goals. We share exact pricing on your demo call — we audit your presence beforehand, so once we understand what you need, you&apos;ll know precisely what it costs.</p>
       </div>
 
       <div className="pricing-grid">
@@ -76,14 +76,14 @@ export default function PricingPage() {
               className={t.featured ? "btn-primary" : "btn-dark"}
               style={{ width: '100%', justifyContent: 'center' }}
             >
-              Book a Free Audit <Arrow className="arr" />
+              Book a Demo <Arrow className="arr" />
             </Link>
           </div>
         ))}
       </div>
 
       <p className="pricing-note">
-        No long lock-ins and no surprise add-ons. Pricing depends on the channels you choose and how much we&apos;re building — we&apos;ll quote it clearly on your audit call, and you decide from there.
+        No long lock-ins and no surprise add-ons. Pricing depends on the channels you choose and how much we&apos;re building — we&apos;ll quote it clearly on your demo call, and you decide from there.
       </p>
 
       <section className="cta-section">
@@ -91,7 +91,7 @@ export default function PricingPage() {
           <div className="section-eyebrow">Still deciding?</div>
           <h2 className="section-headline">Let&apos;s find the right tier together.</h2>
           <p className="section-sub">Tell us your goals and we&apos;ll recommend the smallest plan that gets you there — and exactly what it costs. No pressure to go bigger than you need.</p>
-          <Link href="/demo" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
+          <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
         </div>
       </section>
 

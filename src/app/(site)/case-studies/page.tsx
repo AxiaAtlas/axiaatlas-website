@@ -93,8 +93,8 @@ export default async function CaseStudiesPage() {
         <div className="cta-inner">
           <div className="section-eyebrow">You could be next</div>
           <h2 className="section-headline">Ready to get found?</h2>
-          <p className="section-sub">Book a free audit. We&apos;ll show you exactly where buyers are missing you and what we&apos;d do about it.</p>
-          <Link href="/demo" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
+          <p className="section-sub">Book a demo. We audit how you show up beforehand, so we can show you exactly where buyers are missing you and the solutions we&apos;d propose.</p>
+          <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
         </div>
       </section>
 

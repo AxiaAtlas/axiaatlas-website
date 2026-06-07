@@ -9,7 +9,7 @@ const FAQS = [
     q: 'What services do you offer?',
     a: (
       <>
-        Eight, across search, answer engines, local, social, founder brand, websites, campaigns, and lead generation. Most clients combine three or four into one connected plan. See the full breakdown on the <Link href="/services">services page</Link>.
+        Seven, across search, answer engines, local, social, founder brand, websites, and lead generation. Most clients combine three or four into one connected plan. See the full breakdown on the <Link href="/services">services page</Link>.
       </>
     ),
   },
@@ -17,7 +17,7 @@ const FAQS = [
     q: 'How does working with you start?',
     a: (
       <>
-        Every engagement starts with a free audit. We map where you show up today, where you don&apos;t, and the fastest wins — then build a clear 90-day plan. No 30-day onboarding; real output lands in week one. <Link href="/demo">Book your free audit →</Link>
+        It starts with a demo. Before the call we audit where you show up today, where you don&apos;t, and the fastest wins — so we arrive with your pain points pinpointed and solutions to propose, then build a clear 90-day plan. No 30-day onboarding; real output lands in week one. <Link href="/demo">Book a demo →</Link>
       </>
     ),
   },
@@ -25,7 +25,7 @@ const FAQS = [
     q: 'How much does it cost?',
     a: (
       <>
-        We work in three tiers — Starter, Growth, and Authority — scoped to how fast you want to move. Exact pricing is shared on your audit call once we know your goals. See what each tier includes on the <Link href="/pricing">pricing page</Link>.
+        We work in three tiers — Starter, Growth, and Authority — scoped to how fast you want to move. Exact pricing is shared on your demo call once we know your goals. See what each tier includes on the <Link href="/pricing">pricing page</Link>.
       </>
     ),
   },
@@ -39,7 +39,27 @@ const FAQS = [
   },
   {
     q: 'How fast will I see results?',
-    a: 'Work starts in week one and you\'ll see output immediately. Compounding channels like SEO and answer-engine optimization build over 60–90 days; local and social can move faster. We set expectations channel by channel on your audit call.',
+    a: 'Work starts in week one and you\'ll see output immediately. Compounding channels like SEO and answer-engine optimization build over 60–90 days; local and social can move faster. We set expectations channel by channel on your demo call.',
+  },
+  {
+    q: "I'm a current client — who do I contact?",
+    a: (
+      <>
+        Email <a href="mailto:strategy@axiaatlas.com">strategy@axiaatlas.com</a> and your strategist will pick it up. You can also sign in to the <a href="https://app.axiaatlas.com">client portal</a> for reporting, deliverables, and messages.
+      </>
+    ),
+  },
+  {
+    q: "I'm new — what's the right email to reach you?",
+    a: (
+      <>
+        For new and prospective clients, partnerships, and general questions, write to <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a>. If you&apos;re ready to talk, the fastest path is to <Link href="/demo">book a demo</Link> — we audit your presence beforehand and come with specific recommendations.
+      </>
+    ),
+  },
+  {
+    q: 'What happens before the demo call?',
+    a: 'We run an audit of how you show up today — search, answer engines, local, and social — so the call itself is about your pain points and the solutions we\'d propose, not a generic pitch.',
   },
 ]
 
@@ -75,7 +95,7 @@ export default function ContactPage() {
       <div className="contact-hero">
         <div className="section-eyebrow">Contact</div>
         <h1 className="section-headline">Questions? Let&apos;s talk.</h1>
-        <p className="section-sub">Send us a message and we&apos;ll reply within 24 hours. Ready to start? The fastest path is a <Link href="/demo" style={{ color: 'var(--inverse-accent)', textDecoration: 'underline', textUnderlineOffset: 2 }}>free audit</Link>.</p>
+        <p className="section-sub">Send us a message and we&apos;ll reply within 24 hours. Ready to start? The fastest path is to <Link href="/demo" style={{ color: 'var(--inverse-accent)', textDecoration: 'underline', textUnderlineOffset: 2 }}>book a demo</Link>.</p>
       </div>
 
       <div className="contact-body">
@@ -83,8 +103,19 @@ export default function ContactPage() {
           <div className="contact-info-title">Get in touch</div>
 
           <div className="contact-info-item">
-            <div className="contact-info-label">Email</div>
+            <div className="contact-info-label">New &amp; prospective clients</div>
             <div className="contact-info-value"><a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a></div>
+            <div style={{ fontWeight: 400, fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-muted)', marginTop: 4 }}>
+              Thinking about working together, exploring a partnership, or just have a question — this is the inbox for you.
+            </div>
+          </div>
+
+          <div className="contact-info-item">
+            <div className="contact-info-label">Current clients</div>
+            <div className="contact-info-value"><a href="mailto:strategy@axiaatlas.com">strategy@axiaatlas.com</a></div>
+            <div style={{ fontWeight: 400, fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-muted)', marginTop: 4 }}>
+              Already working with us? Reach your strategist here for anything about your account, plan, or deliverables.
+            </div>
           </div>
 
           <div className="contact-info-item">
@@ -95,7 +126,7 @@ export default function ContactPage() {
           <div className="contact-info-item">
             <div className="contact-info-label">Ready to start?</div>
             <div className="contact-info-value" style={{ fontWeight: 400, fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-muted)' }}>
-              Skip the back-and-forth and <Link href="/demo" style={{ color: 'var(--accent)' }}>book a free audit</Link> — a two-step survey and we&apos;ll come to the call with specific recommendations.
+              Skip the back-and-forth and <Link href="/demo" style={{ color: 'var(--accent)' }}>book a demo</Link> — a quick survey, then we audit how you show up today and come to the call with your pain points pinpointed and solutions to propose.
             </div>
           </div>
         </div>
@@ -108,13 +139,13 @@ export default function ContactPage() {
                   <Check style={{ width: 40, height: 40 }} />
                 </div>
                 <h2 style={{ fontFamily: 'var(--font-head)', fontSize: '1.375rem', fontWeight: 600, color: 'var(--text)', marginBottom: 12 }}>Message sent.</h2>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>We&apos;ll reply within 24 hours at <a href="mailto:partner@axiaatlas.com" style={{ color: 'var(--accent)' }}>partner@axiaatlas.com</a>. In a hurry? <Link href="/demo" style={{ color: 'var(--accent)' }}>Book a free audit →</Link></p>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>We&apos;ll reply within 24 hours at <a href="mailto:partner@axiaatlas.com" style={{ color: 'var(--accent)' }}>partner@axiaatlas.com</a>. In a hurry? <Link href="/demo" style={{ color: 'var(--accent)' }}>Book a demo →</Link></p>
               </div>
             </div>
           ) : (
             <form className="contact-form" onSubmit={submit}>
               <div className="form-title">Send us a message</div>
-              <p className="form-intro">Not ready for an audit yet? Ask us anything — we&apos;re happy to help.</p>
+              <p className="form-intro">Not ready for a demo yet? Ask us anything — we&apos;re happy to help.</p>
 
               <div className="form-2col">
                 <div className="form-row">

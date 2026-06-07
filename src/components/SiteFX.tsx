@@ -9,7 +9,7 @@ const REVEAL_SELECTORS = [
   '.hero-eyebrow', '.hero-headline', '.hero-sub', '.hero-actions', '.hero-trust',
   '.section-eyebrow', '.section-headline', '.section-sub',
   '.service-card', '.bento-card', '.case-card', '.problem-card',
-  '.process-step', '.belief-card', '.cs-card', '.pricing-card', '.blog-card',
+  '.process-step', '.belief-card', '.cs-card', '.pricing-card',
   '.service-detail-inner', '.stat-item', '.about-body', '.contact-form', '.contact-info-item',
 ].join(',')
 

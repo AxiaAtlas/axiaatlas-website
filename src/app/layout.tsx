@@ -67,7 +67,7 @@ const JSON_LD = {
       description: DESCRIPTION,
       email: 'partner@axiaatlas.com',
       areaServed: 'Worldwide',
-      slogan: 'To be found is to be chosen.',
+      slogan: 'To be found is to be seen.',
     },
     {
       '@type': 'WebSite',

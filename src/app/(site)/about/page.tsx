@@ -4,9 +4,9 @@ import Footer from '@/components/Footer'
 import { Arrow } from '@/components/icons'
 
 export const metadata: Metadata = {
-  title: 'About — To be found is to be chosen',
+  title: 'About — To be found is to be seen',
   description:
-    'Axia Atlas is a digital marketing studio built on one idea: to be found is to be chosen. We help brands, local businesses, and founders show up where their buyers are looking.',
+    'Axia Atlas is a digital marketing studio built on one idea: to be found is to be seen. We help brands, local businesses, and founders show up where their buyers are looking.',
   alternates: { canonical: '/about' },
 }
 
@@ -22,7 +22,7 @@ export default function AboutPage() {
         <div className="about-inner">
           <h2 className="about-headline">Why we exist</h2>
           <div className="about-body">
-            <p>Amit Arbili founded Axia Atlas after watching too many good businesses get mediocre results from agencies that were busy, not effective. The reason was rarely effort — it was the model. Most agencies bill for hours and deliverables, so that&apos;s what they optimize for.</p>
+            <p>Axia Atlas was founded after watching too many good businesses get mediocre results from agencies that were busy, not effective. The reason was rarely effort — it was the model. Most agencies bill for hours and deliverables, so that&apos;s what they optimize for.</p>
             <p>The usual relationship goes like this: you pay a retainer, you get a content calendar, you get a monthly report full of charts. Plenty of activity. No promise that any of it brings you a single new customer. Six months later you have a library of posts and not much else.</p>
             <p>That works for the agency. It doesn&apos;t work for you.</p>
             <p>We do it differently. Every engagement starts with strategy. We only recommend channels we believe will pay off, and every month we ask one question: is this making the business easier to find and quicker to choose than it was last month?</p>
@@ -33,7 +33,7 @@ export default function AboutPage() {
 
       <div className="about-section">
         <div className="about-inner">
-          <h2 className="about-headline">&quot;To be found is to be chosen.&quot;</h2>
+          <h2 className="about-headline">&quot;To be found is to be seen.&quot;</h2>
           <div className="about-body">
             <p>That&apos;s the idea behind everything we build. When your business shows up where buyers are already looking — in search, in answer engines, in your local market, in the feeds people scroll — you don&apos;t have to convince anyone you exist. You just have to be the obvious choice.</p>
             <p>Visibility like that isn&apos;t flashy and it isn&apos;t instant. But once it&apos;s built, it&apos;s yours — and it keeps working.</p>

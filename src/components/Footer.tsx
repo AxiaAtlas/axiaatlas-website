@@ -31,7 +31,6 @@ export default function Footer() {
               <li><Link href="/about">About</Link></li>
               <li><Link href="/pricing">Pricing</Link></li>
               <li><Link href="/case-studies">Case Studies</Link></li>
-              <li><Link href="/blog">Blog</Link></li>
               <li><Link href="/contact">Contact</Link></li>
             </ul>
           </div>
@@ -39,7 +38,7 @@ export default function Footer() {
           <div>
             <div className="footer-col-title">Get Started</div>
             <ul className="footer-links">
-              <li><Link href="/demo">Book a Free Audit</Link></li>
+              <li><Link href="/demo">Book a Demo</Link></li>
               <li><a href={PORTAL_URL}>Client Login</a></li>
               <li><a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a></li>
             </ul>

@@ -65,7 +65,7 @@ export default async function HomePage() {
             Every day, your customers search Google, scroll their feeds, and ask answer engines what to buy and who to trust. Axia Atlas puts your business in those moments — for brands, local businesses, and the founders behind them.
           </p>
           <div className="hero-actions">
-            <Link href="/demo" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
+            <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
             <Link href="/services" className="btn-outline">See How It Works</Link>
           </div>
 
@@ -84,7 +84,7 @@ export default async function HomePage() {
       {/* ── STATS BAR ── */}
       <div className="stats-bar">
         {[
-          { value: '8', label: 'Channels we cover' },
+          { value: '7', label: 'Channels we cover' },
           { value: 'Week 1', label: 'Work starts, not onboarding' },
           { value: 'B2B + B2C', label: 'Brands, local, and founders' },
           { value: 'Always', label: 'Reporting you can read' },
@@ -166,7 +166,7 @@ export default async function HomePage() {
         <div className="section-inner">
           <div className="section-head">
             <div className="section-eyebrow">What We Do</div>
-            <h2 className="section-headline">Eight ways to get found.</h2>
+            <h2 className="section-headline">Seven ways to get found.</h2>
             <p className="section-sub">Pick the channels that fit your business. Most clients combine three or four into one plan.</p>
           </div>
           <div className="services-grid">
@@ -183,7 +183,7 @@ export default async function HomePage() {
             })}
           </div>
           <div style={{ textAlign: 'center', marginTop: 44 }}>
-            <Link href="/services" className="btn-dark">View all 8 services <Arrow className="arr" /></Link>
+            <Link href="/services" className="btn-dark">View all 7 services <Arrow className="arr" /></Link>
           </div>
         </div>
       </section>
@@ -238,10 +238,10 @@ export default async function HomePage() {
       {/* ── CTA ── */}
       <section className="cta-section">
         <div className="cta-inner">
-          <div className="section-eyebrow">Free Audit</div>
+          <div className="section-eyebrow">Book a Demo</div>
           <h2 className="section-headline">See exactly where you&apos;re invisible.</h2>
-          <p className="section-sub">Book a 30-minute audit. We&apos;ll show you where buyers are looking for what you sell, where you&apos;re missing, and the three moves that would change it. No pitch deck, no pressure.</p>
-          <Link href="/demo" className="btn-primary">Book Your Free Audit <Arrow className="arr" /></Link>
+          <p className="section-sub">Book a demo. Before the call we audit how you show up today, so we arrive with your pain points pinpointed — where buyers are looking for what you sell, where you&apos;re missing, and the solutions we&apos;d propose. No pitch deck, no pressure.</p>
+          <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
         </div>
       </section>
 

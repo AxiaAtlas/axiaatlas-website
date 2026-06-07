@@ -15,7 +15,7 @@ const WELCOME =
 type QA = { keywords: string[]; answer: string; links?: ChatLink[]; followups: string[] }
 
 const L = {
-  demo: { label: 'Book a free audit', href: '/demo' },
+  demo: { label: 'Book a demo', href: '/demo' },
   services: { label: 'See all services', href: '/services' },
   pricing: { label: 'View pricing', href: '/pricing' },
   cases: { label: 'See results', href: '/case-studies' },
@@ -33,7 +33,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['service', 'offer', 'what can you', 'help with', 'channels'],
     answer:
-      'We run eight services: Social Media, Answer-Engine Optimization (GEO/AEO), SEO & Content, Local Presence, Founder/Executive Brand, Website Design, Campaigns, and Lead Generation. Most clients combine three or four.',
+      'We run seven services: Social Media, Answer-Engine Optimization (GEO/AEO), SEO & Content, Local Presence, Founder/Executive Brand, Website Design, and Lead Generation. Most clients combine three or four.',
     links: [L.services, L.demo],
     followups: ['How does answer-engine optimization work?', 'What are your tiers?'],
   },
@@ -61,7 +61,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['price', 'pricing', 'cost', 'how much', 'budget', 'rate', 'fee'],
     answer:
-      'We work in three tiers — Starter, Growth, and Authority — scoped to how fast you want to move. Exact pricing is shared on your free audit call, once we know your goals. See what each tier includes:',
+      'We work in three tiers — Starter, Growth, and Authority — scoped to how fast you want to move. Exact pricing is shared on your demo call, once we know your goals. See what each tier includes:',
     links: [L.pricing, L.demo],
     followups: ['What are your tiers?', 'How do I get started?'],
   },
@@ -75,14 +75,14 @@ const QA_SET: QA[] = [
   {
     keywords: ['start', 'get started', 'begin', 'sign up', 'onboard', 'first step', 'how do i', 'audit', 'demo', 'book', 'consult'],
     answer:
-      "Getting started is one step: book a free audit. It's a quick two-step survey — your business, then your goals. We review what you have, find the gaps, and tell you the two or three moves that will compound fastest. Work begins in week one.",
+      "Getting started is one step: book a demo. It's a quick survey — your business, then your goals. Before the call we audit how you show up today, so we arrive with your pain points pinpointed and specific solutions to propose. Work begins in week one.",
     links: [L.demo, L.services],
     followups: ['How much does it cost?', 'See some results?'],
   },
   {
     keywords: ['contact', 'email', 'reach', 'talk', 'call', 'message', 'question'],
     answer:
-      'You can send us a message any time and we reply within 24 hours — usually the same day. Or, if you’re ready to start, the fastest path is a free audit.',
+      'New and prospective clients can email partner@axiaatlas.com — current clients reach their strategist at strategy@axiaatlas.com. We reply within 24 hours, usually the same day. Or, if you’re ready to start, the fastest path is to book a demo.',
     links: [L.contact, L.demo],
     followups: ['How do I get started?', 'What services do you offer?'],
   },
@@ -129,7 +129,7 @@ function answerFor(text: string): Message {
   return {
     role: 'assistant',
     content:
-      "Good question — I don't have a canned answer for that one. The fastest way to a real answer is a free audit, or send us a message and we'll reply within 24 hours.",
+      "Good question — I don't have a ready answer for that one. The fastest way to a real answer is to book a demo, or email partner@axiaatlas.com and we'll reply within 24 hours.",
     links: DEFAULT_LINKS,
     followups: ['What services do you offer?', 'What are your tiers?'],
   }
@@ -158,17 +158,36 @@ function extractVisitorInfo(text: string, into: VisitorInfo) {
   if (company && !into.company) into.company = company[1].trim()
 }
 
+const TYPING_DELAY_MS = 3000
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([{ role: 'assistant', content: WELCOME }])
   const [input, setInput] = useState('')
+  const [typing, setTyping] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
   const sessionRef = useRef<string | null>(null)
   const visitorRef = useRef<VisitorInfo>({})
+  const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const questionCount = useRef(0)
+  const emailAsked = useRef(false)
 
   useEffect(() => {
     if (open) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, open])
+  }, [messages, typing, open])
+
+  // Close when the user clicks anywhere outside the widget.
+  useEffect(() => {
+    if (!open) return
+    const onPointerDown = (e: PointerEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    return () => document.removeEventListener('pointerdown', onPointerDown)
+  }, [open])
+
+  useEffect(() => () => { if (typingTimer.current) clearTimeout(typingTimer.current) }, [])
 
   function logConversation(thread: Message[]) {
     try {
@@ -197,27 +216,61 @@ export default function ChatWidget() {
 
   function send(preset?: string) {
     const text = (preset ?? input).trim()
-    if (!text) return
+    if (!text || typing) return
     setInput('')
+    const hadEmail = Boolean(visitorRef.current.email)
     extractVisitorInfo(text, visitorRef.current)
+    const justSharedEmail = !hadEmail && Boolean(visitorRef.current.email)
+    questionCount.current += 1
     const at = new Date().toISOString()
-    const next = [...messages, { role: 'user' as const, content: text, at }, { ...answerFor(text), at }]
-    setMessages(next)
-    logConversation(next)
+    const withUser = [...messages, { role: 'user' as const, content: text, at }]
+    setMessages(withUser)
+
+    // Show the typing dots for a beat before replying.
+    setTyping(true)
+    typingTimer.current = setTimeout(() => {
+      setTyping(false)
+      const replyAt = new Date().toISOString()
+      const replies: Message[] = []
+      if (justSharedEmail) {
+        replies.push({
+          role: 'assistant',
+          content: `Got it — we'll follow up at ${visitorRef.current.email}. Keep the questions coming in the meantime.`,
+          at: replyAt,
+          links: [L.demo, L.contact],
+          followups: ['What services do you offer?', 'How do I get started?'],
+        })
+      } else {
+        replies.push({ ...answerFor(text), at: replyAt })
+        // After the second question, ask (once) for an email so we can follow up.
+        if (questionCount.current >= 2 && !emailAsked.current && !visitorRef.current.email) {
+          emailAsked.current = true
+          replies.push({
+            role: 'assistant',
+            content:
+              "By the way — if you leave your email, we can follow up personally with answers tailored to your business. No pressure: you're welcome to keep asking questions either way.",
+            at: replyAt,
+          })
+        }
+      }
+      const next = [...withUser, ...replies]
+      setMessages(next)
+      logConversation(next)
+    }, TYPING_DELAY_MS)
   }
 
   const showSuggestions = messages.length <= 1
   const lastAssistant = messages.map((m) => m.role).lastIndexOf('assistant')
 
   return (
-    <>
+    <div ref={rootRef}>
       {open && (
         <div className="chat-panel" role="dialog" aria-label="Axia Atlas assistant">
           <div className="chat-panel-header">
             <AMark className="amark" />
             <div style={{ flex: 1 }}>
               <div className="chat-panel-title">Ask Axia Atlas</div>
-              <span className="chat-status"><span className="dot" /> Typically replies in 24h</span>
+              <span className="chat-status">Email us — <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a></span>
             </div>
             <button className="chat-close" onClick={() => setOpen(false)} aria-label="Close chat">×</button>
           </div>
@@ -260,6 +313,12 @@ export default function ChatWidget() {
               ),
             )}
 
+            {typing && (
+              <div className="chat-msg assistant chat-typing" aria-label="Assistant is typing">
+                <span /><span /><span />
+              </div>
+            )}
+
             {showSuggestions && (
               <div className="chat-suggestions">
                 {SUGGESTIONS.map((s) => (
@@ -283,12 +342,13 @@ export default function ChatWidget() {
               <Send />
             </button>
           </div>
+          <div className="chat-disclaimer">The assistant can make mistakes — please double-check important details.</div>
         </div>
       )}
 
       <button className="chat-btn" onClick={() => setOpen((o) => !o)} aria-label="Open chat">
         <AMark className="amark" />
       </button>
-    </>
+    </div>
   )
 }

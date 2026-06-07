@@ -23,14 +23,14 @@ export default function PrivacyPage() {
           <p>
             This Privacy Policy explains how <strong>Axia Atlas</strong> (&ldquo;Axia Atlas,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;)
             collects, uses, and protects information when you visit <strong>axiaatlas.com</strong> (the &ldquo;Site&rdquo;),
-            contact us, or request a free audit. We are a digital marketing studio, and we take the privacy of
+            contact us, or book a demo. We are a digital marketing studio, and we take the privacy of
             prospective and existing clients seriously. By using the Site or submitting information through it,
             you agree to the practices described below.
           </p>
 
           <h2>1. Information we collect</h2>
           <h3>Information you provide</h3>
-          <p>When you complete a contact form, request a free audit, subscribe to our newsletter, or otherwise reach out, we may collect:</p>
+          <p>When you complete a contact form, book a demo, subscribe to our newsletter, or otherwise reach out, we may collect:</p>
           <ul>
             <li>Your name, email address, and phone number;</li>
             <li>Your company name, website, role/position, and social media profiles;</li>
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
           <h2>2. How we use your information</h2>
           <p>We use the information we collect to:</p>
           <ul>
-            <li>Respond to your inquiries and prepare and deliver the free audit you request;</li>
+            <li>Respond to your inquiries and prepare for and deliver the demo you request;</li>
             <li>Provide, operate, and improve our services and the Site;</li>
             <li>Send you relevant updates, proposals, or marketing communications you have asked for;</li>
             <li>Understand how the Site is used and measure the performance of our content; and</li>

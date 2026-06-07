@@ -92,9 +92,9 @@ export default function DemoPage() {
   return (
     <div className="page demo-page">
       <div className="demo-hero">
-        <div className="section-eyebrow">Free Audit</div>
+        <div className="section-eyebrow">Book a Demo</div>
         <h1 className="section-headline">See exactly where you&apos;re invisible.</h1>
-        <p className="section-sub">Three quick steps. We&apos;ll review how you show up today and come back with the specific moves that would change it — no pitch deck, no pressure.</p>
+        <p className="section-sub">Three quick steps. Before your demo we audit how you show up today, so we come to the call with your pain points pinpointed and specific solutions to propose — no pitch deck, no pressure.</p>
       </div>
 
       <div className="demo-body">

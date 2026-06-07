@@ -43,10 +43,10 @@ export default function TermsPage() {
             <li>Submit false, misleading, or fraudulent information through our forms.</li>
           </ul>
 
-          <h2>3. Forms, inquiries, and audits</h2>
+          <h2>3. Forms, inquiries, and demos</h2>
           <p>
-            Submitting a contact form, audit request, or other inquiry does not create a contract or
-            engagement between you and Axia Atlas. Any free audit, proposal, or recommendation we provide is
+            Submitting a contact form, demo request, or other inquiry does not create a contract or
+            engagement between you and Axia Atlas. Any demo, audit, proposal, or recommendation we provide is
             offered without obligation, and a formal client relationship begins only when both parties sign a
             separate written agreement. Information you submit is handled in accordance with our{' '}
             <a href="/privacy">Privacy Policy</a>.

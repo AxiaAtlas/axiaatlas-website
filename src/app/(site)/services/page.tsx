@@ -4,9 +4,9 @@ import Footer from '@/components/Footer'
 import { Arrow, Check, ServiceIcons } from '@/components/icons'
 
 export const metadata: Metadata = {
-  title: 'Services — Eight ways to get found',
+  title: 'Services — Seven ways to get found',
   description:
-    'Eight ways Axia Atlas gets you found and chosen: Social Media, Answer-Engine Optimization (GEO/AEO), SEO & Content, Local Presence, Founder Brand, Website Design, Campaigns, and Lead Generation.',
+    'Seven ways Axia Atlas gets you found and chosen: Social Media, Answer-Engine Optimization (GEO/AEO), SEO & Content, Local Presence, Founder Brand, Website Design, and Lead Generation.',
   alternates: { canonical: '/services' },
 }
 
@@ -19,7 +19,7 @@ const SERVICES = [
     who: 'For brands and businesses ready to treat social as a real growth channel, B2B or B2C.',
     deliverables: [
       'Platform and channel strategy',
-      'Monthly content calendar (30+ posts)',
+      'Monthly content calendar, planned in advance',
       'Content made for each platform: Instagram, LinkedIn, TikTok, Facebook, X',
       'Community management and replies',
       'Trend-driven, reactive content',
@@ -35,7 +35,7 @@ const SERVICES = [
     who: 'For any business whose buyers research online before they decide — brands, services, and founders alike.',
     deliverables: [
       'Answer-engine visibility audit — where you\'re missing and why',
-      '6–12 articles built to be cited by answer engines',
+      'Articles built to be cited by answer engines',
       'Schema markup and technical setup',
       'Citation tracking, month over month',
       'Question-and-answer content for your category',
@@ -51,7 +51,7 @@ const SERVICES = [
     who: "For businesses that want steady traffic and leads they don't have to rent from ad platforms.",
     deliverables: [
       'Keyword and opportunity research',
-      '4–8 articles per month (800–3,000 words)',
+      'In-depth articles published every month',
       'On-page optimization for every page',
       'Internal linking structure',
       'Refresh plan for existing pages',
@@ -67,7 +67,7 @@ const SERVICES = [
     who: 'For clinics, trades, shops, restaurants, practices, and any business that serves a local or regional market.',
     deliverables: [
       'Google Business Profile setup and optimization',
-      'Local citations across 50+ directories',
+      'Local citations across the directories that matter',
       'Review strategy and management',
       'Local landing pages with schema',
       'Map-pack ranking analysis',
@@ -84,7 +84,7 @@ const SERVICES = [
     deliverables: [
       'LinkedIn profile and positioning',
       'Personal brand strategy and themes',
-      '12–16 posts per month in your voice',
+      'Consistent posts in your voice, every month',
       'Thought-leadership articles',
       'Engagement and connection strategy',
       'Monthly reach, follower, and inbound report',
@@ -108,30 +108,14 @@ const SERVICES = [
     tier: 'Growth, Authority',
   },
   {
-    id: 'campaigns',
-    label: '07 — Campaigns',
-    headline: 'Campaigns',
-    desc: 'A launch, a season, a big event — some moments deserve a real push. We plan and run integrated campaigns across every channel you use: social, email, ads, and landing pages, all pointed at one goal.',
-    who: 'For brands and businesses with a launch, promotion, or seasonal moment that needs full-channel firepower.',
-    deliverables: [
-      'Campaign strategy and creative brief',
-      'Content across social, email, and ads',
-      'Ad copy and creative for paid channels',
-      'Landing page or microsite copy',
-      'Retargeting sequences',
-      'Campaign reporting and recap',
-    ],
-    tier: 'Growth, Authority',
-  },
-  {
     id: 'leadgen',
-    label: '08 — Lead Generation',
+    label: '07 — Lead Generation',
     headline: 'Lead Generation',
     desc: 'Search and content compound over time. Outbound fills the pipeline now. We build targeted prospecting that finds your ideal customers and warms them up with messages that don\'t sound like spam.',
     who: 'For B2B and service businesses that know who their best customers are and want more conversations now.',
     deliverables: [
       'Ideal-customer profile and targeting',
-      '250–500 verified, researched contacts',
+      'Verified, researched prospect lists built to your profile',
       'Five-step outreach (email + LinkedIn)',
       'Personalization playbook',
       'A/B testing on subject lines and messaging',
@@ -146,7 +130,7 @@ export default function ServicesPage() {
     <div className="page services-page">
       <div className="services-hero">
         <div className="section-eyebrow">Services</div>
-        <h1 className="section-headline">Eight ways to get found.<br />One plan that fits together.</h1>
+        <h1 className="section-headline">Seven ways to get found.<br />One plan that fits together.</h1>
         <p className="section-sub">Start with one channel or build the full system. Either way, it begins with strategy — never random tactics.</p>
       </div>
 
@@ -183,8 +167,8 @@ export default function ServicesPage() {
         <div className="cta-inner">
           <div className="section-eyebrow">Not sure where to start?</div>
           <h2 className="section-headline">We&apos;ll tell you what to do first.</h2>
-          <p className="section-sub">Book a free 30-minute audit. We review what you have, find the gaps, and recommend the two or three channels that will pay off fastest for your business.</p>
-          <Link href="/demo" className="btn-primary">Book a Free Audit <Arrow className="arr" /></Link>
+          <p className="section-sub">Book a demo. Before the call we run an audit of how you show up today, so we arrive with your pain points pinpointed and specific solutions to propose — and the two or three channels that will pay off fastest.</p>
+          <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
         </div>
       </section>
 

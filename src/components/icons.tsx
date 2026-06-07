@@ -74,10 +74,6 @@ export const Website = (p: IconProps) => (
   <svg {...base} {...p}><rect x="3.5" y="4.5" width="17" height="15" rx="2" /><path d="M3.5 9h17M7 6.7h.01M9.5 6.7h.01" /></svg>
 )
 
-export const Campaign = (p: IconProps) => (
-  <svg {...base} {...p}><path d="M4 14V9.5l11-5v15l-11-5z" /><path d="M4 14H6.5v4a1.5 1.5 0 0 0 3 0v-3.6M15 8.5a3 3 0 0 1 0 7" /></svg>
-)
-
 export const Lead = (p: IconProps) => (
   <svg {...base} {...p}><rect x="3.5" y="5.5" width="17" height="13" rx="2" /><path d="M4.5 7l7.5 6 7.5-6" /></svg>
 )
@@ -134,6 +130,5 @@ export const ServiceIcons: Record<string, (p: IconProps) => JSX.Element> = {
   local: Pin,
   executive: Founder,
   website: Website,
-  campaigns: Campaign,
   leadgen: Lead,
 }
