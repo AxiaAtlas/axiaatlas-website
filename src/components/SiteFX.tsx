@@ -8,9 +8,11 @@ import { useEffect } from 'react'
 const REVEAL_SELECTORS = [
   '.hero-eyebrow', '.hero-headline', '.hero-sub', '.hero-actions', '.hero-trust',
   '.section-eyebrow', '.section-headline', '.section-sub',
-  '.service-card', '.bento-card', '.case-card', '.problem-card',
+  '.service-card', '.bento-card', '.results-slider', '.problem-card',
   '.process-step', '.belief-card', '.cs-card', '.pricing-card',
-  '.service-detail-inner', '.stat-item', '.about-body', '.contact-form', '.contact-info-item',
+  '.service-detail-inner', '.about-body', '.contact-form', '.contact-info-item',
+  '.faq-item', '.demo-card', '.pricing-note',
+  '.cta-band-beacon', '.cta-band-btn', '.cta-band-note',
 ].join(',')
 
 const SPOTLIGHT_SELECTORS = '.bento-card, .service-card, .spotlight'

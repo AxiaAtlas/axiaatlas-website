@@ -82,8 +82,8 @@ export default function DemoPage() {
     <div className="page demo-page">
       <div className="demo-hero">
         <div className="section-eyebrow">Book a Demo</div>
-        <h1 className="section-headline">See exactly where you&apos;re invisible.</h1>
-        <p className="section-sub">Three quick steps. Before your demo we audit how you show up today, so we come to the call with your pain points pinpointed and specific solutions to propose — no pitch deck, no pressure.</p>
+        <h1 className="section-headline">Your next customer is searching right now.</h1>
+        <p className="section-sub">Three quick steps to a call worth your time. Before we meet, we audit how you show up across search, answer engines, local, and social — so we arrive with the gaps mapped and real solutions, not a pitch deck.</p>
       </div>
 
       <div className="demo-body">

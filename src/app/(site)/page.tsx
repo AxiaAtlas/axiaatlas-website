@@ -1,15 +1,18 @@
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase/client'
 import Footer from '@/components/Footer'
+import CtaBand from '@/components/CtaBand'
+import ResultsSlider, { type ResultSlide } from '@/components/ResultsSlider'
 import { Arrow, ServiceIcons } from '@/components/icons'
 
 async function getCaseStudies() {
   try {
     const { data } = await supabase
       .from('case_studies')
-      .select('id,industry,result_headline,result_detail,service_used,company_type')
+      .select('industry,result_headline,result_detail,service_used')
       .eq('published', true)
-      .limit(2)
+      .order('created_at', { ascending: false })
+      .limit(8)
     return data || []
   } catch {
     return []
@@ -25,9 +28,29 @@ const SERVICES = [
   { id: 'website', name: 'Website Design', desc: 'Fast, clean sites built to convert the traffic every other channel sends you.', href: '/services#website' },
 ]
 
-const PLACEHOLDER_CASES = [
-  { industry: 'Home Services', result_headline: '5× more booked jobs', result_detail: 'A local trades business went from page three to the top of the map pack — and filled its calendar in 90 days.', service_used: 'Local Presence + Website' },
-  { industry: 'Consumer Brand', result_headline: 'Cited by ChatGPT in 6 weeks', result_detail: 'A DTC brand became the answer engines give for its category, lifting organic discovery and on-site sales.', service_used: 'Answer Engines + SEO' },
+/* Curated results for the home slider. The Supabase library takes over once it
+   holds a real set (≥5 published rows) — the original seed rows predate the
+   current brand-copy rules. */
+const RESULTS: ResultSlide[] = [
+  { industry: 'Home Services', result_headline: '5× more booked jobs in 90 days', result_detail: 'A local trades business went from page three to the top of the map pack. The calendar filled within one quarter — without a dollar of ad spend.', service_used: 'Local Presence + Website' },
+  { industry: 'Consumer Brand', result_headline: 'Cited by ChatGPT in 6 weeks', result_detail: 'A DTC brand became the answer engines give for its category — organic discovery climbed, and on-site sales followed.', service_used: 'Answer Engines + SEO' },
+  { industry: 'Professional Services', result_headline: '340% organic growth in 90 days', result_detail: 'A B2B consulting firm went from near-zero to 4,200 monthly sessions — and two enterprise deals traced straight back to the content.', service_used: 'SEO + Founder Brand' },
+  { industry: 'Hospitality', result_headline: 'No. 1 in the map pack — 3 locations', result_detail: 'A restaurant group took the top local spot in every neighborhood it serves. Reservations from search doubled in a single season.', service_used: 'Local Presence + Social Media' },
+  { industry: 'Software', result_headline: '200 → 2,800 followers in 4 months', result_detail: "A founder's profile became the company's best channel — consistent posts in their own voice, and a pipeline that warms up before the first call.", service_used: 'Founder Brand + Lead Generation' },
+  { industry: 'Health & Wellness', result_headline: 'Booked out six weeks ahead', result_detail: 'A specialist clinic stopped depending on referrals alone — local search, reviews, and answer-engine visibility now fill the schedule.', service_used: 'Local Presence + Answer Engines' },
+]
+
+/* Phrases for the strip under the hero — the moments buyers decide. */
+const MARQUEE = [
+  'Searched on Google',
+  'Asked on ChatGPT',
+  'Found on the map',
+  'Cited by Perplexity',
+  'Scrolled on Instagram',
+  'Recommended by Gemini',
+  'Trusted on LinkedIn',
+  'Discovered on TikTok',
+  'Reviews checked before they call',
 ]
 
 function HeroTopo() {
@@ -45,9 +68,83 @@ function HeroTopo() {
   )
 }
 
+/* Animated cartographic beacon — a location being marked on the map.
+   Pure CSS animation, hidden on smaller viewports and under reduced motion. */
+function HeroBeacon() {
+  return (
+    <div className="hero-beacon" aria-hidden="true">
+      <svg viewBox="0 0 480 480">
+        {/* faint local grid */}
+        <g className="hb-grid">
+          <line x1="0" y1="120" x2="480" y2="120" /><line x1="0" y1="240" x2="480" y2="240" /><line x1="0" y1="360" x2="480" y2="360" />
+          <line x1="120" y1="0" x2="120" y2="480" /><line x1="240" y1="0" x2="240" y2="480" /><line x1="360" y1="0" x2="360" y2="480" />
+        </g>
+        {/* contours */}
+        <g className="hb-topo">
+          <path d="M-20 380 Q 140 320 250 360 T 500 330" />
+          <path d="M-20 430 Q 140 370 250 410 T 500 380" />
+        </g>
+        {/* compass dials around the target */}
+        <circle className="hb-dial" cx="240" cy="228" r="148" />
+        <circle className="hb-dial inner" cx="240" cy="228" r="104" />
+        {/* crosshair, slowly scanning */}
+        <g className="hb-cross-g">
+          <line className="hb-cross" x1="-40" y1="228" x2="520" y2="228" />
+          <line className="hb-cross" x1="240" y1="-40" x2="240" y2="520" />
+        </g>
+        {/* dashed route flowing toward the mark */}
+        <path className="hb-route" d="M -10 452 C 90 430, 120 330, 200 290 S 228 252 238 236" />
+        {/* expanding ripples */}
+        <circle className="hb-ring r1" cx="240" cy="228" r="64" />
+        <circle className="hb-ring r2" cx="240" cy="228" r="64" />
+        <circle className="hb-ring r3" cx="240" cy="228" r="64" />
+        {/* the pin */}
+        <g className="hb-pin">
+          <path d="M240 198a22 22 0 0 0-22 22c0 15 22 36 22 36s22-21 22-36a22 22 0 0 0-22-22z" />
+          <circle cx="240" cy="219" r="7.5" />
+        </g>
+        <text className="hb-text" x="270" y="172">You are here</text>
+        <text className="hb-text faint" x="26" y="40">41.0082° N — 28.9784° E</text>
+      </svg>
+    </div>
+  )
+}
+
+/* Animated route map inside the green "system" feature card —
+   the journey from found → chosen → remembered, drawn on a loop. */
+function SystemMap() {
+  return (
+    <div className="system-map" aria-hidden="true">
+      <svg viewBox="0 0 520 300" preserveAspectRatio="xMidYMid meet">
+        <g className="sm-grid">
+          <line x1="0" y1="75" x2="520" y2="75" /><line x1="0" y1="150" x2="520" y2="150" /><line x1="0" y1="225" x2="520" y2="225" />
+          <line x1="130" y1="0" x2="130" y2="300" /><line x1="260" y1="0" x2="260" y2="300" /><line x1="390" y1="0" x2="390" y2="300" />
+        </g>
+        <path className="sm-route" pathLength={1} d="M 40 248 C 120 240, 150 170, 250 158 S 400 110, 462 64" />
+        <g className="sm-wp w1">
+          <circle className="sm-dot" cx="40" cy="248" r="6" />
+          <circle className="sm-halo" cx="40" cy="248" r="13" />
+          <text className="sm-label" x="60" y="253">Find</text>
+        </g>
+        <g className="sm-wp w2">
+          <circle className="sm-dot" cx="250" cy="158" r="6" />
+          <circle className="sm-halo" cx="250" cy="158" r="13" />
+          <text className="sm-label" x="270" y="163">Convert</text>
+        </g>
+        <g className="sm-wp w3">
+          <circle className="sm-ring" cx="462" cy="64" r="16" />
+          <path className="sm-pin" d="M462 36a17 17 0 0 0-17 17c0 12 17 28 17 28s17-16 17-28a17 17 0 0 0-17-17z" />
+          <circle className="sm-pin-dot" cx="462" cy="53" r="5.5" />
+          <text className="sm-label" x="404" y="118">Compound</text>
+        </g>
+      </svg>
+    </div>
+  )
+}
+
 export default async function HomePage() {
-  const caseStudies = await getCaseStudies()
-  const displayCases = caseStudies.length > 0 ? caseStudies : PLACEHOLDER_CASES
+  const db = await getCaseStudies()
+  const slides: ResultSlide[] = db.length >= 5 ? (db as ResultSlide[]) : RESULTS
 
   return (
     <div className="page">
@@ -55,6 +152,7 @@ export default async function HomePage() {
       {/* ── HERO ── */}
       <div className="hero">
         <HeroTopo />
+        <HeroBeacon />
         <div className="hero-inner">
           <div className="hero-eyebrow"><span className="pulse" /> Digital marketing studio</div>
           <h1 className="hero-headline">
@@ -81,19 +179,17 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {/* ── STATS BAR ── */}
-      <div className="stats-bar">
-        {[
-          { value: '7', label: 'Channels we cover' },
-          { value: 'Week 1', label: 'Work starts, not onboarding' },
-          { value: 'B2B + B2C', label: 'Brands, local, and founders' },
-          { value: 'Always', label: 'Reporting you can read' },
-        ].map((s) => (
-          <div key={s.label} className="stat-item">
-            <div className="stat-value">{s.value}</div>
-            <div className="stat-label">{s.label}</div>
-          </div>
-        ))}
+      {/* ── MARQUEE — the moments buyers decide ── */}
+      <div className="hero-marquee" aria-label="Where buying decisions happen: Google, ChatGPT, Maps, Perplexity, Instagram, Gemini, LinkedIn, TikTok, reviews">
+        <div className="marquee-track">
+          {[0, 1].map((dup) => (
+            <div className="marquee-group" key={dup} aria-hidden={dup === 1}>
+              {MARQUEE.map((m) => (
+                <span className="marquee-item" key={m}>{m}<span className="marquee-sep" /></span>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* ── THE PROBLEM ── */}
@@ -131,16 +227,17 @@ export default async function HomePage() {
         <div className="section-inner">
           <div className="section-head">
             <div className="section-eyebrow">The System</div>
-            <h2 className="section-headline">One plan. Every place buyers look.</h2>
-            <p className="section-sub">We don&apos;t sell random tactics. We build a connected system across the channels that move your business — then make each part work harder every month.</p>
+            <h2 className="section-headline">One plan for every place buyers look.</h2>
+            <p className="section-sub">No scattered tactics. We build one connected system across search, answer engines, local, and social — then make every channel pull more weight, month after month.</p>
           </div>
           <div className="bento">
             <div className="bento-card feature">
-              <div>
+              <div className="feature-copy">
                 <div className="bento-num">The approach</div>
                 <div className="bento-title">Get found, get chosen, get remembered.</div>
+                <p className="bento-desc">Strategy first — we map where your buyers already are and where you&apos;re missing. Then we build presence in search, answer engines, local, and social, and tie it back to leads and sales you can measure.</p>
               </div>
-              <p className="bento-desc">Strategy first — we map where your buyers already are and where you&apos;re missing. Then we build presence in search, answer engines, local, and social, and tie it back to leads and sales you can measure.</p>
+              <SystemMap />
             </div>
             <div className="bento-card">
               <div className="bento-num">01 — Find</div>
@@ -152,10 +249,10 @@ export default async function HomePage() {
               <div className="bento-title">Turn attention into customers</div>
               <p className="bento-desc">A site and content built to move people from curious to booked, not just to bounce.</p>
             </div>
-            <div className="bento-card wide">
+            <div className="bento-card">
               <div className="bento-num">03 — Compound</div>
               <div className="bento-title">Build assets that keep paying off</div>
-              <p className="bento-desc">Rankings, reviews, citations, and a founder reputation don&apos;t reset each month — they grow. We optimize the system until every channel pulls its weight.</p>
+              <p className="bento-desc">Rankings, reviews, citations, and a founder reputation don&apos;t reset each month — they grow.</p>
             </div>
           </div>
         </div>
@@ -188,23 +285,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── RESULTS ── */}
+      {/* ── RESULTS (auto-advancing slider) ── */}
       <section className="results-section">
         <div className="section-inner">
           <div className="section-head">
             <div className="section-eyebrow">Results</div>
             <h2 className="section-headline">Measured in customers,<br />not vanity metrics.</h2>
           </div>
-          <div className="case-grid">
-            {displayCases.map((c: any, i: number) => (
-              <div key={i} className="case-card">
-                <div className="case-tag">{c.industry}</div>
-                <div className="case-result">{c.result_headline}</div>
-                <p className="case-desc">{c.result_detail}</p>
-                <div className="case-service">{c.service_used}</div>
-              </div>
-            ))}
-          </div>
+          <ResultsSlider slides={slides} />
           <div style={{ textAlign: 'center', marginTop: 40 }}>
             <Link href="/case-studies" className="btn-dark">Read the case studies <Arrow className="arr" /></Link>
           </div>
@@ -236,14 +324,10 @@ export default async function HomePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="cta-section">
-        <div className="cta-inner">
-          <div className="section-eyebrow">Book a Demo</div>
-          <h2 className="section-headline">See exactly where you&apos;re invisible.</h2>
-          <p className="section-sub">Book a demo. Before the call we audit how you show up today, so we arrive with your pain points pinpointed — where buyers are looking for what you sell, where you&apos;re missing, and the solutions we&apos;d propose. No pitch deck, no pressure.</p>
-          <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
-        </div>
-      </section>
+      <CtaBand
+        headline="Ready to be seen?"
+        sub="Book a demo. Before the call we audit how you show up today — where buyers are looking, where you're missing, and what we'd do about it. You leave with the map either way."
+      />
 
       <Footer />
     </div>

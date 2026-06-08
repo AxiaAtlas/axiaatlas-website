@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { supabase } from '@/lib/supabase/client'
 import Footer from '@/components/Footer'
-import { Arrow } from '@/components/icons'
+import CtaBand from '@/components/CtaBand'
 
 export const metadata: Metadata = {
   title: 'Case Studies — Real businesses, real results',
@@ -24,6 +23,8 @@ async function getCaseStudies() {
   }
 }
 
+/* Curated library. The Supabase table takes over once it holds a real set
+   (≥5 published rows) — the original seed rows predate the brand-copy rules. */
 const PLACEHOLDERS = [
   {
     id: '1',
@@ -55,11 +56,41 @@ const PLACEHOLDERS = [
     result_detail: 'From near-zero to 4,200 monthly sessions. The founder grew to 2,800 followers and two enterprise deals traced back to the content.',
     service_used: 'SEO + Founder Brand',
   },
+  {
+    id: '4',
+    industry: 'Hospitality',
+    company_type: 'Restaurant Group · 3 Locations',
+    challenge: 'Three strong neighborhood restaurants that tourists and locals alike walked past — because the map sent them somewhere else first.',
+    approach: 'Optimized each location\'s profile separately, built a steady review cadence, and published neighborhood guides that search and answer engines now cite.',
+    result_headline: 'No. 1 in the map pack, every location',
+    result_detail: 'Top local result in all three neighborhoods. Reservations from search doubled in one season, and weekday covers stopped dipping.',
+    service_used: 'Local Presence + Social Media',
+  },
+  {
+    id: '5',
+    industry: 'Software',
+    company_type: 'B2B SaaS Startup',
+    challenge: 'A great product nobody asked for by name. Long sales cycles, cold outbound, and a founder with insight but no audience.',
+    approach: "Positioned the founder as the voice of the category on LinkedIn, paired it with researched outbound, and let the content warm the pipeline.",
+    result_headline: '200 → 2,800 followers in 4 months',
+    result_detail: 'The founder\'s profile became the company\'s best channel. Replies to outreach tripled once prospects recognized the name.',
+    service_used: 'Founder Brand + Lead Generation',
+  },
+  {
+    id: '6',
+    industry: 'Health & Wellness',
+    company_type: 'Specialist Clinic',
+    challenge: 'Excellent care, invisible online. New patients came from referrals only, and slow months were unpredictable.',
+    approach: 'Built the local footprint — profile, reviews, condition-specific pages — and structured content so answer engines recommend the clinic by name.',
+    result_headline: 'Booked out six weeks ahead',
+    result_detail: 'Local searches and answer-engine recommendations now fill the schedule. Referrals became the bonus, not the lifeline.',
+    service_used: 'Local Presence + Answer Engines',
+  },
 ]
 
 export default async function CaseStudiesPage() {
   const data = await getCaseStudies()
-  const cases = data.length > 0 ? data : PLACEHOLDERS
+  const cases = data.length >= 5 ? data : PLACEHOLDERS
 
   return (
     <div className="page cs-page">
@@ -76,27 +107,32 @@ export default async function CaseStudiesPage() {
               <div className="cs-industry">{c.industry} · {c.company_type}</div>
               <div className="cs-result-headline">{c.result_headline}</div>
             </div>
-            <div className="cs-card-body">
-              <div className="cs-label">The Challenge</div>
-              <p className="cs-text">{c.challenge}</p>
-              <div className="cs-label">What We Did</div>
-              <p className="cs-text">{c.approach}</p>
-              <div className="cs-label">The Result</div>
-              <p className="cs-text">{c.result_detail}</p>
+            <div className="cs-route">
+              <div className="cs-step">
+                <div className="cs-label">The Challenge</div>
+                <p className="cs-text">{c.challenge}</p>
+              </div>
+              <div className="cs-step">
+                <div className="cs-label">What We Did</div>
+                <p className="cs-text">{c.approach}</p>
+              </div>
+              <div className="cs-step result">
+                <div className="cs-label">The Result</div>
+                <p className="cs-text">{c.result_detail}</p>
+              </div>
+            </div>
+            <div className="cs-card-foot">
               <span className="cs-service-badge">{c.service_used}</span>
             </div>
           </div>
         ))}
       </div>
 
-      <section className="cta-section">
-        <div className="cta-inner">
-          <div className="section-eyebrow">You could be next</div>
-          <h2 className="section-headline">Ready to get found?</h2>
-          <p className="section-sub">Book a demo. We audit how you show up beforehand, so we can show you exactly where buyers are missing you and the solutions we&apos;d propose.</p>
-          <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
-        </div>
-      </section>
+      <CtaBand
+        eyebrow="You could be next"
+        headline="Ready to get found?"
+        sub="Book a demo. We audit how you show up beforehand, so we can show you exactly where buyers are missing you — and what we'd do about it."
+      />
 
       <Footer />
     </div>

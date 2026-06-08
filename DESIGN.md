@@ -19,9 +19,11 @@ theme (no toggle). This document explains the intent so future work stays cohesi
   (ChatGPT, Perplexity, Gemini) are fine.
 - **Palette is spruce / alabaster / sage only.** No gold, no off-brand accents.
 - **Alabaster/neutral is the dominant surface.** Deep Spruce is an *accent* and a
-  *depth* color — reserved for the hero, page heroes, the CTA band, the footer, and
+  *depth* color — reserved for the hero, page heroes, the footer, and
   a couple of single accent panels (featured pricing card, bento feature cell).
-  Sage is the secondary accent. Aim for contrast and breathing room, not green fill.
+  Sage is the secondary accent; the **CTA band is the one sage section** on each
+  page, deliberately distinct from the dark footer. Aim for contrast and breathing
+  room, not green fill.
 - **Single committed theme.** Every surface, border, and text color is a semantic
   token. Never hardcode a hex in a component when a token exists.
 
@@ -53,11 +55,13 @@ theme (no toggle). This document explains the intent so future work stays cohesi
 | `--shadow-sm/md/lg` | Elevation |
 
 **Depth panels** (`--inverse-*`) are deep spruce and used *sparingly* for contrast:
-the home hero, every page hero, the CTA band, and the footer — plus two single
-accent panels (the featured pricing card and the bento feature cell). Everything
-else is alabaster/white surfaces with spruce/sage accents. This keeps the page
-predominantly light and lets spruce land as a deliberate punctuation, not a flood.
-Ambient sage glows (including at the bottom of the footer) sit on these panels.
+the home hero, every page hero, and the footer — plus two single accent panels
+(the featured pricing card and the full-width bento feature cell). The **CTA band**
+(`.cta-band`, `components/CtaBand.tsx`) is *not* a depth panel: it's a sage-soft
+gradient section with dark text, a pulsing beacon, drifting grid, and an emphasized
+spruce CTA — the one light-green moment on each page, so it never reads as the
+footer. Everything else is alabaster/white surfaces with spruce/sage accents.
+Ambient sage glows (including at the bottom of the footer) sit on the dark panels.
 
 ### Contrast
 Body text targets WCAG AA (≥ 4.5:1); large display text ≥ 3:1. `--text-muted` is
@@ -109,9 +113,21 @@ Body: `line-height 1.6–1.85`, `text-wrap: pretty`.
 - **Spotlight:** pointer position feeds `--mx/--my` to drive a radial highlight on
   `.bento-card`, `.service-card`, `.spotlight`.
 - **Hero:** drifting grid (`gridDrift`), pulsing live-dot (`pulse`), layered radial
-  glows, and faint SVG contour ("topo") lines.
-- **Micro-interactions:** buttons lift 1px + nudge their `.arr` arrow 3px; cards lift
-  3px with shadow; links grow their arrow gap.
+  glows, faint SVG contour ("topo") lines, and the **hero beacon** — an animated
+  cartographic mark (rotating dashed dials, scanning crosshair, marching-ants route,
+  expanding ripples, floating pin, "You are here") shown ≥1200px only.
+- **Marquee:** the strip under the hero (`.hero-marquee`) loops the moments buyers
+  decide ("Searched on Google · Asked on ChatGPT · …"); pauses on hover; edge-masked.
+- **System map:** the full-width bento feature cell draws a looping route
+  (Find → Convert → Compound) with waypoints popping in sequence (`smRoute`/`smPop*`).
+- **Results slider:** auto-advancing carousel (5.2s), pauses on hover/focus, no
+  autoplay under reduced motion (`ResultsSlider.tsx`).
+- **CTA band:** pulsing pin beacon (`ctaRing`), drifting grid, soft button pulse
+  (`ctaPulse`), shine sweep on `.btn-primary` hover (`btnShine`).
+- **Micro-interactions:** buttons lift 1px + nudge their `.arr` arrow 3px + shine
+  sweep; cards lift 3px with shadow; service icons lift/tilt and fill spruce on card
+  hover; the process connector's dashes slowly march (`antsSlide`); links grow their
+  arrow gap.
 
 ---
 
@@ -122,12 +138,24 @@ Body: `line-height 1.6–1.85`, `text-wrap: pretty`.
   `.cta-section`, `.on-inverse`, `.btn-on-inverse`). Include an `<Arrow className="arr" />`.
 - **Eyebrow:** `.section-eyebrow` / `.hero-eyebrow` — uppercase, leading rule, accent color.
 - **Cards:** `--surface` bg, `--border`, `--r`, lift + spotlight on hover.
-- **Bento:** `.bento` grid; `.bento-card.feature` is the single 2×2 spruce accent cell.
+- **Bento:** `.bento` grid; `.bento-card.feature` is the single full-width spruce
+  accent cell (copy left, animated system map right); the 01/02/03 cards sit in one
+  row beneath it.
 - **Process:** numbered nodes on a dashed connector (cartographic route line).
+- **Results:** `ResultsSlider` — one slide per result (tag + big spruce number +
+  detail), dot + arrow controls under the viewport.
 - **Pricing:** featured card is the one spruce depth panel (sage glow + pill flag);
   the other tiers are light surface cards.
-- **Case cards / cs header / blog thumb:** light surfaces — spruce is reserved for
-  the result number and accents, never the whole card.
+- **Case study cards (`.cs-card`):** light surfaces, 2-col grid — gridded sage-glow
+  header with the big spruce result number, then Challenge → What We Did → Result
+  as a dashed route timeline (`.cs-route`/`.cs-step`); spruce is reserved for the
+  result number and accents, never the whole card.
+- **CTA band:** `CtaBand` component (eyebrow/headline/sub/cta props) — sage section,
+  beacon, emphasized CTA, reassurance note. Used on home, services, case studies,
+  and pricing.
+- **Services page:** light overview rows — icon, headline, short desc, who-for
+  callout, and "In Practice" capability pills (`.service-point`). No numbered
+  labels, tier badges, or exhaustive deliverable lists.
 - **FAQ:** native `<details>` accordion (`.faq-item`); the `Plus` icon rotates to ×.
 - **Demo survey:** two-step `.demo-card` with `.demo-steps` progress + confirmation.
 - **Icons:** monoline SVG set in `components/icons.tsx`, `stroke: currentColor`,

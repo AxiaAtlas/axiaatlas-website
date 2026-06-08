@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
+import CtaBand from '@/components/CtaBand'
 import { Arrow, Check } from '@/components/icons'
 
 export const metadata: Metadata = {
@@ -86,14 +87,11 @@ export default function PricingPage() {
         No long lock-ins and no surprise add-ons. Pricing depends on the channels you choose and how much we&apos;re building — we&apos;ll quote it clearly on your demo call, and you decide from there.
       </p>
 
-      <section className="cta-section">
-        <div className="cta-inner">
-          <div className="section-eyebrow">Still deciding?</div>
-          <h2 className="section-headline">Let&apos;s find the right tier together.</h2>
-          <p className="section-sub">Tell us your goals and we&apos;ll recommend the smallest plan that gets you there — and exactly what it costs. No pressure to go bigger than you need.</p>
-          <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
-        </div>
-      </section>
+      <CtaBand
+        eyebrow="Still deciding?"
+        headline="Let's find the right tier together."
+        sub="Tell us your goals and we'll recommend the smallest plan that gets you there — and exactly what it costs. No pressure to go bigger than you need."
+      />
 
       <Footer />
     </div>

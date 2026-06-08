@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
-import { Arrow, Check, ServiceIcons } from '@/components/icons'
+import CtaBand from '@/components/CtaBand'
+import { Arrow, ServiceIcons } from '@/components/icons'
 
 export const metadata: Metadata = {
   title: 'Services — Seven ways to get found',
@@ -13,115 +14,52 @@ export const metadata: Metadata = {
 const SERVICES = [
   {
     id: 'social',
-    label: '01 — Social Media',
     headline: 'Social Media',
-    desc: 'Most "social strategies" are just a posting schedule. We build the whole thing: which platforms fit you, what to say, how it looks, and a steady stream of content that actually grows an audience — not just a feed that stays busy.',
+    desc: 'Most "social strategies" are just a posting schedule. We build the whole thing — which platforms fit you, what to say, how it looks — and grow an audience that actually buys, not just a feed that stays busy.',
     who: 'For brands and businesses ready to treat social as a real growth channel, B2B or B2C.',
-    deliverables: [
-      'Platform and channel strategy',
-      'Monthly content calendar, planned in advance',
-      'Content made for each platform: Instagram, LinkedIn, TikTok, Facebook, X',
-      'Community management and replies',
-      'Trend-driven, reactive content',
-      'Monthly report in plain English',
-    ],
-    tier: 'Starter, Growth, Authority',
+    points: ['Platform strategy', 'Content planned monthly', 'Made for each platform', 'Community management'],
   },
   {
     id: 'geo',
-    label: '02 — Answer Engines',
     headline: 'Answer-Engine Optimization (GEO / AEO)',
-    desc: "Your customers ask ChatGPT, Perplexity, and Gemini what to buy and who to hire. If the answer never mentions you, you never had a chance. We find where you're missing, publish content built to be quoted, and get you into those answers.",
+    desc: "Your customers ask ChatGPT, Perplexity, and Gemini what to buy and who to hire. If the answer never mentions you, you never had a chance. We get you into those answers.",
     who: 'For any business whose buyers research online before they decide — brands, services, and founders alike.',
-    deliverables: [
-      'Answer-engine visibility audit — where you\'re missing and why',
-      'Articles built to be cited by answer engines',
-      'Schema markup and technical setup',
-      'Citation tracking, month over month',
-      'Question-and-answer content for your category',
-      'Competitor citation analysis',
-    ],
-    tier: 'Growth, Authority',
+    points: ['Visibility audit', 'Content built to be cited', 'Technical setup', 'Citation tracking'],
   },
   {
     id: 'seo',
-    label: '03 — SEO & Content',
     headline: 'SEO & Content',
-    desc: 'Good SEO today means pairing technical fundamentals with content that genuinely answers what people are searching for. We research, write, and publish pages that rank, build trust, and keep bringing in customers without you paying per click.',
+    desc: 'Good SEO pairs technical fundamentals with content that genuinely answers what people search for. We write and publish pages that rank, earn trust, and keep bringing in customers without paying per click.',
     who: "For businesses that want steady traffic and leads they don't have to rent from ad platforms.",
-    deliverables: [
-      'Keyword and opportunity research',
-      'In-depth articles published every month',
-      'On-page optimization for every page',
-      'Internal linking structure',
-      'Refresh plan for existing pages',
-      'Monthly rankings and traffic report',
-    ],
-    tier: 'Starter, Growth, Authority',
+    points: ['Keyword research', 'Articles that rank', 'On-page optimization', 'Plain-English reporting'],
   },
   {
     id: 'local',
-    label: '04 — Local',
     headline: 'Local Presence',
-    desc: 'If people find you by searching "near me" or tapping the map, local is the highest-return channel you have. We build the whole local footprint — profile, citations, reviews, and local pages — so you own your area.',
+    desc: 'If people find you by searching "near me" or tapping the map, local is the highest-return channel you have. We build the whole footprint so you own your area.',
     who: 'For clinics, trades, shops, restaurants, practices, and any business that serves a local or regional market.',
-    deliverables: [
-      'Google Business Profile setup and optimization',
-      'Local citations across the directories that matter',
-      'Review strategy and management',
-      'Local landing pages with schema',
-      'Map-pack ranking analysis',
-      'Monthly local rankings report',
-    ],
-    tier: 'Starter, Growth',
+    points: ['Google Business Profile', 'Reviews that build trust', 'Local pages', 'Map-pack visibility'],
   },
   {
     id: 'executive',
-    label: '05 — Founder Brand',
     headline: 'Founder & Executive Brand',
-    desc: 'People buy from people they trust. We turn the face of your business into a name buyers recognize before the first call — through content in your own voice that builds authority instead of just adding noise.',
+    desc: 'People buy from people they trust. We turn the face of your business into a name buyers recognize before the first call — content in your own voice that builds authority instead of noise.',
     who: 'For founders, owners, and executives who are the front of their business.',
-    deliverables: [
-      'LinkedIn profile and positioning',
-      'Personal brand strategy and themes',
-      'Consistent posts in your voice, every month',
-      'Thought-leadership articles',
-      'Engagement and connection strategy',
-      'Monthly reach, follower, and inbound report',
-    ],
-    tier: 'Growth, Authority',
+    points: ['Positioning & themes', 'Posts in your voice', 'Thought leadership', 'Engagement strategy'],
   },
   {
     id: 'website',
-    label: '06 — Website',
     headline: 'Website Design',
     desc: "Every channel you run sends people to your site. If it's slow, confusing, or off-brand, that traffic leaks away. We design fast, clear sites built around one job: turning visitors into customers.",
     who: "For businesses launching a new site or fixing one that looks fine but doesn't convert.",
-    deliverables: [
-      'Strategy session and buyer-journey mapping',
-      'Conversion-focused design and build',
-      'Copywriting and messaging',
-      'Technical SEO foundation',
-      'Speed and Core Web Vitals tuning',
-      'CMS setup and training',
-    ],
-    tier: 'Growth, Authority',
+    points: ['Conversion-first design', 'Copy & messaging', 'Technical foundation', 'Built for speed'],
   },
   {
     id: 'leadgen',
-    label: '07 — Lead Generation',
     headline: 'Lead Generation',
-    desc: 'Search and content compound over time. Outbound fills the pipeline now. We build targeted prospecting that finds your ideal customers and warms them up with messages that don\'t sound like spam.',
+    desc: "Search and content compound over time. Outbound fills the pipeline now. We build targeted prospecting that finds your ideal customers and warms them up with messages that don't sound like spam.",
     who: 'For B2B and service businesses that know who their best customers are and want more conversations now.',
-    deliverables: [
-      'Ideal-customer profile and targeting',
-      'Verified, researched prospect lists built to your profile',
-      'Five-step outreach (email + LinkedIn)',
-      'Personalization playbook',
-      'A/B testing on subject lines and messaging',
-      'Weekly pipeline report',
-    ],
-    tier: 'Starter, Growth, Authority',
+    points: ['Ideal-customer targeting', 'Researched prospect lists', 'Email + LinkedIn outreach', 'Pipeline you can see'],
   },
 ]
 
@@ -142,35 +80,30 @@ export default function ServicesPage() {
               <div>
                 <div className="service-detail-label">
                   <span className="service-icon">{Icon && <Icon />}</span>
-                  {s.label}
                 </div>
                 <h2 className="service-detail-headline">{s.headline}</h2>
                 <p className="service-detail-desc">{s.desc}</p>
                 <p className="service-who">{s.who}</p>
-                <div className="service-tier-badge">Available in: {s.tier}</div>
                 <div>
                   <Link href="/demo" className="btn-primary">Get Started <Arrow className="arr" /></Link>
                 </div>
               </div>
-              <div>
-                <div className="deliverables-title">What You Get</div>
-                <ul className="deliverables-list">
-                  {s.deliverables.map((d) => <li key={d}><Check />{d}</li>)}
-                </ul>
+              <div className="service-points-col">
+                <div className="deliverables-title">In Practice</div>
+                <div className="service-points">
+                  {s.points.map((p) => <span key={p} className="service-point">{p}</span>)}
+                </div>
               </div>
             </div>
           </div>
         )
       })}
 
-      <section className="cta-section">
-        <div className="cta-inner">
-          <div className="section-eyebrow">Not sure where to start?</div>
-          <h2 className="section-headline">We&apos;ll tell you what to do first.</h2>
-          <p className="section-sub">Book a demo. Before the call we run an audit of how you show up today, so we arrive with your pain points pinpointed and specific solutions to propose — and the two or three channels that will pay off fastest.</p>
-          <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
-        </div>
-      </section>
+      <CtaBand
+        eyebrow="Not sure where to start?"
+        headline="We'll tell you what to do first."
+        sub="Book a demo. We audit how you show up before the call, then walk you through the two or three channels that will pay off fastest."
+      />
 
       <Footer />
     </div>
