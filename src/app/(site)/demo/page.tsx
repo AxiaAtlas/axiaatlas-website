@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import Link from 'next/link'
 import Footer from '@/components/Footer'
 import { Arrow, Check } from '@/components/icons'
 
@@ -15,12 +14,11 @@ const GROWTH_AREAS = [
   'Not sure yet — help me figure it out',
 ]
 
-const TIME_WINDOWS = [
-  'Morning (9am – 12pm)',
-  'Midday (12pm – 2pm)',
-  'Afternoon (2pm – 5pm)',
-  'Flexible — any time works',
-]
+/* Public Google Appointment Schedule booking page (no API/OAuth — embed only).
+   Short link: https://calendar.app.google/iziwgCH6zEvDAhcX7 */
+const BOOKING_URL =
+  'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2i3onIzlpInG346A55jVk9v_T3ZhQTdLp-XsYnUyfCKVzIrshUzklTxrj_sGxr5b03FykQf92O?gv=true'
+const BOOKING_FALLBACK_URL = 'https://calendar.app.google/iziwgCH6zEvDAhcX7'
 
 type Form = {
   // Step 1 — person
@@ -29,8 +27,6 @@ type Form = {
   companyName: string; websiteUrl: string; position: string
   linkedin: string; instagram: string; facebook: string; x: string
   growthArea: string
-  // Step 3 — book time
-  preferredDate: string; preferredTime: string; notes: string
 }
 
 const EMPTY: Form = {
@@ -38,14 +34,13 @@ const EMPTY: Form = {
   companyName: '', websiteUrl: '', position: '',
   linkedin: '', instagram: '', facebook: '', x: '',
   growthArea: '',
-  preferredDate: '', preferredTime: '', notes: '',
 }
 
 export default function DemoPage() {
   const [step, setStep] = useState(1)
   const [form, setForm] = useState<Form>(EMPTY)
   const [sending, setSending] = useState(false)
-  const [sent, setSent] = useState(false)
+  const [frameLoaded, setFrameLoaded] = useState(false)
   const [error, setError] = useState('')
 
   const set = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
@@ -60,18 +55,12 @@ export default function DemoPage() {
     setStep(2)
   }
 
-  // Step 2 → 3: require company name + website
-  function nextFromBusiness(e: React.FormEvent) {
+  // Step 2 → 3: require company name + website, save the survey, then show the calendar
+  async function submitSurvey(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     if (!form.companyName.trim()) { setError('Please add your company name.'); return }
     if (!form.websiteUrl.trim()) { setError('Please add your website.'); return }
-    setStep(3)
-  }
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault()
-    setError('')
     setSending(true)
     try {
       const res = await fetch('/api/demo', {
@@ -79,7 +68,7 @@ export default function DemoPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
-      if (res.ok) setSent(true)
+      if (res.ok) setStep(3)
       else setError('Something went wrong. Please email partner@axiaatlas.com directly.')
     } catch {
       setError('Network error. Please email partner@axiaatlas.com directly.')
@@ -99,18 +88,7 @@ export default function DemoPage() {
 
       <div className="demo-body">
         <div className="demo-card">
-          {sent ? (
-            <div className="demo-success">
-              <div className="demo-success-ico"><Check /></div>
-              <h2>Request received.</h2>
-              <p>Thanks, {form.firstName || 'there'}. We&apos;re already looking at {form.companyName}. Expect a reply within 24 hours — usually the same day — to confirm your call and share where buyers are missing you.</p>
-              <div className="demo-success-actions">
-                <Link href="/case-studies" className="btn-primary">See real results <Arrow className="arr" /></Link>
-                <Link href="/services" className="btn-outline">Explore services</Link>
-              </div>
-            </div>
-          ) : (
-            <>
+          <>
               <div className="demo-steps" aria-hidden="true">
                 <div className={`demo-step-dot ${stepClass(1)}`}>
                   <span className="num">{step > 1 ? '✓' : '1'}</span> About you
@@ -162,7 +140,7 @@ export default function DemoPage() {
               )}
 
               {step === 2 && (
-                <form onSubmit={nextFromBusiness}>
+                <form onSubmit={submitSurvey}>
                   <div className="demo-step-title">Tell us about your business</div>
                   <div className="demo-step-sub">Just the basics so we can take a look before we talk. Add the links you have — skip the ones you don&apos;t.</div>
 
@@ -217,48 +195,47 @@ export default function DemoPage() {
                   <div className="demo-actions">
                     <button type="button" className="btn-outline" onClick={() => { setError(''); setStep(1) }}>← Back</button>
                     <div className="spacer" />
-                    <button type="submit" className="btn-primary">Continue <Arrow className="arr" /></button>
+                    <button type="submit" className="btn-primary" disabled={sending} style={{ opacity: sending ? 0.7 : 1 }}>
+                      {sending ? 'Saving…' : <>Continue to booking <Arrow className="arr" /></>}
+                    </button>
                   </div>
                 </form>
               )}
 
               {step === 3 && (
-                <form onSubmit={submit}>
+                <div>
+                  <div className="demo-booked-note"><Check /> Details received — we&apos;re already looking at {form.companyName}.</div>
                   <div className="demo-step-title">Book time for your call</div>
-                  <div className="demo-step-sub">Pick a day and a window that works — we&apos;ll confirm a time and send a calendar invite.</div>
+                  <div className="demo-step-sub">Pick a slot that works for you — you&apos;ll get a calendar invite right away.</div>
 
-                  <div className="form-2col">
-                    <div className="form-row">
-                      <label>Preferred date <span className="form-hint">(optional)</span></label>
-                      <input type="date" value={form.preferredDate} onChange={set('preferredDate')} />
+                  <div className="demo-booking-frame">
+                    <div className="demo-booking-head">
+                      <span>Schedule your demo call</span>
+                      <span className="demo-booking-brand">Axia Atlas</span>
                     </div>
-                    <div className="form-row">
-                      <label>Preferred time <span className="form-hint">(optional)</span></label>
-                      <select value={form.preferredTime} onChange={set('preferredTime')}>
-                        <option value="">— Any time —</option>
-                        {TIME_WINDOWS.map((t) => <option key={t} value={t}>{t}</option>)}
-                      </select>
+                    <div className="demo-booking-body">
+                      {!frameLoaded && (
+                        <div className="demo-booking-spinner" aria-label="Loading booking calendar">
+                          <div className="spin" />
+                          <span>Loading available times…</span>
+                        </div>
+                      )}
+                      <iframe
+                        src={BOOKING_URL}
+                        title="Book your demo call"
+                        onLoad={() => setFrameLoaded(true)}
+                        style={{ opacity: frameLoaded ? 1 : 0 }}
+                      />
                     </div>
                   </div>
 
-                  <div className="form-row">
-                    <label>Anything we should know before the call? <span className="form-hint">(optional)</span></label>
-                    <textarea value={form.notes} onChange={set('notes')} placeholder="Where do you feel invisible? What have you already tried?" />
+                  <div className="demo-booking-foot">
+                    Calendar not loading?{' '}
+                    <a href={BOOKING_FALLBACK_URL} target="_blank" rel="noopener noreferrer">Open the booking page in a new tab →</a>
                   </div>
-
-                  {error && <div className="demo-error">{error}</div>}
-
-                  <div className="demo-actions">
-                    <button type="button" className="btn-outline" onClick={() => { setError(''); setStep(2) }}>← Back</button>
-                    <div className="spacer" />
-                    <button type="submit" className="btn-primary" disabled={sending} style={{ opacity: sending ? 0.7 : 1 }}>
-                      {sending ? 'Sending…' : <>Request my audit <Arrow className="arr" /></>}
-                    </button>
-                  </div>
-                </form>
+                </div>
               )}
             </>
-          )}
         </div>
       </div>
 

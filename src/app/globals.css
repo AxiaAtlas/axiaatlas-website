@@ -788,12 +788,24 @@ footer::before {
 .demo-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 28px; }
 .demo-actions .spacer { flex: 1; }
 .demo-error { font-size: var(--t-xs); color: var(--negative); margin-top: 14px; }
-.demo-success { text-align: center; padding: 24px 0; }
-.demo-success-ico { display: inline-flex; width: 64px; height: 64px; align-items: center; justify-content: center; border-radius: 50%; background: var(--accent-soft); border: 1px solid var(--border); color: var(--accent); margin-bottom: 22px; }
-.demo-success-ico svg { width: 30px; height: 30px; }
-.demo-success h2 { font-family: var(--font-head); font-size: var(--t-h3); font-weight: 700; color: var(--text); margin-bottom: 12px; letter-spacing: -0.02em; }
-.demo-success p { font-size: var(--t-body); color: var(--text-muted); line-height: 1.7; max-width: 460px; margin: 0 auto 26px; }
-.demo-success-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+/* Step 3 — embedded Google booking page, framed to match the brand */
+.demo-booked-note { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-soft); border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; margin-bottom: 18px; }
+.demo-booked-note svg { width: 14px; height: 14px; flex-shrink: 0; }
+.demo-booking-frame { border: 1px solid var(--sage); border-radius: var(--r); overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); }
+.demo-booking-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; background: var(--spruce); color: var(--alabaster); font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; letter-spacing: 0.02em; }
+.demo-booking-head .demo-booking-brand { font-size: var(--t-xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sage); }
+.demo-booking-body { position: relative; min-height: 640px; background: var(--alabaster); }
+.demo-booking-body iframe { display: block; width: 100%; height: 640px; border: 0; transition: opacity 0.4s var(--ease); }
+.demo-booking-spinner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; font-size: var(--t-sm); color: var(--text-muted); }
+.demo-booking-spinner .spin { width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--sage); border-top-color: var(--spruce); animation: demo-spin 0.8s linear infinite; }
+@keyframes demo-spin { to { transform: rotate(360deg); } }
+.demo-booking-foot { margin-top: 14px; font-size: var(--t-xs); color: var(--text-faint); text-align: center; }
+.demo-booking-foot a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 3px; }
+.demo-booking-foot a:hover { color: var(--text); }
+@media (max-width: 600px) {
+  .demo-booking-body { min-height: 560px; }
+  .demo-booking-body iframe { height: 560px; }
+}
 
 /* ── CHAT WIDGET ───────────────────────────────────────────────────────── */
 .chat-btn {

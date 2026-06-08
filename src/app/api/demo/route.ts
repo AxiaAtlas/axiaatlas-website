@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-/* Audit-request survey (/demo). Writes a lead to `prospects` so it shows up in
-   the client portal, and mirrors a record into `contact_submissions`. */
+/* Demo-request survey (/demo). Writes a lead to `prospects` (source: demo) so it
+   shows up in the client portal, and mirrors a record into `contact_submissions`.
+   Booking itself happens client-side via the embedded Google appointment page. */
 export async function POST(req: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -24,9 +25,6 @@ export async function POST(req: NextRequest) {
     facebook,
     x,
     growthArea,
-    preferredDate,
-    preferredTime,
-    notes: extraNotes,
   } = body
 
   // Required: first name, email, company name, website.
@@ -46,17 +44,13 @@ export async function POST(req: NextRequest) {
     x && `X: ${x}`,
   ].filter(Boolean).join('\n')
 
-  const preferredCall = [preferredDate, preferredTime].filter(Boolean).join(' · ')
-
   const notes = [
-    '[Website audit request]',
+    '[Demo request]',
     phone && `Phone: ${phone}`,
     position && `Position/role: ${position}`,
     websiteUrl && `Website: ${websiteUrl}`,
     socials && `Socials:\n${socials}`,
     growthArea && `Growth areas: ${growthArea}`,
-    preferredCall && `Preferred call time: ${preferredCall}`,
-    extraNotes && `Notes: ${extraNotes}`,
   ].filter(Boolean).join('\n')
 
   const headers = {
@@ -67,18 +61,27 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Primary: portal lead
-    await fetch(`${supabaseUrl}/rest/v1/prospects`, {
+    // Primary: portal lead, tagged with source. If the `source` column doesn't
+    // exist yet in the prospects table, retry without it so the lead is never lost.
+    const prospect = {
+      company_name: companyName,
+      contact_name: fullName || firstName,
+      contact_email: email,
+      notes,
+      status: 'new',
+    }
+    const prospectRes = await fetch(`${supabaseUrl}/rest/v1/prospects`, {
       method: 'POST',
       headers,
-      body: JSON.stringify({
-        company_name: companyName,
-        contact_name: fullName || firstName,
-        contact_email: email,
-        notes,
-        status: 'new',
-      }),
+      body: JSON.stringify({ ...prospect, source: 'demo' }),
     })
+    if (!prospectRes.ok) {
+      await fetch(`${supabaseUrl}/rest/v1/prospects`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(prospect),
+      })
+    }
 
     // Mirror into contact_submissions for the marketing inbox
     await fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
@@ -88,7 +91,7 @@ export async function POST(req: NextRequest) {
         name: fullName || firstName,
         email,
         company: companyName,
-        service: growthArea || 'Audit request',
+        service: growthArea || 'Demo request',
         message: notes,
       }),
     })
