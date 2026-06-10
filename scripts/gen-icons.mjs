@@ -1,8 +1,12 @@
-// One-off icon generator. Renders the Deep Spruce rounded-square app icon with
-// the Bone A-mark centered, then writes a multi-resolution favicon.ico and a
-// PNG icon set. Run with: node scripts/gen-icons.mjs
+// One-off icon generator for the PWA / manifest icon set only.
+// Renders the Deep Spruce rounded-square app icon with the Bone A-mark centered
+// at 192px and 512px for the web app manifest and the schema.org org logo.
+//
+// The browser tab favicon and apple touch icon are intentionally NOT generated
+// here — those are the adaptive transparent vector mark (src/app/icon.svg) and
+// the transparent apple-icon.tsx, which stay crisp in tabs. Run with:
+//   node scripts/gen-icons.mjs
 import sharp from 'sharp'
-import toIco from 'to-ico'
 import { writeFileSync } from 'fs'
 
 const SPRUCE = '#354940'
@@ -18,14 +22,8 @@ const svg = `<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://w
 
 const png = (size) => sharp(Buffer.from(svg)).resize(size, size).png().toBuffer()
 
-// Multi-resolution favicon.ico for tabs and Google search results.
-const ico = await toIco(await Promise.all([16, 32, 48, 64].map(png)))
-writeFileSync('src/app/favicon.ico', ico)
-
-// PNG icon set.
-writeFileSync('src/app/icon.png', await png(512))
-writeFileSync('src/app/apple-icon.png', await png(180))
+// PWA / manifest icon set (filled, maskable-friendly).
 writeFileSync('public/icon-192.png', await png(192))
 writeFileSync('public/icon-512.png', await png(512))
 
-console.log('icons generated')
+console.log('PWA icons generated')
