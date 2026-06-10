@@ -32,12 +32,11 @@ const SERVICES = [
    holds a real set (≥5 published rows) — the original seed rows predate the
    current brand-copy rules. */
 const RESULTS: ResultSlide[] = [
-  { industry: 'Home Services', result_headline: '5× more booked jobs in 90 days', result_detail: 'A local trades business went from page three to the top of the map pack. The calendar filled within one quarter — without a dollar of ad spend.', service_used: 'Local Presence + Website' },
-  { industry: 'Consumer Brand', result_headline: 'Cited by ChatGPT in 6 weeks', result_detail: 'A DTC brand became the answer engines give for its category — organic discovery climbed, and on-site sales followed.', service_used: 'Answer Engines + SEO' },
-  { industry: 'Professional Services', result_headline: '340% organic growth in 90 days', result_detail: 'A B2B consulting firm went from near-zero to 4,200 monthly sessions — and two enterprise deals traced straight back to the content.', service_used: 'SEO + Founder Brand' },
-  { industry: 'Hospitality', result_headline: 'No. 1 in the map pack — 3 locations', result_detail: 'A restaurant group took the top local spot in every neighborhood it serves. Reservations from search doubled in a single season.', service_used: 'Local Presence + Social Media' },
-  { industry: 'Software', result_headline: '200 → 2,800 followers in 4 months', result_detail: "A founder's profile became the company's best channel — consistent posts in their own voice, and a pipeline that warms up before the first call.", service_used: 'Founder Brand + Lead Generation' },
-  { industry: 'Health & Wellness', result_headline: 'Booked out six weeks ahead', result_detail: 'A specialist clinic stopped depending on referrals alone — local search, reviews, and answer-engine visibility now fill the schedule.', service_used: 'Local Presence + Answer Engines' },
+  { industry: 'Professional Services', result_headline: '340% organic growth in 90 days', result_detail: 'A B2B consulting firm went from near-zero to roughly 4,200 monthly organic sessions — with the first inbound leads landing by month three.', service_used: 'SEO + Founder Brand' },
+  { industry: 'E-commerce', result_headline: '2.4× ROAS in 60 days', result_detail: 'A DTC brand repositioned its voice and went carousel-first on Instagram — organic reach climbed, the email list grew, and the ad creative got sharper.', service_used: 'Social Media + Content' },
+  { industry: 'E-commerce', result_headline: '7 points above the benchmark — zero ad spend', result_detail: 'A DTC brand recovered abandoned pre-orders across email, SMS, and content — landing 7 points above the 20–30% industry standard with no paid media.', service_used: 'Owned Channels + Content' },
+  { industry: 'Consumer Brand', result_headline: 'Audience growth far above average in 60 days', result_detail: 'A consumer brand fixed its voice, built content pillars, and held a steady multi-platform cadence — and its following grew well beyond the category norm.', service_used: 'Social Media + Brand Voice' },
+  { industry: 'Food & Hospitality', result_headline: 'The top recommended local result in answer engines', result_detail: 'A local restaurant surfaced first when prospects asked answer engines and maps for the best option nearby — ahead of competitors on reviews and presence.', service_used: 'Answer Engines + Local Presence' },
 ]
 
 /* Phrases for the strip under the hero — the moments buyers decide. */

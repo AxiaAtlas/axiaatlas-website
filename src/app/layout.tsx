@@ -44,13 +44,13 @@ export const metadata: Metadata = {
     siteName: 'Axia Atlas',
     title: 'Axia Atlas — Marketing that makes you impossible to miss',
     description: DESCRIPTION,
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Axia Atlas' }],
+    // og:image is supplied by app/opengraph-image.tsx (Deep Spruce brand card).
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Axia Atlas — Marketing that makes you impossible to miss',
     description: DESCRIPTION,
-    images: ['/og-image.png'],
+    // twitter:image is supplied by app/twitter-image.tsx.
   },
   alternates: { canonical: SITE_URL },
 }
@@ -63,7 +63,7 @@ const JSON_LD = {
       '@id': `${SITE_URL}/#organization`,
       name: 'Axia Atlas',
       url: SITE_URL,
-      logo: `${SITE_URL}/apple-icon`,
+      logo: `${SITE_URL}/icon-512.png`,
       description: DESCRIPTION,
       email: 'partner@axiaatlas.com',
       areaServed: 'Worldwide',
