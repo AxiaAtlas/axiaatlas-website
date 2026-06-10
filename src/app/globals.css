@@ -920,7 +920,7 @@ footer::before {
   width: 2px; transform: translateX(-50%); will-change: height;
   background: linear-gradient(180deg, var(--accent), var(--primary));
   box-shadow: 0 0 12px rgba(var(--spruce-rgb), 0.28);
-  transition: height 0.12s linear;
+  transition: height 0.25s var(--ease-out);
 }
 .route-node {
   width: 11px; height: 11px;

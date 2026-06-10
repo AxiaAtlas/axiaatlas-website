@@ -13,6 +13,7 @@ type Geo = { x: number; top: number; length: number; nodes: number[] }
 
 export default function ServiceRouteLine() {
   const ref = useRef<HTMLDivElement>(null)
+  const geoRef = useRef<Geo | null>(null)
   const [geo, setGeo] = useState<Geo | null>(null)
   const [drawn, setDrawn] = useState(0)
 
@@ -38,19 +39,33 @@ export default function ServiceRouteLine() {
       }
       const top = centers[0]
       const length = centers[centers.length - 1] - top
-      setGeo({ x: Math.max(10, iconLeft - 22), top, length, nodes: centers.map((c) => c - top) })
+      const next: Geo = { x: Math.max(10, iconLeft - 22), top, length, nodes: centers.map((c) => c - top) }
+      geoRef.current = next
+      setGeo(next)
     }
 
     // How much of the route is traced, from live scroll position.
+    // The trace deliberately lags the scroll: progress is spread across the full
+    // height of the section (not pinned 1:1 to a viewport line) and eased, so the
+    // line reveals gradually — roughly filling as the last service comes into
+    // view. `drawn` is scaled off the SAME measured length the nodes use, so a
+    // completed trace always reaches (and lights) the final node.
     const update = () => {
-      const list = icons()
-      if (!list.length) return
-      const first = list[0].getBoundingClientRect()
-      const last = list[list.length - 1].getBoundingClientRect()
-      const topV = first.top + first.height / 2
-      const len = last.top + last.height / 2 - topV
-      const anchor = window.innerHeight * 0.58 // trace follows a point ~58% down the viewport
-      setDrawn(reduce ? len : Math.max(0, Math.min(len, anchor - topV)))
+      const g = geoRef.current
+      if (!g) return
+      if (reduce) {
+        setDrawn(g.length)
+        return
+      }
+      const vh = window.innerHeight
+      const rootTop = root.getBoundingClientRect().top
+      const start = vh * 0.82 // begin drawing as the route enters from ~82% down
+      const drive = root.offsetHeight + vh * 0.24 // scroll distance to fill (looser = slower)
+      let p = (start - rootTop) / drive
+      p = Math.max(0, Math.min(1, p))
+      // easeInOutSine — gentle, even reveal without a steep mid-section jump
+      const eased = -(Math.cos(Math.PI * p) - 1) / 2
+      setDrawn(eased * g.length)
     }
 
     let ticking = false
