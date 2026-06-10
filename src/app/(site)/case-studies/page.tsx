@@ -42,12 +42,12 @@ const PLACEHOLDERS = [
     id: '2',
     industry: 'E-commerce',
     company_type: 'DTC Brand',
-    stat: { value: 'Page 1', label: 'for buyer-intent terms in under 4 months' },
-    callouts: ['Multiple buyer-intent keywords ranked', 'Traffic + conversions up month over month'],
+    stat: { value: '5.3x', label: 'organic growth in under 4 months' },
+    callouts: ['Ranked top 3 on Google for buyer-intent terms', 'Traffic + conversions up month over month'],
     challenge: 'No organic visibility — invisible for the searches that actually convert, with nothing pulling in buyers on its own.',
     approach: 'Built a keyword and content strategy targeting buyer-intent terms, paired with on-site conversion fixes — no paid media.',
-    result_headline: 'Page one for buyer-intent terms in under 4 months',
-    result_detail: 'Ranked page one for multiple buyer-intent keywords within four months, with organic traffic and conversions climbing month over month — all organic.',
+    result_headline: '5.3x organic growth in under 4 months',
+    result_detail: 'Grew organic traffic 5.3x in under four months, ranking top three on Google for buyer-intent terms, with conversions climbing month over month — all organic.',
     service_used: 'SEO + Conversion',
   },
   {
@@ -66,12 +66,12 @@ const PLACEHOLDERS = [
     id: '4',
     industry: 'Consumer Brand',
     company_type: 'Lifestyle Brand',
-    stat: { value: '[INSERT REAL % — e.g. +180%]', label: 'follower growth in 60 days', placeholder: true },
+    stat: { value: '6x', label: 'follower growth in 60 days' },
     callouts: ['Outpaced the category average', 'Engagement climbed alongside'],
     challenge: 'Flat, inconsistent social that left audience growth stalled and the brand easy to scroll past.',
     approach: 'Repositioned the voice, built content pillars, and held a consistent multi-platform posting cadence the audience could rely on.',
-    result_headline: 'Audience growth that outpaced the category average in 60 days',
-    result_detail: 'The following grew well beyond the typical rate for the category in two months, with engagement climbing alongside it.',
+    result_headline: '6x follower growth in 60 days',
+    result_detail: 'The following grew sixfold in two months — far beyond the typical rate for the category — with engagement climbing alongside it.',
     service_used: 'Social Media + Brand Voice',
   },
   {
@@ -107,9 +107,7 @@ export default async function CaseStudiesPage() {
               <div className="cs-industry">{c.industry} · {c.company_type}</div>
               {c.stat ? (
                 <div className="cs-stat">
-                  <div className={`cs-stat-value${c.stat.placeholder ? ' cs-stat-value--ph' : ''}`}>
-                    {c.stat.value}
-                  </div>
+                  <div className="cs-stat-value">{c.stat.value}</div>
                   <div className="cs-stat-label">{c.stat.label}</div>
                 </div>
               ) : (

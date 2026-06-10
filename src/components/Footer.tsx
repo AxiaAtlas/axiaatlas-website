@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <Wordmark className="logo" />
-            <p className="footer-tagline">Marketing that makes you impossible to miss — in search, in answer engines, and in the feeds where your buyers decide.</p>
+            <p className="footer-tagline">Marketing that makes you impossible to miss — in search, answer engines, and in the feeds where your buyers decide.</p>
           </div>
 
           <div>
