@@ -38,13 +38,25 @@ export async function POST(req: NextRequest) {
   const role = get('role')
   const yearsExperience = get('yearsExperience')
   const experience = get('experience')
+  const proudOf = get('proudOf')
   const whyAxia = get('whyAxia')
+  const availability = get('availability')
+  const workAuthorized = get('workAuthorized')
   const resume = formData.get('resume')
 
-  // Required: name, email, role applying for, and a resume file.
-  if (!fullName || !email || !role) {
+  // Required: identity + LinkedIn, the full screening set, and a resume file.
+  if (
+    !fullName || !email || !linkedin || !role || !yearsExperience ||
+    !experience || !proudOf || !whyAxia || !availability || !workAuthorized
+  ) {
     return NextResponse.json(
-      { error: 'Name, email, and the role you’re applying for are required' },
+      { error: 'Please complete every required field before submitting' },
+      { status: 400 },
+    )
+  }
+  if (!/(^|\.)linkedin\.com\//i.test(linkedin)) {
+    return NextResponse.json(
+      { error: 'Please provide a valid LinkedIn URL' },
       { status: 400 },
     )
   }
@@ -96,11 +108,14 @@ export async function POST(req: NextRequest) {
         full_name: fullName,
         email,
         phone: phone || null,
-        linkedin: linkedin || null,
+        linkedin,
         role,
-        years_experience: yearsExperience || null,
-        experience: experience || null,
-        why_axia: whyAxia || null,
+        years_experience: yearsExperience,
+        experience,
+        proud_of: proudOf,
+        why_axia: whyAxia,
+        availability,
+        work_authorized: workAuthorized,
         resume_path: resumePath,
         resume_filename: resume.name || safeName,
         status: 'new',

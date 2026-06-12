@@ -1,6 +1,5 @@
 'use client'
 import { useRef, useState } from 'react'
-import Link from 'next/link'
 import Footer from '@/components/Footer'
 import { Arrow, Check, Doc } from '@/components/icons'
 
@@ -18,17 +17,24 @@ const ROLES = [
 
 const YEARS = ['Less than 1 year', '1–2 years', '3–5 years', '6–9 years', '10+ years']
 
+const WORK_AUTH = ['Yes', 'No']
+
 type Form = {
   // Step 1 — person
   fullName: string; email: string; phone: string; linkedin: string
   // Step 2 — experience
-  role: string; yearsExperience: string; experience: string; whyAxia: string
+  role: string; yearsExperience: string; experience: string; proudOf: string
+  whyAxia: string; availability: string; workAuthorized: string
 }
 
 const EMPTY: Form = {
   fullName: '', email: '', phone: '', linkedin: '',
-  role: '', yearsExperience: '', experience: '', whyAxia: '',
+  role: '', yearsExperience: '', experience: '', proudOf: '',
+  whyAxia: '', availability: '', workAuthorized: '',
 }
+
+// Accepts linkedin.com/in/… profile URLs (with or without scheme / www / subdomain).
+const LINKEDIN_RE = /^(https?:\/\/)?([\w-]+\.)?linkedin\.com\/.+/i
 
 const MAX_BYTES = 4 * 1024 * 1024
 const ACCEPT = '.pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
@@ -54,22 +60,28 @@ export default function CareersPage() {
     setResume(file)
   }
 
-  // Step 1 → 2: require name + email
+  // Step 1 → 2: require name, email, and a valid LinkedIn URL
   function nextFromPerson(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     if (!form.fullName.trim()) { setError('Please add your name.'); return }
     if (!form.email.trim()) { setError('Please add your email.'); return }
+    if (!form.linkedin.trim()) { setError('Please add your LinkedIn profile.'); return }
+    if (!LINKEDIN_RE.test(form.linkedin.trim())) { setError('Please enter a valid LinkedIn URL (linkedin.com/in/…).'); return }
     setStep(2)
   }
 
-  // Step 2 → 3: require role, years, and a few words on experience
+  // Step 2 → 3: all seven screening questions are required
   function nextFromExperience(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     if (!form.role) { setError('Please pick the role you’re applying for.'); return }
     if (!form.yearsExperience) { setError('Please pick your years of experience.'); return }
     if (!form.experience.trim()) { setError('Please tell us a little about your experience.'); return }
+    if (!form.proudOf.trim()) { setError('Please describe a project or result you’re proud of.'); return }
+    if (!form.whyAxia.trim()) { setError('Please tell us why you want to work at Axia Atlas.'); return }
+    if (!form.availability.trim()) { setError('Please share your availability or earliest start date.'); return }
+    if (!form.workAuthorized) { setError('Please confirm your work authorization.'); return }
     setStep(3)
   }
 
@@ -156,8 +168,8 @@ export default function CareersPage() {
                   </div>
 
                   <div className="form-row">
-                    <label>LinkedIn <span className="form-hint">(optional)</span></label>
-                    <input value={form.linkedin} onChange={set('linkedin')} placeholder="linkedin.com/in/…" />
+                    <label>LinkedIn *</label>
+                    <input type="url" value={form.linkedin} onChange={set('linkedin')} placeholder="linkedin.com/in/…" required />
                   </div>
 
                   {error && <div className="demo-error">{error}</div>}
@@ -192,13 +204,32 @@ export default function CareersPage() {
                   </div>
 
                   <div className="form-row">
-                    <label>Tell us about your experience *</label>
+                    <label>Tell us about your relevant experience *</label>
                     <textarea value={form.experience} onChange={set('experience')} placeholder="The work you've done, the results you're proud of, the tools and channels you know best." required />
                   </div>
 
                   <div className="form-row">
-                    <label>Why Axia Atlas? <span className="form-hint">(optional)</span></label>
-                    <textarea value={form.whyAxia} onChange={set('whyAxia')} placeholder="What draws you to this work and to us." />
+                    <label>Describe a project or result you&apos;re most proud of, and your specific role in it *</label>
+                    <textarea value={form.proudOf} onChange={set('proudOf')} placeholder="What the project was, what you personally owned, and the outcome it drove." required />
+                  </div>
+
+                  <div className="form-row">
+                    <label>Why do you want to work at Axia Atlas? *</label>
+                    <textarea value={form.whyAxia} onChange={set('whyAxia')} placeholder="What draws you to this work and to us." required />
+                  </div>
+
+                  <div className="form-2col">
+                    <div className="form-row">
+                      <label>Availability / earliest start date *</label>
+                      <input value={form.availability} onChange={set('availability')} placeholder="e.g. Two weeks' notice, or June 30" required />
+                    </div>
+                    <div className="form-row">
+                      <label>Authorized to work in your country? *</label>
+                      <select value={form.workAuthorized} onChange={set('workAuthorized')} required>
+                        <option value="">— Select —</option>
+                        {WORK_AUTH.map((w) => <option key={w} value={w}>{w}</option>)}
+                      </select>
+                    </div>
                   </div>
 
                   {error && <div className="demo-error">{error}</div>}
