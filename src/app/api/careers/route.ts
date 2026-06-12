@@ -113,5 +113,66 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Could not save your application' }, { status: 500 })
   }
 
+  // 3) Send the applicant a confirmation email. Fire-and-forget: a Resend
+  //    failure (or missing key) must never fail an otherwise-saved application.
+  void sendConfirmationEmail(email, fullName, role)
+
   return NextResponse.json({ success: true })
+}
+
+async function sendConfirmationEmail(email: string, fullName: string, role: string) {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) return
+
+  const firstName = fullName.split(/\s+/)[0] || 'there'
+  const subject = 'We received your application — Axia Atlas'
+  const text = [
+    `Hi ${firstName},`,
+    '',
+    `Thank you for applying to Axia Atlas. We've received your application for the ${role} role and it's now with our team for review.`,
+    '',
+    `We read every application carefully. If your background looks like a strong fit, we'll reach out to take the conversation further.`,
+    '',
+    `Thank you again for your interest in helping brands be SEEN.`,
+    '',
+    'Warm regards,',
+    'The Axia Atlas Team',
+  ].join('\n')
+
+  const html = `
+    <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#1a1a1a;">
+      <p>Hi ${escapeHtml(firstName)},</p>
+      <p>Thank you for applying to Axia Atlas. We&rsquo;ve received your application for the <strong>${escapeHtml(role)}</strong> role and it&rsquo;s now with our team for review.</p>
+      <p>We read every application carefully. If your background looks like a strong fit, we&rsquo;ll reach out to take the conversation further.</p>
+      <p>Thank you again for your interest in helping brands be SEEN.</p>
+      <p>Warm regards,<br/>The Axia Atlas Team</p>
+    </div>`
+
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Axia Atlas <partner@axiaatlas.com>',
+        to: email,
+        subject,
+        text,
+        html,
+      }),
+    })
+  } catch {
+    // Swallowed by design — the application is already saved.
+  }
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
 }
