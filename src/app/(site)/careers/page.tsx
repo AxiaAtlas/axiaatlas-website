@@ -1,0 +1,267 @@
+'use client'
+import { useRef, useState } from 'react'
+import Link from 'next/link'
+import Footer from '@/components/Footer'
+import { Arrow, Check, Doc } from '@/components/icons'
+
+const ROLES = [
+  'SEO & Content Strategist',
+  'Answer-Engine / GEO Specialist',
+  'Social Media Manager',
+  'Local Presence Specialist',
+  'Web Designer / Developer',
+  'Account & Strategy',
+  'Content Writer',
+  'Graphic / Brand Designer',
+  'General / Open application',
+]
+
+const YEARS = ['Less than 1 year', '1–2 years', '3–5 years', '6–9 years', '10+ years']
+
+type Form = {
+  // Step 1 — person
+  fullName: string; email: string; phone: string; linkedin: string
+  // Step 2 — experience
+  role: string; yearsExperience: string; experience: string; whyAxia: string
+}
+
+const EMPTY: Form = {
+  fullName: '', email: '', phone: '', linkedin: '',
+  role: '', yearsExperience: '', experience: '', whyAxia: '',
+}
+
+const MAX_BYTES = 4 * 1024 * 1024
+const ACCEPT = '.pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+
+export default function CareersPage() {
+  const [step, setStep] = useState(1)
+  const [form, setForm] = useState<Form>(EMPTY)
+  const [resume, setResume] = useState<File | null>(null)
+  const [sending, setSending] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [error, setError] = useState('')
+  const fileInput = useRef<HTMLInputElement>(null)
+
+  const set = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    setForm((f) => ({ ...f, [k]: e.target.value }))
+
+  function pickFile(file: File | null) {
+    setError('')
+    if (!file) { setResume(null); return }
+    const okType = /\.(pdf|docx?|)$/i.test(file.name) || ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type)
+    if (!okType) { setError('Please upload a PDF or Word document.'); return }
+    if (file.size > MAX_BYTES) { setError('Your resume must be under 4MB.'); return }
+    setResume(file)
+  }
+
+  // Step 1 → 2: require name + email
+  function nextFromPerson(e: React.FormEvent) {
+    e.preventDefault()
+    setError('')
+    if (!form.fullName.trim()) { setError('Please add your name.'); return }
+    if (!form.email.trim()) { setError('Please add your email.'); return }
+    setStep(2)
+  }
+
+  // Step 2 → 3: require role, years, and a few words on experience
+  function nextFromExperience(e: React.FormEvent) {
+    e.preventDefault()
+    setError('')
+    if (!form.role) { setError('Please pick the role you’re applying for.'); return }
+    if (!form.yearsExperience) { setError('Please pick your years of experience.'); return }
+    if (!form.experience.trim()) { setError('Please tell us a little about your experience.'); return }
+    setStep(3)
+  }
+
+  // Step 3 → submit: require resume, send everything as multipart form data
+  async function submitApplication(e: React.FormEvent) {
+    e.preventDefault()
+    setError('')
+    if (!resume) { setError('Please attach your resume to submit.'); return }
+    setSending(true)
+    try {
+      const fd = new FormData()
+      Object.entries(form).forEach(([k, v]) => fd.append(k, v))
+      fd.append('resume', resume)
+      const res = await fetch('/api/careers', { method: 'POST', body: fd })
+      if (res.ok) {
+        setSent(true)
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setError(data.error || 'Something went wrong. Please email partner@axiaatlas.com directly.')
+      }
+    } catch {
+      setError('Network error. Please email partner@axiaatlas.com directly.')
+    }
+    setSending(false)
+  }
+
+  const stepClass = (n: number) => (step === n ? 'active' : step > n ? 'done' : '')
+
+  return (
+    <div className="page careers-page">
+      <div className="demo-hero">
+        <div className="section-eyebrow">Careers</div>
+        <h1 className="section-headline">Help businesses become impossible to miss.</h1>
+        <p className="section-sub">We build presence across search, answer engines, local, and social — and we&apos;re always glad to meet sharp, curious people who do great work. Tell us about yourself in three quick steps.</p>
+      </div>
+
+      <div className="demo-body">
+        <div className="demo-card">
+          {sent ? (
+            <div style={{ textAlign: 'center', padding: '24px 0 12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 18, color: 'var(--accent)' }}>
+                <Check style={{ width: 44, height: 44 }} />
+              </div>
+              <div className="demo-step-title" style={{ marginBottom: 10 }}>Application received.</div>
+              <p className="demo-step-sub" style={{ marginBottom: 0, maxWidth: 440, marginInline: 'auto' }}>
+                Thanks, {form.fullName.split(' ')[0] || 'and welcome'}. We&apos;ve got your details and your resume. If there&apos;s a fit, someone from our team will reach out at <strong style={{ color: 'var(--text)' }}>{form.email}</strong>. Questions in the meantime? Email <a href="mailto:partner@axiaatlas.com" style={{ color: 'var(--accent)' }}>partner@axiaatlas.com</a>.
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="demo-steps" aria-hidden="true">
+                <div className={`demo-step-dot ${stepClass(1)}`}>
+                  <span className="num">{step > 1 ? '✓' : '1'}</span> About you
+                </div>
+                <div className="demo-step-bar" />
+                <div className={`demo-step-dot ${stepClass(2)}`}>
+                  <span className="num">{step > 2 ? '✓' : '2'}</span> Experience
+                </div>
+                <div className="demo-step-bar" />
+                <div className={`demo-step-dot ${stepClass(3)}`}>
+                  <span className="num">3</span> Resume
+                </div>
+              </div>
+
+              {step === 1 && (
+                <form onSubmit={nextFromPerson}>
+                  <div className="demo-step-title">First, a little about you</div>
+                  <div className="demo-step-sub">So we know who you are and how to reach you.</div>
+
+                  <div className="form-row">
+                    <label>Full name *</label>
+                    <input value={form.fullName} onChange={set('fullName')} placeholder="Your full name" required autoFocus />
+                  </div>
+
+                  <div className="form-2col">
+                    <div className="form-row">
+                      <label>Email *</label>
+                      <input type="email" value={form.email} onChange={set('email')} placeholder="you@email.com" required />
+                    </div>
+                    <div className="form-row">
+                      <label>Phone <span className="form-hint">(optional)</span></label>
+                      <input type="tel" value={form.phone} onChange={set('phone')} placeholder="(555) 123-4567" inputMode="tel" />
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <label>LinkedIn <span className="form-hint">(optional)</span></label>
+                    <input value={form.linkedin} onChange={set('linkedin')} placeholder="linkedin.com/in/…" />
+                  </div>
+
+                  {error && <div className="demo-error">{error}</div>}
+
+                  <div className="demo-actions">
+                    <div className="spacer" />
+                    <button type="submit" className="btn-primary">Continue <Arrow className="arr" /></button>
+                  </div>
+                </form>
+              )}
+
+              {step === 2 && (
+                <form onSubmit={nextFromExperience}>
+                  <div className="demo-step-title">Your experience</div>
+                  <div className="demo-step-sub">Tell us what you&apos;d be doing and what you&apos;ve done.</div>
+
+                  <div className="form-2col">
+                    <div className="form-row">
+                      <label>Role you&apos;re applying for *</label>
+                      <select value={form.role} onChange={set('role')} required autoFocus>
+                        <option value="">— Select a role —</option>
+                        {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
+                      </select>
+                    </div>
+                    <div className="form-row">
+                      <label>Years of experience *</label>
+                      <select value={form.yearsExperience} onChange={set('yearsExperience')} required>
+                        <option value="">— Select —</option>
+                        {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <label>Tell us about your experience *</label>
+                    <textarea value={form.experience} onChange={set('experience')} placeholder="The work you've done, the results you're proud of, the tools and channels you know best." required />
+                  </div>
+
+                  <div className="form-row">
+                    <label>Why Axia Atlas? <span className="form-hint">(optional)</span></label>
+                    <textarea value={form.whyAxia} onChange={set('whyAxia')} placeholder="What draws you to this work and to us." />
+                  </div>
+
+                  {error && <div className="demo-error">{error}</div>}
+
+                  <div className="demo-actions">
+                    <button type="button" className="btn-outline" onClick={() => { setError(''); setStep(1) }}>← Back</button>
+                    <div className="spacer" />
+                    <button type="submit" className="btn-primary">Continue <Arrow className="arr" /></button>
+                  </div>
+                </form>
+              )}
+
+              {step === 3 && (
+                <form onSubmit={submitApplication}>
+                  <div className="demo-step-title">Attach your resume</div>
+                  <div className="demo-step-sub">PDF or Word document, up to 4MB. This is the last step.</div>
+
+                  <input
+                    ref={fileInput}
+                    type="file"
+                    accept={ACCEPT}
+                    onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
+                    style={{ display: 'none' }}
+                  />
+
+                  {resume ? (
+                    <div className="file-chip">
+                      <Doc className="file-chip-ico" />
+                      <div className="file-chip-meta">
+                        <span className="file-chip-name">{resume.name}</span>
+                        <span className="file-chip-size">{(resume.size / 1024).toFixed(0)} KB</span>
+                      </div>
+                      <button type="button" className="file-chip-remove" onClick={() => { setResume(null); if (fileInput.current) fileInput.current.value = '' }}>Remove</button>
+                    </div>
+                  ) : (
+                    <button type="button" className="file-drop" onClick={() => fileInput.current?.click()}>
+                      <Doc className="file-drop-ico" />
+                      <span className="file-drop-title">Upload your resume</span>
+                      <span className="file-drop-hint">Click to choose a PDF or Word file (max 4MB)</span>
+                    </button>
+                  )}
+
+                  {error && <div className="demo-error">{error}</div>}
+
+                  <div className="demo-actions">
+                    <button type="button" className="btn-outline" onClick={() => { setError(''); setStep(2) }}>← Back</button>
+                    <div className="spacer" />
+                    <button type="submit" className="btn-primary" disabled={sending} style={{ opacity: sending ? 0.7 : 1 }}>
+                      {sending ? 'Submitting…' : <>Submit application <Arrow className="arr" /></>}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </>
+          )}
+        </div>
+
+        <p className="careers-note">
+          Don&apos;t see your exact role? Apply under <strong>General / Open application</strong> — we read every submission. Prefer email? Reach us at <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a>.
+        </p>
+      </div>
+
+      <Footer />
+    </div>
+  )
+}

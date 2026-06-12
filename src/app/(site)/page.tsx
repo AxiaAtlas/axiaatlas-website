@@ -312,7 +312,7 @@ export default async function HomePage() {
               { n: '03', title: 'Build', desc: 'No 30-day warm-up. Work starts in week one and you see real output fast.' },
               { n: '04', title: 'Grow', desc: 'Monthly reviews, plain-English reporting, and steady tuning until every channel pays off.' },
             ].map((s) => (
-              <div key={s.n} className="process-step">
+              <div key={s.n} className={`process-step${s.n === '04' ? ' featured' : ''}`}>
                 <div className="process-num">{s.n}</div>
                 <div className="process-title">{s.title}</div>
                 <p className="process-desc">{s.desc}</p>

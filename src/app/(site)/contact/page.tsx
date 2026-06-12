@@ -129,6 +129,13 @@ export default function ContactPage() {
               Skip the back-and-forth and <Link href="/demo" style={{ color: 'var(--accent)' }}>book a demo</Link> — a quick survey, then we audit how you show up today and come to the call with your pain points pinpointed and solutions to propose.
             </div>
           </div>
+
+          <div className="contact-careers">
+            <div className="contact-info-label">Careers</div>
+            <div className="contact-careers-title">Want to work with us?</div>
+            <p className="contact-careers-desc">We&apos;re always glad to meet sharp people who do great work. Apply in three quick steps and attach your resume.</p>
+            <Link href="/careers" className="btn-outline">View careers &amp; apply <Arrow className="arr" /></Link>
+          </div>
         </div>
 
         <div>

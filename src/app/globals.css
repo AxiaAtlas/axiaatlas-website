@@ -318,6 +318,7 @@ img { max-width: 100%; }
 .carto-grid::after {
   content: '';
   position: absolute; inset: 0;
+  z-index: 0;
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
@@ -326,6 +327,9 @@ img { max-width: 100%; }
   -webkit-mask-image: radial-gradient(ellipse 85% 80% at 50% 35%, #000 0%, transparent 78%);
   pointer-events: none;
 }
+/* Lift the section's real content above the decorative grid so the white cards
+   read as fully opaque surfaces (the grid no longer paints over them). */
+.carto-grid .section-inner { z-index: 1; }
 
 /* ── DEPTH PANELS (shared) ─────────────────────────────────────────────── */
 .hero, .page-hero, footer,
@@ -831,6 +835,24 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 .process-title { font-family: var(--font-head); font-size: 1.0625rem; font-weight: 600; color: var(--text); margin-bottom: 9px; }
 .process-desc { font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); }
 
+/* Final step rendered as a Deep Spruce depth panel so the payoff stands out.
+   Negative top/side margins keep its number badge aligned with the open steps
+   while the panel extends to cover the connector line behind it. */
+.process-step.featured {
+  background: var(--inverse-bg);
+  border-radius: var(--r);
+  padding: 26px 24px 28px;
+  margin: -26px -18px 0;
+  box-shadow: var(--shadow-md);
+}
+.process-step.featured .process-num {
+  background: var(--inverse-surface);
+  border-color: var(--inverse-border);
+  color: var(--inverse-accent);
+}
+.process-step.featured .process-title { color: var(--inverse-text); }
+.process-step.featured .process-desc { color: var(--inverse-muted); }
+
 /* ── FOOTER (depth) ────────────────────────────────────────────────────── */
 footer { padding: 72px var(--gutter) 32px; position: relative; overflow: hidden; }
 footer::before {
@@ -1138,6 +1160,37 @@ footer::before {
 .demo-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 28px; }
 .demo-actions .spacer { flex: 1; }
 .demo-error { font-size: var(--t-xs); color: var(--negative); margin-top: 14px; }
+
+/* ── CAREERS — resume upload + note (shares .demo-* card/steps/forms) ─────── */
+.file-drop {
+  width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  text-align: center; cursor: pointer;
+  background: var(--surface-2); border: 1px dashed var(--border-strong); border-radius: var(--r);
+  padding: 36px 24px; color: var(--text-muted);
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.file-drop:hover { border-color: var(--accent); background: var(--surface-hover); color: var(--text); }
+.file-drop-ico { width: 30px; height: 30px; color: var(--accent); }
+.file-drop-title { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--text); }
+.file-drop-hint { font-size: var(--t-xs); color: var(--text-faint); }
+.file-chip {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 16px 18px;
+}
+.file-chip-ico { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+.file-chip-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.file-chip-name { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-chip-size { font-size: var(--t-xs); color: var(--text-faint); }
+.file-chip-remove { background: none; border: none; cursor: pointer; font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-faint); flex-shrink: 0; transition: color 0.18s var(--ease); }
+.file-chip-remove:hover { color: var(--negative); }
+.careers-note { margin-top: 22px; text-align: center; font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); }
+.careers-note a { color: var(--accent); } .careers-note a:hover { text-decoration: underline; }
+
+/* Careers block on /contact */
+.contact-careers { margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--border); }
+.contact-careers-title { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--text); margin: 6px 0 6px; }
+.contact-careers-desc { font-size: 0.8125rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 16px; }
+
 /* Step 3 — embedded Google booking page, framed to match the brand */
 .demo-booked-note { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-soft); border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; margin-bottom: 18px; }
 .demo-booked-note svg { width: 14px; height: 14px; flex-shrink: 0; }
