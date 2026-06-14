@@ -24,15 +24,15 @@ type Form = {
   // Step 1 — person
   firstName: string; lastName: string; email: string; phone: string
   // Step 2 — business
-  companyName: string; websiteUrl: string; position: string
-  linkedin: string; instagram: string; facebook: string; x: string
+  companyName: string; websiteUrl: string; noWebsite: boolean; position: string
+  linkedin: string; instagram: string; facebook: string; x: string; noSocials: boolean
   growthArea: string
 }
 
 const EMPTY: Form = {
   firstName: '', lastName: '', email: '', phone: '',
-  companyName: '', websiteUrl: '', position: '',
-  linkedin: '', instagram: '', facebook: '', x: '',
+  companyName: '', websiteUrl: '', noWebsite: false, position: '',
+  linkedin: '', instagram: '', facebook: '', x: '', noSocials: false,
   growthArea: '',
 }
 
@@ -46,6 +46,8 @@ export default function DemoPage() {
   const set = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }))
 
+  const socialCount = [form.linkedin, form.instagram, form.facebook, form.x].filter((v) => v.trim()).length
+
   // Step 1 → 2: require first name + email (the only required person fields)
   function nextFromPerson(e: React.FormEvent) {
     e.preventDefault()
@@ -55,12 +57,14 @@ export default function DemoPage() {
     setStep(2)
   }
 
-  // Step 2 → 3: require company name + website, save the survey, then show the calendar
+  // Step 2 → 3: validate, save the survey, then show the calendar
   async function submitSurvey(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     if (!form.companyName.trim()) { setError('Please add your company name.'); return }
-    if (!form.websiteUrl.trim()) { setError('Please add your website.'); return }
+    if (!form.noWebsite && !form.websiteUrl.trim()) { setError('Please add your website, or check that you don’t have one yet.'); return }
+    if (!form.growthArea) { setError('Please pick the area you need growth in.'); return }
+    if (!form.noSocials && socialCount < 2) { setError('Please add at least two social platforms, or check that you don’t have a social presence.'); return }
     setSending(true)
     try {
       const res = await fetch('/api/demo', {
@@ -150,8 +154,23 @@ export default function DemoPage() {
                       <input value={form.companyName} onChange={set('companyName')} placeholder="Your company" required autoFocus />
                     </div>
                     <div className="form-row">
-                      <label>Website *</label>
-                      <input value={form.websiteUrl} onChange={set('websiteUrl')} placeholder="https://yourcompany.com" inputMode="url" required />
+                      <label>Website {form.noWebsite ? <span className="form-hint">(none)</span> : '*'}</label>
+                      <input
+                        value={form.websiteUrl}
+                        onChange={set('websiteUrl')}
+                        placeholder="https://yourcompany.com"
+                        inputMode="url"
+                        disabled={form.noWebsite}
+                        required={!form.noWebsite}
+                      />
+                      <label className="demo-check">
+                        <input
+                          type="checkbox"
+                          checked={form.noWebsite}
+                          onChange={(e) => setForm((f) => ({ ...f, noWebsite: e.target.checked, websiteUrl: e.target.checked ? '' : f.websiteUrl }))}
+                        />
+                        <span>I don&apos;t have a website</span>
+                      </label>
                     </div>
                   </div>
 
@@ -160,31 +179,50 @@ export default function DemoPage() {
                     <input value={form.position} onChange={set('position')} placeholder="Founder, Marketing Lead…" />
                   </div>
 
+                  <div className="form-row">
+                    <label>
+                      Social profiles {form.noSocials ? <span className="form-hint">(none)</span> : <span className="form-hint">(add at least 2)</span>}
+                    </label>
+                  </div>
+
                   <div className="form-2col">
                     <div className="form-row">
                       <label>LinkedIn</label>
-                      <input value={form.linkedin} onChange={set('linkedin')} placeholder="linkedin.com/company/…" />
+                      <input value={form.linkedin} onChange={set('linkedin')} placeholder="linkedin.com/company/…" disabled={form.noSocials} />
                     </div>
                     <div className="form-row">
                       <label>Instagram</label>
-                      <input value={form.instagram} onChange={set('instagram')} placeholder="@yourbrand" />
+                      <input value={form.instagram} onChange={set('instagram')} placeholder="@yourbrand" disabled={form.noSocials} />
                     </div>
                   </div>
 
                   <div className="form-2col">
                     <div className="form-row">
                       <label>Facebook</label>
-                      <input value={form.facebook} onChange={set('facebook')} placeholder="facebook.com/yourbrand" />
+                      <input value={form.facebook} onChange={set('facebook')} placeholder="facebook.com/yourbrand" disabled={form.noSocials} />
                     </div>
                     <div className="form-row">
                       <label>X (Twitter)</label>
-                      <input value={form.x} onChange={set('x')} placeholder="@yourbrand" />
+                      <input value={form.x} onChange={set('x')} placeholder="@yourbrand" disabled={form.noSocials} />
                     </div>
                   </div>
 
+                  <label className="demo-check">
+                    <input
+                      type="checkbox"
+                      checked={form.noSocials}
+                      onChange={(e) => setForm((f) => ({
+                        ...f,
+                        noSocials: e.target.checked,
+                        ...(e.target.checked ? { linkedin: '', instagram: '', facebook: '', x: '' } : {}),
+                      }))}
+                    />
+                    <span>I don&apos;t have a social media presence</span>
+                  </label>
+
                   <div className="form-row">
-                    <label>What areas do you need growth in? <span className="form-hint">(optional)</span></label>
-                    <select value={form.growthArea} onChange={set('growthArea')}>
+                    <label>What areas do you need growth in? *</label>
+                    <select value={form.growthArea} onChange={set('growthArea')} required>
                       <option value="">— Select an area —</option>
                       {GROWTH_AREAS.map((g) => <option key={g} value={g}>{g}</option>)}
                     </select>

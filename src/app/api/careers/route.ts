@@ -42,12 +42,13 @@ export async function POST(req: NextRequest) {
   const whyAxia = get('whyAxia')
   const availability = get('availability')
   const workAuthorized = get('workAuthorized')
+  const workCountry = get('workCountry')
   const resume = formData.get('resume')
 
   // Required: identity + LinkedIn, the full screening set, and a resume file.
   if (
     !fullName || !email || !linkedin || !role || !yearsExperience ||
-    !experience || !proudOf || !whyAxia || !availability || !workAuthorized
+    !experience || !proudOf || !whyAxia || !availability || !workCountry || !workAuthorized
   ) {
     return NextResponse.json(
       { error: 'Please complete every required field before submitting' },
@@ -100,31 +101,52 @@ export async function POST(req: NextRequest) {
   }
 
   // 2) Save the application row (resume referenced by storage path).
+  const application = {
+    full_name: fullName,
+    email,
+    phone: phone || null,
+    linkedin,
+    role,
+    years_experience: yearsExperience,
+    experience,
+    proud_of: proudOf,
+    why_axia: whyAxia,
+    availability,
+    work_authorized: workAuthorized,
+    work_country: workCountry,
+    resume_path: resumePath,
+    resume_filename: resume.name || safeName,
+    status: 'new',
+  }
+  const insertHeaders = { ...headers, 'Content-Type': 'application/json', Prefer: 'return=minimal' }
   try {
-    const insertRes = await fetch(`${supabaseUrl}/rest/v1/careers_applications`, {
+    let insertRes = await fetch(`${supabaseUrl}/rest/v1/careers_applications`, {
       method: 'POST',
-      headers: { ...headers, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-      body: JSON.stringify({
-        full_name: fullName,
-        email,
-        phone: phone || null,
-        linkedin,
-        role,
-        years_experience: yearsExperience,
-        experience,
-        proud_of: proudOf,
-        why_axia: whyAxia,
-        availability,
-        work_authorized: workAuthorized,
-        resume_path: resumePath,
-        resume_filename: resume.name || safeName,
-        status: 'new',
-      }),
+      headers: insertHeaders,
+      body: JSON.stringify(application),
     })
     if (!insertRes.ok) {
-      return NextResponse.json({ error: 'Could not save your application' }, { status: 502 })
+      const detail = await insertRes.text().catch(() => '')
+      console.error(`[careers] insert failed (${insertRes.status}): ${detail}`)
+      // If `work_country` doesn't exist yet, fold it into work_authorized and
+      // retry so the application is never lost. (Run migration 003 to add it.)
+      const { work_country: _wc, ...withoutCountry } = application
+      insertRes = await fetch(`${supabaseUrl}/rest/v1/careers_applications`, {
+        method: 'POST',
+        headers: insertHeaders,
+        body: JSON.stringify({
+          ...withoutCountry,
+          work_authorized: `${workAuthorized} (${workCountry})`,
+        }),
+      })
+      if (!insertRes.ok) {
+        const retryDetail = await insertRes.text().catch(() => '')
+        console.error(`[careers] retry insert failed (${insertRes.status}): ${retryDetail}`)
+        return NextResponse.json({ error: 'Could not save your application' }, { status: 502 })
+      }
     }
-  } catch {
+  } catch (err) {
+    console.error('[careers] insert threw:', err)
     return NextResponse.json({ error: 'Could not save your application' }, { status: 500 })
   }
 
@@ -137,7 +159,10 @@ export async function POST(req: NextRequest) {
 
 async function sendConfirmationEmail(email: string, fullName: string, role: string) {
   const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) return
+  if (!apiKey) {
+    console.error('[careers] RESEND_API_KEY missing — confirmation email not sent')
+    return
+  }
 
   const firstName = fullName.split(/\s+/)[0] || 'there'
   const subject = 'We received your application — Axia Atlas'
@@ -164,7 +189,7 @@ async function sendConfirmationEmail(email: string, fullName: string, role: stri
     </div>`
 
   try {
-    await fetch('https://api.resend.com/emails', {
+    const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -178,8 +203,14 @@ async function sendConfirmationEmail(email: string, fullName: string, role: stri
         html,
       }),
     })
-  } catch {
-    // Swallowed by design — the application is already saved.
+    if (!res.ok) {
+      // Log the real Resend error (e.g. unverified domain, bad key) but don't
+      // fail the request — the application is already saved.
+      const detail = await res.text().catch(() => '')
+      console.error(`[careers] Resend confirmation failed (${res.status}): ${detail}`)
+    }
+  } catch (err) {
+    console.error('[careers] Resend confirmation threw:', err)
   }
 }
 

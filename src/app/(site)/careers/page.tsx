@@ -19,18 +19,46 @@ const YEARS = ['Less than 1 year', '1–2 years', '3–5 years', '6–9 years', 
 
 const WORK_AUTH = ['Yes', 'No']
 
+// Standard country list (ISO common/short names).
+const COUNTRIES = [
+  'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
+  'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi',
+  'Cabo Verde', 'Cambodia', 'Cameroon', 'Canada', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo (Brazzaville)', 'Congo (Kinshasa)', 'Costa Rica', 'Côte d’Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czechia',
+  'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic',
+  'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia',
+  'Fiji', 'Finland', 'France',
+  'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana',
+  'Haiti', 'Honduras', 'Hungary',
+  'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy',
+  'Jamaica', 'Japan', 'Jordan',
+  'Kazakhstan', 'Kenya', 'Kiribati', 'Kosovo', 'Kuwait', 'Kyrgyzstan',
+  'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg',
+  'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar',
+  'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'North Macedonia', 'Norway',
+  'Oman',
+  'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal',
+  'Qatar',
+  'Romania', 'Russia', 'Rwanda',
+  'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria',
+  'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu',
+  'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan',
+  'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam',
+  'Yemen',
+  'Zambia', 'Zimbabwe',
+]
+
 type Form = {
   // Step 1 — person
   fullName: string; email: string; phone: string; linkedin: string
   // Step 2 — experience
   role: string; yearsExperience: string; experience: string; proudOf: string
-  whyAxia: string; availability: string; workAuthorized: string
+  whyAxia: string; availability: string; workAuthorized: string; workCountry: string
 }
 
 const EMPTY: Form = {
   fullName: '', email: '', phone: '', linkedin: '',
   role: '', yearsExperience: '', experience: '', proudOf: '',
-  whyAxia: '', availability: '', workAuthorized: '',
+  whyAxia: '', availability: '', workAuthorized: '', workCountry: '',
 }
 
 // Accepts linkedin.com/in/… profile URLs (with or without scheme / www / subdomain).
@@ -81,6 +109,7 @@ export default function CareersPage() {
     if (!form.proudOf.trim()) { setError('Please describe a project or result you’re proud of.'); return }
     if (!form.whyAxia.trim()) { setError('Please tell us why you want to work at Axia Atlas.'); return }
     if (!form.availability.trim()) { setError('Please share your availability or earliest start date.'); return }
+    if (!form.workCountry) { setError('Please select your country.'); return }
     if (!form.workAuthorized) { setError('Please confirm your work authorization.'); return }
     setStep(3)
   }
@@ -218,13 +247,21 @@ export default function CareersPage() {
                     <textarea value={form.whyAxia} onChange={set('whyAxia')} placeholder="What draws you to this work and to us." required />
                   </div>
 
+                  <div className="form-row">
+                    <label>Availability / earliest start date *</label>
+                    <input value={form.availability} onChange={set('availability')} placeholder="e.g. Two weeks' notice, or June 30" required />
+                  </div>
+
                   <div className="form-2col">
                     <div className="form-row">
-                      <label>Availability / earliest start date *</label>
-                      <input value={form.availability} onChange={set('availability')} placeholder="e.g. Two weeks' notice, or June 30" required />
+                      <label>Country *</label>
+                      <select value={form.workCountry} onChange={set('workCountry')} required>
+                        <option value="">— Select your country —</option>
+                        {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                      </select>
                     </div>
                     <div className="form-row">
-                      <label>Authorized to work in your country? *</label>
+                      <label>Authorized to work in that country? *</label>
                       <select value={form.workAuthorized} onChange={set('workAuthorized')} required>
                         <option value="">— Select —</option>
                         {WORK_AUTH.map((w) => <option key={w} value={w}>{w}</option>)}

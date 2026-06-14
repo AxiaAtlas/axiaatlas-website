@@ -23,24 +23,33 @@ export async function POST(req: NextRequest) {
   }
 
   // Save to contact_submissions
-  await fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
+  const subRes = await fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
     method: 'POST',
     headers,
     body: JSON.stringify({ name, email, company: company || null, service: service || null, message: message || null }),
   })
+  if (!subRes.ok) {
+    console.error(`[contact] contact_submissions insert failed (${subRes.status}): ${await subRes.text().catch(() => '')}`)
+  }
 
-  // Also save to prospects so it appears in portal
-  await fetch(`${supabaseUrl}/rest/v1/prospects`, {
+  // Also save to the portal `prospects` table so it appears in the portal and
+  // fires the notification bell. Columns: company (NOT NULL), contact_name,
+  // contact_email, notes, status, source.
+  const prospectRes = await fetch(`${supabaseUrl}/rest/v1/prospects`, {
     method: 'POST',
     headers,
     body: JSON.stringify({
-      company_name: company || name,
+      company: company || name,
       contact_name: name,
       contact_email: email,
       notes: `[Website contact] Service interest: ${service || 'Not specified'}\n\n${message || ''}`.trim(),
       status: 'new',
+      source: 'contact',
     }),
   })
+  if (!prospectRes.ok) {
+    console.error(`[contact] prospects insert failed (${prospectRes.status}): ${await prospectRes.text().catch(() => '')}`)
+  }
 
   return NextResponse.json({ success: true })
 }
