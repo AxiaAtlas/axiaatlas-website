@@ -73,41 +73,45 @@ export default function ServicesPage() {
         <p className="section-sub">Start with one channel or build the full system. Either way, it begins with strategy — never random tactics.</p>
       </div>
 
-      <div className="services-route">
+      {/* The scroll-traced route threads every service, then curves into the
+          Book-a-Demo pin in the CTA below — so both live in one positioned flow. */}
+      <div className="services-flow">
         <ServiceRouteLine />
-        {SERVICES.map((s) => {
-          const Icon = ServiceIcons[s.id]
-          return (
-            <div key={s.id} id={s.id} className="service-detail">
-              <div className="service-detail-inner">
-                <div>
-                  <div className="service-detail-label">
-                    <span className="service-icon">{Icon && <Icon />}</span>
-                  </div>
-                  <h2 className="service-detail-headline">{s.headline}</h2>
-                  <p className="service-detail-desc">{s.desc}</p>
-                  <p className="service-who">{s.who}</p>
+        <div className="services-route">
+          {SERVICES.map((s) => {
+            const Icon = ServiceIcons[s.id]
+            return (
+              <div key={s.id} id={s.id} className="service-detail">
+                <div className="service-detail-inner">
                   <div>
-                    <Link href="/demo" className="btn-primary">Get Started <Arrow className="arr" /></Link>
+                    <div className="service-detail-label">
+                      <span className="service-icon">{Icon && <Icon />}</span>
+                    </div>
+                    <h2 className="service-detail-headline">{s.headline}</h2>
+                    <p className="service-detail-desc">{s.desc}</p>
+                    <p className="service-who">{s.who}</p>
+                    <div>
+                      <Link href="/demo" className="btn-primary">Get Started <Arrow className="arr" /></Link>
+                    </div>
                   </div>
-                </div>
-                <div className="service-points-col">
-                  <div className="deliverables-title">In Practice</div>
-                  <div className="service-points">
-                    {s.points.map((p) => <span key={p} className="service-point">{p}</span>)}
+                  <div className="service-points-col">
+                    <div className="deliverables-title">In Practice</div>
+                    <div className="service-points">
+                      {s.points.map((p) => <span key={p} className="service-point">{p}</span>)}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )
-        })}
-      </div>
+            )
+          })}
+        </div>
 
-      <CtaBand
-        eyebrow="Not sure where to start?"
-        headline="We'll tell you what to do first."
-        sub="Book a demo. We audit how you show up before the call, then walk you through the two or three channels that will pay off fastest."
-      />
+        <CtaBand
+          eyebrow="Not sure where to start?"
+          headline="We'll tell you what to do first."
+          sub="Book a demo. We audit how you show up before the call, then walk you through the two or three channels that will pay off fastest."
+        />
+      </div>
 
       <Footer />
     </div>

@@ -12,7 +12,10 @@ const WELCOME =
   "Hi — I'm the Axia Atlas assistant. Ask me what we do, how we work, our tiers, or how to get started. Pick a question below or type your own."
 
 // ── Predetermined Q&A. No external calls. First entry that matches wins. ──
-type QA = { keywords: string[]; answer: string; links?: ChatLink[]; followups: string[] }
+// `topic: true` marks an entry that maps to a specific page (a service section
+// or careers). These win ties against the broad "what do you do / services"
+// overview entries so a topic question always links the right page.
+type QA = { keywords: string[]; answer: string; links?: ChatLink[]; followups: string[]; topic?: boolean }
 
 const L = {
   demo: { label: 'Book a demo', href: '/demo' },
@@ -20,6 +23,14 @@ const L = {
   pricing: { label: 'View pricing', href: '/pricing' },
   cases: { label: 'See results', href: '/case-studies' },
   contact: { label: 'Contact us', href: '/contact' },
+  careers: { label: 'See open roles', href: '/careers' },
+  social: { label: 'Social Media details', href: '/services#social' },
+  geo: { label: 'AEO details', href: '/services#geo' },
+  seo: { label: 'SEO & Content details', href: '/services#seo' },
+  local: { label: 'Local details', href: '/services#local' },
+  executive: { label: 'Founder brand details', href: '/services#executive' },
+  website: { label: 'Website details', href: '/services#website' },
+  leadgen: { label: 'Lead gen details', href: '/services#leadgen' },
 } satisfies Record<string, ChatLink>
 
 const QA_SET: QA[] = [
@@ -31,32 +42,75 @@ const QA_SET: QA[] = [
     followups: ['What services do you offer?', 'How do I get started?'],
   },
   {
-    keywords: ['service', 'offer', 'what can you', 'help with', 'channels'],
+    keywords: ['service', 'offer', 'what can you', 'help with', 'channels', 'what do you sell'],
     answer:
       'We run seven services: Social Media, Answer-Engine Optimization (GEO/AEO), SEO & Content, Local Presence, Founder/Executive Brand, Website Design, and Lead Generation. Most clients combine three or four.',
     links: [L.services, L.demo],
     followups: ['How does answer-engine optimization work?', 'What are your tiers?'],
   },
   {
-    keywords: ['answer engine', 'chatgpt', 'perplexity', 'gemini', 'geo', 'aeo', 'cited', 'answer'],
+    keywords: ['answer engine', 'answer-engine', 'chatgpt', 'perplexity', 'gemini', 'geo', 'aeo', 'cited', 'citation', 'generative'],
     answer:
       "Answer-Engine Optimization (GEO/AEO) gets you cited inside ChatGPT, Perplexity, and Gemini results. We audit where you're missing, publish structured content built to be quoted, and track your citations over time.",
-    links: [{ label: 'AEO details', href: '/services#geo' }, L.demo],
+    links: [L.geo, L.demo],
+    topic: true,
     followups: ['How long until I see results?', 'How much does it cost?'],
   },
   {
-    keywords: ['local', 'google business', 'maps', 'near me', 'reviews'],
+    keywords: ['local', 'google business', 'map pack', 'maps', 'near me', 'review'],
     answer:
       "Local Presence covers your Google Business Profile, citations, review strategy, and local landing pages — so you win the 'near me' searches and the map pack. It's usually the highest-ROI channel for service businesses.",
-    links: [{ label: 'Local details', href: '/services#local' }, L.demo],
+    links: [L.local, L.demo],
+    topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
   },
   {
-    keywords: ['founder', 'executive', 'personal brand', 'linkedin'],
+    keywords: ['social media', 'instagram', 'tiktok', 'facebook', 'content calendar', 'posting'],
+    answer:
+      'Social Media is the whole thing, not just a posting schedule — platform strategy, content made for each platform, and community management that grows an audience that actually buys.',
+    links: [L.social, L.demo],
+    topic: true,
+    followups: ['What services do you offer?', 'How do I get started?'],
+  },
+  {
+    keywords: ['seo', 'search engine optimization', 'ranking', 'rank', 'keyword', 'organic', 'blog', 'article'],
+    answer:
+      'SEO & Content pairs technical fundamentals with articles and pages that rank, earn trust, and keep bringing in customers — traffic you own instead of renting from ad platforms.',
+    links: [L.seo, L.demo],
+    topic: true,
+    followups: ['How does answer-engine optimization work?', 'How long until I see results?'],
+  },
+  {
+    keywords: ['website', 'web design', 'web site', 'landing page', 'redesign', 'site speed', 'conversion'],
+    answer:
+      'Website Design builds fast, clear sites around one job: turning the visitors every other channel sends you into customers. Conversion-first design, messaging, and a technical foundation built for speed.',
+    links: [L.website, L.demo],
+    topic: true,
+    followups: ['What services do you offer?', 'How do I get started?'],
+  },
+  {
+    keywords: ['lead gen', 'lead generation', 'outbound', 'prospecting', 'cold email', 'outreach', 'pipeline'],
+    answer:
+      'Lead Generation fills the pipeline now while search and content compound — targeted prospecting over email and LinkedIn that finds your ideal customers and warms them up without sounding like spam.',
+    links: [L.leadgen, L.demo],
+    topic: true,
+    followups: ['What services do you offer?', 'How do I get started?'],
+  },
+  {
+    keywords: ['founder', 'executive', 'personal brand', 'thought leadership'],
     answer:
       'Founder/Executive Brand builds your authority on LinkedIn and beyond — content in your voice that earns trust before the first call. Great for founders and execs who are the face of the business.',
-    links: [{ label: 'Founder brand details', href: '/services#executive' }, L.demo],
+    links: [L.executive, L.demo],
+    topic: true,
     followups: ['What are your tiers?', 'See some results?'],
+  },
+  {
+    keywords: ['career', 'job', 'jobs', 'hiring', 'work for you', 'join the team', 'open role', 'resume', 'cv'],
+    topic: true,
+    answer:
+      "We're glad you asked — open roles and how to apply live on our careers page. If your skills fit how we work, we'd love to see your application.",
+    links: [L.careers, L.contact],
+    followups: ['What services do you offer?', 'Where are you located?'],
   },
   {
     keywords: ['price', 'pricing', 'cost', 'how much', 'budget', 'rate', 'fee'],
@@ -119,12 +173,40 @@ const QA_SET: QA[] = [
 const DEFAULT_LINKS: ChatLink[] = [L.demo, L.contact]
 const SUGGESTIONS = ['What do you do?', 'What are your tiers?', 'How do I get started?', 'How do answer engines work?']
 
+// Score a question against an entry. Each keyword must start on a word boundary
+// (so "seo" can't fire inside "season" or "rank" inside "frank"), but we don't
+// require a trailing boundary so plurals/derivations still match ("review" hits
+// "reviews", "answer engine" hits "answer engines"). We score by the LONGEST
+// single keyword hit — the most specific phrase wins, not whichever entry lists
+// the most keywords. Topic entries (a specific service section or careers) get a
+// boost so a topic question resolves to its own page, never the broad
+// "what do you do / services" overview. This is what stops, e.g., an AEO
+// question from being tagged to the wrong page.
+function escapeRe(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+function scoreEntry(q: string, qa: QA): number {
+  let best = 0
+  for (const k of qa.keywords) {
+    if (new RegExp(`\\b${escapeRe(k)}`, 'i').test(q) && k.length > best) best = k.length
+  }
+  if (best === 0) return 0
+  return best + (qa.topic ? 8 : 0)
+}
+
 function answerFor(text: string): Message {
   const q = text.toLowerCase()
+  let chosen: QA | null = null
+  let topScore = 0
   for (const qa of QA_SET) {
-    if (qa.keywords.some((k) => q.includes(k))) {
-      return { role: 'assistant', content: qa.answer, links: qa.links, followups: qa.followups }
+    const s = scoreEntry(q, qa)
+    if (s > topScore) {
+      topScore = s
+      chosen = qa
     }
+  }
+  if (chosen) {
+    return { role: 'assistant', content: chosen.answer, links: chosen.links, followups: chosen.followups }
   }
   return {
     role: 'assistant',

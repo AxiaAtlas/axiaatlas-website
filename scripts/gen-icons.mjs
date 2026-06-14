@@ -2,9 +2,10 @@
 // Renders the Deep Spruce rounded-square app icon with the Bone A-mark centered
 // at 192px and 512px for the web app manifest and the schema.org org logo.
 //
-// The browser tab favicon and apple touch icon are intentionally NOT generated
-// here — those are the adaptive transparent vector mark (src/app/icon.svg) and
-// the transparent apple-icon.tsx, which stay crisp in tabs. Run with:
+// The browser tab favicon is intentionally NOT generated here — that's the
+// adaptive transparent vector mark (public/icon.svg), which stays crisp in tabs.
+// These filled PNGs serve double duty: PWA/manifest installs, the schema.org org
+// logo, the apple-touch-icon, and the search-result favicon. Run with:
 //   node scripts/gen-icons.mjs
 import sharp from 'sharp'
 import { writeFileSync } from 'fs'

@@ -53,6 +53,22 @@ export const metadata: Metadata = {
     // twitter:image is supplied by app/twitter-image.tsx.
   },
   alternates: { canonical: SITE_URL },
+  // Two favicon contexts, handled deliberately:
+  //  • Browser TAB → the adaptive, transparent vector mark (app/icon.svg). SVG
+  //    is listed first and browsers prefer it, so tabs show the bare A-mark.
+  //  • SEARCH RESULTS / link previews → the Deep-Spruce filled PNGs (also the
+  //    manifest icons). Engines/scrapers that don't take SVG pick these, so the
+  //    brand shows on its spruce tile. apple-touch-icon is filled too, since iOS
+  //    masks transparent icons onto a black plate.
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml', sizes: 'any' },
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
+    ],
+    apple: [{ url: '/icon-512.png', type: 'image/png', sizes: '512x512' }],
+    shortcut: [{ url: '/icon-512.png', type: 'image/png' }],
+  },
 }
 
 const JSON_LD = {

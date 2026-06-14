@@ -10,12 +10,49 @@ export const metadata: Metadata = {
   alternates: { canonical: '/about' },
 }
 
+/* Animated cartographic figure for the about hero — rotating compass dials and
+   a route plotting itself toward a marked location. CSS-animated; the global
+   reduced-motion rule rests it on its drawn base state. */
+function AboutFigure() {
+  return (
+    <div className="about-figure" aria-hidden="true">
+      <svg viewBox="0 0 440 440">
+        <g className="af-grid">
+          <line x1="0" y1="110" x2="440" y2="110" /><line x1="0" y1="220" x2="440" y2="220" /><line x1="0" y1="330" x2="440" y2="330" />
+          <line x1="110" y1="0" x2="110" y2="440" /><line x1="220" y1="0" x2="220" y2="440" /><line x1="330" y1="0" x2="330" y2="440" />
+        </g>
+        <circle className="af-dial" cx="220" cy="216" r="150" />
+        <circle className="af-dial inner" cx="220" cy="216" r="106" />
+        {/* compass ticks */}
+        <line className="af-tick" x1="220" y1="44" x2="220" y2="62" />
+        <line className="af-tick" x1="220" y1="370" x2="220" y2="388" />
+        <line className="af-tick" x1="48" y1="216" x2="66" y2="216" />
+        <line className="af-tick" x1="374" y1="216" x2="392" y2="216" />
+        {/* a route plotting toward the mark */}
+        <path className="af-route" pathLength={1} d="M 70 348 C 150 332, 168 232, 250 214 S 360 150, 326 96" />
+        <g><circle className="af-dot" cx="70" cy="348" r="6" /><circle className="af-halo" cx="70" cy="348" r="13" /></g>
+        <g><circle className="af-dot" cx="250" cy="214" r="5.5" /><circle className="af-halo" cx="250" cy="214" r="12" /></g>
+        <g className="af-pin">
+          <path d="M326 66a20 20 0 0 0-20 20c0 14 20 33 20 33s20-19 20-33a20 20 0 0 0-20-20z" />
+          <circle cx="326" cy="85" r="6.5" />
+        </g>
+        <text className="af-label" x="64" y="372">Found</text>
+        <text className="af-label faint" x="28" y="40">41.0082° N — 28.9784° E</text>
+      </svg>
+    </div>
+  )
+}
+
 export default function AboutPage() {
   return (
     <div className="page">
       <div className="about-hero">
-        <div className="section-eyebrow">About</div>
-        <h1 className="section-headline">We started Axia Atlas because most marketing sells activity, not results.</h1>
+        <div className="about-grid" aria-hidden="true" />
+        <AboutFigure />
+        <div className="about-hero-text">
+          <div className="section-eyebrow">About</div>
+          <h1 className="section-headline">We started Axia Atlas because most marketing sells activity, not results.</h1>
+        </div>
       </div>
 
       <div className="about-section">
@@ -32,8 +69,13 @@ export default function AboutPage() {
       </div>
 
       <div className="about-section">
-        <div className="about-inner">
+        <div className="about-inner about-seen">
           <h2 className="about-headline">&quot;To be found is to be seen.&quot;</h2>
+          <svg className="about-seen-route" viewBox="0 0 420 26" aria-hidden="true">
+            <path className="as-line" pathLength={1} d="M 6 18 C 70 18, 96 8, 170 9 S 300 20, 372 8" />
+            <circle className="as-dot" cx="6" cy="18" r="4.5" />
+            <path className="as-pin" d="M384 1a9 9 0 0 0-9 9c0 6.4 9 15 9 15s9-8.6 9-15a9 9 0 0 0-9-9z" />
+          </svg>
           <div className="about-body">
             <p>That&apos;s the idea behind everything we build. When your business shows up where buyers are already looking — in search, in answer engines, in your local market, in the feeds people scroll — you don&apos;t have to convince anyone you exist. You just have to be the obvious choice.</p>
             <p>Visibility like that isn&apos;t flashy and it isn&apos;t instant. But once it&apos;s built, it&apos;s yours — and it keeps working.</p>
@@ -44,7 +86,7 @@ export default function AboutPage() {
               { n: '02', title: 'Strategy before spend', desc: "We don't start until we understand your business, your buyers, and where the real opportunity is." },
               { n: '03', title: 'Plain talk, always', desc: "No jargon, no smoke. You'll always know what we're doing, why, and whether it's working." },
             ].map((b) => (
-              <div key={b.n} className="belief-card">
+              <div key={b.n} className="belief-card spotlight">
                 <div className="belief-num">{b.n}</div>
                 <div className="belief-title">{b.title}</div>
                 <p className="belief-desc">{b.desc}</p>

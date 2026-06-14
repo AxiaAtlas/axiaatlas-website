@@ -43,9 +43,9 @@ const RESULTS: ResultSlide[] = [
 const MARQUEE = [
   'Searched on Google',
   'Asked on ChatGPT',
-  'Found on the map',
+  '#1 in the map pack',
   'Cited by Perplexity',
-  'Scrolled on Instagram',
+  'Recommended over the competition',
   'Recommended by Gemini',
   'Trusted on LinkedIn',
   'Discovered on TikTok',
@@ -179,7 +179,7 @@ export default async function HomePage() {
       </div>
 
       {/* ── MARQUEE — the moments buyers decide ── */}
-      <div className="hero-marquee" aria-label="Where buying decisions happen: Google, ChatGPT, Maps, Perplexity, Instagram, Gemini, LinkedIn, TikTok, reviews">
+      <div className="hero-marquee" aria-label="Where buyers decide and where you win: Google, ChatGPT, the map pack, Perplexity, Gemini, LinkedIn, TikTok, reviews">
         <div className="marquee-track">
           {[0, 1].map((dup) => (
             <div className="marquee-group" key={dup} aria-hidden={dup === 1}>

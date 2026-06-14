@@ -1,7 +1,9 @@
 import type { MetadataRoute } from 'next'
 
-/* Web app manifest — completes the PNG icon set for Android / PWA installs.
-   Deep Spruce theme, Bone mark. Tabs and Google search results use favicon.ico. */
+/* Web app manifest — the Deep-Spruce filled PNG icon set (Bone mark) for
+   Android / PWA installs. Search engines also read these for the result favicon,
+   so they show the brand on its spruce tile. The browser TAB icon is the
+   adaptive transparent vector mark (public/icon.svg), declared in app/layout. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Axia Atlas',
