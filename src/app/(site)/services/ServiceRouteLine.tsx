@@ -91,12 +91,15 @@ export default function ServiceRouteLine() {
         d += ` ${X.toFixed(1)} ${y1.toFixed(1)}`
       }
       if (pin) {
-        // Drop straight down the margin, past all service text, then sweep into
-        // the centered pin with vertical tangents at both ends.
-        const midY = safeY + (pin.y - safeY) * 0.5
+        // Drop straight down the margin, past all service text, then ease across
+        // the empty CTA margin and settle into the centered pin. One long, soft
+        // cubic with vertical tangents at both ends and generous control handles
+        // — especially a long lower handle — so the approach rounds gently into
+        // the pin instead of cornering hard into it.
+        const span = pin.y - safeY
         d += ` L ${X.toFixed(1)} ${safeY.toFixed(1)}`
-        d += ` C ${X.toFixed(1)} ${midY.toFixed(1)}`
-        d += ` ${pin.x.toFixed(1)} ${midY.toFixed(1)}`
+        d += ` C ${X.toFixed(1)} ${(safeY + span * 0.5).toFixed(1)}`
+        d += ` ${pin.x.toFixed(1)} ${(pin.y - span * 0.62).toFixed(1)}`
         d += ` ${pin.x.toFixed(1)} ${pin.y.toFixed(1)}`
       }
 
@@ -129,7 +132,10 @@ export default function ServiceRouteLine() {
       const vh = window.innerHeight
       const rootTop = root.getBoundingClientRect().top
       const start = vh * 0.82 // begin drawing as the route enters from ~82% down
-      const drive = root.offsetHeight + vh * 0.18 // scroll distance to fill (looser = slower)
+      // Scroll distance over which the route fills. Much looser than the section
+      // height so the trace reveals slowly — you scroll well past the start before
+      // it completes, easing the pace right down.
+      const drive = root.offsetHeight * 1.85 + vh * 0.55
       let p = (start - rootTop) / drive
       p = Math.max(0, Math.min(1, p))
       // easeInOutSine — gentle, even reveal without a steep mid-section jump

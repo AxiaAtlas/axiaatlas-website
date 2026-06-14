@@ -14,11 +14,20 @@ const SITE_URL = 'https://axiaatlas.com'
 const DESCRIPTION =
   'Axia Atlas is a digital marketing studio that makes brands, local businesses, and founders impossible to miss — in search, answer engines, and in the feeds where your buyers decide. Strategy first, then content that compounds.'
 
+// Finished social/link-preview card (1200×630): the side-by-side Axia Atlas
+// lockup on Deep Spruce, shipped as a static asset in public/.
+const OG_IMAGE = {
+  url: '/og-card.png',
+  width: 1200,
+  height: 630,
+  alt: 'Axia Atlas — Digital Marketing',
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Axia Atlas — Marketing that makes you impossible to miss',
-    template: '%s · Axia Atlas',
+    default: 'Axia Atlas — Digital Marketing',
+    template: '%s — Digital Marketing — Axia Atlas',
   },
   description: DESCRIPTION,
   keywords: [
@@ -42,15 +51,15 @@ export const metadata: Metadata = {
     type: 'website',
     url: SITE_URL,
     siteName: 'Axia Atlas',
-    title: 'Axia Atlas — Marketing that makes you impossible to miss',
+    title: 'Axia Atlas — Digital Marketing',
     description: DESCRIPTION,
-    // og:image is supplied by app/opengraph-image.tsx (Deep Spruce brand card).
+    images: [OG_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Axia Atlas — Marketing that makes you impossible to miss',
+    title: 'Axia Atlas — Digital Marketing',
     description: DESCRIPTION,
-    // twitter:image is supplied by app/twitter-image.tsx.
+    images: [OG_IMAGE],
   },
   alternates: { canonical: SITE_URL },
   // Two favicon contexts, handled deliberately:
