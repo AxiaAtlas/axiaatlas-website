@@ -252,7 +252,7 @@ export default function CareersPage() {
                     <input value={form.availability} onChange={set('availability')} placeholder="e.g. Two weeks' notice, or June 30" required />
                   </div>
 
-                  <div className="form-2col">
+                  <div className="form-2col form-2col-inline">
                     <div className="form-row">
                       <label>Country *</label>
                       <select value={form.workCountry} onChange={set('workCountry')} required>

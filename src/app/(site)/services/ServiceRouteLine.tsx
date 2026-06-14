@@ -46,9 +46,23 @@ export default function ServiceRouteLine() {
         centers.push({ x: r.left - rootRect.left + r.width / 2, y: r.top - rootRect.top + r.height / 2 })
         iconLeft = Math.min(iconLeft, r.left - rootRect.left)
       }
-      // The spine sits just left of the icons, in the margin (kept far enough
-      // from the edge that the serpentine bow never clips off-canvas).
-      const X = Math.max(26, iconLeft - 22)
+      // The spine runs down the left margin, a fixed clearance to the LEFT of the
+      // text column. It must never sit at or right of the text, so X is the icon
+      // edge minus a clearance, floored just inside the canvas (handles tight
+      // mobile gutters where the margin is only a few px wide).
+      const CLEAR = 26
+      const X = Math.max(6, iconLeft - CLEAR)
+      // Gentle meander, but ONLY leftward (into the empty margin) — bowing right
+      // would push the line across the text and hurt legibility. Capped by how
+      // much room remains between the spine and the canvas edge.
+      const bowMag = Math.min(14, Math.max(0, X - 8))
+
+      // Y below which it's safe to sweep horizontally toward the centered pin:
+      // the bottom of the last service block, so the cross-sweep clears all text.
+      const lastDetail = root.querySelector<HTMLElement>('.service-detail:last-of-type')
+      const safeY = lastDetail
+        ? lastDetail.getBoundingClientRect().bottom - rootRect.top
+        : centers[centers.length - 1].y
 
       // Where the route lands: the CTA "Book a Demo" pin beacon, if present.
       const beacon = root.querySelector<HTMLElement>('.cta-band-beacon')
@@ -60,24 +74,29 @@ export default function ServiceRouteLine() {
 
       // Nodes ride the spine at each icon's vertical center.
       const nodePts = centers.map((c) => ({ x: X, y: c.y }))
-      const pathPts = pin ? [...nodePts, pin] : nodePts
+      // Path waypoints used both to draw and to measure node progress: the nodes,
+      // then the straight drop to safeY, then the pin.
+      const pathPts = pin ? [...nodePts, { x: X, y: safeY }, pin] : nodePts
 
-      // Gentle serpentine through the service nodes (alternating bow), then a
-      // sweeping curve across to the centered pin.
-      let d = `M ${X.toFixed(1)} ${pathPts[0].y.toFixed(1)}`
+      // Gentle meander through the service nodes (leftward-only bow so it stays
+      // clear of the text), a clean vertical drop past the last block, then a
+      // soft S-curve that sweeps across the empty CTA margin into the pin.
+      let d = `M ${X.toFixed(1)} ${nodePts[0].y.toFixed(1)}`
       for (let i = 1; i < nodePts.length; i++) {
-        const y0 = pathPts[i - 1].y
+        const y0 = nodePts[i - 1].y
         const y1 = nodePts[i].y
-        const bow = (i % 2 === 1 ? 1 : -1) * 22 // gentle horizontal lean
-        d += ` C ${(X + bow).toFixed(1)} ${(y0 + (y1 - y0) * 0.34).toFixed(1)}`
-        d += ` ${(X + bow).toFixed(1)} ${(y0 + (y1 - y0) * 0.66).toFixed(1)}`
+        const lean = X - (i % 2 === 1 ? bowMag : bowMag * 0.5) // always ≤ X (never toward text)
+        d += ` C ${lean.toFixed(1)} ${(y0 + (y1 - y0) * 0.34).toFixed(1)}`
+        d += ` ${lean.toFixed(1)} ${(y0 + (y1 - y0) * 0.66).toFixed(1)}`
         d += ` ${X.toFixed(1)} ${y1.toFixed(1)}`
       }
       if (pin) {
-        const last = nodePts[nodePts.length - 1]
-        // ease out of the spine, then sweep horizontally into the pin
-        d += ` C ${X.toFixed(1)} ${(last.y + (pin.y - last.y) * 0.45).toFixed(1)}`
-        d += ` ${pin.x.toFixed(1)} ${(last.y + (pin.y - last.y) * 0.6).toFixed(1)}`
+        // Drop straight down the margin, past all service text, then sweep into
+        // the centered pin with vertical tangents at both ends.
+        const midY = safeY + (pin.y - safeY) * 0.5
+        d += ` L ${X.toFixed(1)} ${safeY.toFixed(1)}`
+        d += ` C ${X.toFixed(1)} ${midY.toFixed(1)}`
+        d += ` ${pin.x.toFixed(1)} ${midY.toFixed(1)}`
         d += ` ${pin.x.toFixed(1)} ${pin.y.toFixed(1)}`
       }
 

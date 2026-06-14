@@ -1222,6 +1222,10 @@ footer::before {
 .form-row input:focus, .form-row select:focus, .form-row textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 .form-row textarea { resize: vertical; min-height: 120px; }
 .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+/* Pairs that must stay on ONE line at every width (e.g. country + work
+   authorization). align-items:end keeps the two controls aligned even when one
+   label wraps to a second line. The double class outranks the mobile collapse. */
+.form-2col.form-2col-inline { grid-template-columns: 1fr 1fr; align-items: end; }
 .form-hint { font-size: var(--t-xs); color: var(--text-faint); margin-top: 6px; font-weight: 400; letter-spacing: 0; text-transform: none; }
 
 /* ── FAQ (contact) ─────────────────────────────────────────────────────── */
@@ -1252,8 +1256,13 @@ footer::before {
 .demo-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 28px; }
 .demo-actions .spacer { flex: 1; }
 .demo-error { font-size: var(--t-xs); color: var(--negative); margin-top: 14px; }
-.demo-check { display: flex; align-items: center; gap: 9px; margin-top: 10px; font-size: var(--t-sm); color: var(--text-muted); font-weight: 400; letter-spacing: 0; text-transform: none; cursor: pointer; }
-.demo-check input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; flex: none; }
+.demo-check { display: flex; align-items: center; gap: 9px; margin-top: 10px; font-size: var(--t-sm); line-height: 1.3; color: var(--text-muted); font-weight: 400; letter-spacing: 0; text-transform: none; cursor: pointer; }
+.demo-check input[type="checkbox"] { width: 14px; height: 14px; margin: 0; accent-color: var(--accent); cursor: pointer; flex: none; }
+.demo-check span { align-self: center; }
+
+/* The demo flow stays calm — no white shine-sweep / glare on its buttons. */
+.demo-page .btn-primary::after { content: none; }
+.demo-page .btn-primary:hover::after { animation: none; }
 
 /* ── CAREERS — resume upload + note (shares .demo-* card/steps/forms) ─────── */
 .file-drop {

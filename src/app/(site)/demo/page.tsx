@@ -188,7 +188,7 @@ export default function DemoPage() {
                   <div className="form-2col">
                     <div className="form-row">
                       <label>LinkedIn</label>
-                      <input value={form.linkedin} onChange={set('linkedin')} placeholder="linkedin.com/company/…" disabled={form.noSocials} />
+                      <input value={form.linkedin} onChange={set('linkedin')} placeholder="@yourcompany" disabled={form.noSocials} />
                     </div>
                     <div className="form-row">
                       <label>Instagram</label>
@@ -199,7 +199,7 @@ export default function DemoPage() {
                   <div className="form-2col">
                     <div className="form-row">
                       <label>Facebook</label>
-                      <input value={form.facebook} onChange={set('facebook')} placeholder="facebook.com/yourbrand" disabled={form.noSocials} />
+                      <input value={form.facebook} onChange={set('facebook')} placeholder="@yourbrand" disabled={form.noSocials} />
                     </div>
                     <div className="form-row">
                       <label>X (Twitter)</label>

@@ -105,30 +105,7 @@ export async function POST(req: NextRequest) {
   let mirrorSaved = false
 
   try {
-    const prospectRes = await fetch(`${supabaseUrl}/rest/v1/prospects`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(prospect),
-    })
-    if (prospectRes.ok) {
-      prospectSaved = true
-    } else {
-      const detail = await prospectRes.text().catch(() => '')
-      console.error(`[demo] prospects insert failed (${prospectRes.status}): ${detail}`)
-      // Retry without `source` in case that column is absent in this environment.
-      const { source: _source, ...withoutSource } = prospect
-      const retryRes = await fetch(`${supabaseUrl}/rest/v1/prospects`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(withoutSource),
-      })
-      if (retryRes.ok) {
-        prospectSaved = true
-      } else {
-        const retryDetail = await retryRes.text().catch(() => '')
-        console.error(`[demo] prospects retry failed (${retryRes.status}): ${retryDetail}`)
-      }
-    }
+    prospectSaved = await insertProspect(supabaseUrl, headers, prospect)
   } catch (err) {
     console.error('[demo] prospects insert threw:', err)
   }
@@ -166,6 +143,55 @@ export async function POST(req: NextRequest) {
   void sendDemoConfirmationEmail(email, firstName || fullName, companyName)
 
   return NextResponse.json({ success: true })
+}
+
+/* Insert a prospect, healing around columns that don't exist in this DB.
+   The portal schema has drifted before (e.g. `company_name` vs `company`), so
+   instead of guessing one column to drop, we read the REAL PostgREST/Postgres
+   error, pull out the offending column name, drop it, and retry — looping until
+   the insert succeeds or there's nothing left to strip. Every attempt is logged
+   so the actual failing column is visible in the server logs. */
+async function insertProspect(
+  supabaseUrl: string,
+  headers: Record<string, string>,
+  prospect: Record<string, unknown>,
+): Promise<boolean> {
+  let payload: Record<string, unknown> = { ...prospect }
+  // `company` is NOT NULL — never strip it. Bound the loop by the field count.
+  const maxAttempts = Object.keys(payload).length + 1
+
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const res = await fetch(`${supabaseUrl}/rest/v1/prospects`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload),
+    })
+    if (res.ok) return true
+
+    const detail = await res.text().catch(() => '')
+    console.error(`[demo] prospects insert failed (${res.status}): ${detail}`)
+
+    const missing = extractMissingColumn(detail)
+    if (!missing || missing === 'company' || !(missing in payload)) {
+      // Can't identify a strippable column — give up (mirror is the safety net).
+      return false
+    }
+    console.error(`[demo] retrying prospects insert without absent column "${missing}"`)
+    const { [missing]: _dropped, ...rest } = payload
+    payload = rest
+  }
+  return false
+}
+
+/* Pull the column name out of a PostgREST/Postgres "column missing" error, e.g.
+   PGRST204: "Could not find the 'pain_point' column of 'prospects' ..." or
+   42703:    "column \"pain_point\" of relation \"prospects\" does not exist". */
+function extractMissingColumn(detail: string): string | null {
+  const m =
+    detail.match(/Could not find the '([^']+)' column/i) ||
+    detail.match(/column "([^"]+)" of relation/i) ||
+    detail.match(/column ([a-z0-9_]+) does not exist/i)
+  return m ? m[1] : null
 }
 
 async function sendDemoConfirmationEmail(email: string, firstName: string, company: string) {
