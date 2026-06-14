@@ -202,13 +202,16 @@ async function sendDemoConfirmationEmail(email: string, firstName: string, compa
   }
 
   const name = (firstName || '').split(/\s+/)[0] || 'there'
-  const subject = 'We’ve got your details — Axia Atlas'
+  const bookingLink = 'https://calendar.app.google/iziwgCH6zEvDAhcX7'
+  const subject = 'We’ve got your details — one last step to book your demo'
   const text = [
-    `Hi ${name},`,
+    `Thanks ${name},`,
     '',
-    `Thanks for booking time with Axia Atlas. We've received your details for ${company} and we're already taking a look at how you show up across search, answer engines, local, and social.`,
+    `We've got your details for ${company}. The last step is to pick a time for your demo call:`,
     '',
-    `If you haven't picked a time yet, you can still choose a slot on the booking page. When we meet, we'll come with the gaps mapped and real recommendations — not a pitch deck.`,
+    bookingLink,
+    '',
+    `Once you choose a slot, you'll get a calendar invite confirming your demo. When we meet, we'll come with the gaps mapped and real recommendations — not a pitch deck.`,
     '',
     `Talk soon,`,
     'The Axia Atlas Team',
@@ -216,9 +219,10 @@ async function sendDemoConfirmationEmail(email: string, firstName: string, compa
 
   const html = `
     <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#1a1a1a;">
-      <p>Hi ${escapeHtml(name)},</p>
-      <p>Thanks for booking time with Axia Atlas. We&rsquo;ve received your details for <strong>${escapeHtml(company)}</strong> and we&rsquo;re already taking a look at how you show up across search, answer engines, local, and social.</p>
-      <p>If you haven&rsquo;t picked a time yet, you can still choose a slot on the booking page. When we meet, we&rsquo;ll come with the gaps mapped and real recommendations &mdash; not a pitch deck.</p>
+      <p>Thanks ${escapeHtml(name)},</p>
+      <p>We&rsquo;ve got your details for <strong>${escapeHtml(company)}</strong>. The last step is to pick a time for your demo call:</p>
+      <p><a href="${bookingLink}" style="display:inline-block;background:#1a1a1a;color:#fff;text-decoration:none;padding:11px 20px;border-radius:8px;font-weight:600;">Pick a time for your demo &rarr;</a></p>
+      <p>Once you choose a slot, you&rsquo;ll get a calendar invite confirming your demo. When we meet, we&rsquo;ll come with the gaps mapped and real recommendations &mdash; not a pitch deck.</p>
       <p>Talk soon,<br/>The Axia Atlas Team</p>
     </div>`
 

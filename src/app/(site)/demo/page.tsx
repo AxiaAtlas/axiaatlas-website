@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Footer from '@/components/Footer'
-import { Arrow, Check } from '@/components/icons'
+import { Arrow } from '@/components/icons'
 
 const GROWTH_AREAS = [
   'Get found in search (SEO)',
@@ -241,16 +241,17 @@ export default function DemoPage() {
               )}
 
               {step === 3 && (
-                <div>
-                  <div className="demo-booked-note"><Check /> Details received — we&apos;re already looking at {form.companyName}.</div>
-                  <div className="demo-step-title">Book time for your call</div>
-                  <div className="demo-step-sub">Pick a slot that works for you — you&apos;ll get a calendar invite right away.</div>
+                <div className="demo-booking-layout">
+                  <div className="demo-booking-intro">
+                    <div className="demo-step-title">Book time for your call</div>
+                    <div className="demo-step-sub">Pick a slot that works for you — you&apos;ll get a calendar invite right away. We&apos;ll arrive with the gaps mapped and real recommendations, not a pitch deck.</div>
+                    <div className="demo-booking-foot">
+                      Calendar not loading?{' '}
+                      <a href={BOOKING_FALLBACK_URL} target="_blank" rel="noopener noreferrer">Open the booking page in a new tab →</a>
+                    </div>
+                  </div>
 
                   <div className="demo-booking-frame">
-                    <div className="demo-booking-head">
-                      <span>Schedule your demo call</span>
-                      <span className="demo-booking-brand">Axia Atlas</span>
-                    </div>
                     <div className="demo-booking-body">
                       {!frameLoaded && (
                         <div className="demo-booking-spinner" aria-label="Loading booking calendar">
@@ -265,11 +266,6 @@ export default function DemoPage() {
                         style={{ opacity: frameLoaded ? 1 : 0 }}
                       />
                     </div>
-                  </div>
-
-                  <div className="demo-booking-foot">
-                    Calendar not loading?{' '}
-                    <a href={BOOKING_FALLBACK_URL} target="_blank" rel="noopener noreferrer">Open the booking page in a new tab →</a>
                   </div>
                 </div>
               )}

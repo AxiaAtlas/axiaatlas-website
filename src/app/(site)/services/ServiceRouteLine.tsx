@@ -132,10 +132,10 @@ export default function ServiceRouteLine() {
       const vh = window.innerHeight
       const rootTop = root.getBoundingClientRect().top
       const start = vh * 0.82 // begin drawing as the route enters from ~82% down
-      // Scroll distance over which the route fills. Much looser than the section
-      // height so the trace reveals slowly — you scroll well past the start before
-      // it completes, easing the pace right down.
-      const drive = root.offsetHeight * 1.85 + vh * 0.55
+      // Scroll distance over which the route fills. Tuned to a middle pace: the
+      // trace progresses clearly as you scroll the section and lands around the
+      // last service / demo pin — not racing, not crawling.
+      const drive = root.offsetHeight * 1.15 + vh * 0.45
       let p = (start - rootTop) / drive
       p = Math.max(0, Math.min(1, p))
       // easeInOutSine — gentle, even reveal without a steep mid-section jump
