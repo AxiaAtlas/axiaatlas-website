@@ -14,11 +14,11 @@ const GROWTH_AREAS = [
   'Not sure yet — help me figure it out',
 ]
 
-/* Public Google Appointment Schedule booking page (no API/OAuth — embed only).
-   Short link: https://calendar.app.google/iziwgCH6zEvDAhcX7 */
-const BOOKING_URL =
-  'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2i3onIzlpInG346A55jVk9v_T3ZhQTdLp-XsYnUyfCKVzIrshUzklTxrj_sGxr5b03FykQf92O?gv=true'
-const BOOKING_FALLBACK_URL = 'https://calendar.app.google/iziwgCH6zEvDAhcX7'
+/* Portal booking page. After the survey saves the lead to Prospects, we hand the
+   visitor off here to pick a time. Name / email / company are passed as query
+   params so the portal page prefills them. The portal sends the invite + Meet
+   link only after the booking is confirmed — this site sends no email. */
+const PORTAL_BOOKING_BASE = 'https://app.axiaatlas.com/book/4e9c1a7b8f2d4c6e9a0b3d5f7c1e2a4b'
 
 type Form = {
   // Step 1 — person
@@ -40,13 +40,23 @@ export default function DemoPage() {
   const [step, setStep] = useState(1)
   const [form, setForm] = useState<Form>(EMPTY)
   const [sending, setSending] = useState(false)
-  const [frameLoaded, setFrameLoaded] = useState(false)
   const [error, setError] = useState('')
 
   const set = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }))
 
   const socialCount = [form.linkedin, form.instagram, form.facebook, form.x].filter((v) => v.trim()).length
+
+  // Portal booking link with the entered details passed through for prefill.
+  const portalBookingUrl = (() => {
+    const name = [form.firstName, form.lastName].filter(Boolean).join(' ').trim()
+    const params = new URLSearchParams()
+    if (name) params.set('name', name)
+    if (form.email.trim()) params.set('email', form.email.trim())
+    if (form.companyName.trim()) params.set('company', form.companyName.trim())
+    const q = params.toString()
+    return q ? `${PORTAL_BOOKING_BASE}?${q}` : PORTAL_BOOKING_BASE
+  })()
 
   // Step 1 → 2: require first name + email (the only required person fields)
   function nextFromPerson(e: React.FormEvent) {
@@ -241,31 +251,17 @@ export default function DemoPage() {
               )}
 
               {step === 3 && (
-                <div className="demo-booking-layout">
-                  <div className="demo-booking-intro">
-                    <div className="demo-step-title">Book time for your call</div>
-                    <div className="demo-step-sub">Pick a slot that works for you — you&apos;ll get a calendar invite right away. We&apos;ll arrive with the gaps mapped and real recommendations, not a pitch deck.</div>
-                    <div className="demo-booking-foot">
-                      Calendar not loading?{' '}
-                      <a href={BOOKING_FALLBACK_URL} target="_blank" rel="noopener noreferrer">Open the booking page in a new tab →</a>
-                    </div>
-                  </div>
+                <div className="demo-done">
+                  <div className="demo-done-check" aria-hidden="true">✓</div>
+                  <div className="demo-step-title">You&apos;re all set{form.firstName ? `, ${form.firstName}` : ''} — one last step</div>
+                  <div className="demo-step-sub">We&apos;ve got your details for {form.companyName || 'your business'}. Pick a time on our booking page and we&apos;ll confirm your demo — you&apos;ll get the calendar invite and meeting link once it&apos;s confirmed. We&apos;ll arrive with the gaps mapped and real recommendations, not a pitch deck.</div>
 
-                  <div className="demo-booking-frame">
-                    <div className="demo-booking-body">
-                      {!frameLoaded && (
-                        <div className="demo-booking-spinner" aria-label="Loading booking calendar">
-                          <div className="spin" />
-                          <span>Loading available times…</span>
-                        </div>
-                      )}
-                      <iframe
-                        src={BOOKING_URL}
-                        title="Book your demo call"
-                        onLoad={() => setFrameLoaded(true)}
-                        style={{ opacity: frameLoaded ? 1 : 0 }}
-                      />
-                    </div>
+                  <a href={portalBookingUrl} target="_blank" rel="noopener noreferrer" className="btn-primary demo-done-cta">
+                    Pick a time for your demo <Arrow className="arr" />
+                  </a>
+
+                  <div className="demo-booking-foot">
+                    Your name, email, and company carry over so you don&apos;t have to retype them.
                   </div>
                 </div>
               )}

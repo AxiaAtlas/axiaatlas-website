@@ -941,38 +941,35 @@ footer::before {
 /* ── SERVICES PAGE (light overview rows) ───────────────────────────────── */
 .services-page { background: var(--bg); }
 
-/* scroll-traced route spine — a vertical line that draws itself as you scroll,
-   threading a node at each service (see ServiceRouteLine.tsx). */
-/* The route flow wraps the services AND the CTA band so the traced line can
-   curve from the last service into the Book-a-Demo pin. The line sits above the
-   section backgrounds but below the CTA content (so the pin stays on top). */
+/* Always-visible cartographic route line (see ServiceRouteLine.tsx) — fully
+   static, no scroll animation. The flow wraps the services AND the CTA band so
+   the line can curve from the last service into the Book-a-Demo pin. It sits
+   above the section backgrounds but below the CTA content (so the pin stays on
+   top), and is styled identically in both light and dark themes. */
 .services-flow { position: relative; }
 .services-route { position: relative; }
 .route-line { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 .route-svg { position: absolute; top: 0; left: 0; overflow: visible; }
+/* faint continuous hairline — the charted road underneath the travel route */
 .route-track {
-  fill: none; stroke: var(--border-strong); stroke-width: 2;
-  stroke-dasharray: 5 6; stroke-linecap: round; opacity: 0.65;
+  fill: none; stroke: var(--primary); stroke-width: 1;
+  stroke-linecap: round; stroke-linejoin: round; opacity: 0.16;
 }
-.route-trace {
-  fill: none; stroke: var(--primary); stroke-width: 2.4; stroke-linecap: round;
-  stroke-dasharray: 1; will-change: stroke-dashoffset;
-  filter: drop-shadow(0 0 6px rgba(var(--spruce-rgb), 0.32));
-  transition: stroke-dashoffset 0.25s var(--ease-out);
+/* the dotted "travel" route drawn on top, with a soft lift off the page */
+.route-path {
+  fill: none; stroke: var(--primary); stroke-width: 2.4;
+  stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 0.1 9; opacity: 0.9;
+  filter: drop-shadow(0 1px 1.5px rgba(var(--spruce-rgb), 0.22));
 }
+/* solid diamond waypoint at each service, haloed so it reads over the dots */
 .route-node {
-  fill: var(--surface); stroke: var(--border-strong); stroke-width: 1.5;
+  fill: var(--primary); stroke: var(--surface); stroke-width: 3;
   transform-box: fill-box; transform-origin: center; transform: rotate(45deg);
-  transition: fill 0.35s var(--ease), stroke 0.35s var(--ease);
 }
-.route-node.on { fill: var(--primary); stroke: var(--primary); }
+/* destination marker in the CTA band */
 .route-pin {
-  fill: none; stroke: rgba(var(--spruce-rgb), 0.38); stroke-width: 1.6;
-  opacity: 0.55; transition: stroke 0.4s var(--ease), opacity 0.4s var(--ease);
-}
-.route-pin.on { stroke: var(--primary); opacity: 1; }
-@media (prefers-reduced-motion: reduce) {
-  .route-trace { transition: none; }
+  fill: var(--surface); stroke: var(--primary); stroke-width: 2.2; opacity: 1;
 }
 
 .service-detail { padding: clamp(52px, 6.5vw, 80px) var(--gutter); border-bottom: 1px solid var(--border); }
@@ -1256,9 +1253,27 @@ footer::before {
 .demo-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 28px; }
 .demo-actions .spacer { flex: 1; }
 .demo-error { font-size: var(--t-xs); color: var(--negative); margin-top: 14px; }
-.demo-check { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: var(--t-sm); line-height: 1; color: var(--text-muted); font-weight: 400; letter-spacing: 0; text-transform: none; cursor: pointer; }
-.demo-check input[type="checkbox"] { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); cursor: pointer; flex: none; align-self: center; }
-.demo-check span { align-self: center; line-height: 1; }
+/* Both demo survey checkboxes must render identically. The "no website" one is
+   nested inside a .form-row, so .form-row label (uppercase/block/faint/small)
+   was overriding it — these higher-specificity rules reset that so both are
+   sentence-case, same size, with the box vertically centered on its label. */
+.demo-check,
+.demo-card label.demo-check {
+  display: flex; align-items: center; gap: 10px; margin: 10px 0 0;
+  font-family: var(--font-body); font-size: var(--t-sm); line-height: 1;
+  letter-spacing: 0; text-transform: none; font-weight: 400;
+  color: var(--text-muted); cursor: pointer;
+}
+.demo-check input[type="checkbox"],
+.demo-card label.demo-check input[type="checkbox"] {
+  width: 16px; height: 16px; margin: 0; accent-color: var(--accent);
+  cursor: pointer; flex: none; align-self: center;
+}
+.demo-check span,
+.demo-card label.demo-check span {
+  display: inline; margin: 0; font: inherit; color: inherit;
+  text-transform: none; letter-spacing: 0; line-height: 1; align-self: center;
+}
 
 /* The demo flow stays calm — no white shine-sweep / glare on its buttons. */
 .demo-page .btn-primary::after { content: none; }
@@ -1294,27 +1309,21 @@ footer::before {
 .contact-careers-title { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--text); margin: 6px 0 6px; }
 .contact-careers-desc { font-size: 0.8125rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 16px; }
 
-/* Step 3 — two-column: description on the left, embedded Google booking on the right.
-   Stays inside the demo-card width (same as the previous steps); stacks on mobile. */
-.demo-booking-layout { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(20px, 3vw, 32px); align-items: start; }
-.demo-booking-intro { display: flex; flex-direction: column; }
-.demo-booking-intro .demo-step-sub { margin-bottom: 18px; }
-.demo-booking-frame { border: 1px solid var(--sage); border-radius: var(--r); overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); }
-.demo-booking-body { position: relative; min-height: 640px; background: var(--alabaster); }
-.demo-booking-body iframe { display: block; width: 100%; height: 640px; border: 0; transition: opacity 0.4s var(--ease); }
-.demo-booking-spinner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; font-size: var(--t-sm); color: var(--text-muted); }
-.demo-booking-spinner .spin { width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--sage); border-top-color: var(--spruce); animation: demo-spin 0.8s linear infinite; }
-@keyframes demo-spin { to { transform: rotate(360deg); } }
-.demo-booking-foot { margin-top: 14px; font-size: var(--t-xs); color: var(--text-faint); }
+/* Step 3 — confirmation + hand-off to the portal booking page. The survey has
+   already saved the lead to Prospects; the portal sends the invite + Meet link
+   only after the booking is confirmed (this site sends no email). */
+.demo-done { text-align: center; padding: clamp(8px, 2vw, 20px) 0; }
+.demo-done-check {
+  width: 56px; height: 56px; margin: 0 auto 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; line-height: 1; color: var(--accent);
+  background: var(--accent-soft); border: 1px solid var(--accent);
+}
+.demo-done .demo-step-sub { max-width: 540px; margin: 0 auto 26px; }
+.demo-done-cta { display: inline-flex; }
+.demo-booking-foot { margin-top: 18px; font-size: var(--t-xs); color: var(--text-faint); }
 .demo-booking-foot a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 3px; }
 .demo-booking-foot a:hover { color: var(--text); }
-@media (max-width: 760px) {
-  .demo-booking-layout { grid-template-columns: 1fr; }
-}
-@media (max-width: 600px) {
-  .demo-booking-body { min-height: 560px; }
-  .demo-booking-body iframe { height: 560px; }
-}
 
 /* ── CHAT WIDGET ───────────────────────────────────────────────────────── */
 .chat-btn {
