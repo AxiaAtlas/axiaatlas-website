@@ -23,7 +23,6 @@ const SCHED_BASE = 'https://app.axiaatlas.com/api/scheduling'
 const BOOKING_TOKEN = '4e9c1a7b8f2d4c6e9a0b3d5f7c1e2a4b'
 
 type Slot = { start: string; end: string }
-type DayGroup = { label: string; slots: Slot[] }
 
 type Form = {
   // Step 1 — person
@@ -59,6 +58,9 @@ export default function DemoPage() {
   const [selected, setSelected] = useState<Slot | null>(null)
   const [booking, setBooking] = useState<'idle' | 'submitting' | 'done'>('idle')
   const [bookingError, setBookingError] = useState('')
+  // Calendar view state — the visible month and the day whose times are open.
+  const [viewMonth, setViewMonth] = useState<{ y: number; m: number } | null>(null)
+  const [selectedDay, setSelectedDay] = useState<string | null>(null)
 
   const loadSlots = useCallback(async () => {
     setSlotsState('loading')
@@ -95,16 +97,36 @@ export default function DemoPage() {
     }
   })()
 
-  const days: DayGroup[] = (() => {
-    const order: string[] = []
-    const byDay: Record<string, Slot[]> = {}
-    for (const s of slots) {
-      const label = dayFmt.format(new Date(s.start))
-      if (!byDay[label]) { byDay[label] = []; order.push(label) }
-      byDay[label].push(s)
-    }
-    return order.map((label) => ({ label, slots: byDay[label] }))
-  })()
+  // Map every slot onto its calendar day, keyed YYYY-MM-DD in the portal's
+  // timezone, so the calendar grid can light up days that have availability.
+  const dayKeyFmt = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' })
+  const slotsByDay = new Map<string, Slot[]>()
+  for (const s of slots) {
+    const k = dayKeyFmt.format(new Date(s.start))
+    const arr = slotsByDay.get(k)
+    if (arr) arr.push(s)
+    else slotsByDay.set(k, [s])
+  }
+  const availableKeys = Array.from(slotsByDay.keys()).sort()
+
+  // When availability arrives (or refreshes), open the month of the first free
+  // day and pre-select that day so times are visible right away.
+  useEffect(() => {
+    if (slotsState !== 'ready' || availableKeys.length === 0) return
+    if (selectedDay && slotsByDay.has(selectedDay)) return
+    const first = availableKeys[0]
+    const [y, m] = first.split('-').map(Number)
+    setViewMonth({ y, m })
+    setSelectedDay(first)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slotsState, availableKeys.join(','), selectedDay])
+
+  const shiftMonth = (delta: number) =>
+    setViewMonth((v) => {
+      if (!v) return v
+      const idx = v.y * 12 + (v.m - 1) + delta
+      return { y: Math.floor(idx / 12), m: (idx % 12) + 1 }
+    })
 
   async function submitBooking() {
     if (!selected || booking === 'submitting') return
@@ -365,20 +387,68 @@ export default function DemoPage() {
                     </div>
                   )}
 
-                  {slotsState === 'ready' && days.length === 0 && (
+                  {slotsState === 'ready' && availableKeys.length === 0 && (
                     <div className="slot-status">
                       No times are open right now. Email <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a> and we&apos;ll find a time that works.
                     </div>
                   )}
 
-                  {slotsState === 'ready' && days.length > 0 && (
-                    <>
-                      <div className="slot-days">
-                        {days.map((d) => (
-                          <div key={d.label} className="slot-day">
-                            <div className="slot-day-head">{d.label}</div>
+                  {slotsState === 'ready' && availableKeys.length > 0 && viewMonth && (() => {
+                    const pad = (n: number) => String(n).padStart(2, '0')
+                    const monthStart = new Date(Date.UTC(viewMonth.y, viewMonth.m - 1, 1))
+                    const monthLabel = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(monthStart)
+                    const firstWeekday = monthStart.getUTCDay()
+                    const daysInMonth = new Date(Date.UTC(viewMonth.y, viewMonth.m, 0)).getUTCDate()
+                    const [fy, fm] = availableKeys[0].split('-').map(Number)
+                    const [ly, lm] = availableKeys[availableKeys.length - 1].split('-').map(Number)
+                    const atMin = viewMonth.y === fy && viewMonth.m === fm
+                    const atMax = viewMonth.y === ly && viewMonth.m === lm
+                    const cells: (number | null)[] = []
+                    for (let i = 0; i < firstWeekday; i++) cells.push(null)
+                    for (let d = 1; d <= daysInMonth; d++) cells.push(d)
+                    const daySlots = selectedDay ? slotsByDay.get(selectedDay) ?? [] : []
+                    const dayLabel = daySlots.length ? dayFmt.format(new Date(daySlots[0].start)) : ''
+                    return (
+                      <>
+                        <div className="demo-calendar">
+                          <div className="cal-head">
+                            <button type="button" className="cal-nav" onClick={() => shiftMonth(-1)} disabled={atMin} aria-label="Previous month">‹</button>
+                            <div className="cal-month">{monthLabel}</div>
+                            <button type="button" className="cal-nav" onClick={() => shiftMonth(1)} disabled={atMax} aria-label="Next month">›</button>
+                          </div>
+                          <div className="cal-grid cal-weekdays" aria-hidden="true">
+                            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((w) => (
+                              <div key={w} className="cal-weekday">{w}</div>
+                            ))}
+                          </div>
+                          <div className="cal-grid">
+                            {cells.map((d, i) => {
+                              if (d == null) return <div key={`e${i}`} className="cal-cell empty" />
+                              const key = `${viewMonth.y}-${pad(viewMonth.m)}-${pad(d)}`
+                              const has = slotsByDay.has(key)
+                              const isSel = selectedDay === key
+                              return (
+                                <button
+                                  key={key}
+                                  type="button"
+                                  className={`cal-day${has ? ' has' : ''}${isSel ? ' selected' : ''}`}
+                                  disabled={!has}
+                                  onClick={() => { setSelectedDay(key); setSelected(null); setBookingError('') }}
+                                  aria-pressed={isSel}
+                                >
+                                  <span className="cal-num">{d}</span>
+                                  {has && <span className="cal-dot" aria-hidden="true" />}
+                                </button>
+                              )
+                            })}
+                          </div>
+                        </div>
+
+                        {selectedDay && daySlots.length > 0 && (
+                          <div className="cal-times">
+                            <div className="cal-times-head">{dayLabel}</div>
                             <div className="slot-times">
-                              {d.slots.map((s) => (
+                              {daySlots.map((s) => (
                                 <button
                                   key={s.start}
                                   type="button"
@@ -391,29 +461,29 @@ export default function DemoPage() {
                               ))}
                             </div>
                           </div>
-                        ))}
-                      </div>
+                        )}
 
-                      {bookingError && <div className="demo-error">{bookingError}</div>}
+                        {bookingError && <div className="demo-error">{bookingError}</div>}
 
-                      <div className="demo-actions slot-actions">
-                        <div className="slot-selected-label">
-                          {selected
-                            ? <>Selected: <strong>{dayFmt.format(new Date(selected.start))}, {timeFmt.format(new Date(selected.start))} ({tzLabel})</strong></>
-                            : 'Select a time to continue.'}
+                        <div className="demo-actions slot-actions">
+                          <div className="slot-selected-label">
+                            {selected
+                              ? <>Selected: <strong>{dayFmt.format(new Date(selected.start))}, {timeFmt.format(new Date(selected.start))} ({tzLabel})</strong></>
+                              : 'Select a time to continue.'}
+                          </div>
+                          <button
+                            type="button"
+                            className="btn-primary"
+                            onClick={submitBooking}
+                            disabled={!selected || booking === 'submitting'}
+                            style={{ opacity: !selected || booking === 'submitting' ? 0.7 : 1 }}
+                          >
+                            {booking === 'submitting' ? 'Requesting…' : <>Request this time <Arrow className="arr" /></>}
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          className="btn-primary"
-                          onClick={submitBooking}
-                          disabled={!selected || booking === 'submitting'}
-                          style={{ opacity: !selected || booking === 'submitting' ? 0.7 : 1 }}
-                        >
-                          {booking === 'submitting' ? 'Requesting…' : <>Request this time <Arrow className="arr" /></>}
-                        </button>
-                      </div>
-                    </>
-                  )}
+                      </>
+                    )
+                  })()}
                 </div>
               )}
             </>

@@ -52,8 +52,9 @@ const MARQUEE = [
   'Reviews checked before they call',
 ]
 
-/* Animated route map inside the green "system" feature card —
-   the journey from found → chosen → remembered, drawn on a loop. */
+/* Animated growth graph inside the green "system" feature card — an ascending
+   performance line (find → convert → compound) that draws on a loop and ends in
+   an arrowhead pointing up and to the right, reading as a rising chart. */
 function SystemMap() {
   return (
     <div className="system-map" aria-hidden="true">
@@ -62,23 +63,24 @@ function SystemMap() {
           <line x1="0" y1="75" x2="520" y2="75" /><line x1="0" y1="150" x2="520" y2="150" /><line x1="0" y1="225" x2="520" y2="225" />
           <line x1="130" y1="0" x2="130" y2="300" /><line x1="260" y1="0" x2="260" y2="300" /><line x1="390" y1="0" x2="390" y2="300" />
         </g>
-        <path className="sm-route" pathLength={1} d="M 40 248 C 120 240, 150 170, 250 158 S 400 110, 462 64" />
+        {/* an ascending line graph — overall up-and-to-the-right with two small
+            pullbacks, like a real performance chart climbing the grid */}
+        <path className="sm-route" pathLength={1} d="M 36 250 L 110 224 L 170 234 L 240 188 L 310 196 L 380 138 L 462 70" />
         <g className="sm-wp w1">
-          <circle className="sm-dot" cx="40" cy="248" r="6" />
-          <circle className="sm-halo" cx="40" cy="248" r="13" />
-          <text className="sm-label" x="60" y="253">Find</text>
+          <circle className="sm-dot" cx="36" cy="250" r="6" />
+          <circle className="sm-halo" cx="36" cy="250" r="13" />
+          <text className="sm-label" x="52" y="255">Find</text>
         </g>
         <g className="sm-wp w2">
-          <circle className="sm-dot" cx="250" cy="158" r="6" />
-          <circle className="sm-halo" cx="250" cy="158" r="13" />
-          <text className="sm-label" x="270" y="163">Convert</text>
+          <circle className="sm-dot" cx="240" cy="188" r="6" />
+          <circle className="sm-halo" cx="240" cy="188" r="13" />
+          <text className="sm-label" x="256" y="193">Convert</text>
         </g>
         <g className="sm-wp w3">
-          {/* an arrow rising off the end of the route — growth / upward motion,
-              replacing the old map pin */}
-          <path className="sm-arrow" d="M462 92 L462 44" />
-          <path className="sm-arrow" d="M450 56 L462 42 L474 56" />
-          <text className="sm-label" x="404" y="120">Compound</text>
+          {/* the rising line IS the growth — an arrowhead rides its tip,
+              pointing up and to the right like a performance chart */}
+          <path className="sm-arrow" d="M449 74 L462 70 L456 83" />
+          <text className="sm-label" x="384" y="58">Compound</text>
         </g>
       </svg>
     </div>

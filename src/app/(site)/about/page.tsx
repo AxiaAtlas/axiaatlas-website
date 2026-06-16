@@ -71,11 +71,6 @@ export default function AboutPage() {
       <div className="about-section">
         <div className="about-inner about-seen">
           <h2 className="about-headline">&quot;To be found is to be seen.&quot;</h2>
-          <svg className="about-seen-route" viewBox="0 0 420 26" aria-hidden="true">
-            <path className="as-line" pathLength={1} d="M 6 18 C 70 18, 96 8, 170 9 S 300 20, 372 8" />
-            <circle className="as-dot" cx="6" cy="18" r="4.5" />
-            <path className="as-pin" d="M384 1a9 9 0 0 0-9 9c0 6.4 9 15 9 15s9-8.6 9-15a9 9 0 0 0-9-9z" />
-          </svg>
           <div className="about-body">
             <p>That&apos;s the idea behind everything we build. When your business shows up where buyers are already looking — in search, in answer engines, in your local market, in the feeds people scroll — you don&apos;t have to convince anyone you exist. You just have to be the obvious choice.</p>
             <p>Visibility like that isn&apos;t flashy and it isn&apos;t instant. But once it&apos;s built, it&apos;s yours — and it keeps working.</p>
