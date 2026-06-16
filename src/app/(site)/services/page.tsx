@@ -6,7 +6,7 @@ import { Arrow, ServiceIcons } from '@/components/icons'
 import ServiceRouteLine from './ServiceRouteLine'
 
 export const metadata: Metadata = {
-  title: 'Services — Seven ways to get found',
+  title: 'Services',
   description:
     'Seven ways Axia Atlas gets you found and chosen: Social Media, Answer-Engine Optimization (GEO/AEO), SEO & Content, Local Presence, Founder Brand, Website Design, and Lead Generation.',
   alternates: { canonical: '/services' },
@@ -73,8 +73,8 @@ export default function ServicesPage() {
         <p className="section-sub">Start with one channel or build the full system. Either way, it begins with strategy — never random tactics.</p>
       </div>
 
-      {/* The scroll-traced route threads every service, then curves into the
-          Book-a-Demo pin in the CTA below — so both live in one positioned flow. */}
+      {/* A simple straight vertical line connects the services (ServiceRouteLine);
+          it's positioned relative to this flow. */}
       <div className="services-flow">
         <ServiceRouteLine />
         <div className="services-route">

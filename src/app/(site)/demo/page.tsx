@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Footer from '@/components/Footer'
 import { Arrow } from '@/components/icons'
 
@@ -14,11 +14,16 @@ const GROWTH_AREAS = [
   'Not sure yet — help me figure it out',
 ]
 
-/* Portal booking page. After the survey saves the lead to Prospects, we hand the
-   visitor off here to pick a time. Name / email / company are passed as query
-   params so the portal page prefills them. The portal sends the invite + Meet
-   link only after the booking is confirmed — this site sends no email. */
-const PORTAL_BOOKING_BASE = 'https://app.axiaatlas.com/book/4e9c1a7b8f2d4c6e9a0b3d5f7c1e2a4b'
+/* On-site booking. After the survey saves the lead to Prospects, step 3 fetches
+   live availability from the portal scheduling API and lets the prospect pick a
+   time without leaving the site. On submit we POST a request; the portal handles
+   confirmation and sends the calendar invite + Meet link — this site sends no
+   email. CORS is enabled for axiaatlas.com on these endpoints. */
+const SCHED_BASE = 'https://app.axiaatlas.com/api/scheduling'
+const BOOKING_TOKEN = '4e9c1a7b8f2d4c6e9a0b3d5f7c1e2a4b'
+
+type Slot = { start: string; end: string }
+type DayGroup = { label: string; slots: Slot[] }
 
 type Form = {
   // Step 1 — person
@@ -47,16 +52,93 @@ export default function DemoPage() {
 
   const socialCount = [form.linkedin, form.instagram, form.facebook, form.x].filter((v) => v.trim()).length
 
-  // Portal booking link with the entered details passed through for prefill.
-  const portalBookingUrl = (() => {
-    const name = [form.firstName, form.lastName].filter(Boolean).join(' ').trim()
-    const params = new URLSearchParams()
-    if (name) params.set('name', name)
-    if (form.email.trim()) params.set('email', form.email.trim())
-    if (form.companyName.trim()) params.set('company', form.companyName.trim())
-    const q = params.toString()
-    return q ? `${PORTAL_BOOKING_BASE}?${q}` : PORTAL_BOOKING_BASE
+  // ── Step 3 — on-site booking picker ──────────────────────────────────────
+  const [slots, setSlots] = useState<Slot[]>([])
+  const [tz, setTz] = useState('America/New_York')
+  const [slotsState, setSlotsState] = useState<'loading' | 'ready' | 'error'>('loading')
+  const [selected, setSelected] = useState<Slot | null>(null)
+  const [booking, setBooking] = useState<'idle' | 'submitting' | 'done'>('idle')
+  const [bookingError, setBookingError] = useState('')
+
+  const loadSlots = useCallback(async () => {
+    setSlotsState('loading')
+    setBookingError('')
+    try {
+      const res = await fetch(`${SCHED_BASE}/slots`, { cache: 'no-store' })
+      if (!res.ok) throw new Error('slots')
+      const data = await res.json()
+      setSlots(Array.isArray(data?.slots) ? data.slots : [])
+      if (data?.tz) setTz(data.tz)
+      setSlotsState('ready')
+    } catch {
+      setSlotsState('error')
+    }
+  }, [])
+
+  // Fetch availability the moment the survey is saved and step 3 opens.
+  useEffect(() => {
+    if (step === 3) loadSlots()
+  }, [step, loadSlots])
+
+  const fullName = [form.firstName, form.lastName].filter(Boolean).join(' ').trim()
+
+  // Group slots by day, formatted + ordered in the portal's timezone.
+  const dayFmt = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', month: 'long', day: 'numeric' })
+  const timeFmt = new Intl.DateTimeFormat('en-US', { timeZone: tz, hour: 'numeric', minute: '2-digit' })
+  const tzLabel = (() => {
+    try {
+      const ref = slots[0]?.start ?? new Date().toISOString()
+      const parts = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'short' }).formatToParts(new Date(ref))
+      return parts.find((p) => p.type === 'timeZoneName')?.value ?? tz
+    } catch {
+      return tz
+    }
   })()
+
+  const days: DayGroup[] = (() => {
+    const order: string[] = []
+    const byDay: Record<string, Slot[]> = {}
+    for (const s of slots) {
+      const label = dayFmt.format(new Date(s.start))
+      if (!byDay[label]) { byDay[label] = []; order.push(label) }
+      byDay[label].push(s)
+    }
+    return order.map((label) => ({ label, slots: byDay[label] }))
+  })()
+
+  async function submitBooking() {
+    if (!selected || booking === 'submitting') return
+    setBooking('submitting')
+    setBookingError('')
+    try {
+      const res = await fetch(`${SCHED_BASE}/requests`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token: BOOKING_TOKEN,
+          name: fullName,
+          email: form.email.trim(),
+          company: form.companyName.trim(),
+          slotStart: selected.start,
+          slotEnd: selected.end,
+          note: form.growthArea ? `Growth focus: ${form.growthArea}` : undefined,
+        }),
+      })
+      if (res.ok) { setBooking('done'); return }
+      if (res.status === 409) {
+        // Slot was taken between fetch and submit — refresh and let them re-pick.
+        setSelected(null)
+        setBooking('idle')
+        setBookingError('That time was just taken. We’ve refreshed the available times — please pick another.')
+        loadSlots()
+        return
+      }
+      throw new Error('request')
+    } catch {
+      setBooking('idle')
+      setBookingError('Something went wrong booking that time. Please try again, or email partner@axiaatlas.com.')
+    }
+  }
 
   // Step 1 → 2: require first name + email (the only required person fields)
   function nextFromPerson(e: React.FormEvent) {
@@ -230,7 +312,7 @@ export default function DemoPage() {
                     <span>I don&apos;t have a social media presence</span>
                   </label>
 
-                  <div className="form-row">
+                  <div className="form-row demo-growth-row">
                     <label>What areas do you need growth in? *</label>
                     <select value={form.growthArea} onChange={set('growthArea')} required>
                       <option value="">— Select an area —</option>
@@ -250,19 +332,88 @@ export default function DemoPage() {
                 </form>
               )}
 
-              {step === 3 && (
+              {step === 3 && booking === 'done' && (
                 <div className="demo-done">
                   <div className="demo-done-check" aria-hidden="true">✓</div>
-                  <div className="demo-step-title">You&apos;re all set{form.firstName ? `, ${form.firstName}` : ''} — one last step</div>
-                  <div className="demo-step-sub">We&apos;ve got your details for {form.companyName || 'your business'}. Pick a time on our booking page and we&apos;ll confirm your demo — you&apos;ll get the calendar invite and meeting link once it&apos;s confirmed. We&apos;ll arrive with the gaps mapped and real recommendations, not a pitch deck.</div>
-
-                  <a href={portalBookingUrl} target="_blank" rel="noopener noreferrer" className="btn-primary demo-done-cta">
-                    Pick a time for your demo <Arrow className="arr" />
-                  </a>
-
-                  <div className="demo-booking-foot">
-                    Your name, email, and company carry over so you don&apos;t have to retype them.
+                  <div className="demo-step-title">Request received{form.firstName ? `, ${form.firstName}` : ''}</div>
+                  <div className="demo-step-sub">
+                    Thanks — we&apos;ve got your request for{' '}
+                    <strong>{selected ? `${dayFmt.format(new Date(selected.start))} at ${timeFmt.format(new Date(selected.start))} (${tzLabel})` : 'your chosen time'}</strong>.
+                    We&apos;ll confirm shortly and send the calendar invite with your Google Meet link to {form.email || 'your email'}. We&apos;ll arrive with the gaps mapped and real recommendations, not a pitch deck.
                   </div>
+                  <div className="demo-booking-foot">No need to do anything else — watch your inbox for the confirmation.</div>
+                </div>
+              )}
+
+              {step === 3 && booking !== 'done' && (
+                <div className="demo-book">
+                  <div className="demo-step-title">You&apos;re all set{form.firstName ? `, ${form.firstName}` : ''} — pick your time</div>
+                  <div className="demo-step-sub">
+                    Choose a slot for your demo below. We&apos;ll confirm it and send the calendar invite with your Google Meet link.
+                    {slotsState === 'ready' && slots.length > 0 ? <> All times shown in {tzLabel}.</> : null}
+                  </div>
+
+                  {slotsState === 'loading' && (
+                    <div className="slot-status">Loading available times…</div>
+                  )}
+
+                  {slotsState === 'error' && (
+                    <div className="slot-status">
+                      We couldn&apos;t load available times.{' '}
+                      <button type="button" className="slot-retry" onClick={loadSlots}>Try again</button>
+                      {' '}or email <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a>.
+                    </div>
+                  )}
+
+                  {slotsState === 'ready' && days.length === 0 && (
+                    <div className="slot-status">
+                      No times are open right now. Email <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a> and we&apos;ll find a time that works.
+                    </div>
+                  )}
+
+                  {slotsState === 'ready' && days.length > 0 && (
+                    <>
+                      <div className="slot-days">
+                        {days.map((d) => (
+                          <div key={d.label} className="slot-day">
+                            <div className="slot-day-head">{d.label}</div>
+                            <div className="slot-times">
+                              {d.slots.map((s) => (
+                                <button
+                                  key={s.start}
+                                  type="button"
+                                  className={`slot-chip${selected?.start === s.start ? ' selected' : ''}`}
+                                  onClick={() => { setSelected(s); setBookingError('') }}
+                                  aria-pressed={selected?.start === s.start}
+                                >
+                                  {timeFmt.format(new Date(s.start))}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {bookingError && <div className="demo-error">{bookingError}</div>}
+
+                      <div className="demo-actions slot-actions">
+                        <div className="slot-selected-label">
+                          {selected
+                            ? <>Selected: <strong>{dayFmt.format(new Date(selected.start))}, {timeFmt.format(new Date(selected.start))} ({tzLabel})</strong></>
+                            : 'Select a time to continue.'}
+                        </div>
+                        <button
+                          type="button"
+                          className="btn-primary"
+                          onClick={submitBooking}
+                          disabled={!selected || booking === 'submitting'}
+                          style={{ opacity: !selected || booking === 'submitting' ? 0.7 : 1 }}
+                        >
+                          {booking === 'submitting' ? 'Requesting…' : <>Request this time <Arrow className="arr" /></>}
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
             </>

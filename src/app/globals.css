@@ -338,109 +338,57 @@ img { max-width: 100%; }
   color: var(--inverse-text);
 }
 
-/* ── HERO ──────────────────────────────────────────────────────────────── */
+/* ── HERO ──────────────────────────────────────────────────────────────────
+   Clean, type-forward and confident: bold headline as the focal point, one
+   soft sage aura behind it, generous space, minimal motion. ──────────────── */
 .hero {
   position: relative;
   min-height: calc(100svh - var(--nav-h));
   display: flex;
   align-items: center;
-  padding: clamp(80px, 12vh, 140px) var(--gutter);
+  justify-content: center;
+  text-align: center;
+  padding: clamp(88px, 14vh, 168px) var(--gutter);
   overflow: hidden;
 }
+/* faint static grid texture, softly masked toward the centre — depth, not noise */
 .hero::before {
   content: '';
   position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 50% 45% at 78% 18%, rgba(var(--sage-rgb), 0.16) 0%, transparent 60%),
-    radial-gradient(ellipse 65% 60% at 12% 96%, var(--glow-b) 0%, transparent 62%);
-}
-.hero::after {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none;
   background-image:
-    linear-gradient(rgba(var(--sage-rgb), 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--sage-rgb), 0.05) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, #000 0%, transparent 82%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, #000 0%, transparent 82%);
-  animation: gridDrift 60s linear infinite;
+    linear-gradient(rgba(var(--sage-rgb), 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--sage-rgb), 0.04) 1px, transparent 1px);
+  background-size: 84px 84px;
+  mask-image: radial-gradient(ellipse 78% 70% at 50% 46%, #000 0%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 78% 70% at 50% 46%, #000 0%, transparent 80%);
 }
-@keyframes gridDrift { from { background-position: 0 0; } to { background-position: 72px 72px; } }
 
-.hero-topo { position: absolute; inset: 0; pointer-events: none; opacity: 0.5; color: var(--inverse-accent); }
-.hero-topo svg { width: 100%; height: 100%; }
-.hero-topo path { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.12; }
-
-/* ── HERO BEACON (a location being marked on the map) ──────────────────── */
-.hero-beacon {
-  position: absolute; z-index: 1;
-  right: clamp(8px, 4vw, 96px); top: 50%;
-  width: clamp(296px, 24vw, 430px); aspect-ratio: 1 / 1;
-  transform: translateY(-50%);
-  pointer-events: none;
-  display: none;
-  opacity: 0.9;
+/* the single focal element: a large, soft sage glow that breathes slowly */
+.hero-aura {
+  position: absolute; z-index: 0; pointer-events: none;
+  left: 50%; top: 42%;
+  width: min(900px, 90vw); aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(var(--sage-rgb), 0.22) 0%, rgba(var(--sage-rgb), 0.08) 32%, transparent 64%);
+  filter: blur(8px);
+  animation: heroAura 9s ease-in-out infinite;
 }
-@media (min-width: 1200px) {
-  .hero-beacon { display: block; }
-  .hero .hero-inner { max-width: min(900px, 58%); }
+@keyframes heroAura {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.85; }
+  50%      { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
 }
-.hero-beacon svg { width: 100%; height: 100%; overflow: visible; }
-.hb-grid line { stroke: rgba(var(--sage-rgb), 0.09); stroke-width: 1; }
-.hb-topo path { fill: none; stroke: rgba(var(--sage-rgb), 0.16); stroke-width: 1; }
-.hb-dial {
-  fill: none; stroke: rgba(var(--sage-rgb), 0.38); stroke-width: 1; stroke-dasharray: 3 8;
-  transform-box: fill-box; transform-origin: center;
-  animation: hbSpin 56s linear infinite;
-}
-.hb-dial.inner { stroke-dasharray: 2 6; opacity: 0.7; animation: hbSpin 36s linear infinite reverse; }
+/* Shared slow-spin + float keyframes, still used by the CTA band beacon and the
+   about-page figure. */
 @keyframes hbSpin { to { transform: rotate(360deg); } }
-.hb-cross-g { animation: hbScan 12s ease-in-out infinite alternate; }
-.hb-cross { stroke: rgba(var(--sage-rgb), 0.18); stroke-width: 1; }
-@keyframes hbScan {
-  0% { transform: translate(0, 0); }
-  45% { transform: translate(7px, -5px); }
-  100% { transform: translate(-6px, 5px); }
-}
-.hb-route {
-  fill: none; stroke: rgba(var(--sage-rgb), 0.45); stroke-width: 1.3;
-  stroke-dasharray: 5 7;
-  animation: hbAnts 1.6s linear infinite;
-}
-@keyframes hbAnts { to { stroke-dashoffset: -24; } }
-.hb-ring {
-  fill: none; stroke: rgba(var(--sage-rgb), 0.6); stroke-width: 1.2;
-  transform-box: fill-box; transform-origin: center;
-  opacity: 0;
-  animation: hbRing 4.5s var(--ease-out) infinite;
-}
-.hb-ring.r2 { animation-delay: 1.5s; }
-.hb-ring.r3 { animation-delay: 3s; }
-@keyframes hbRing {
-  0% { transform: scale(0.18); opacity: 0; }
-  14% { opacity: 0.8; }
-  100% { transform: scale(1.65); opacity: 0; }
-}
-.hb-pin {
-  transform-box: fill-box; transform-origin: center;
-  animation: hbFloat 6s ease-in-out infinite;
-}
-.hb-pin path { fill: var(--inverse-bg); stroke: var(--sage); stroke-width: 1.6; }
-.hb-pin circle { fill: var(--sage); }
 @keyframes hbFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-.hb-text {
-  font-family: var(--font-head);
-  font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
-  fill: rgba(var(--sage-rgb), 0.75);
-}
-.hb-text.faint { fill: rgba(var(--sage-rgb), 0.4); letter-spacing: 0.16em; }
 
-.hero-inner { position: relative; z-index: 2; max-width: 900px; }
+.hero-inner { position: relative; z-index: 2; max-width: 880px; margin: 0 auto; }
 
 .hero-eyebrow {
   color: var(--inverse-accent);
-  margin-bottom: 26px;
-  padding: 7px 14px 7px 12px;
+  margin: 0 auto 30px;
+  padding: 7px 16px 7px 13px;
   border: 1px solid var(--inverse-border);
   border-radius: var(--r-pill);
   background: var(--inverse-surface);
@@ -459,12 +407,12 @@ img { max-width: 100%; }
 
 .hero-headline {
   font-family: var(--font-head);
-  font-size: var(--t-display);
-  font-weight: 700;
-  line-height: 1.0;
-  letter-spacing: -0.035em;
+  font-size: clamp(2.85rem, 7vw, 5.25rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
   color: var(--inverse-text);
-  margin-bottom: 28px;
+  margin-bottom: 30px;
   text-wrap: balance;
 }
 .hero-headline em { font-style: normal; color: var(--inverse-accent); }
@@ -473,12 +421,12 @@ img { max-width: 100%; }
   font-size: var(--t-lead);
   line-height: 1.62;
   color: var(--inverse-muted);
-  max-width: 580px;
-  margin-bottom: 40px;
+  max-width: 640px;
+  margin: 0 auto 42px;
   text-wrap: pretty;
 }
 
-.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 .hero .btn-primary { background: var(--inverse-primary); color: var(--inverse-on-primary); }
 .hero .btn-primary:hover { filter: brightness(1.06); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
 .hero .btn-outline { color: var(--inverse-text); border-color: var(--inverse-border); }
@@ -486,13 +434,18 @@ img { max-width: 100%; }
 
 .hero-trust {
   position: relative; z-index: 2;
-  margin-top: 56px; padding-top: 26px;
+  margin: 64px auto 0; padding-top: 28px;
   border-top: 1px solid var(--inverse-border);
-  display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+  display: flex; align-items: center; justify-content: center; gap: 16px 28px; flex-wrap: wrap;
+  max-width: 760px;
 }
 .hero-trust-label { font-family: var(--font-head); font-size: var(--t-xs); letter-spacing: 0.16em; text-transform: uppercase; color: var(--inverse-faint); font-weight: 600; }
-.hero-trust-items { display: flex; gap: 26px; flex-wrap: wrap; }
+.hero-trust-items { display: flex; gap: 16px 26px; flex-wrap: wrap; justify-content: center; }
 .hero-trust-items span { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--inverse-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-aura { animation: none; }
+}
 
 /* ── MARQUEE (light strip under hero — where buying decisions happen) ──── */
 .hero-marquee {
@@ -699,18 +652,11 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 }
 .sm-dot { fill: var(--sage); }
 .sm-halo { fill: none; stroke: rgba(var(--sage-rgb), 0.4); stroke-width: 1; }
-.sm-ring {
-  fill: none; stroke: rgba(var(--sage-rgb), 0.55); stroke-width: 1.2;
-  transform-box: fill-box; transform-origin: center;
-  animation: smRing 3s var(--ease-out) infinite;
+/* the upward growth arrow at the end of the route */
+.sm-arrow {
+  fill: none; stroke: var(--sage); stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
 }
-@keyframes smRing {
-  0% { transform: scale(0.4); opacity: 0; }
-  20% { opacity: 0.8; }
-  100% { transform: scale(1.7); opacity: 0; }
-}
-.sm-pin { fill: var(--inverse-bg); stroke: var(--sage); stroke-width: 1.5; }
-.sm-pin-dot { fill: var(--sage); }
 .sm-label {
   font-family: var(--font-head);
   font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
@@ -941,35 +887,23 @@ footer::before {
 /* ── SERVICES PAGE (light overview rows) ───────────────────────────────── */
 .services-page { background: var(--bg); }
 
-/* Always-visible cartographic route line (see ServiceRouteLine.tsx) — fully
-   static, no scroll animation. The flow wraps the services AND the CTA band so
-   the line can curve from the last service into the Book-a-Demo pin. It sits
-   above the section backgrounds but below the CTA content (so the pin stays on
-   top), and is styled identically in both light and dark themes. */
+/* A single clean, straight vertical line connecting the services (see
+   ServiceRouteLine.tsx). Minimal and elegant — no curve, no animation, no pin.
+   Styled identically in both light and dark themes. */
 .services-flow { position: relative; }
 .services-route { position: relative; }
 .route-line { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 .route-svg { position: absolute; top: 0; left: 0; overflow: visible; }
-/* faint continuous hairline — the charted road underneath the travel route */
-.route-track {
-  fill: none; stroke: var(--primary); stroke-width: 1;
-  stroke-linecap: round; stroke-linejoin: round; opacity: 0.16;
-}
-/* the dotted "travel" route drawn on top, with a soft lift off the page */
+/* the straight spine */
 .route-path {
-  fill: none; stroke: var(--primary); stroke-width: 2.4;
-  stroke-linecap: round; stroke-linejoin: round;
-  stroke-dasharray: 0.1 9; opacity: 0.9;
-  filter: drop-shadow(0 1px 1.5px rgba(var(--spruce-rgb), 0.22));
+  stroke: var(--primary); stroke-width: 1.5; stroke-linecap: round;
+  opacity: 0.22;
 }
-/* solid diamond waypoint at each service, haloed so it reads over the dots */
+/* a small, solid node at each service, ringed in the surface colour so it
+   reads cleanly where it sits on the line */
 .route-node {
   fill: var(--primary); stroke: var(--surface); stroke-width: 3;
-  transform-box: fill-box; transform-origin: center; transform: rotate(45deg);
-}
-/* destination marker in the CTA band */
-.route-pin {
-  fill: var(--surface); stroke: var(--primary); stroke-width: 2.2; opacity: 1;
+  opacity: 0.9;
 }
 
 .service-detail { padding: clamp(52px, 6.5vw, 80px) var(--gutter); border-bottom: 1px solid var(--border); }
@@ -1274,6 +1208,9 @@ footer::before {
   display: inline; margin: 0; font: inherit; color: inherit;
   text-transform: none; letter-spacing: 0; line-height: 1; align-self: center;
 }
+/* Clear separation between the "no social presence" checkbox and the next
+   field so they don't read as one group. */
+.demo-growth-row { margin-top: 30px; }
 
 /* The demo flow stays calm — no white shine-sweep / glare on its buttons. */
 .demo-page .btn-primary::after { content: none; }
@@ -1309,9 +1246,10 @@ footer::before {
 .contact-careers-title { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--text); margin: 6px 0 6px; }
 .contact-careers-desc { font-size: 0.8125rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 16px; }
 
-/* Step 3 — confirmation + hand-off to the portal booking page. The survey has
-   already saved the lead to Prospects; the portal sends the invite + Meet link
-   only after the booking is confirmed (this site sends no email). */
+/* Step 3 — on-site booking picker + branded confirmation. The survey has
+   already saved the lead to Prospects; we fetch live availability and POST a
+   request. The portal confirms and sends the invite + Meet link (this site
+   sends no email). */
 .demo-done { text-align: center; padding: clamp(8px, 2vw, 20px) 0; }
 .demo-done-check {
   width: 56px; height: 56px; margin: 0 auto 22px; border-radius: 50%;
@@ -1319,11 +1257,47 @@ footer::before {
   font-size: 26px; line-height: 1; color: var(--accent);
   background: var(--accent-soft); border: 1px solid var(--accent);
 }
-.demo-done .demo-step-sub { max-width: 540px; margin: 0 auto 26px; }
-.demo-done-cta { display: inline-flex; }
+.demo-done .demo-step-sub { max-width: 560px; margin: 0 auto 26px; }
 .demo-booking-foot { margin-top: 18px; font-size: var(--t-xs); color: var(--text-faint); }
 .demo-booking-foot a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 3px; }
 .demo-booking-foot a:hover { color: var(--text); }
+
+/* Loading / error / empty states for the slot fetch */
+.slot-status { font-size: var(--t-sm); color: var(--text-muted); line-height: 1.7; padding: 22px 0; text-align: center; }
+.slot-status a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.slot-retry {
+  background: none; border: none; padding: 0; cursor: pointer;
+  font: inherit; color: var(--accent); text-decoration: underline; text-underline-offset: 3px;
+}
+.slot-retry:hover { color: var(--text); }
+
+/* The day-grouped slot picker */
+.slot-days {
+  display: flex; flex-direction: column; gap: 20px;
+  max-height: 380px; overflow-y: auto; margin-top: 4px;
+  padding: 2px 4px 2px 2px;
+}
+.slot-day-head {
+  font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint);
+  margin-bottom: 12px;
+}
+.slot-times { display: flex; flex-wrap: wrap; gap: 8px; }
+.slot-chip {
+  font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600;
+  padding: 9px 15px; border: 1px solid var(--border-strong); border-radius: var(--r);
+  background: var(--surface); color: var(--text); cursor: pointer;
+  transition: border-color 0.16s var(--ease), background 0.16s var(--ease), color 0.16s var(--ease), transform 0.16s var(--ease);
+}
+.slot-chip:hover { border-color: var(--accent); background: var(--accent-soft); transform: translateY(-1px); }
+.slot-chip.selected {
+  background: var(--primary); color: var(--on-primary); border-color: var(--primary);
+}
+.slot-chip.selected:hover { background: var(--primary-hover); }
+
+.slot-actions { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+.slot-selected-label { font-size: var(--t-sm); color: var(--text-muted); line-height: 1.5; }
+.slot-selected-label strong { color: var(--text); font-weight: 600; }
 
 /* ── CHAT WIDGET ───────────────────────────────────────────────────────── */
 .chat-btn {

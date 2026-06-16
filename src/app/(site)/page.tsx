@@ -52,63 +52,6 @@ const MARQUEE = [
   'Reviews checked before they call',
 ]
 
-function HeroTopo() {
-  return (
-    <div className="hero-topo" aria-hidden="true">
-      <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
-        <path d="M-50 180 Q 300 80 600 200 T 1250 160" />
-        <path d="M-50 250 Q 300 150 600 270 T 1250 230" />
-        <path d="M-50 320 Q 300 220 600 340 T 1250 300" />
-        <path d="M-50 390 Q 300 290 600 410 T 1250 370" />
-        <path d="M-50 460 Q 300 360 600 480 T 1250 440" />
-        <path d="M-50 530 Q 300 430 600 550 T 1250 510" />
-      </svg>
-    </div>
-  )
-}
-
-/* Animated cartographic beacon — a location being marked on the map.
-   Pure CSS animation, hidden on smaller viewports and under reduced motion. */
-function HeroBeacon() {
-  return (
-    <div className="hero-beacon" aria-hidden="true">
-      <svg viewBox="0 0 480 480">
-        {/* faint local grid */}
-        <g className="hb-grid">
-          <line x1="0" y1="120" x2="480" y2="120" /><line x1="0" y1="240" x2="480" y2="240" /><line x1="0" y1="360" x2="480" y2="360" />
-          <line x1="120" y1="0" x2="120" y2="480" /><line x1="240" y1="0" x2="240" y2="480" /><line x1="360" y1="0" x2="360" y2="480" />
-        </g>
-        {/* contours */}
-        <g className="hb-topo">
-          <path d="M-20 380 Q 140 320 250 360 T 500 330" />
-          <path d="M-20 430 Q 140 370 250 410 T 500 380" />
-        </g>
-        {/* compass dials around the target */}
-        <circle className="hb-dial" cx="240" cy="228" r="148" />
-        <circle className="hb-dial inner" cx="240" cy="228" r="104" />
-        {/* crosshair, slowly scanning */}
-        <g className="hb-cross-g">
-          <line className="hb-cross" x1="-40" y1="228" x2="520" y2="228" />
-          <line className="hb-cross" x1="240" y1="-40" x2="240" y2="520" />
-        </g>
-        {/* dashed route flowing toward the mark */}
-        <path className="hb-route" d="M -10 452 C 90 430, 120 330, 200 290 S 228 252 238 236" />
-        {/* expanding ripples */}
-        <circle className="hb-ring r1" cx="240" cy="228" r="64" />
-        <circle className="hb-ring r2" cx="240" cy="228" r="64" />
-        <circle className="hb-ring r3" cx="240" cy="228" r="64" />
-        {/* the pin */}
-        <g className="hb-pin">
-          <path d="M240 198a22 22 0 0 0-22 22c0 15 22 36 22 36s22-21 22-36a22 22 0 0 0-22-22z" />
-          <circle cx="240" cy="219" r="7.5" />
-        </g>
-        <text className="hb-text" x="270" y="172">You are here</text>
-        <text className="hb-text faint" x="26" y="40">41.0082° N — 28.9784° E</text>
-      </svg>
-    </div>
-  )
-}
-
 /* Animated route map inside the green "system" feature card —
    the journey from found → chosen → remembered, drawn on a loop. */
 function SystemMap() {
@@ -131,10 +74,11 @@ function SystemMap() {
           <text className="sm-label" x="270" y="163">Convert</text>
         </g>
         <g className="sm-wp w3">
-          <circle className="sm-ring" cx="462" cy="64" r="16" />
-          <path className="sm-pin" d="M462 36a17 17 0 0 0-17 17c0 12 17 28 17 28s17-16 17-28a17 17 0 0 0-17-17z" />
-          <circle className="sm-pin-dot" cx="462" cy="53" r="5.5" />
-          <text className="sm-label" x="404" y="118">Compound</text>
+          {/* an arrow rising off the end of the route — growth / upward motion,
+              replacing the old map pin */}
+          <path className="sm-arrow" d="M462 92 L462 44" />
+          <path className="sm-arrow" d="M450 56 L462 42 L474 56" />
+          <text className="sm-label" x="404" y="120">Compound</text>
         </g>
       </svg>
     </div>
@@ -150,8 +94,7 @@ export default async function HomePage() {
 
       {/* ── HERO ── */}
       <div className="hero">
-        <HeroTopo />
-        <HeroBeacon />
+        <div className="hero-aura" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-eyebrow"><span className="pulse" /> Digital marketing studio</div>
           <h1 className="hero-headline">

@@ -143,8 +143,8 @@ const QA_SET: QA[] = [
   {
     keywords: ['portal', 'login', 'log in', 'client login', 'dashboard', 'sign in', 'account'],
     answer:
-      'Existing clients can sign in to the portal at app.axiaatlas.com — there’s also a Client Login button at the top of every page.',
-    links: [{ label: 'Client login', href: 'https://app.axiaatlas.com' }, L.contact],
+      'Existing clients can sign in to the portal at app.axiaatlas.com — there’s also a Client Portal button at the top of every page.',
+    links: [{ label: 'Client Portal', href: 'https://app.axiaatlas.com' }, L.contact],
     followups: ['How do I get started?', 'What services do you offer?'],
   },
   {

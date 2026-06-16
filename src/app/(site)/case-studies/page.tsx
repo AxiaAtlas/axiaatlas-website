@@ -4,7 +4,7 @@ import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 
 export const metadata: Metadata = {
-  title: 'Case Studies — Real businesses, real results',
+  title: 'Case Studies',
   description:
     'Real outcomes from Axia Atlas — local businesses, consumer brands, and founders made impossible to miss in search, answer engines, and social.',
   alternates: { canonical: '/case-studies' },

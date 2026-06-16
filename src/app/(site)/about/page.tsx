@@ -4,7 +4,7 @@ import Footer from '@/components/Footer'
 import { Arrow } from '@/components/icons'
 
 export const metadata: Metadata = {
-  title: 'About — To be found is to be seen',
+  title: 'About',
   description:
     'Axia Atlas is a digital marketing studio built on one idea: to be found is to be seen. We help brands, local businesses, and founders show up where their buyers are looking.',
   alternates: { canonical: '/about' },

@@ -39,7 +39,7 @@ export default function Nav() {
           </li>
         ))}
         <li className="nav-actions">
-          <a href={PORTAL_URL} className="nav-login" onClick={close}>Client Login</a>
+          <a href={PORTAL_URL} className="nav-login" onClick={close}>Client Portal</a>
           <Link href="/demo" className="nav-cta" onClick={close}>Book a Demo</Link>
         </li>
       </ul>

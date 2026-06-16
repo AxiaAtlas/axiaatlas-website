@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: 'Axia Atlas — Digital Marketing',
-    template: '%s — Digital Marketing — Axia Atlas',
+    template: 'Axia Atlas — %s — Digital Marketing',
   },
   description: DESCRIPTION,
   keywords: [

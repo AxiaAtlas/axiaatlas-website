@@ -5,7 +5,7 @@ import CtaBand from '@/components/CtaBand'
 import { Arrow, Check } from '@/components/icons'
 
 export const metadata: Metadata = {
-  title: 'Pricing — Three tiers, scoped to you',
+  title: 'Pricing',
   description:
     'Three Axia Atlas tiers — Starter, Growth, and Authority — scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.',
   alternates: { canonical: '/pricing' },

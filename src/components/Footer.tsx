@@ -39,7 +39,7 @@ export default function Footer() {
             <div className="footer-col-title">Get Started</div>
             <ul className="footer-links">
               <li><Link href="/demo">Book a Demo</Link></li>
-              <li><a href={PORTAL_URL}>Client Login</a></li>
+              <li><a href={PORTAL_URL}>Client Portal</a></li>
               <li><a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a></li>
             </ul>
           </div>
@@ -50,7 +50,7 @@ export default function Footer() {
           <nav className="footer-legal">
             <Link href="/privacy" className="footer-copy">Privacy</Link>
             <Link href="/terms" className="footer-copy">Terms</Link>
-            <a href={PORTAL_URL} className="footer-copy footer-portal-link">Client Login →</a>
+            <a href={PORTAL_URL} className="footer-copy footer-portal-link">Client Portal →</a>
           </nav>
         </div>
       </div>

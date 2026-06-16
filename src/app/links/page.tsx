@@ -7,7 +7,7 @@ import {
 } from '@/components/icons'
 
 export const metadata: Metadata = {
-  title: 'Links — Find Axia Atlas everywhere',
+  title: 'Links',
   description:
     'One place for everything Axia Atlas — visit our website, book a demo, and follow along on LinkedIn, Instagram, Facebook, X, and YouTube.',
   alternates: { canonical: '/links' },
