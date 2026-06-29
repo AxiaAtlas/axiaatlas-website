@@ -460,6 +460,12 @@ img { max-width: 100%; }
 .marquee-track {
   display: flex;
   width: max-content;
+  /* Promote to its own compositor layer so the loop is transformed on the GPU
+     in subpixel precision — no main-thread repaint, no pixel-snap hop at the
+     wrap point. */
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
   animation: marqueeScroll 42s linear infinite;
 }
 .hero-marquee:hover .marquee-track { animation-play-state: paused; }
@@ -476,9 +482,16 @@ img { max-width: 100%; }
   background: var(--sage); transform: rotate(45deg);
   margin: 0 24px; flex-shrink: 0;
 }
-@keyframes marqueeScroll { to { transform: translateX(-50%); } }
+/* Two identical groups make one group's width exactly 50% of the track, so a
+   -50% shift lands the second group precisely where the first began: the loop
+   is seamless. translate3d keeps it on the GPU layer set above. */
+@keyframes marqueeScroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
 @media (prefers-reduced-motion: reduce) {
   .hero-marquee { mask-image: none; -webkit-mask-image: none; }
+  .marquee-track { animation: none; transform: none; }
 }
 
 /* ── SECTIONS ──────────────────────────────────────────────────────────── */
