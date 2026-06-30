@@ -908,18 +908,19 @@ footer::before {
 .services-route { position: relative; }
 .route-line { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 .route-svg { position: absolute; top: 0; left: 0; overflow: visible; }
-/* the straight spine — drawn as you scroll the section */
+/* the straight spine — drawn as you scroll the section. The draw (dashoffset)
+   and node opacity are set imperatively each animation frame, so there is no
+   CSS transition here: the line tracks scroll exactly in both directions. */
 .route-path {
   stroke: var(--primary); stroke-width: 1.5; stroke-linecap: round;
   opacity: 0.22;
-  transition: stroke-dashoffset 0.12s linear;
+  will-change: stroke-dashoffset;
 }
 /* a small, solid node at each service, ringed in the surface colour so it
    reads cleanly where it sits on the line; fades in as the draw reaches it */
 .route-node {
   fill: var(--primary); stroke: var(--surface); stroke-width: 3;
-  opacity: 0.9;
-  transition: opacity 0.3s var(--ease);
+  will-change: opacity;
 }
 
 .service-detail { padding: clamp(52px, 6.5vw, 80px) var(--gutter); border-bottom: 1px solid var(--border); }
