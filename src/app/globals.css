@@ -910,24 +910,22 @@ footer::before {
 /* ── SERVICES PAGE (light overview rows) ───────────────────────────────── */
 .services-page { background: var(--bg); }
 
-/* A single clean, straight vertical line connecting the services (see
-   ServiceRouteLine.tsx). Minimal and elegant — no curve, no pin. The spine
-   draws itself on scroll via inline stroke-dashoffset; the transitions below
-   keep that draw and the node fade smooth in both light and dark themes. */
+/* A straight vertical spine connecting the seven services (see
+   ServiceRouteLine.tsx). It draws itself on scroll via inline
+   stroke-dashoffset, painted imperatively each animation frame — so there is
+   deliberately NO CSS transition here: the line tracks scroll exactly, smooth
+   in both directions. */
 .services-flow { position: relative; }
 .services-route { position: relative; }
 .route-line { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 .route-svg { position: absolute; top: 0; left: 0; overflow: visible; }
-/* the straight spine — drawn as you scroll the section. The draw (dashoffset)
-   and node opacity are set imperatively each animation frame, so there is no
-   CSS transition here: the line tracks scroll exactly in both directions. */
 .route-path {
   stroke: var(--primary); stroke-width: 1.5; stroke-linecap: round;
   opacity: 0.22;
   will-change: stroke-dashoffset;
 }
-/* a small, solid node at each service, ringed in the surface colour so it
-   reads cleanly where it sits on the line; fades in as the draw reaches it */
+/* a small solid node at each service, ringed in the surface colour so it reads
+   cleanly on the line; fades in as the draw reaches it */
 .route-node {
   fill: var(--primary); stroke: var(--surface); stroke-width: 3;
   will-change: opacity;
