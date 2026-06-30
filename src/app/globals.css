@@ -227,6 +227,16 @@ img { max-width: 100%; }
 .btn-primary:hover::after { animation: btnShine 0.7s var(--ease); }
 @keyframes btnShine { to { left: 135%; } }
 
+/* Services page: on-brand button hover — deepen to spruce with a sage inner
+   ring instead of the alabaster shine sweep (no white flash / white bg). */
+.services-page .btn-primary::after { display: none; }
+.services-page .btn-primary:hover {
+  background: var(--spruce-900);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px -8px rgba(var(--spruce-rgb), 0.55),
+              inset 0 0 0 1px rgba(var(--sage-rgb), 0.55);
+}
+
 .btn-dark { background: var(--primary); color: var(--on-primary); }
 .btn-dark:hover { background: var(--primary-hover); transform: translateY(-1px); }
 

@@ -8,46 +8,11 @@ import ServiceRouteLine from './ServiceRouteLine'
 export const metadata: Metadata = {
   title: 'Services',
   description:
-    'Seven ways Axia Atlas gets you found and chosen: Social Media, Answer-Engine Optimization (GEO/AEO), SEO & Content, Local Presence, Founder Brand, Website Design, and Lead Generation.',
+    'Seven ways Axia Atlas gets you found and chosen: Website Design, Social Media, Answer-Engine + SEO, Local Presence, Lead Generation, Executive Personal Brand, and Strategic Advisory.',
   alternates: { canonical: '/services' },
 }
 
 const SERVICES = [
-  {
-    id: 'social',
-    headline: 'Social Media',
-    desc: 'Most "social strategies" are just a posting schedule. We build the whole thing — which platforms fit you, what to say, how it looks — and grow an audience that actually buys, not just a feed that stays busy.',
-    who: 'For brands and businesses ready to treat social as a real growth channel, B2B or B2C.',
-    points: ['Platform strategy', 'Content planned monthly', 'Made for each platform', 'Community management'],
-  },
-  {
-    id: 'geo',
-    headline: 'Answer-Engine Optimization (GEO / AEO)',
-    desc: "Your customers ask ChatGPT, Perplexity, and Gemini what to buy and who to hire. If the answer never mentions you, you never had a chance. We get you into those answers.",
-    who: 'For any business whose buyers research online before they decide — brands, services, and founders alike.',
-    points: ['Visibility audit', 'Content built to be cited', 'Technical setup', 'Citation tracking'],
-  },
-  {
-    id: 'seo',
-    headline: 'SEO & Content',
-    desc: 'Good SEO pairs technical fundamentals with content that genuinely answers what people search for. We write and publish pages that rank, earn trust, and keep bringing in customers without paying per click.',
-    who: "For businesses that want steady traffic and leads they don't have to rent from ad platforms.",
-    points: ['Keyword research', 'Articles that rank', 'On-page optimization', 'Plain-English reporting'],
-  },
-  {
-    id: 'local',
-    headline: 'Local Presence',
-    desc: 'If people find you by searching "near me" or tapping the map, local is the highest-return channel you have. We build the whole footprint so you own your area.',
-    who: 'For clinics, trades, shops, restaurants, practices, and any business that serves a local or regional market.',
-    points: ['Google Business Profile', 'Reviews that build trust', 'Local pages', 'Map-pack visibility'],
-  },
-  {
-    id: 'executive',
-    headline: 'Founder & Executive Brand',
-    desc: 'People buy from people they trust. We turn the face of your business into a name buyers recognize before the first call — content in your own voice that builds authority instead of noise.',
-    who: 'For founders, owners, and executives who are the front of their business.',
-    points: ['Positioning & themes', 'Posts in your voice', 'Thought leadership', 'Engagement strategy'],
-  },
   {
     id: 'website',
     headline: 'Website Design',
@@ -56,11 +21,46 @@ const SERVICES = [
     points: ['Conversion-first design', 'Copy & messaging', 'Technical foundation', 'Built for speed'],
   },
   {
+    id: 'social',
+    headline: 'Social Media',
+    desc: 'Most "social strategies" are just a posting schedule. We build the whole thing — which platforms fit you, what to say, how it looks — and grow an audience that actually buys. We also manage the comments, replying professionally when feedback turns negative so a complaint becomes proof of how well you handle people.',
+    who: 'For brands and businesses ready to treat social as a real growth channel, B2B or B2C.',
+    points: ['Platform strategy', 'Content planned monthly', 'Made for each platform', 'Community & reputation management'],
+  },
+  {
+    id: 'geo',
+    headline: 'Answer-Engine + SEO',
+    desc: "Your customers ask ChatGPT, Perplexity, and Gemini what to buy and who to hire — and they still search Google. We make sure you show up in both: cited in the answer engines and ranking on the page, so you're the recommendation either way they look.",
+    who: 'For any business whose buyers research online before they decide — brands, services, and founders alike.',
+    points: ['Visibility & keyword audit', 'Content built to be cited and to rank', 'Technical & on-page setup', 'Citation & ranking tracking'],
+  },
+  {
+    id: 'local',
+    headline: 'Local Presence',
+    desc: 'If people find you by searching "near me" or tapping the map, local is the highest-return channel you have. We build the whole footprint so you own your area — and when a hard review lands on Google, we respond and work to make it right in public, so prospects see how you treat people when something goes wrong.',
+    who: 'For clinics, trades, shops, restaurants, practices, and any business that serves a local or regional market.',
+    points: ['Google Business Profile', 'Reviews & service recovery', 'Local landing pages', 'Map-pack visibility'],
+  },
+  {
     id: 'leadgen',
     headline: 'Lead Generation',
     desc: "Search and content compound over time. Outbound fills the pipeline now. We build targeted prospecting that finds your ideal customers and warms them up with messages that don't sound like spam.",
     who: 'For B2B and service businesses that know who their best customers are and want more conversations now.',
     points: ['Ideal-customer targeting', 'Researched prospect lists', 'Email + LinkedIn outreach', 'Pipeline you can see'],
+  },
+  {
+    id: 'executive',
+    headline: 'Executive Personal Brand',
+    desc: 'People buy from people they trust. We turn the face of your business into a name buyers recognize before the first call — content in your own voice that builds authority instead of noise.',
+    who: 'For founders, owners, and executives who are the front of their business.',
+    points: ['Positioning & themes', 'Posts in your voice', 'Thought leadership', 'Engagement strategy'],
+  },
+  {
+    id: 'strategy',
+    headline: 'Strategic Advisory',
+    desc: "Most businesses don't need more tactics — they need to know which moves matter and in what order. We act as the strategist in your corner: we look across every channel, decide what comes first, and keep the plan honest as you grow.",
+    who: 'For owners and teams who want a clear plan and a partner to think it through with, not just another vendor.',
+    points: ['Channel strategy & sequencing', 'Roadmap & priorities', 'Positioning & messaging', 'Regular strategy reviews'],
   },
 ]
 

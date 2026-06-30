@@ -131,4 +131,5 @@ export const ServiceIcons: Record<string, (p: IconProps) => JSX.Element> = {
   executive: Founder,
   website: Website,
   leadgen: Lead,
+  strategy: Compass,
 }
