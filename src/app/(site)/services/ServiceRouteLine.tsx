@@ -18,8 +18,18 @@ import { useEffect, useRef, useState } from 'react'
    requestAnimationFrame, so there is no React re-render and no CSS transition
    lagging behind the scroll. */
 
-const REF = 0.6 // reference line, as a fraction of viewport height
+// The spine starts drawing when the first node is low in the viewport and
+// finishes when the last node is high in it. Using two well-separated
+// reference lines (instead of one) stretches the draw across the whole
+// section height PLUS a full lead-in/out, so it fills gradually and completes
+// near the end of the section rather than early.
+const REF_START = 0.9 // first node crosses here (near the bottom) → progress 0
+const REF_END = 0.12 // last node crosses here (near the top) → progress 1
 const FADE = 0.04 // span (in progress units) over which a node fades in
+
+// Symmetric ease — slow at both ends, so the fill eases in and out smoothly and
+// reverses identically on the way back up (smoothstep: 3t² − 2t³).
+const ease = (t: number) => t * t * (3 - 2 * t)
 
 type Geo = {
   w: number
@@ -50,15 +60,17 @@ export default function ServiceRouteLine() {
 
       const rect = root.getBoundingClientRect()
       const vh = window.innerHeight || document.documentElement.clientHeight
-      const refY = vh * REF
 
-      // Live viewport y of the first and last nodes.
-      const firstY = rect.top + g.top
-      const lastY = rect.top + g.bottom
-      const travel = lastY - firstY || 1
+      // Both nodes move together with scroll, so progress is a pure function of
+      // rect.top: 0 when the first node sits at REF_START * vh, 1 when the last
+      // node reaches REF_END * vh. The gap between those two lines is the extra
+      // lead-in/out that slows the draw down.
+      const topAtStart = vh * REF_START - g.top
+      const topAtEnd = vh * REF_END - g.bottom
+      const span = topAtEnd - topAtStart || -1
 
-      // 0 when the first node crosses the reference line, 1 when the last does.
-      const p = Math.max(0, Math.min(1, (refY - firstY) / travel))
+      const raw = Math.max(0, Math.min(1, (rect.top - topAtStart) / span))
+      const p = ease(raw)
 
       const len = g.bottom - g.top
       line.style.strokeDashoffset = String(len * (1 - p))
