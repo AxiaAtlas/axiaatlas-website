@@ -4,6 +4,7 @@ import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 import ResultsSlider, { type ResultSlide } from '@/components/ResultsSlider'
 import { Arrow, ServiceIcons } from '@/components/icons'
+import BrandMarquee from '@/components/BrandMarquee'
 
 async function getCaseStudies() {
   try {
@@ -51,41 +52,6 @@ const MARQUEE = [
   'Discovered on TikTok',
   'Reviews checked before they call',
 ]
-
-/* Animated growth graph inside the green "system" feature card — an ascending
-   performance line (find → convert → compound) that draws on a loop and ends in
-   an arrowhead pointing up and to the right, reading as a rising chart. */
-function SystemMap() {
-  return (
-    <div className="system-map" aria-hidden="true">
-      <svg viewBox="0 0 520 300" preserveAspectRatio="xMidYMid meet">
-        <g className="sm-grid">
-          <line x1="0" y1="75" x2="520" y2="75" /><line x1="0" y1="150" x2="520" y2="150" /><line x1="0" y1="225" x2="520" y2="225" />
-          <line x1="130" y1="0" x2="130" y2="300" /><line x1="260" y1="0" x2="260" y2="300" /><line x1="390" y1="0" x2="390" y2="300" />
-        </g>
-        {/* an ascending line graph — overall up-and-to-the-right with two small
-            pullbacks, like a real performance chart climbing the grid */}
-        <path className="sm-route" pathLength={1} d="M 36 250 L 110 224 L 170 234 L 240 188 L 310 196 L 380 138 L 462 70" />
-        <g className="sm-wp w1">
-          <circle className="sm-dot" cx="36" cy="250" r="6" />
-          <circle className="sm-halo" cx="36" cy="250" r="13" />
-          <text className="sm-label" x="52" y="255">Find</text>
-        </g>
-        <g className="sm-wp w2">
-          <circle className="sm-dot" cx="240" cy="188" r="6" />
-          <circle className="sm-halo" cx="240" cy="188" r="13" />
-          <text className="sm-label" x="256" y="193">Convert</text>
-        </g>
-        <g className="sm-wp w3">
-          {/* the rising line IS the growth — an arrowhead rides its tip,
-              pointing up and to the right like a performance chart */}
-          <path className="sm-arrow" d="M449 74 L462 70 L456 83" />
-          <text className="sm-label" x="384" y="58">Compound</text>
-        </g>
-      </svg>
-    </div>
-  )
-}
 
 export default async function HomePage() {
   const db = await getCaseStudies()
@@ -181,7 +147,7 @@ export default async function HomePage() {
                 <div className="bento-title">Get found, get chosen, get remembered.</div>
                 <p className="bento-desc">Strategy first — we map where your buyers already are and where you&apos;re missing. Then we build presence in search, answer engines, local, and social, and tie it back to leads and sales you can measure.</p>
               </div>
-              <SystemMap />
+              <BrandMarquee />
             </div>
             <div className="bento-card">
               <div className="bento-num">01 — Find</div>

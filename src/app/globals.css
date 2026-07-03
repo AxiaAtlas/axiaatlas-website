@@ -638,52 +638,42 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 .bento-card.feature .bento-num { color: var(--inverse-accent); }
 .feature-copy { position: relative; z-index: 1; }
 
-/* Animated route map (found → chosen → remembered) */
-.system-map { position: relative; z-index: 1; width: 100%; min-height: 230px; align-self: stretch; }
-.system-map svg { width: 100%; height: 100%; overflow: visible; }
-.sm-grid line { stroke: rgba(var(--sage-rgb), 0.08); stroke-width: 1; }
-.sm-route {
-  fill: none; stroke: var(--sage); stroke-width: 1.7; stroke-linecap: round;
-  stroke-dasharray: 1; stroke-dashoffset: 1;
-  animation: smRoute 9s var(--ease) infinite;
+/* Brand-mark marquees — two faint rows of locally-bundled brand icons that
+   auto-scroll in opposite directions, reading as subtle texture (not a focal
+   element) inside the feature card. Row 1 = platforms we publish to (scrolls
+   left); row 2 = the answer engines we optimize for (scrolls right). */
+.brand-marquee {
+  position: relative; z-index: 1;
+  align-self: stretch;
+  display: flex; flex-direction: column; justify-content: center;
+  gap: clamp(20px, 3.5vw, 40px);
+  width: 100%; min-height: 230px;
+  /* fade both ends so the icons dissolve into the panel like a texture */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
 }
-@keyframes smRoute {
-  0% { stroke-dashoffset: 1; opacity: 0; }
-  6% { opacity: 0.95; }
-  58% { stroke-dashoffset: 0; }
-  88% { stroke-dashoffset: 0; opacity: 0.95; }
-  97%, 100% { stroke-dashoffset: 0; opacity: 0; }
+.bm-row { overflow: hidden; }
+.bm-track { display: flex; width: max-content; will-change: transform; }
+.bm-group {
+  display: flex; align-items: center; flex: none;
+  gap: clamp(30px, 5vw, 58px);
+  padding-right: clamp(30px, 5vw, 58px);
 }
-.sm-wp { opacity: 0; transform-box: fill-box; transform-origin: center; }
-.sm-wp.w1 { animation: smPop1 9s var(--ease) infinite; }
-.sm-wp.w2 { animation: smPop2 9s var(--ease) infinite; }
-.sm-wp.w3 { animation: smPop3 9s var(--ease) infinite; }
-@keyframes smPop1 {
-  0% { opacity: 0; transform: scale(0.5); }
-  7% { opacity: 1; transform: scale(1); }
-  88% { opacity: 1; } 97%, 100% { opacity: 0; }
+.bm-icon {
+  flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: clamp(26px, 3.4vw, 34px); height: clamp(26px, 3.4vw, 34px);
+  color: var(--sage);
+  opacity: 0.18; /* subtle texture, not a focal element (~15–22%) */
 }
-@keyframes smPop2 {
-  0%, 27% { opacity: 0; transform: scale(0.5); }
-  34% { opacity: 1; transform: scale(1); }
-  88% { opacity: 1; } 97%, 100% { opacity: 0; }
-}
-@keyframes smPop3 {
-  0%, 52% { opacity: 0; transform: scale(0.5); }
-  60% { opacity: 1; transform: scale(1); }
-  88% { opacity: 1; } 97%, 100% { opacity: 0; }
-}
-.sm-dot { fill: var(--sage); }
-.sm-halo { fill: none; stroke: rgba(var(--sage-rgb), 0.4); stroke-width: 1; }
-/* the arrowhead riding the tip of the rising graph line */
-.sm-arrow {
-  fill: none; stroke: var(--sage); stroke-width: 2;
-  stroke-linecap: round; stroke-linejoin: round;
-}
-.sm-label {
-  font-family: var(--font-head);
-  font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
-  fill: rgba(var(--sage-rgb), 0.85);
+.bm-icon svg { width: 100%; height: 100%; display: block; }
+/* two copies per track → translating exactly one copy loops seamlessly */
+.bm-left  .bm-track { animation: bmLeft  46s linear infinite; }
+.bm-right .bm-track { animation: bmRight 52s linear infinite; }
+@keyframes bmLeft  { from { transform: translateX(0);     } to { transform: translateX(-50%); } }
+@keyframes bmRight { from { transform: translateX(-50%);  } to { transform: translateX(0);    } }
+@media (prefers-reduced-motion: reduce) {
+  .bm-left .bm-track, .bm-right .bm-track { animation: none; }
 }
 
 .bento-num { font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 14px; position: relative; z-index: 1; }
@@ -1431,7 +1421,7 @@ footer::before {
 @media (max-width: 1000px) {
   .nav-links { gap: 2px; }
   .bento-card.feature { grid-template-columns: 1fr; min-height: 0; }
-  .system-map { min-height: 200px; }
+  .brand-marquee { min-height: 180px; }
 }
 
 @media (max-width: 900px) {
@@ -1476,7 +1466,7 @@ footer::before {
   .services-grid { grid-template-columns: 1fr; }
   .bento { grid-template-columns: 1fr; }
   .bento-card.feature { grid-column: span 1; }
-  .system-map { min-height: 170px; }
+  .brand-marquee { min-height: 150px; }
   .process-steps { grid-template-columns: 1fr; gap: 28px; }
   .cs-grid { grid-template-columns: 1fr; }
   .cs-card-header { padding: 24px 22px 22px; }
