@@ -6,7 +6,7 @@ import type { MetadataRoute } from 'next'
    adaptive transparent vector mark (public/icon.svg), declared in app/layout. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Axia Atlas™',
+    name: 'Axia Atlas',
     short_name: 'Axia Atlas',
     description: 'Marketing that makes you impossible to miss.',
     start_url: '/',

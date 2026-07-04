@@ -20,14 +20,14 @@ const OG_IMAGE = {
   url: '/og-card.png',
   width: 1200,
   height: 630,
-  alt: 'Axia Atlas™ — Digital Marketing',
+  alt: 'Axia Atlas — Digital Marketing',
 }
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Axia Atlas™ — Digital Marketing',
-    template: 'Axia Atlas™ — %s — Digital Marketing',
+    default: 'Axia Atlas — Digital Marketing',
+    template: 'Axia Atlas — %s — Digital Marketing',
   },
   description: DESCRIPTION,
   keywords: [
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     'founder brand',
     'Axia Atlas',
   ],
-  applicationName: 'Axia Atlas™',
+  applicationName: 'Axia Atlas',
   authors: [{ name: 'Axia Atlas' }],
   creator: 'Axia Atlas',
   publisher: 'Axia Atlas',
@@ -50,14 +50,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: SITE_URL,
-    siteName: 'Axia Atlas™',
-    title: 'Axia Atlas™ — Digital Marketing',
+    siteName: 'Axia Atlas',
+    title: 'Axia Atlas — Digital Marketing',
     description: DESCRIPTION,
     images: [OG_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Axia Atlas™ — Digital Marketing',
+    title: 'Axia Atlas — Digital Marketing',
     description: DESCRIPTION,
     images: [OG_IMAGE],
   },

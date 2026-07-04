@@ -46,7 +46,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span className="footer-copy">© {new Date().getFullYear()} Axia Atlas™. All rights reserved.</span>
+          <span className="footer-copy">© {new Date().getFullYear()} Axia Atlas. All rights reserved.</span>
           <nav className="footer-legal">
             <Link href="/privacy" className="footer-copy">Privacy</Link>
             <Link href="/terms" className="footer-copy">Terms</Link>
