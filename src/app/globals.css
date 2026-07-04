@@ -620,13 +620,14 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 .bento-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--border-strong); }
 .bento-card:hover::before, .spotlight:hover::before { opacity: 1; }
 
-/* Feature cell: full-width depth panel with the animated route map.
-   The 01/02/03 cards sit in ONE row beneath it. */
+/* Feature cell: full-width depth panel. Mirrors the old SystemMap layout —
+   heading/copy fills the top two-thirds, the brand marquee is constrained to
+   the bottom third. The 01/02/03 cards sit in ONE row beneath it. */
 .bento-card.feature {
   grid-column: 1 / -1;
-  display: grid; grid-template-columns: 1.05fr 0.95fr;
-  align-items: center; gap: clamp(24px, 4vw, 60px);
-  min-height: 290px;
+  display: grid; grid-template-rows: 2fr 1fr;
+  align-items: stretch; gap: clamp(18px, 3vw, 34px);
+  min-height: 340px;
   background: var(--inverse-bg); border-color: var(--inverse-border); color: var(--inverse-text);
 }
 .bento-card.feature::after {
@@ -636,7 +637,7 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 .bento-card.feature .bento-title { color: var(--inverse-text); font-size: var(--t-h3); margin-bottom: 14px; }
 .bento-card.feature .bento-desc { color: var(--inverse-muted); font-size: var(--t-body); }
 .bento-card.feature .bento-num { color: var(--inverse-accent); }
-.feature-copy { position: relative; z-index: 1; }
+.feature-copy { position: relative; z-index: 1; align-self: start; }
 
 /* Brand-mark marquees — two faint rows of locally-bundled brand icons that
    auto-scroll in opposite directions, reading as subtle texture (not a focal
@@ -644,10 +645,10 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
    left); row 2 = the answer engines we optimize for (scrolls right). */
 .brand-marquee {
   position: relative; z-index: 1;
-  align-self: stretch;
+  align-self: end;
   display: flex; flex-direction: column; justify-content: center;
-  gap: clamp(20px, 3.5vw, 40px);
-  width: 100%; min-height: 230px;
+  gap: clamp(14px, 2vw, 24px);
+  width: 100%; min-height: 0;
   /* fade both ends so the icons dissolve into the panel like a texture */
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
           mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
@@ -1420,8 +1421,7 @@ footer::before {
 /* ── RESPONSIVE ────────────────────────────────────────────────────────── */
 @media (max-width: 1000px) {
   .nav-links { gap: 2px; }
-  .bento-card.feature { grid-template-columns: 1fr; min-height: 0; }
-  .brand-marquee { min-height: 180px; }
+  .bento-card.feature { min-height: 300px; }
 }
 
 @media (max-width: 900px) {
@@ -1465,8 +1465,7 @@ footer::before {
   .hero-marquee { padding: 15px 0; }
   .services-grid { grid-template-columns: 1fr; }
   .bento { grid-template-columns: 1fr; }
-  .bento-card.feature { grid-column: span 1; }
-  .brand-marquee { min-height: 150px; }
+  .bento-card.feature { grid-column: span 1; min-height: 280px; }
   .process-steps { grid-template-columns: 1fr; gap: 28px; }
   .cs-grid { grid-template-columns: 1fr; }
   .cs-card-header { padding: 24px 22px 22px; }
