@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-const UPDATED = 'June 4, 2026'
+const UPDATED = 'July 11, 2026'
 
 export default function TermsPage() {
   return (
@@ -22,7 +22,7 @@ export default function TermsPage() {
         <div className="legal-body">
           <p>
             These Terms of Service (&ldquo;Terms&rdquo;) govern your access to and use of the website at{' '}
-            <strong>axiaatlas.com</strong> (the &ldquo;Site&rdquo;) operated by <strong>Axia Atlas</strong>
+            <strong>axiaatlas.com</strong> (the &ldquo;Site&rdquo;) operated by <strong>Axia Atlas Inc.</strong>
             (&ldquo;Axia Atlas,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;). By accessing or
             using the Site, you agree to be bound by these Terms. If you do not agree, please do not use the Site.
           </p>

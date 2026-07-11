@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-const UPDATED = 'June 4, 2026'
+const UPDATED = 'July 11, 2026'
 
 export default function PrivacyPage() {
   return (
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
 
         <div className="legal-body">
           <p>
-            This Privacy Policy explains how <strong>Axia Atlas</strong> (&ldquo;Axia Atlas,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;)
+            This Privacy Policy explains how <strong>Axia Atlas Inc.</strong> (&ldquo;Axia Atlas,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;)
             collects, uses, and protects information when you visit <strong>axiaatlas.com</strong> (the &ldquo;Site&rdquo;),
             contact us, or book a demo. We are a digital marketing studio, and we take the privacy of
             prospective and existing clients seriously. By using the Site or submitting information through it,
