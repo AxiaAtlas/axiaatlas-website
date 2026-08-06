@@ -100,38 +100,126 @@ const SERVICE_CATALOG = [
   'Strategic Advisory & Embedded Thinking',
 ]
 
+// ── The canonical Organization node ─────────────────────────────────────────
+// KEEP IN SYNC with axiaatlas-platform/src/lib/brand/organization-schema.ts,
+// which carries the full rationale. The short version: Google's AI Overview for
+// "Axia Atlas client portal" was answering with a healthcare company of a
+// similar name and offering their patient login, because
+//   • the portal domain published no Organization schema at all,
+//   • this node had NO sameAs — nothing tied the two domains and the five
+//     social profiles into one entity, and
+//   • `logo` pointed at the square A-mark icon, which is what Google showed.
+// Both domains now declare the SAME organization, same @id, same logo, same
+// sameAs set. Consistency across the two domains IS the disambiguation signal;
+// two differently-worded nodes would have made it worse.
+const ORG_ID = `${SITE_URL}/#organization`
+const APP_URL = 'https://app.axiaatlas.com'
+
+// The full side-by-side wordmark lockup on Deep Spruce — NOT the square icon.
+// Same file, same bytes, in both repos' public/.
+const ORG_LOGO_URL = `${SITE_URL}/logo-organization.png`
+
+// The single most important property here: every profile and domain that is
+// this same entity.
+const SAME_AS = [
+  SITE_URL,
+  APP_URL,
+  'https://www.linkedin.com/company/axia-atlas',
+  'https://www.instagram.com/axiaatlas/',
+  'https://www.facebook.com/AxiaAtlas',
+  'https://x.com/AxiaAtlas',
+  'https://www.youtube.com/@AxiaAtlas',
+]
+
+const ORG_NODE = {
+  '@type': ['Organization', 'ProfessionalService'],
+  '@id': ORG_ID,
+  name: 'Axia Atlas',
+  legalName: 'Axia Atlas Inc.',
+  alternateName: ['Axia Atlas Inc.', 'AxiaAtlas'],
+  url: SITE_URL,
+  logo: {
+    '@type': 'ImageObject',
+    '@id': `${SITE_URL}/#logo`,
+    url: ORG_LOGO_URL,
+    contentUrl: ORG_LOGO_URL,
+    width: 1508,
+    height: 797,
+    caption: 'Axia Atlas',
+  },
+  image: ORG_LOGO_URL,
+  description: DESCRIPTION,
+  // Names the sector we are confused WITH, not the company. Enough to break the
+  // match without putting another business's name in our markup.
+  disambiguatingDescription:
+    'Axia Atlas is a digital marketing and SEO studio. It is not a healthcare provider, medical group, or patient services organization, and is unaffiliated with any similarly named business in healthcare.',
+  slogan: 'To be found is to be seen.',
+  email: 'partner@axiaatlas.com',
+  areaServed: 'Worldwide',
+  // An engine that cannot tell what sector a company is in falls back to
+  // whichever same-named entity it DOES have a sector for. Stating it explicitly
+  // is what makes a healthcare entity a bad match rather than a plausible one.
+  industry: 'Advertising, Marketing & Digital Services',
+  naics: '541613', // Marketing Consulting Services
+  isicV4: '7310',  // Advertising
+  knowsAbout: [
+    'Answer Engine Optimization',
+    'Generative Engine Optimization',
+    'Search Engine Optimization',
+    'Local SEO',
+    'Social Media Management',
+    'Content Marketing',
+    'Competitive Intelligence',
+    'Lead Generation',
+    'Website Design and Development',
+    'Executive Personal Branding',
+  ],
+  sameAs: SAME_AS,
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    '@id': `${SITE_URL}/services#catalog`,
+    name: `Axia Atlas services — ${SERVICE_CATALOG.length} ways to get found`,
+    numberOfItems: SERVICE_CATALOG.length,
+    itemListElement: SERVICE_CATALOG.map((name, i) => ({
+      '@type': 'Offer',
+      position: i + 1,
+      itemOffered: { '@type': 'Service', name, serviceType: name, provider: { '@id': ORG_ID } },
+    })),
+  },
+}
+
 const JSON_LD = {
   '@context': 'https://schema.org',
   '@graph': [
-    {
-      '@type': 'Organization',
-      '@id': `${SITE_URL}/#organization`,
-      name: 'Axia Atlas',
-      url: SITE_URL,
-      logo: `${SITE_URL}/icon-512.png`,
-      description: DESCRIPTION,
-      email: 'partner@axiaatlas.com',
-      areaServed: 'Worldwide',
-      slogan: 'To be found is to be seen.',
-      hasOfferCatalog: {
-        '@type': 'OfferCatalog',
-        '@id': `${SITE_URL}/services#catalog`,
-        name: `Axia Atlas services — ${SERVICE_CATALOG.length} ways to get found`,
-        numberOfItems: SERVICE_CATALOG.length,
-        itemListElement: SERVICE_CATALOG.map((name, i) => ({
-          '@type': 'Offer',
-          position: i + 1,
-          itemOffered: { '@type': 'Service', name, serviceType: name },
-        })),
-      },
-    },
+    ORG_NODE,
     {
       '@type': 'WebSite',
       '@id': `${SITE_URL}/#website`,
       url: SITE_URL,
       name: 'Axia Atlas',
       description: DESCRIPTION,
-      publisher: { '@id': `${SITE_URL}/#organization` },
+      inLanguage: 'en-US',
+      publisher: { '@id': ORG_ID },
+    },
+    // Declares the portal FROM the marketing domain as well. "Axia Atlas client
+    // portal" is a query about a specific piece of software; both domains now
+    // assert that it exists and whose it is.
+    {
+      '@type': 'WebApplication',
+      '@id': `${APP_URL}/#webapp`,
+      name: 'Axia Atlas Client Portal',
+      alternateName: 'Axia Atlas Portal',
+      url: APP_URL,
+      applicationCategory: 'BusinessApplication',
+      applicationSubCategory: 'Client Portal',
+      operatingSystem: 'Any (web browser)',
+      description:
+        'The client portal for Axia Atlas, a digital marketing studio. Axia Atlas clients sign in to review deliverables, approve content, and see performance across search, answer engines and social.',
+      image: ORG_LOGO_URL,
+      provider: { '@id': ORG_ID },
+      publisher: { '@id': ORG_ID },
+      isAccessibleForFree: false,
+      audience: { '@type': 'Audience', audienceType: 'Axia Atlas clients' },
     },
   ],
 }
