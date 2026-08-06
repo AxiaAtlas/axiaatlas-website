@@ -33,13 +33,20 @@ export const metadata: Metadata = {
   keywords: [
     'digital marketing',
     'SEO',
-    'answer-engine optimization',
+    'answer engine optimization',
     'AEO',
     'GEO',
-    'social media marketing',
+    'Claude',
+    'ChatGPT',
+    'Perplexity',
+    'Gemini',
+    'social media management',
+    'competitive intelligence',
     'local SEO',
-    'content marketing',
-    'founder brand',
+    'website design and build',
+    'lead generation',
+    'executive personal brand',
+    'strategic advisory',
     'Axia Atlas',
   ],
   applicationName: 'Axia Atlas',
@@ -80,6 +87,19 @@ export const metadata: Metadata = {
   },
 }
 
+// The eight services, in the same order as /services. Kept here so the
+// Organization node advertises the full catalog on every page.
+const SERVICE_CATALOG = [
+  'Website Design & Build',
+  'Social Media Management',
+  'Competitive Intelligence',
+  'Local Presence & SEO',
+  'Answer Engine Optimization (AEO)',
+  'Lead Generation',
+  'Executive Personal Brand',
+  'Strategic Advisory & Embedded Thinking',
+]
+
 const JSON_LD = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -93,6 +113,17 @@ const JSON_LD = {
       email: 'partner@axiaatlas.com',
       areaServed: 'Worldwide',
       slogan: 'To be found is to be seen.',
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        '@id': `${SITE_URL}/services#catalog`,
+        name: `Axia Atlas services — ${SERVICE_CATALOG.length} ways to get found`,
+        numberOfItems: SERVICE_CATALOG.length,
+        itemListElement: SERVICE_CATALOG.map((name, i) => ({
+          '@type': 'Offer',
+          position: i + 1,
+          itemOffered: { '@type': 'Service', name, serviceType: name },
+        })),
+      },
     },
     {
       '@type': 'WebSite',

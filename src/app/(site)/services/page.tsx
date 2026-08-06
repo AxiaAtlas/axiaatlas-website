@@ -8,68 +8,109 @@ import ServiceRouteLine from './ServiceRouteLine'
 export const metadata: Metadata = {
   title: 'Services',
   description:
-    'Seven ways Axia Atlas gets you found and chosen: Website Design, Social Media, Answer-Engine + SEO, Local Presence, Lead Generation, Executive Personal Brand, and Strategic Advisory.',
+    'Eight ways Axia Atlas gets you found and chosen: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & SEO, Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, and Strategic Advisory & Embedded Thinking.',
   alternates: { canonical: '/services' },
 }
 
+/* Website Design & Build leads: it is the core engagement and the one every
+   other channel points traffic at. The remaining seven follow the same order
+   as the home-page grid. */
 const SERVICES = [
   {
     id: 'website',
-    headline: 'Website Design',
-    desc: "Every channel you run sends people to your site. If it's slow, confusing, or off-brand, that traffic leaks away. We design fast, clear sites built around one job: turning visitors into customers.",
-    who: "For businesses launching a new site or fixing one that looks fine but doesn't convert.",
-    points: ['Conversion-first design', 'Copy & messaging', 'Technical foundation', 'Built for speed'],
+    headline: 'Website Design & Build',
+    desc: "This is the core engagement, and it is not a design job. It starts with positioning — what you actually sell, who it is for, and why a buyer should pick you over the two alternatives they are also looking at. That decision drives the copy, and the copy drives the layout, so the pages argue a case instead of decorating one. Search foundations go in during the build rather than after it: an information architecture that matches how people search, titles and headings written for real queries, schema markup, clean internal linking, fast Core Web Vitals on a real phone, and a sitemap that gets indexed. We build it too — you get a working site, not a mockup handed to someone else to interpret.",
+    who: 'For businesses whose site is the front door: a first build, a rebuild, or a site that photographs well and still does not sell.',
+    points: ['Positioning & messaging', 'Copy written page by page', 'Design & front-end build', 'SEO foundation from day one', 'Analytics & conversion tracking'],
   },
   {
     id: 'social',
-    headline: 'Social Media',
-    desc: 'Most "social strategies" are just a posting schedule. We build the whole thing — which platforms fit you, what to say, how it looks — and grow an audience that actually buys. We also manage the comments, replying professionally when feedback turns negative so a complaint becomes proof of how well you handle people.',
-    who: 'For brands and businesses ready to treat social as a real growth channel, B2B or B2C.',
-    points: ['Platform strategy', 'Content planned monthly', 'Made for each platform', 'Community & reputation management'],
+    headline: 'Social Media Management',
+    desc: 'Each platform rewards something different — a hook inside the first second on TikTok, a defensible opinion on LinkedIn, a look you can recognise at thumbnail size on Instagram. We pick the two or three platforms worth your time and ignore the rest, set a handful of recurring content pillars so the account says one thing consistently instead of a new thing weekly, then produce, schedule, and publish it natively for each platform. We work the comments as well: answering the buying questions in public, and handling complaints so the thread ends up reading as evidence you are good to deal with.',
+    who: 'For brands and businesses treating social as a growth channel rather than an obligation — B2B or B2C.',
+    points: ['Platform selection & voice', 'Content pillars, planned monthly', 'Produced natively per platform', 'Community & reputation management'],
   },
   {
-    id: 'geo',
-    headline: 'Answer-Engine + SEO',
-    desc: "Your customers ask ChatGPT, Perplexity, and Gemini what to buy and who to hire — and they still search Google. We make sure you show up in both: cited in the answer engines and ranking on the page, so you're the recommendation either way they look.",
-    who: 'For any business whose buyers research online before they decide — brands, services, and founders alike.',
-    points: ['Visibility & keyword audit', 'Content built to be cited and to rank', 'Technical & on-page setup', 'Citation & ranking tracking'],
+    id: 'intel',
+    headline: 'Competitive Intelligence',
+    desc: 'You pick the competitors — usually five to ten who genuinely take deals off you. We watch what they do and report it with the receipts: pricing and packaging changes, the queries and pages they rank for that you do not, publishing cadence and which posts actually earned engagement, the roles they are hiring for, review volume and what the complaints are really about, and whether the answer engines name them in the moments they do not name you. Every claim is sourced and dated so you can check it yourself. The deliverable is not a dashboard nobody opens — it is arriving at each decision about price, positioning, or where to publish next already knowing what your buyer sees when they look at the alternatives.',
+    who: 'For teams making positioning, pricing, or channel bets in a crowded category who are tired of guessing what the other side is doing.',
+    points: ['Named competitor set', 'Pricing & positioning changes', 'Share of voice: search, social, AI', 'Sourced, dated monthly briefing'],
   },
   {
     id: 'local',
-    headline: 'Local Presence',
-    desc: 'If people find you by searching "near me" or tapping the map, local is the highest-return channel you have. We build the whole footprint so you own your area — and when a hard review lands on Google, we respond and work to make it right in public, so prospects see how you treat people when something goes wrong.',
-    who: 'For clinics, trades, shops, restaurants, practices, and any business that serves a local or regional market.',
-    points: ['Google Business Profile', 'Reviews & service recovery', 'Local landing pages', 'Map-pack visibility'],
+    headline: 'Local Presence & SEO',
+    desc: 'Two results decide whether a nearby buyer finds you: the map pack, and the organic listings underneath it. We work both, because winning one and losing the other cedes half the page. On the local side that means a Google Business Profile built out properly — categories, services, hours, photos, Q&A — citations kept consistent across the directories that feed the map, a review programme that produces a steady flow rather than a spike, and public replies to the hard ones that show a prospect how you handle a problem. On the search side it is the service and location pages that rank for "service in city", the internal linking between them, and the technical fixes that stop good pages from being ignored. Rankings and calls are tracked per location, never averaged into one flattering number.',
+    who: 'For clinics, trades, shops, restaurants, practices, and multi-location businesses that sell inside a radius.',
+    points: ['Google Business Profile build-out', 'Citations & NAP consistency', 'Review generation & response', 'Service and location pages', 'Rank tracking by location'],
+  },
+  {
+    id: 'geo',
+    headline: 'Answer Engine Optimization (AEO)',
+    desc: 'Buyers now ask Claude, ChatGPT, Perplexity, and Gemini which company to use, and they largely take the answer at face value. We start by measuring it: the exact prompts a buyer in your category would type, run across all four platforms, recorded so you can see who gets named today and what is said about you when you are. Then we fix what those systems read. Entity data and schema so the models know what you are and what you do. Source pages written to be quoted whole — a clear claim, the evidence under it, and a date — rather than skimmed. Presence on the third-party pages, directories, and communities the models fall back on when they will not take your own site at its word. We re-run the same prompt set every month, so you can see the point at which you start getting cited and exactly where you are still being left out.',
+    who: 'For any business whose buyers ask an assistant before they ask a person — and for categories where going unnamed means going unconsidered.',
+    points: ['Prompt-set baseline across all four platforms', 'Entity & schema groundwork', 'Quotable source content', 'Third-party presence', 'Monthly citation tracking'],
   },
   {
     id: 'leadgen',
     headline: 'Lead Generation',
-    desc: "Search and content compound over time. Outbound fills the pipeline now. We build targeted prospecting that finds your ideal customers and warms them up with messages that don't sound like spam.",
-    who: 'For B2B and service businesses that know who their best customers are and want more conversations now.',
-    points: ['Ideal-customer targeting', 'Researched prospect lists', 'Email + LinkedIn outreach', 'Pipeline you can see'],
+    desc: 'Search and content compound; outbound produces conversations this quarter. We define the ideal customer tightly enough that it disqualifies — industry, size, the role that signs, and a trigger that makes contact worth making now — then build the list by hand instead of buying one, verify every address, and write sequences that reference something specific and true about the company rather than dropping a name into a template. Email and LinkedIn run together so the same person meets you twice. You see every prospect, every touch, and every reply, so the targeting and the message sharpen each cycle instead of being thrown out and restarted.',
+    who: 'For B2B and service businesses that know who their best customers are and want conversations booked now.',
+    points: ['ICP definition & trigger criteria', 'Hand-built, verified lists', 'Email + LinkedIn sequences', 'Reply handling & pipeline reporting'],
   },
   {
     id: 'executive',
     headline: 'Executive Personal Brand',
-    desc: 'People buy from people they trust. We turn the face of your business into a name buyers recognize before the first call — content in your own voice that builds authority instead of noise.',
-    who: 'For founders, owners, and executives who are the front of their business.',
-    points: ['Positioning & themes', 'Posts in your voice', 'Thought leadership', 'Engagement strategy'],
+    desc: 'A company account gets read the way an ad gets read. A person gets read differently. We build the founder or executive a voice that stands on its own: a small set of positions they are genuinely willing to defend in public, drawn out of them in interviews rather than invented in a strategy doc, then written up as posts, longer essays, and talking points that sound like the person and not like a marketing department. Comments and DMs are triaged so the buyers hiding among them get a real reply from a real person. The account stays theirs — the archive, the audience, and the reputation belong to the individual and carry back into the company.',
+    who: 'For founders, owners, and executives who are the face of the business, or intend to be.',
+    points: ['Positioning interviews', 'Recurring themes & point of view', 'Ghostwritten posts & essays', 'Inbound triage & engagement'],
   },
   {
     id: 'strategy',
-    headline: 'Strategic Advisory',
-    desc: "Most businesses don't need more tactics — they need to know which moves matter and in what order. We act as the strategist in your corner: we look across every channel, decide what comes first, and keep the plan honest as you grow.",
-    who: 'For owners and teams who want a clear plan and a partner to think it through with, not just another vendor.',
-    points: ['Channel strategy & sequencing', 'Roadmap & priorities', 'Positioning & messaging', 'Regular strategy reviews'],
+    headline: 'Strategic Advisory & Embedded Thinking',
+    desc: 'Sometimes what is missing is not another deliverable. This is standing access to a strategist who already knows your business: recurring working sessions on the decisions that do not belong to any one channel — what to charge and how to package it, which segment to go after next, whether to build a capability or partner for it, what to say when a competitor undercuts you by thirty percent. We sit in on the calls where it actually gets decided, write up the decision and the reasoning behind it so it survives the week, and open the next session by checking what happened. No deck nobody reads.',
+    who: 'For owners and teams who want a thinking partner across the whole business, not a vendor for one channel.',
+    points: ['Recurring working sessions', 'Pricing & packaging decisions', 'Channel sequencing & roadmap', 'Decisions written down, then revisited'],
   },
 ]
+
+/* Machine-readable mirror of the eight services above, so answer engines and
+   search engines read the same catalog a visitor does. Kept derived from
+   SERVICES — the count can never drift out of sync with the page. */
+const SITE_URL = 'https://axiaatlas.com'
+const SERVICES_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': `${SITE_URL}/services#catalog`,
+  name: `Axia Atlas services — ${SERVICES.length} ways to get found`,
+  numberOfItems: SERVICES.length,
+  itemListOrder: 'https://schema.org/ItemListUnordered',
+  itemListElement: SERVICES.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Service',
+      '@id': `${SITE_URL}/services#${s.id}`,
+      name: s.headline,
+      description: s.desc,
+      url: `${SITE_URL}/services#${s.id}`,
+      serviceType: s.headline,
+      provider: { '@id': `${SITE_URL}/#organization` },
+      areaServed: 'Worldwide',
+    },
+  })),
+}
 
 export default function ServicesPage() {
   return (
     <div className="page services-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICES_JSON_LD) }}
+      />
       <div className="services-hero">
         <div className="section-eyebrow">Services</div>
-        <h1 className="section-headline">Seven ways to get found.<br />One plan that fits together.</h1>
+        <h1 className="section-headline">Eight ways to get found.<br />One plan that fits together.</h1>
         <p className="section-sub">Start with one channel or build the full system. Either way, it begins with strategy — never random tactics.</p>
       </div>
 
@@ -82,6 +123,8 @@ export default function ServicesPage() {
             const Icon = ServiceIcons[s.id]
             return (
               <div key={s.id} id={s.id} className="service-detail">
+                {/* SEO used to be its own section; keep the old deep link working. */}
+                {s.id === 'local' && <span id="seo" aria-hidden="true" />}
                 <div className="service-detail-inner">
                   <div>
                     <div className="service-detail-label">

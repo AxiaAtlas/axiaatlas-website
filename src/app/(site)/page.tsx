@@ -21,12 +21,14 @@ async function getCaseStudies() {
 }
 
 const SERVICES = [
-  { id: 'social', name: 'Social Media', desc: 'Content built for each platform, managed end to end, designed to grow an audience that actually buys.', href: '/services#social' },
-  { id: 'geo', name: 'Answer-Engine Optimization', desc: 'Get cited by ChatGPT, Perplexity, and Gemini. When buyers ask an answer engine, you want to be the answer.', href: '/services#geo' },
-  { id: 'seo', name: 'SEO & Content', desc: 'Articles and pages that rank, earn trust, and turn readers into customers — month after month.', href: '/services#seo' },
-  { id: 'local', name: 'Local Presence', desc: 'Win the map pack and the "near me" searches. Google Business Profile, reviews, and local pages.', href: '/services#local' },
-  { id: 'executive', name: 'Founder Brand', desc: 'Turn the face of your business into a name people trust before the first conversation.', href: '/services#executive' },
-  { id: 'website', name: 'Website Design', desc: 'Fast, clean sites built to convert the traffic every other channel sends you.', href: '/services#website' },
+  { id: 'social', name: 'Social Media Management', desc: 'Content built for each platform, managed end to end, designed to grow an audience that actually buys.', href: '/services#social' },
+  { id: 'intel', name: 'Competitive Intelligence', desc: "Every competitor's positioning, cadence, and visibility tracked and sourced, so you decide on facts rather than hunches.", href: '/services#intel' },
+  { id: 'website', name: 'Website Design & Build', desc: 'Positioning, copy, design, and build in one engagement, with search foundations laid from day one.', href: '/services#website' },
+  { id: 'local', name: 'Local Presence & SEO', desc: 'Profile, citations, and reviews managed so nearby buyers find you first, not the business down the road.', href: '/services#local' },
+  { id: 'geo', name: 'Answer Engine Optimization (AEO)', desc: 'Get cited across leading AI platforms—Claude, ChatGPT, Perplexity, and Gemini—represented accurately and recommended when buyers search your category.', href: '/services#geo' },
+  { id: 'leadgen', name: 'Lead Generation', desc: 'Prospects researched against your ideal customer, reached with outreach written for them, tracked from first touch onward.', href: '/services#leadgen' },
+  { id: 'executive', name: 'Executive Personal Brand', desc: "A founder's voice built separately from the company's, because buyers follow people before they follow logos.", href: '/services#executive' },
+  { id: 'strategy', name: 'Strategic Advisory & Embedded Thinking', desc: "Working sessions on positioning, pricing, and the growth decisions that don't fit in a deliverable.", href: '/services#strategy' },
 ]
 
 /* Curated results for the home slider. The Supabase library takes over once it
@@ -49,6 +51,7 @@ const MARQUEE = [
   'Recommended over the competition',
   'Recommended by Gemini',
   'Trusted on LinkedIn',
+  'Named by Claude',
   'Discovered on TikTok',
   'Reviews checked before they call',
 ]
@@ -90,7 +93,7 @@ export default async function HomePage() {
       </div>
 
       {/* ── MARQUEE — the moments buyers decide ── */}
-      <div className="hero-marquee" aria-label="Where buyers decide and where you win: Google, ChatGPT, the map pack, Perplexity, Gemini, LinkedIn, TikTok, reviews">
+      <div className="hero-marquee" aria-label="Where buyers decide and where you win: Google, ChatGPT, the map pack, Perplexity, Gemini, LinkedIn, Claude, TikTok, reviews">
         <div className="marquee-track">
           {[0, 1].map((dup) => (
             <div className="marquee-group" key={dup} aria-hidden={dup === 1}>
@@ -119,7 +122,7 @@ export default async function HomePage() {
             <div className="problem-cards">
               {[
                 { title: 'Invisible in search', desc: "If you're not on page one for what you sell, you're losing those buyers to someone who is." },
-                { title: 'Left out of the answers', desc: 'ChatGPT, Perplexity, and Gemini recommend businesses every day. If they don\'t know you, you\'re not in the running.' },
+                { title: 'Left out of the answers', desc: "Claude, ChatGPT, Perplexity, and Gemini recommend businesses every day. If they don't know you, you're not in the running." },
                 { title: 'Forgettable feeds', desc: 'Posting without a plan fills a calendar but builds nothing. Reach fades the moment you stop paying.' },
               ].map((c) => (
                 <div key={c.title} className="problem-card">
@@ -173,7 +176,7 @@ export default async function HomePage() {
         <div className="section-inner">
           <div className="section-head">
             <div className="section-eyebrow">What We Do</div>
-            <h2 className="section-headline">Seven ways to get found.</h2>
+            <h2 className="section-headline">Eight ways to get found.</h2>
             <p className="section-sub">Pick the channels that fit your business. Most clients combine three or four into one plan.</p>
           </div>
           <div className="services-grid">
@@ -190,7 +193,7 @@ export default async function HomePage() {
             })}
           </div>
           <div style={{ textAlign: 'center', marginTop: 44 }}>
-            <Link href="/services" className="btn-dark">View all 7 services <Arrow className="arr" /></Link>
+            <Link href="/services" className="btn-dark">View all 8 services <Arrow className="arr" /></Link>
           </div>
         </div>
       </section>

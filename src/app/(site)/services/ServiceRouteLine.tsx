@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-/* A single straight vertical spine down the services section, joining the seven
+/* A single straight vertical spine down the services section, joining the eight
    service-icon nodes. The spine DRAWS as you scroll: empty at the first icon,
    full at the last.
 

@@ -62,6 +62,14 @@ export const Search = (p: IconProps) => (
   <svg {...base} {...p}><circle cx="10.5" cy="10.5" r="6" /><path d="M15 15l4.5 4.5M8 10.5h5M10.5 8v5" /></svg>
 )
 
+/* Competitive Intelligence — a radar sweep with a contact on the ring. */
+export const Radar = (p: IconProps) => (
+  <svg {...base} {...p}>
+    <circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="4" />
+    <path d="M12 12l5.9-4" /><circle cx="17.4" cy="7.2" r="1.5" />
+  </svg>
+)
+
 export const Pin = (p: IconProps) => (
   <svg {...base} {...p}><path d="M12 21s7-6.3 7-11A7 7 0 0 0 5 10c0 4.7 7 11 7 11z" /><circle cx="12" cy="10" r="2.4" /></svg>
 )
@@ -125,8 +133,9 @@ export const YouTube = (p: IconProps) => (
 
 export const ServiceIcons: Record<string, (p: IconProps) => JSX.Element> = {
   social: Social,
+  intel: Radar,
   geo: Answer,
-  seo: Search,
+  seo: Search, // legacy anchor — SEO now lives inside `local`
   local: Pin,
   executive: Founder,
   website: Website,

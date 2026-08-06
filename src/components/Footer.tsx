@@ -16,12 +16,14 @@ export default function Footer() {
           <div>
             <div className="footer-col-title">Services</div>
             <ul className="footer-links">
-              <li><Link href="/services#social">Social Media</Link></li>
-              <li><Link href="/services#geo">Answer-Engine Optimization</Link></li>
-              <li><Link href="/services#seo">SEO &amp; Content</Link></li>
-              <li><Link href="/services#local">Local Presence</Link></li>
-              <li><Link href="/services#executive">Founder Brand</Link></li>
-              <li><Link href="/services#website">Website Design</Link></li>
+              <li><Link href="/services#website">Website Design &amp; Build</Link></li>
+              <li><Link href="/services#social">Social Media Management</Link></li>
+              <li><Link href="/services#intel">Competitive Intelligence</Link></li>
+              <li><Link href="/services#local">Local Presence &amp; SEO</Link></li>
+              <li><Link href="/services#geo">Answer Engine Optimization</Link></li>
+              <li><Link href="/services#leadgen">Lead Generation</Link></li>
+              <li><Link href="/services#executive">Executive Personal Brand</Link></li>
+              <li><Link href="/services#strategy">Strategic Advisory</Link></li>
             </ul>
           </div>
 

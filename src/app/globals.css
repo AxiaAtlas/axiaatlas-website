@@ -476,7 +476,9 @@ img { max-width: 100%; }
   will-change: transform;
   backface-visibility: hidden;
   transform: translate3d(0, 0, 0);
-  animation: marqueeScroll 42s linear infinite;
+  /* Paced for reading, not for atmosphere: roughly 22px/s, so a phrase stays
+     legible for the width of the strip. Hovering pauses it outright. */
+  animation: marqueeScroll 108s linear infinite;
 }
 .hero-marquee:hover .marquee-track { animation-play-state: paused; }
 .marquee-group { display: flex; align-items: center; flex-shrink: 0; }
@@ -625,11 +627,18 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
    the bottom third. The 01/02/03 cards sit in ONE row beneath it. */
 .bento-card.feature {
   grid-column: 1 / -1;
-  display: grid; grid-template-rows: 2fr 1fr;
+  display: grid;
+  /* minmax(0, 1fr), NOT the implicit `auto` column: the brand marquee's track is
+     width:max-content, and an auto track sizes to that max-content (~670px) even
+     when the card is narrower — which laid the heading and copy out at 670px and
+     let overflow:hidden crop them on phones. An fr track is capped by the card. */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 2fr 1fr;
   align-items: stretch; gap: clamp(18px, 3vw, 34px);
   min-height: 340px;
   background: var(--inverse-bg); border-color: var(--inverse-border); color: var(--inverse-text);
 }
+.bento-card.feature > * { min-width: 0; }
 .bento-card.feature::after {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background: radial-gradient(ellipse 70% 60% at 80% 110%, rgba(var(--sage-rgb), 0.13), transparent 60%);
@@ -669,8 +678,8 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 }
 .bm-icon svg { width: 100%; height: 100%; display: block; }
 /* two copies per track → translating exactly one copy loops seamlessly */
-.bm-left  .bm-track { animation: bmLeft  46s linear infinite; }
-.bm-right .bm-track { animation: bmRight 52s linear infinite; }
+.bm-left  .bm-track { animation: bmLeft  112s linear infinite; }
+.bm-right .bm-track { animation: bmRight 126s linear infinite; }
 @keyframes bmLeft  { from { transform: translateX(0);     } to { transform: translateX(-50%); } }
 @keyframes bmRight { from { transform: translateX(-50%);  } to { transform: translateX(0);    } }
 @media (prefers-reduced-motion: reduce) {
@@ -1443,7 +1452,16 @@ footer::before {
   .problem-grid { grid-template-columns: 1fr; gap: 36px; }
   .services-grid { grid-template-columns: 1fr 1fr; }
   .bento { grid-template-columns: 1fr 1fr; }
-  .bento-card.feature { grid-column: span 2; }
+  /* Below tablet the copy is too tall for a fixed 2fr row, and the card's
+     overflow:hidden (needed for the marquee mask) was clipping the tail of
+     "The approach". Content sizes both rows here, so the card grows to fit at
+     every width instead of cropping. */
+  .bento-card.feature {
+    grid-column: span 2;
+    grid-template-rows: auto auto;
+    min-height: 0;
+    row-gap: 26px;
+  }
   .rs-slide { grid-template-columns: 1fr; gap: 22px; }
   .process-steps { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
   .process-steps::before { display: none; }
@@ -1465,7 +1483,8 @@ footer::before {
   .hero-marquee { padding: 15px 0; }
   .services-grid { grid-template-columns: 1fr; }
   .bento { grid-template-columns: 1fr; }
-  .bento-card.feature { grid-column: span 1; min-height: 280px; }
+  .bento-card.feature { grid-column: span 1; min-height: 0; padding: 26px 22px; }
+  .bento-card.feature .bento-title { text-wrap: balance; }
   .process-steps { grid-template-columns: 1fr; gap: 28px; }
   .cs-grid { grid-template-columns: 1fr; }
   .cs-card-header { padding: 24px 22px 22px; }

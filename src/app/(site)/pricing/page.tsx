@@ -16,7 +16,7 @@ const TIERS = [
     name: 'Starter',
     blurb: 'Get momentum on one or two channels and prove the model before you scale.',
     features: [
-      'One or two channels (e.g. Local + SEO, or Social)',
+      'One or two channels (e.g. Local Presence & SEO, or Social)',
       'Strategy and 90-day plan',
       'Monthly content and execution',
       'Core setup: profile, on-page, tracking',
@@ -31,7 +31,7 @@ const TIERS = [
     features: [
       'Three to four channels working together',
       'Everything in Starter',
-      'Answer-Engine Optimization (GEO/AEO) included',
+      'Answer Engine Optimization (AEO) included',
       'Website or landing-page work',
       'Monthly strategy call',
       'Live dashboard and priority support',
@@ -44,7 +44,7 @@ const TIERS = [
     features: [
       'Full channel coverage',
       'Everything in Growth',
-      'Founder / executive brand program',
+      'Executive personal brand program',
       'Campaign strategy and execution',
       'Lead generation, if it fits',
       'Senior strategist as your lead contact',

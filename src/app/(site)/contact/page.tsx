@@ -9,7 +9,7 @@ const FAQS = [
     q: 'What services do you offer?',
     a: (
       <>
-        Seven, across search, answer engines, local, social, founder brand, websites, and lead generation. Most clients combine three or four into one connected plan. See the full breakdown on the <Link href="/services">services page</Link>.
+        Eight: website design &amp; build, social media management, competitive intelligence, local presence &amp; SEO, answer engine optimization, lead generation, executive personal brand, and strategic advisory. Most clients combine three or four into one connected plan. See the full breakdown on the <Link href="/services">services page</Link>.
       </>
     ),
   },

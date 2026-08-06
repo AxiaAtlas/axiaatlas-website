@@ -25,33 +25,34 @@ const L = {
   contact: { label: 'Contact us', href: '/contact' },
   careers: { label: 'See open roles', href: '/careers' },
   social: { label: 'Social Media details', href: '/services#social' },
+  intel: { label: 'Competitive Intelligence details', href: '/services#intel' },
   geo: { label: 'AEO details', href: '/services#geo' },
-  seo: { label: 'SEO & Content details', href: '/services#seo' },
-  local: { label: 'Local details', href: '/services#local' },
-  executive: { label: 'Founder brand details', href: '/services#executive' },
+  local: { label: 'Local Presence & SEO details', href: '/services#local' },
+  executive: { label: 'Executive brand details', href: '/services#executive' },
   website: { label: 'Website details', href: '/services#website' },
   leadgen: { label: 'Lead gen details', href: '/services#leadgen' },
+  strategy: { label: 'Strategic Advisory details', href: '/services#strategy' },
 } satisfies Record<string, ChatLink>
 
 const QA_SET: QA[] = [
   {
     keywords: ['what do you do', 'what is axia', 'who are you', 'about', 'services overview', 'what you offer'],
     answer:
-      'Axia Atlas is a digital marketing studio. We make brands, local businesses, and founders impossible to miss — in Google, in answer engines (ChatGPT, Perplexity, Gemini), in local search, and across social. We start with strategy, then build content and systems that compound.',
+      'Axia Atlas is a digital marketing studio. We make brands, local businesses, and founders impossible to miss — in Google, in the AI platforms buyers now ask (Claude, ChatGPT, Perplexity, and Gemini), in local search, and across social. We start with strategy, then build content and systems that compound.',
     links: [L.services, L.demo],
     followups: ['What services do you offer?', 'How do I get started?'],
   },
   {
     keywords: ['service', 'offer', 'what can you', 'help with', 'channels', 'what do you sell'],
     answer:
-      'We run seven services: Social Media, Answer-Engine Optimization (GEO/AEO), SEO & Content, Local Presence, Founder/Executive Brand, Website Design, and Lead Generation. Most clients combine three or four.',
+      'We run eight services: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & SEO, Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, and Strategic Advisory & Embedded Thinking. Most clients combine three or four.',
     links: [L.services, L.demo],
-    followups: ['How does answer-engine optimization work?', 'What are your tiers?'],
+    followups: ['How does answer engine optimization work?', 'What are your tiers?'],
   },
   {
-    keywords: ['answer engine', 'answer-engine', 'chatgpt', 'perplexity', 'gemini', 'geo', 'aeo', 'cited', 'citation', 'generative'],
+    keywords: ['answer engine', 'answer-engine', 'claude', 'chatgpt', 'perplexity', 'gemini', 'geo', 'aeo', 'cited', 'citation', 'generative', 'ai platform', 'ai search', 'llm'],
     answer:
-      "Answer-Engine Optimization (GEO/AEO) gets you cited inside ChatGPT, Perplexity, and Gemini results. We audit where you're missing, publish structured content built to be quoted, and track your citations over time.",
+      "Answer Engine Optimization (AEO) gets you cited across the four platforms buyers actually ask — Claude, ChatGPT, Perplexity, and Gemini. We baseline the exact prompts a buyer would type and record who gets named today, fix the entity data, schema, and quotable source pages those systems rely on, build presence on the third-party sources they fall back on, then re-run the same prompts monthly so you can see where you're cited and where you're still left out.",
     links: [L.geo, L.demo],
     topic: true,
     followups: ['How long until I see results?', 'How much does it cost?'],
@@ -59,7 +60,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['local', 'google business', 'map pack', 'maps', 'near me', 'review'],
     answer:
-      "Local Presence covers your Google Business Profile, citations, review strategy, and local landing pages — so you win the 'near me' searches and the map pack. It's usually the highest-ROI channel for service businesses.",
+      "Local Presence & SEO works the map pack and the organic results under it together: a fully built Google Business Profile, consistent citations, a review programme with public responses, plus the service and location pages that rank for 'service in city'. Rankings and calls are tracked per location. Usually the highest-ROI channel for a business that sells inside a radius.",
     links: [L.local, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
@@ -67,26 +68,42 @@ const QA_SET: QA[] = [
   {
     keywords: ['social media', 'instagram', 'tiktok', 'facebook', 'content calendar', 'posting'],
     answer:
-      'Social Media is the whole thing, not just a posting schedule — platform strategy, content made for each platform, and community management that grows an audience that actually buys.',
+      'Social Media Management is the whole thing, not just a posting schedule — we pick the two or three platforms worth your time, set recurring content pillars, produce and publish natively for each platform, and manage the comments so an audience that actually buys grows around it.',
     links: [L.social, L.demo],
+    topic: true,
+    followups: ['What services do you offer?', 'How do I get started?'],
+  },
+  {
+    keywords: ['competitor', 'competitive intelligence', 'competition', 'benchmark', 'market research', 'share of voice', 'rivals'],
+    answer:
+      'Competitive Intelligence tracks a named set of competitors you choose — usually five to ten — and reports what they actually did: pricing and packaging changes, the queries and pages they rank for that you don\'t, publishing cadence and what earned engagement, hiring signals, review sentiment, and whether the AI platforms name them when they don\'t name you. Every claim is sourced and dated.',
+    links: [L.intel, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
   },
   {
     keywords: ['seo', 'search engine optimization', 'ranking', 'rank', 'keyword', 'organic', 'blog', 'article'],
     answer:
-      'SEO & Content pairs technical fundamentals with articles and pages that rank, earn trust, and keep bringing in customers — traffic you own instead of renting from ad platforms.',
-    links: [L.seo, L.demo],
+      "SEO isn't a separate line item — search foundations are built into the website engagement from day one, and the ongoing ranking work lives inside Local Presence & SEO: service and location pages, internal linking, technical fixes, and rank tracking you can check.",
+    links: [L.local, L.website],
     topic: true,
-    followups: ['How does answer-engine optimization work?', 'How long until I see results?'],
+    followups: ['How does answer engine optimization work?', 'How long until I see results?'],
   },
   {
     keywords: ['website', 'web design', 'web site', 'landing page', 'redesign', 'site speed', 'conversion'],
     answer:
-      'Website Design builds fast, clear sites around one job: turning the visitors every other channel sends you into customers. Conversion-first design, messaging, and a technical foundation built for speed.',
+      'Website Design & Build is our core engagement, and it covers more than design: positioning first, then the copy, the design, and the build itself — with search foundations laid during the build rather than bolted on after. You get a working, indexed, fast site, not a mockup handed to someone else.',
     links: [L.website, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
+  },
+  {
+    keywords: ['advisory', 'strategy', 'strategic', 'consulting', 'embedded', 'pricing decision', 'positioning'],
+    answer:
+      "Strategic Advisory & Embedded Thinking is standing access to a strategist who knows your business — recurring working sessions on the decisions that don't fit one channel: what to charge, how to package it, which segment is next, what to say when a competitor undercuts you. Decisions get written down and revisited.",
+    links: [L.strategy, L.demo],
+    topic: true,
+    followups: ['What are your tiers?', 'How do I get started?'],
   },
   {
     keywords: ['lead gen', 'lead generation', 'outbound', 'prospecting', 'cold email', 'outreach', 'pipeline'],
@@ -99,7 +116,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['founder', 'executive', 'personal brand', 'thought leadership'],
     answer:
-      'Founder/Executive Brand builds your authority on LinkedIn and beyond — content in your voice that earns trust before the first call. Great for founders and execs who are the face of the business.',
+      "Executive Personal Brand builds a founder's voice separately from the company's — positions drawn out of you in interviews, then written up as posts and essays that sound like you, with inbound triaged so real buyers get a real reply. The audience and the archive stay yours.",
     links: [L.executive, L.demo],
     topic: true,
     followups: ['What are your tiers?', 'See some results?'],
