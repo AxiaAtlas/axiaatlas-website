@@ -20,6 +20,10 @@ async function getCaseStudies() {
   }
 }
 
+/* A SELECTION, not the full list — six of the eight, so "View all 8 services"
+   leads somewhere with more than this page already showed. Executive Personal
+   Brand and Strategic Advisory live on /services (anchors #executive, #strategy).
+   Two rows of three in the 3-col grid. */
 const SERVICES = [
   { id: 'social', name: 'Social Media Management', desc: 'Content built for each platform, managed end to end, designed to grow an audience that actually buys.', href: '/services#social' },
   { id: 'intel', name: 'Competitive Intelligence', desc: "Every competitor's positioning, cadence, and visibility tracked and sourced, so you decide on facts rather than hunches.", href: '/services#intel' },
@@ -27,8 +31,6 @@ const SERVICES = [
   { id: 'local', name: 'Local Presence & SEO', desc: 'Profile, citations, and reviews managed so nearby buyers find you first, not the business down the road.', href: '/services#local' },
   { id: 'geo', name: 'Answer Engine Optimization (AEO)', desc: 'Get cited across leading AI platforms—Claude, ChatGPT, Perplexity, and Gemini—represented accurately and recommended when buyers search your category.', href: '/services#geo' },
   { id: 'leadgen', name: 'Lead Generation', desc: 'Prospects researched against your ideal customer, reached with outreach written for them, tracked from first touch onward.', href: '/services#leadgen' },
-  { id: 'executive', name: 'Executive Personal Brand', desc: "A founder's voice built separately from the company's, because buyers follow people before they follow logos.", href: '/services#executive' },
-  { id: 'strategy', name: 'Strategic Advisory & Embedded Thinking', desc: "Working sessions on positioning, pricing, and the growth decisions that don't fit in a deliverable.", href: '/services#strategy' },
 ]
 
 /* Curated results for the home slider. The Supabase library takes over once it
@@ -175,9 +177,9 @@ export default async function HomePage() {
       <section className="section-alt">
         <div className="section-inner">
           <div className="section-head">
-            <div className="section-eyebrow">What We Do</div>
+            <div className="section-eyebrow">The Channels</div>
             <h2 className="section-headline">Eight ways to get found.</h2>
-            <p className="section-sub">Pick the channels that fit your business. Most clients combine three or four into one plan.</p>
+            <p className="section-sub">You don&apos;t need all eight. You need the right three, in the right order — and that&apos;s the first thing we&apos;ll tell you.</p>
           </div>
           <div className="services-grid">
             {SERVICES.map((s) => {

@@ -41,9 +41,11 @@ function Row({
 }) {
   return (
     <div className={`bm-row ${className}`}>
-      {/* the group is duplicated so the CSS translate can loop seamlessly */}
+      {/* four copies: the CSS translates exactly one of them (-25%), so the loop
+          is seamless and the remaining three still fill the row at the widest
+          card size — two copies left a gap on the right at desktop widths */}
       <div className="bm-track">
-        {[0, 1].map((dup) => (
+        {[0, 1, 2, 3].map((dup) => (
           <div className="bm-group" key={dup} aria-hidden={dup === 1}>
             {items.map((it) => (
               <span className="bm-icon" key={it.name} title={it.name}>
