@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Wordmark } from './Logo'
+import { AMark, WordmarkText } from './Logo'
 
 const PORTAL_URL = 'https://app.axiaatlas.com'
 
@@ -21,8 +21,14 @@ export default function Nav() {
 
   return (
     <nav className="nav">
-      <Link href="/" className="nav-brand" onClick={close} aria-label="Axia Atlas — home">
-        <Wordmark className="logo" />
+      {/* Side-by-side lockup composed the same way the portal composes it
+          (AMark + WordmarkText, same path data, same 28/18 sizes) so the mark
+          and the letters are each sized on their own ink. The single combined
+          <Wordmark> used to be sized here at 24px total, which scaled the
+          letterforms down to roughly half the portal's. */}
+      <Link href="/" className="nav-brand brand-lockup" onClick={close} aria-label="Axia Atlas — home">
+        <AMark className="brand-mark" />
+        <WordmarkText className="brand-word" />
       </Link>
 
       <ul className={`nav-links${open ? ' open' : ''}`}>

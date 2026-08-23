@@ -115,7 +115,12 @@
 }
 
 /* ── BASE ──────────────────────────────────────────────────────────────── */
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+/* Native scroll only. `scroll-behavior: smooth` used to live here; it made every
+   browser-driven scroll (hash links from the footer into /services#…, Home/End,
+   scrollbar clicks) run as a fixed-duration animation, so long jumps flew across
+   the page. There is no scroll library on the site — this line was the whole of
+   the non-standard behaviour. */
+html { -webkit-text-size-adjust: 100%; }
 
 body {
   font-family: var(--font-body);
@@ -271,9 +276,19 @@ img { max-width: 100%; }
   box-shadow: var(--shadow-sm);
 }
 
-.nav-brand { display: flex; align-items: center; flex-shrink: 0; }
-.nav-brand .logo { height: 24px; width: auto; display: block; color: var(--text); }
-.nav-brand .logo .ink { fill: currentColor; }
+/* ── BRAND LOCKUP ───────────────────────────────────────────────────────
+   The side-by-side lockup: A-mark, gap, wordmark. Composed from two SVGs
+   rather than one combined mark so each half is sized on its own ink — the
+   combined <Wordmark> viewBox is 200 units tall but the letterforms only
+   occupy 78 of them, so a single `height` sized the lockup off the tall
+   A-mark and rendered the letters at ~7px. These sizes (28 / 18 / 10px gap)
+   are the same numbers axiaatlas-platform uses for its header lockup. */
+.brand-lockup { display: flex; align-items: center; gap: 10px; }
+.brand-lockup .brand-mark { height: 28px; width: auto; display: block; }
+.brand-lockup .brand-word { height: 18px; width: auto; display: block; }
+.brand-lockup .ink { fill: currentColor; }
+
+.nav-brand { flex-shrink: 0; color: var(--text); }
 
 .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
 .nav-links > li { display: flex; align-items: center; }
@@ -855,8 +870,11 @@ footer::before {
 }
 .footer-inner { max-width: var(--maxw); margin: 0 auto; position: relative; z-index: 1; }
 .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--inverse-border); margin-bottom: 26px; }
-.footer-brand .logo { height: 26px; width: auto; margin-bottom: 18px; color: var(--inverse-text); display: block; }
-.footer-brand .logo .ink { fill: currentColor; }
+/* Same lockup, one step up in scale — the footer mark has always sat a touch
+   larger than the nav's. */
+.footer-brand .footer-lockup { margin-bottom: 18px; color: var(--inverse-text); gap: 11px; }
+.footer-brand .brand-mark { height: 31px; }
+.footer-brand .brand-word { height: 20px; }
 .footer-tagline { font-size: var(--t-sm); line-height: 1.7; color: var(--inverse-faint); max-width: 280px; }
 .footer-col-title { font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--inverse-faint); margin-bottom: 18px; }
 .footer-links { list-style: none; display: flex; flex-direction: column; gap: 11px; }

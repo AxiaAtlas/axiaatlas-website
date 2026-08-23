@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Wordmark } from './Logo'
+import { AMark, WordmarkText } from './Logo'
 
 const PORTAL_URL = 'https://app.axiaatlas.com'
 
@@ -9,7 +9,10 @@ export default function Footer() {
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
-            <Wordmark className="logo" />
+            <div className="brand-lockup footer-lockup">
+              <AMark className="brand-mark" />
+              <WordmarkText className="brand-word" />
+            </div>
             <p className="footer-tagline">Marketing that makes you impossible to miss — in search, answer engines, and in the feeds where your buyers decide.</p>
           </div>
 
