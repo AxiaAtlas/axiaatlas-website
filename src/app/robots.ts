@@ -8,7 +8,8 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/'],
+        // /go/* are redirects, not pages. They carry a noindex header too.
+        disallow: ['/api/', '/go/'],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
