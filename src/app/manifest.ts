@@ -8,7 +8,11 @@ import type { MetadataRoute } from 'next'
    `maskable` wants: Android applies its own mask and crops to roughly the
    middle 80%, and the generator keeps the mark at 62.5% of the canvas so it
    survives that crop. 512 is here for the PWA install prompt only; the icons
-   Google reads are the 48 and 192 declared in app/layout.tsx. */
+   Google reads are /favicon.ico and the PNGs declared in app/layout.tsx.
+
+   There is deliberately no SVG entry. A transparent vector icon is the one
+   thing that can make a tab and a search result disagree, so the site no
+   longer ships one anywhere. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Axia Atlas',

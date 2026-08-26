@@ -15,15 +15,23 @@
 // canvas. That keeps the ink big enough to read in a tab while staying inside
 // the ~80% safe circle Android crops a maskable icon to.
 //
-// WHY THE RASTERS ARE OPAQUE. Google composites a transparent favicon against
-// its own result-row background, which is why a transparent icon can look
-// correct in the tab and wrong in search. Every PNG here is filled edge to edge
-// with Deep Spruce and carries no alpha channel at all. They are also
-// full-bleed squares, not pre-rounded tiles: iOS and Android apply their own
-// mask, and a pre-rounded tile leaves transparent corners for Google to fill.
+// WHY EVERYTHING IS OPAQUE. Google composites a transparent favicon against its
+// own result-row background, which is why a transparent icon looks correct in
+// the tab and wrong in search even when it is the same file. Every asset this
+// script writes is filled edge to edge with Deep Spruce and carries no alpha
+// channel at all. They are also full-bleed squares, not pre-rounded tiles: iOS
+// and Android apply their own mask, and a pre-rounded tile leaves transparent
+// corners for Google to fill.
 //
-// SIZES. Google wants a square favicon whose side is a multiple of 48px, so the
-// linked icons are 48 and 192. 512 exists only for the PWA manifest.
+// This script used to also write an adaptive, TRANSPARENT public/icon.svg for
+// the tab. That was the last transparent icon on the site and the only one the
+// tab and Google could disagree about: browsers prefer image/svg+xml over any
+// PNG regardless of link order, so the tab rendered the bare mark against the
+// tab strip while Google rendered the same file against its own background. It
+// is gone. There is now ONE artwork, opaque, in three containers.
+//
+// SIZES. Google wants a square favicon whose side is a multiple of 48px, so
+// every linked icon is 48, 96, or 192. 512 exists only for the PWA manifest.
 //
 //   npm run icons
 import sharp from 'sharp'
@@ -53,16 +61,6 @@ const VIEW_BOX = `${X0} ${Y0} ${SIDE} ${SIDE}`
 
 const paths = (fill) => MARK_PATHS.map((d) => `<path d="${d}" fill="${fill}"/>`).join('')
 
-// The tab icon: transparent and adaptive, so the mark inks itself spruce on a
-// light tab strip and bone on a dark one. Matches the portal's /icon.svg
-// exactly in behaviour; only the crop differs. Search engines never see this
-// one -- app/layout.tsx lists the opaque PNG ahead of it.
-const adaptiveSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VIEW_BOX}" width="512" height="512">
-  <style>path{fill:${SPRUCE}}@media (prefers-color-scheme:dark){path{fill:${BONE}}}</style>
-  ${MARK_PATHS.map((d) => `<path d="${d}"/>`).join('\n  ')}
-</svg>
-`
-
 // The raster source: bone mark, full-bleed Deep Spruce ground, no rounding.
 const filledSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VIEW_BOX}" width="1024" height="1024">
   <rect x="${X0}" y="${Y0}" width="${SIDE}" height="${SIDE}" fill="${SPRUCE}"/>
@@ -78,14 +76,49 @@ const png = (size) =>
     .png({ compressionLevel: 9 })
     .toBuffer()
 
-writeFileSync('public/icon.svg', adaptiveSvg)
+// ICO container. Windows ICO has carried whole PNG payloads since Vista, and
+// every browser and crawler that asks for /favicon.ico reads them, so the .ico
+// is the same bytes as the PNGs rather than a second rendering of the mark.
+// Header is 6 bytes, then one 16-byte directory entry per image, then the
+// payloads. Side is written as a single byte, so 48 and 96 both fit.
+const ico = (images) => {
+  const head = Buffer.alloc(6)
+  head.writeUInt16LE(0, 0) // reserved
+  head.writeUInt16LE(1, 2) // 1 = icon
+  head.writeUInt16LE(images.length, 4)
+  let offset = 6 + 16 * images.length
+  const dir = []
+  for (const { size, data } of images) {
+    const e = Buffer.alloc(16)
+    e.writeUInt8(size, 0)   // width
+    e.writeUInt8(size, 1)   // height
+    e.writeUInt8(0, 2)      // palette size (0 = truecolor)
+    e.writeUInt8(0, 3)      // reserved
+    e.writeUInt16LE(1, 4)   // colour planes
+    e.writeUInt16LE(32, 6)  // bits per pixel
+    e.writeUInt32LE(data.length, 8)
+    e.writeUInt32LE(offset, 12)
+    dir.push(e)
+    offset += data.length
+  }
+  return Buffer.concat([head, ...dir, ...images.map((i) => i.data)])
+}
 
 // 48 and 192 are what app/layout.tsx links; 96 and 512 are manifest-only.
+const rasters = {}
 for (const size of [48, 96, 192, 512]) {
-  writeFileSync(`public/icon-${size}.png`, await png(size))
+  rasters[size] = await png(size)
+  writeFileSync(`public/icon-${size}.png`, rasters[size])
 }
 // iOS masks this itself, so it is the same full-bleed square. 192 keeps every
 // linked icon on Google's multiple-of-48 rule.
-writeFileSync('public/apple-icon.png', await png(192))
+writeFileSync('public/apple-icon.png', rasters[192])
 
-console.log(`icons written from canonical mark — viewBox "${VIEW_BOX}"`)
+// /favicon.ico is the one favicon URL that never moves: it is what Google
+// probes when it wants a site icon, and it 404'd on this domain until now.
+writeFileSync('public/favicon.ico', ico([
+  { size: 48, data: rasters[48] },
+  { size: 96, data: rasters[96] },
+]))
+
+console.log(`icons written from canonical mark, viewBox "${VIEW_BOX}"`)

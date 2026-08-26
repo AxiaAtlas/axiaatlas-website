@@ -75,7 +75,7 @@ export default async function HomePage() {
             <em>Make sure they find you.</em>
           </h1>
           <p className="hero-sub">
-            Every day, your customers search Google, scroll their feeds, and ask answer engines what to buy and who to trust. Axia Atlas puts your business in those moments — for brands, local businesses, and the founders behind them.
+            Every day, people search the web, scroll their feeds, and ask answer engines what to buy and who to trust. Axia Atlas puts your business in those moments — for brands, local businesses, and the founders behind them.
           </p>
           <div className="hero-actions">
             <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>

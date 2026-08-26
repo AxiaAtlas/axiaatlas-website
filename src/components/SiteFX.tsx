@@ -5,7 +5,8 @@ import { useEffect } from 'react'
    1. Scroll-reveal: adds `.reveal` to a curated selector set, then `.in` on enter.
    2. Nav: adds `.scrolled` once the page leaves the top.
    3. Scroll-idle flag: `.is-scrolling` on <body> while a scroll is in flight.
-   4. Spotlight: tracks the pointer over cards to drive the radial highlight. */
+   4. Spotlight: tracks the pointer over cards to drive the radial highlight.
+   5. Marquee gating: pauses the infinite loops while they are off screen. */
 const REVEAL_SELECTORS = [
   '.hero-eyebrow', '.hero-headline', '.hero-sub', '.hero-actions', '.hero-trust',
   '.section-eyebrow', '.section-headline', '.section-sub',
@@ -17,6 +18,9 @@ const REVEAL_SELECTORS = [
 ].join(',')
 
 const SPOTLIGHT_SELECTORS = '.bento-card, .service-card, .spotlight'
+
+// The three loops that otherwise animate for as long as the tab is open.
+const MARQUEE_SELECTORS = '.marquee-track, .bm-track'
 
 // Matches the .reveal transition in globals.css, with headroom for the stagger.
 const REVEAL_MS = 1000
@@ -104,8 +108,16 @@ export default function SiteFX() {
       nav?.classList.toggle('scrolled', next)
     }
 
+    // Read by onMove below. The class on <body> is kept for anything that wants
+    // to key off it, but nothing styles on it any more: `pointer-events` is an
+    // inherited property, so the rule that used to live in globals.css
+    // recalculated the computed style of the entire document at the start of
+    // every scroll gesture and again when it ended.
+    let scrolling = false
+
     const clearIdle = () => {
       idleTimer = 0
+      scrolling = false
       body.classList.remove('is-scrolling')
     }
 
@@ -114,7 +126,10 @@ export default function SiteFX() {
       if (!scrollRaf) scrollRaf = requestAnimationFrame(applyNav)
       if (reduce) return
       if (idleTimer) clearTimeout(idleTimer)
-      else body.classList.add('is-scrolling')
+      else {
+        scrolling = true
+        body.classList.add('is-scrolling')
+      }
       idleTimer = window.setTimeout(clearIdle, 120)
     }
 
@@ -124,6 +139,10 @@ export default function SiteFX() {
     // ── 4. Spotlight pointer tracking ───────────────────────────────────────
     let moveRaf = 0
     const onMove = (e: PointerEvent) => {
+      // Skip spotlight work mid-gesture. This is what the old
+      // `body.is-scrolling { pointer-events: none }` rule was buying, at the
+      // price of a full-document style recalculation twice per scroll.
+      if (scrolling) return
       const card = (e.target as HTMLElement)?.closest<HTMLElement>(SPOTLIGHT_SELECTORS)
       if (!card) return
       if (moveRaf) return
@@ -136,12 +155,41 @@ export default function SiteFX() {
     }
     if (!reduce) window.addEventListener('pointermove', onMove, { passive: true })
 
+    // ── 5. Marquee gating ───────────────────────────────────────────────────
+    // These loops run at 60fps forever, and two of the three sit inside a card
+    // most visitors never scroll to. While one is running it is a promoted
+    // layer in motion underneath a fixed nav that carries a backdrop-filter, so
+    // it re-invalidates that blur on every frame whether or not the page is
+    // scrolling. Paused off screen, the compositor gets its headroom back for
+    // the scroll itself. The observer has no rootMargin slack on purpose: a row
+    // that is not on screen has nothing to show for the frames it costs.
+    const tracks = Array.from(document.querySelectorAll<HTMLElement>(MARQUEE_SELECTORS))
+    let marqueeIo: IntersectionObserver | null = null
+    if (reduce) {
+      tracks.forEach((t) => t.classList.add('paused'))
+    } else if (tracks.length) {
+      marqueeIo = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          const t = e.target as HTMLElement
+          t.classList.toggle('running', e.isIntersecting)
+          t.classList.toggle('paused', !e.isIntersecting)
+        })
+      })
+      // Start paused, so nothing animates before the observer's first callback
+      // tells us it is actually visible.
+      tracks.forEach((t) => {
+        t.classList.add('paused')
+        marqueeIo!.observe(t)
+      })
+    }
+
     return () => {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('pointermove', onMove)
       if (scrollRaf) cancelAnimationFrame(scrollRaf)
       if (moveRaf) cancelAnimationFrame(moveRaf)
       if (idleTimer) clearTimeout(idleTimer)
+      marqueeIo?.disconnect()
       body.classList.remove('is-scrolling')
     }
   }, [])

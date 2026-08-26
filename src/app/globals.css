@@ -275,22 +275,39 @@ img { max-width: 100%; }
   padding: 0 var(--gutter);
   z-index: 1000;
   background: color-mix(in srgb, var(--bg) 70%, transparent);
-  /* A full-width fixed bar re-samples everything behind it on every scrolled
-     frame, so each filter function in this list is paid for continuously.
-     saturate() was a second pass over the same pixels for an effect the eye
-     cannot pick out through a blur; the blur alone carries the look. Blur cost
-     scales with the radius, so the radius is the dial: 10px still reads as
-     frosted against the tint below and samples ~40% less than 16px did. */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  /* A full-width fixed bar re-samples everything behind it on every frame in
+     which anything behind it moves, and on the home page something always
+     does: .hero-aura and .marquee-track both loop forever directly under this
+     strip. So the blur is paid for continuously, at rest as much as while
+     scrolling, and its cost scales with the radius. saturate() went first, a
+     second pass over the same pixels for an effect the eye cannot pick out
+     through a blur. The radius is the remaining dial, and 8px is the floor at
+     which this still reads as frosted against the tint below. */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid transparent;
-  transition: background 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  /* box-shadow is NOT a composited property. Transitioning it here meant that
+     crossing the 12px scroll threshold, which is the first moment of every
+     scroll gesture and where the frame budget is already tightest, spent 300ms
+     repainting a full-width fixed bar on the main thread and invalidating the
+     backdrop-filter region for all 18 of those frames. The shadow now lives on
+     ::after and fades with opacity, which the compositor handles alone. */
+  transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.nav::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
 }
 .nav.scrolled {
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   border-bottom-color: var(--border);
-  box-shadow: var(--shadow-sm);
 }
+.nav.scrolled::after { opacity: 1; }
 
 /* ── BRAND LOCKUP ───────────────────────────────────────────────────────
    The side-by-side lockup: A-mark, gap, wordmark. Composed from two SVGs
@@ -509,24 +526,38 @@ img { max-width: 100%; }
   padding: 19px 0;
   overflow: hidden;
   position: relative;
-  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  /* No mask-image. A mask on this element pushed its subtree, which contains a
+     permanently animating promoted layer, through an offscreen render target
+     on every frame; and this strip sits at the top of the page, exactly where
+     scrolling starts. The ground here is the flat solid var(--surface), so two
+     gradient overlays reproduce the fade exactly and are painted once. */
 }
+.hero-marquee::before, .hero-marquee::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 7%;
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-marquee::before { left: 0;  background: linear-gradient(90deg, var(--surface), transparent); }
+.hero-marquee::after  { right: 0; background: linear-gradient(270deg, var(--surface), transparent); }
 .marquee-track {
   display: flex;
   width: max-content;
-  /* Promote to its own compositor layer so the loop is transformed on the GPU
-     in subpixel precision — no main-thread repaint, no pixel-snap hop at the
-     wrap point. */
+  /* One promotion hint, not three. will-change alone gives this the compositor
+     layer the loop needs; backface-visibility: hidden and a static
+     translate3d(0, 0, 0) were two more ways of asking for the same layer, and
+     the static transform was overwritten by the animation on frame one. */
   will-change: transform;
-  backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
   /* Paced for reading, not for atmosphere: roughly 37px/s — slow enough that a
      phrase stays legible across the strip, quick enough that it still reads as
      motion next to a scrolling page. Hovering pauses it outright. */
   animation: marqueeScroll 64s linear infinite;
 }
 .hero-marquee:hover .marquee-track { animation-play-state: paused; }
+/* SiteFX pauses the loop outright once the strip leaves the viewport. */
+.marquee-track.paused { animation-play-state: paused; will-change: auto; }
 .marquee-group { display: flex; align-items: center; flex-shrink: 0; }
 .marquee-item {
   display: inline-flex; align-items: center;
@@ -548,8 +579,8 @@ img { max-width: 100%; }
   to { transform: translate3d(-50%, 0, 0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-marquee { mask-image: none; -webkit-mask-image: none; }
-  .marquee-track { animation: none; transform: none; }
+  .hero-marquee::before, .hero-marquee::after { display: none; }
+  .marquee-track { animation: none; transform: none; will-change: auto; }
 }
 
 /* ── SECTIONS ──────────────────────────────────────────────────────────── */
@@ -741,7 +772,14 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
    the right at the end of a cycle (and it stays centred under reduced motion,
    where the animation is off entirely). */
 .bm-row { overflow: hidden; display: flex; justify-content: center; }
-.bm-track { display: flex; flex: none; width: max-content; will-change: transform; }
+/* No will-change in the base rule. These two rows were promoted for the whole
+   life of the page even while the card holding them sat far off screen, and a
+   promoted layer that is also animating keeps the compositor busy and keeps
+   re-invalidating the fixed nav's backdrop above it. SiteFX pauses them when
+   they leave the viewport and grants will-change only while they run. */
+.bm-track { display: flex; flex: none; width: max-content; }
+.bm-track.running { will-change: transform; }
+.bm-track.paused { animation-play-state: paused; will-change: auto; }
 .bm-group {
   display: flex; align-items: center; flex: none;
   gap: clamp(30px, 5vw, 58px);
@@ -1543,7 +1581,9 @@ footer::before {
   .nav-links {
     display: none; position: fixed; top: var(--nav-h); left: 0; right: 0;
     background: color-mix(in srgb, var(--bg) 98%, transparent);
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    /* 8px, the same ceiling as the desktop bar. At 16px this panel blurred
+       most of a phone viewport, on the hardware least able to afford it. */
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     flex-direction: column; align-items: stretch; padding: 16px 24px 24px; gap: 2px;
     border-bottom: 1px solid var(--border); max-height: calc(100svh - var(--nav-h)); overflow-y: auto;
   }
@@ -1840,7 +1880,13 @@ section {
 /* The hero is a div, not a section, so it is never skipped and the page always
    paints its first screen immediately. */
 
-body.is-scrolling { pointer-events: none; }
+/* `body.is-scrolling { pointer-events: none }` used to live here. pointer-events
+   is an INHERITED property, so toggling it on <body> invalidated the computed
+   style of every element in the document, ~600 of them on the home page, once
+   at the start of every scroll gesture and again 120ms after it ended. The
+   intent was to skip hover work while scrolling; SiteFX now does that with a
+   flag it reads in JS, which costs nothing in style. The class is still set on
+   <body> so anything else can key off it. */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
