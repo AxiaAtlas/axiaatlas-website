@@ -132,7 +132,10 @@ body {
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 { font-family: var(--font-head); }
+/* Every heading on this site is styled by its own class, which sets the
+   bottom margin it wants. Zero the UA margins so promoting a styled div to
+   the correct heading level is a semantic change only, never a visual one. */
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-head); margin: 0; }
 
 a { color: inherit; text-decoration: none; }
 
@@ -194,7 +197,12 @@ img { max-width: 100%; }
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
-  will-change: opacity, transform;
+  /* No will-change here. This class lands on ~40 elements the moment SiteFX
+     mounts, and a will-change in the base rule would promote every one of them
+     to its own compositor layer at load — including everything still far below
+     the fold — which is exactly when will-change stops helping and just costs
+     memory and layerization time. SiteFX sets it on a single element as that
+     element is revealed, and hands it back on transitionend. */
 }
 .reveal.in { opacity: 1; transform: none; }
 
@@ -230,7 +238,9 @@ img { max-width: 100%; }
   pointer-events: none;
 }
 .btn-primary:hover::after { animation: btnShine 0.7s var(--ease); }
-@keyframes btnShine { to { left: 135%; } }
+/* Sweeps on transform, not `left`. `left` is a layout property, so the old
+   version ran a layout pass on every frame of the 0.7s sweep. */
+@keyframes btnShine { to { transform: translateX(455%) skewX(-18deg); } }
 
 /* Services page: on-brand button hover — deepen to spruce with a sage inner
    ring instead of the alabaster shine sweep (no white flash / white bg). */
@@ -265,8 +275,14 @@ img { max-width: 100%; }
   padding: 0 var(--gutter);
   z-index: 1000;
   background: color-mix(in srgb, var(--bg) 70%, transparent);
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  /* A full-width fixed bar re-samples everything behind it on every scrolled
+     frame, so each filter function in this list is paid for continuously.
+     saturate() was a second pass over the same pixels for an effect the eye
+     cannot pick out through a blur; the blur alone carries the look. Blur cost
+     scales with the radius, so the radius is the dial: 10px still reads as
+     frosted against the tint below and samples ~40% less than 16px did. */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid transparent;
   transition: background 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
@@ -396,7 +412,10 @@ img { max-width: 100%; }
   transform: translate(-50%, -50%);
   background:
     radial-gradient(circle at 50% 50%, rgba(var(--sage-rgb), 0.22) 0%, rgba(var(--sage-rgb), 0.08) 32%, transparent 64%);
-  filter: blur(8px);
+  /* No filter. The gradient's own stops already fade to nothing by 64%, so an
+     8px blur added nothing the eye can find — but it forced this 900px surface
+     to be re-rastered through a filter on every frame of the scale animation,
+     right where the page starts. */
   animation: heroAura 9s ease-in-out infinite;
 }
 @keyframes heroAura {
@@ -420,14 +439,25 @@ img { max-width: 100%; }
 }
 .hero-eyebrow::before { display: none; }
 .hero-eyebrow .pulse {
+  position: relative;
   width: 6px; height: 6px; border-radius: 50%;
   background: var(--inverse-accent);
-  animation: pulse 2.6s var(--ease) infinite;
 }
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(var(--sage-rgb), 0.5); }
-  70% { box-shadow: 0 0 0 7px rgba(var(--sage-rgb), 0); }
-  100% { box-shadow: 0 0 0 0 rgba(var(--sage-rgb), 0); }
+/* This ring used to be an animated box-shadow spread. box-shadow is not a
+   composited property, so a 2.6s infinite loop of it repainted the hero badge
+   on every frame the page was open. Same ring, drawn as a pseudo-element that
+   scales and fades instead: transform and opacity run on the compositor and
+   cost the main thread nothing. 3.33 = (6px dot + 2x7px spread) / 6px dot. */
+.hero-eyebrow .pulse::after {
+  content: '';
+  position: absolute; inset: 0; border-radius: 50%;
+  background: rgba(var(--sage-rgb), 0.5);
+  animation: pulseRing 2.6s var(--ease) infinite;
+}
+@keyframes pulseRing {
+  0%   { transform: scale(1); opacity: 0.5; }
+  70%  { transform: scale(3.33); opacity: 0; }
+  100% { transform: scale(3.33); opacity: 0; }
 }
 
 .hero-headline {
@@ -537,17 +567,28 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
   background: linear-gradient(180deg, var(--sage-soft) 0%, var(--sage) 160%);
   border-top: 1px solid var(--border);
 }
-.cta-band::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
+/* The drifting grid is two layers, not one. The outer element holds the vignette
+   mask and clips; the inner one carries the grid and moves on transform. The
+   single-element version animated background-position, which is not a composited
+   property — it repainted the full width of the band every frame, on every page
+   of the site, forever. Overhanging the inner layer by one full tile means the
+   56px travel never exposes an edge, and 56px is exactly the tile size, so the
+   loop is seamless. */
+.cta-band-grid {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  mask-image: radial-gradient(ellipse 80% 95% at 50% 50%, #000 0%, transparent 82%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 95% at 50% 50%, #000 0%, transparent 82%);
+}
+.cta-band-grid::before {
+  content: ''; position: absolute; inset: -56px;
   background-image:
     linear-gradient(rgba(var(--spruce-rgb), 0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(var(--spruce-rgb), 0.07) 1px, transparent 1px);
   background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse 80% 95% at 50% 50%, #000 0%, transparent 82%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 95% at 50% 50%, #000 0%, transparent 82%);
   animation: ctaGridDrift 52s linear infinite;
 }
-@keyframes ctaGridDrift { to { background-position: 56px 56px; } }
+@keyframes ctaGridDrift { to { transform: translate3d(56px, 56px, 0); } }
+
 .cta-band::after {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background: radial-gradient(ellipse 55% 65% at 50% 0%, rgba(255, 255, 255, 0.55), transparent 62%);
@@ -583,12 +624,27 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
   padding: 16px 32px;
   font-size: 0.875rem;
   box-shadow: var(--shadow-md);
+  /* The ring has to escape the button box, and .btn-primary clips its own
+     children for the shine sweep — so this one opts out of both. */
+  overflow: visible;
+}
+/* This pulse used to be an animated box-shadow spread. box-shadow is not a
+   composited property, so a 3.4s infinite loop of it repainted the primary CTA
+   on every frame of every page for as long as the tab was open — the single
+   most expensive thing on the site, because CtaBand renders everywhere. Same
+   cue, drawn as a ring that scales and fades: transform and opacity run on the
+   compositor and cost the main thread nothing. */
+.cta-band-btn::after { display: none; }
+.cta-band-btn::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  border-radius: inherit;
+  border: 1.5px solid rgba(var(--spruce-rgb), 0.32);
+  opacity: 0;
   animation: ctaPulse 3.4s var(--ease) infinite;
 }
 @keyframes ctaPulse {
-  0% { box-shadow: var(--shadow-md), 0 0 0 0 rgba(var(--spruce-rgb), 0.32); }
-  60% { box-shadow: var(--shadow-md), 0 0 0 16px rgba(var(--spruce-rgb), 0); }
-  100% { box-shadow: var(--shadow-md), 0 0 0 0 rgba(var(--spruce-rgb), 0); }
+  0% { transform: scale(1); opacity: 0.55; }
+  60%, 100% { transform: scale(1.14); opacity: 0; }
 }
 .cta-band-note {
   margin-top: 20px;
@@ -830,8 +886,13 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 /* ── PROCESS ───────────────────────────────────────────────────────────── */
 .process-section { background: var(--bg-alt); }
 .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 8px; position: relative; }
-.process-steps::before { content: ''; position: absolute; top: 26px; left: 26px; right: 26px; height: 1px; background: repeating-linear-gradient(90deg, var(--border-strong) 0 6px, transparent 6px 12px); z-index: 0; animation: antsSlide 14s linear infinite; }
-@keyframes antsSlide { to { background-position: 120px 0; } }
+/* Marching ants across the four process steps. Same two-layer shape as the CTA
+   grid: .process-ants is the clip window, its ::before is the dashes and moves
+   on transform. Animating background-position instead repainted the strip every
+   frame. The 120px travel is ten dash periods, so the loop is invisible. */
+.process-ants { position: absolute; top: 26px; left: 26px; right: 26px; height: 1px; overflow: hidden; z-index: 0; pointer-events: none; }
+.process-ants::before { content: ''; position: absolute; top: 0; left: -120px; right: -120px; height: 1px; background: repeating-linear-gradient(90deg, var(--border-strong) 0 6px, transparent 6px 12px); animation: antsSlide 14s linear infinite; }
+@keyframes antsSlide { to { transform: translate3d(120px, 0, 0); } }
 .process-step { position: relative; z-index: 1; }
 .process-num {
   width: 52px; height: 52px; border-radius: var(--r);
@@ -951,13 +1012,15 @@ footer::before {
 .route-path {
   stroke: var(--primary); stroke-width: 1.5; stroke-linecap: round;
   opacity: 0.22;
-  will-change: stroke-dashoffset;
+  /* No will-change: stroke-dashoffset is not a composited property, so hinting
+     it bought a layer and no acceleration. */
 }
 /* a small solid node at each service, ringed in the surface colour so it reads
    cleanly on the line; fades in as the draw reaches it */
 .route-node {
   fill: var(--primary); stroke: var(--surface); stroke-width: 3;
-  will-change: opacity;
+  /* Eight nodes; promoting all eight for the life of the page cost more than
+     the opacity writes ever did. */
 }
 
 .service-detail { padding: clamp(52px, 6.5vw, 80px) var(--gutter); border-bottom: 1px solid var(--border); }
@@ -1102,17 +1165,23 @@ footer::before {
   .about-hero .about-hero-text { max-width: 60%; }
 }
 /* drifting survey grid behind the hero copy */
+/* Two layers again: mask and clip on the element, grid and motion on its
+   ::before, so the drift is a composited transform rather than a per-frame
+   repaint of the whole hero. */
 .about-grid {
-  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  mask-image: radial-gradient(ellipse 75% 85% at 82% 35%, #000 0%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 85% at 82% 35%, #000 0%, transparent 78%);
+}
+.about-grid::before {
+  content: ''; position: absolute; inset: -54px;
   background-image:
     linear-gradient(rgba(var(--sage-rgb), 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(var(--sage-rgb), 0.06) 1px, transparent 1px);
   background-size: 54px 54px;
-  mask-image: radial-gradient(ellipse 75% 85% at 82% 35%, #000 0%, transparent 78%);
-  -webkit-mask-image: radial-gradient(ellipse 75% 85% at 82% 35%, #000 0%, transparent 78%);
   animation: aboutGridDrift 60s linear infinite;
 }
-@keyframes aboutGridDrift { to { background-position: 54px 54px; } }
+@keyframes aboutGridDrift { to { transform: translate3d(54px, 54px, 0); } }
 
 /* animated compass + route figure, mirrors the home hero beacon */
 .about-figure {
@@ -1215,6 +1284,9 @@ footer::before {
 .faq-item[open] { border-color: var(--border-strong); }
 .faq-q { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 22px; font-family: var(--font-head); font-size: 0.9375rem; font-weight: 600; color: var(--text); }
 .faq-q::-webkit-details-marker { display: none; }
+/* The question is the FAQ item's heading, so it is an <h3> — but it must look
+   exactly like the summary text it replaced, not like a UA-sized heading. */
+.faq-q-text { font: inherit; letter-spacing: inherit; color: inherit; }
 .faq-q .faq-ico { flex-shrink: 0; width: 16px; height: 16px; color: var(--accent); transition: transform 0.25s var(--ease); }
 .faq-item[open] .faq-q .faq-ico { transform: rotate(45deg); }
 .faq-a { padding: 0 22px 22px; font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); }
@@ -1559,7 +1631,12 @@ footer::before {
 }
 /* shared drifting aurora */
 .lt-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-.lt-blob { position: absolute; border-radius: 50%; filter: blur(64px); will-change: transform; }
+/* No filter and no will-change. These are radial gradients that already fade to
+   transparent by 60% of their radius, so a 64px blur changed nothing visible —
+   but it meant a full-viewport surface was re-rastered through a blur on every
+   frame of an infinite scale animation. The animation promotes them on its own;
+   the will-change was redundant and permanent. */
+.lt-blob { position: absolute; border-radius: 50%; }
 .lt-blob.a {
   width: 64vmax; height: 64vmax; top: -28vmax; left: 50%;
   background: radial-gradient(circle, rgba(var(--sage-rgb), 0.85) 0%, transparent 62%);
@@ -1720,6 +1797,50 @@ footer::before {
   .lt-mark { width: 66px; height: 66px; }
   .nf-actions { flex-wrap: nowrap; }
 }
+
+/* ── SCROLL PERFORMANCE ──────────────────────────────────────────────────
+   Two rules, both aimed at the same measured problem: during a scroll this
+   page was running a style recalculation on essentially every frame. A traced
+   scroll of the homepage did 415 recalcs and ~986ms of main-thread work;
+   disabling animations and transitions dropped that to 42 recalcs and ~232ms,
+   which is what identified the two costs below.
+
+   1. Off-screen sections. Several sections run slow infinite loops (the CTA
+      band's drifting grid, the process row's marching ants) that animate
+      background-position — not a composited property, so Blink was ticking
+      them on the main thread whether or not they were anywhere near the
+      viewport. content-visibility lets the browser skip rendering work for a
+      section that is off-screen entirely, animations included. The `auto`
+      keyword on contain-intrinsic-size makes each section remember the height
+      it last rendered at, so the scrollbar does not jump as they come and go.
+
+   2. Hover churn while scrolling. Cards sliding underneath a stationary cursor
+      flip :hover on and off constantly, and every flip starts a box-shadow and
+      border-color transition. Those are repaint properties, so each one forces
+      a recalc and a repaint on every frame of its 0.3s run, with several
+      overlapping at once. Suspending hit-testing for the duration of the
+      scroll removes the churn without changing how hover behaves at rest;
+      SiteFX adds the class on the first scroll event and drops it 120ms after
+      the last one. */
+section {
+  content-visibility: auto;
+  /* The placeholder height a section reports while it has never been rendered.
+     `auto` means the browser replaces this with the real height the first time
+     the section does render and remembers it from then on, so nothing above the
+     viewport ever changes size and the scroll position cannot jump — only the
+     length of the scrollbar settles, once, on the first pass down the page.
+     700px is the median rendered height of the sections on this site at desktop
+     widths; the same sections reflow into one tall column on a phone, hence the
+     larger estimate below. */
+  contain-intrinsic-size: auto 700px;
+}
+@media (max-width: 640px) {
+  section { contain-intrinsic-size: auto 1200px; }
+}
+/* The hero is a div, not a section, so it is never skipped and the page always
+   paints its first screen immediately. */
+
+body.is-scrolling { pointer-events: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

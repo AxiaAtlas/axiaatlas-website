@@ -154,7 +154,7 @@ export default function CareersPage() {
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 18, color: 'var(--accent)' }}>
                 <Check style={{ width: 44, height: 44 }} />
               </div>
-              <div className="demo-step-title" style={{ marginBottom: 10 }}>Application received.</div>
+              <h2 className="demo-step-title" style={{ marginBottom: 10 }}>Application received.</h2>
               <p className="demo-step-sub" style={{ marginBottom: 0, maxWidth: 440, marginInline: 'auto' }}>
                 Thanks, {form.fullName.split(' ')[0] || 'and welcome'}. We&apos;ve got your details and your resume. If there&apos;s a fit, someone from our team will reach out at <strong style={{ color: 'var(--text)' }}>{form.email}</strong>. Questions in the meantime? Email <a href="mailto:partner@axiaatlas.com" style={{ color: 'var(--accent)' }}>partner@axiaatlas.com</a>.
               </p>
@@ -177,7 +177,7 @@ export default function CareersPage() {
 
               {step === 1 && (
                 <form onSubmit={nextFromPerson}>
-                  <div className="demo-step-title">First, a little about you</div>
+                  <h2 className="demo-step-title">First, a little about you</h2>
                   <div className="demo-step-sub">So we know who you are and how to reach you.</div>
 
                   <div className="form-row">
@@ -212,7 +212,7 @@ export default function CareersPage() {
 
               {step === 2 && (
                 <form onSubmit={nextFromExperience}>
-                  <div className="demo-step-title">Your experience</div>
+                  <h2 className="demo-step-title">Your experience</h2>
                   <div className="demo-step-sub">Tell us what you&apos;d be doing and what you&apos;ve done.</div>
 
                   <div className="form-2col">
@@ -281,7 +281,7 @@ export default function CareersPage() {
 
               {step === 3 && (
                 <form onSubmit={submitApplication}>
-                  <div className="demo-step-title">Attach your resume</div>
+                  <h2 className="demo-step-title">Attach your resume</h2>
                   <div className="demo-step-sub">PDF or Word document, up to 4MB. This is the last step.</div>
 
                   <input

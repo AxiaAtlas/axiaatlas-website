@@ -128,7 +128,7 @@ export default async function HomePage() {
                 { title: 'Forgettable feeds', desc: 'Posting without a plan fills a calendar but builds nothing. Reach fades the moment you stop paying.' },
               ].map((c) => (
                 <div key={c.title} className="problem-card">
-                  <div className="problem-card-title">{c.title}</div>
+                  <h3 className="problem-card-title">{c.title}</h3>
                   <div className="problem-card-desc">{c.desc}</div>
                 </div>
               ))}
@@ -149,24 +149,24 @@ export default async function HomePage() {
             <div className="bento-card feature">
               <div className="feature-copy">
                 <div className="bento-num">The approach</div>
-                <div className="bento-title">Get found, get chosen, get remembered.</div>
+                <h3 className="bento-title">Get found, get chosen, get remembered.</h3>
                 <p className="bento-desc">Strategy first — we map where your buyers already are and where you&apos;re missing. Then we build presence in search, answer engines, local, and social, and tie it back to leads and sales you can measure.</p>
               </div>
               <BrandMarquee />
             </div>
             <div className="bento-card">
               <div className="bento-num">01 — Find</div>
-              <div className="bento-title">Show up first</div>
+              <h3 className="bento-title">Show up first</h3>
               <p className="bento-desc">Rank in search, win local, and get cited by answer engines where buyers are already looking.</p>
             </div>
             <div className="bento-card">
               <div className="bento-num">02 — Convert</div>
-              <div className="bento-title">Turn attention into customers</div>
+              <h3 className="bento-title">Turn attention into customers</h3>
               <p className="bento-desc">A site and content built to move people from curious to booked, not just to bounce.</p>
             </div>
             <div className="bento-card">
               <div className="bento-num">03 — Compound</div>
-              <div className="bento-title">Build assets that keep paying off</div>
+              <h3 className="bento-title">Build assets that keep paying off</h3>
               <p className="bento-desc">Rankings, reviews, citations, and a founder reputation don&apos;t reset each month — they grow.</p>
             </div>
           </div>
@@ -187,7 +187,7 @@ export default async function HomePage() {
               return (
                 <div key={s.id} className="service-card">
                   <div className="service-icon">{Icon && <Icon />}</div>
-                  <div className="service-name">{s.name}</div>
+                  <h3 className="service-name">{s.name}</h3>
                   <p className="service-desc">{s.desc}</p>
                   <Link href={s.href} className="service-link">Learn more <Arrow className="arr" /></Link>
                 </div>
@@ -222,6 +222,8 @@ export default async function HomePage() {
             <h2 className="section-headline">Strategy before spend. Every time.</h2>
           </div>
           <div className="process-steps">
+            {/* Clip window for the marching ants; the dashes are its ::before. */}
+            <div className="process-ants" aria-hidden="true" />
             {[
               { n: '01', title: 'Audit', desc: "We map where you show up today, where you don't, and where the fastest wins are hiding." },
               { n: '02', title: 'Plan', desc: 'A clear 90-day plan: which channels, in what order, measured against goals you care about.' },
@@ -230,7 +232,7 @@ export default async function HomePage() {
             ].map((s) => (
               <div key={s.n} className={`process-step${s.n === '04' ? ' featured' : ''}`}>
                 <div className="process-num">{s.n}</div>
-                <div className="process-title">{s.title}</div>
+                <h3 className="process-title">{s.title}</h3>
                 <p className="process-desc">{s.desc}</p>
               </div>
             ))}

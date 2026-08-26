@@ -66,7 +66,7 @@ export default function PricingPage() {
         {TIERS.map((t) => (
           <div key={t.name} className={`pricing-card${t.featured ? ' featured' : ''}`}>
             {t.featured && <div className="pricing-flag">Most popular</div>}
-            <div className="pricing-tier">{t.name}</div>
+            <h2 className="pricing-tier">{t.name}</h2>
             <div className="pricing-amount">Custom <span>/ scoped to you</span></div>
             <p className="pricing-blurb">{t.blurb}</p>
             <ul className="pricing-features">

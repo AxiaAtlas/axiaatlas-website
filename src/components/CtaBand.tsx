@@ -13,6 +13,9 @@ type Props = {
 export default function CtaBand({ eyebrow = 'Book a Demo', headline, sub, cta = 'Book a Demo' }: Props) {
   return (
     <section className="cta-band">
+      {/* Clip window for the drifting grid; the grid itself is this element's
+          ::before, so the drift is a composited transform. */}
+      <div className="cta-band-grid" aria-hidden="true" />
       <div className="cta-band-inner">
         <div className="cta-band-beacon" aria-hidden="true">
           <span className="ring r1" />

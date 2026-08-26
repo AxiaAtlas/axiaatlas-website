@@ -83,7 +83,7 @@ export default function AboutPage() {
             ].map((b) => (
               <div key={b.n} className="belief-card spotlight">
                 <div className="belief-num">{b.n}</div>
-                <div className="belief-title">{b.title}</div>
+                <h3 className="belief-title">{b.title}</h3>
                 <p className="belief-desc">{b.desc}</p>
               </div>
             ))}

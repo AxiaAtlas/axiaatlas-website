@@ -104,7 +104,7 @@ export default async function CaseStudiesPage() {
         {cases.map((c: any) => (
           <div key={c.id} className="cs-card">
             <div className="cs-card-header">
-              <div className="cs-industry">{c.industry} · {c.company_type}</div>
+              <h2 className="cs-industry">{c.industry} · {c.company_type}</h2>
               {c.stat ? (
                 <div className="cs-stat">
                   <div className="cs-stat-value">{c.stat.value}</div>
@@ -123,15 +123,15 @@ export default async function CaseStudiesPage() {
             ) : null}
             <div className="cs-route">
               <div className="cs-step">
-                <div className="cs-label">The Challenge</div>
+                <h3 className="cs-label">The Challenge</h3>
                 <p className="cs-text">{c.challenge}</p>
               </div>
               <div className="cs-step">
-                <div className="cs-label">What We Did</div>
+                <h3 className="cs-label">What We Did</h3>
                 <p className="cs-text">{c.approach}</p>
               </div>
               <div className="cs-step result">
-                <div className="cs-label">The Result</div>
+                <h3 className="cs-label">The Result</h3>
                 <p className="cs-text">{c.result_detail}</p>
               </div>
             </div>

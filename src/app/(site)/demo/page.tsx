@@ -223,7 +223,7 @@ export default function DemoPage() {
 
               {step === 1 && (
                 <form onSubmit={nextFromPerson}>
-                  <div className="demo-step-title">First, a little about you</div>
+                  <h2 className="demo-step-title">First, a little about you</h2>
                   <div className="demo-step-sub">So we know who we&apos;re talking to and how to reach you.</div>
 
                   <div className="form-2col">
@@ -259,7 +259,7 @@ export default function DemoPage() {
 
               {step === 2 && (
                 <form onSubmit={submitSurvey}>
-                  <div className="demo-step-title">Tell us about your business</div>
+                  <h2 className="demo-step-title">Tell us about your business</h2>
                   <div className="demo-step-sub">Just the basics so we can take a look before we talk. Add the links you have — skip the ones you don&apos;t.</div>
 
                   <div className="form-2col">
@@ -357,7 +357,7 @@ export default function DemoPage() {
               {step === 3 && booking === 'done' && (
                 <div className="demo-done">
                   <div className="demo-done-check" aria-hidden="true">✓</div>
-                  <div className="demo-step-title">Request received{form.firstName ? `, ${form.firstName}` : ''}</div>
+                  <h2 className="demo-step-title">Request received{form.firstName ? `, ${form.firstName}` : ''}</h2>
                   <div className="demo-step-sub">
                     Thanks — we&apos;ve got your request for{' '}
                     <strong>{selected ? `${dayFmt.format(new Date(selected.start))} at ${timeFmt.format(new Date(selected.start))} (${tzLabel})` : 'your chosen time'}</strong>.
@@ -369,7 +369,7 @@ export default function DemoPage() {
 
               {step === 3 && booking !== 'done' && (
                 <div className="demo-book">
-                  <div className="demo-step-title">You&apos;re all set{form.firstName ? `, ${form.firstName}` : ''} — pick your time</div>
+                  <h2 className="demo-step-title">You&apos;re all set{form.firstName ? `, ${form.firstName}` : ''} — pick your time</h2>
                   <div className="demo-step-sub">
                     Choose a slot for your demo below. We&apos;ll confirm it and send the calendar invite with your Google Meet link.
                     {slotsState === 'ready' && slots.length > 0 ? <> All times shown in {tzLabel}.</> : null}

@@ -44,11 +44,20 @@ export default function ServiceRouteLine() {
   const ref = useRef<HTMLDivElement>(null)
   const lineRef = useRef<SVGLineElement>(null)
   const geoRef = useRef<Geo | null>(null)
+  // The eight nodes, looked up once after each render instead of once per
+  // frame. Filled by the effect below, which runs after React has actually put
+  // the circles in the DOM — measure() runs before that and would find none.
+  const nodesRef = useRef<SVGCircleElement[]>([])
   const [geo, setGeo] = useState<Geo | null>(null)
 
   useEffect(() => {
     const root = ref.current?.parentElement
     if (!root) return
+
+    // Whether the services flow is anywhere near the viewport. While it is not,
+    // there is nothing on screen for a scroll to redraw, so the whole per-frame
+    // path is skipped — the listener stays attached but costs a boolean test.
+    let onScreen = true
 
     // ── paint one frame ──────────────────────────────────────────────────
     // Reads live layout + scroll, touches no React state, so it is safe to run
@@ -75,14 +84,12 @@ export default function ServiceRouteLine() {
       const len = g.bottom - g.top
       line.style.strokeDashoffset = String(len * (1 - p))
 
-      line.parentElement
-        ?.querySelectorAll<SVGCircleElement>('.route-node')
-        .forEach((n) => {
-          const frac = Number(n.dataset.frac || 0)
-          // Full opacity exactly as the head arrives, fading in over the short
-          // FADE window just before — and back out on the way up.
-          n.style.opacity = String(Math.max(0, Math.min(1, (p - frac) / FADE + 1)))
-        })
+      for (const n of nodesRef.current) {
+        const frac = Number(n.dataset.frac || 0)
+        // Full opacity exactly as the head arrives, fading in over the short
+        // FADE window just before — and back out on the way up.
+        n.style.opacity = String(Math.max(0, Math.min(1, (p - frac) / FADE + 1)))
+      }
     }
 
     // ── measure geometry from the real icons ─────────────────────────────
@@ -119,12 +126,25 @@ export default function ServiceRouteLine() {
     // ── wire up: one paint per frame, in sync with the browser ───────────
     let raf = 0
     const onScroll = () => {
-      if (!raf)
-        raf = requestAnimationFrame(() => {
-          raf = 0
-          draw()
-        })
+      if (!onScreen || raf) return
+      raf = requestAnimationFrame(() => {
+        raf = 0
+        draw()
+      })
     }
+
+    // Gate on visibility. A scroll listener that recomputes and writes styles
+    // while its section is a full page away is pure waste; an observer with a
+    // generous margin turns those frames off without changing what the line
+    // does when it is actually on screen.
+    const vis = new IntersectionObserver(
+      ([e]) => {
+        onScreen = e.isIntersecting
+        if (onScreen) draw()
+      },
+      { rootMargin: '25% 0px 25% 0px' },
+    )
+    vis.observe(root)
     const onResize = () => {
       measure()
       draw()
@@ -139,6 +159,7 @@ export default function ServiceRouteLine() {
     return () => {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onResize)
+      vis.disconnect()
       clearTimeout(settle)
       if (raf) cancelAnimationFrame(raf)
     }
@@ -148,6 +169,9 @@ export default function ServiceRouteLine() {
   // current scroll position on the next frame.
   useEffect(() => {
     if (!geo || !lineRef.current) return
+    nodesRef.current = Array.from(
+      lineRef.current.parentElement?.querySelectorAll<SVGCircleElement>('.route-node') ?? [],
+    )
     const id = requestAnimationFrame(() => window.dispatchEvent(new Event('scroll')))
     return () => cancelAnimationFrame(id)
   }, [geo])

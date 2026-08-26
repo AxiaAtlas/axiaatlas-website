@@ -4,7 +4,8 @@ import { useEffect } from 'react'
 /* Progressive-enhancement layer — no effect if JS is off:
    1. Scroll-reveal: adds `.reveal` to a curated selector set, then `.in` on enter.
    2. Nav: adds `.scrolled` once the page leaves the top.
-   3. Spotlight: tracks the pointer over cards to drive the radial highlight. */
+   3. Scroll-idle flag: `.is-scrolling` on <body> while a scroll is in flight.
+   4. Spotlight: tracks the pointer over cards to drive the radial highlight. */
 const REVEAL_SELECTORS = [
   '.hero-eyebrow', '.hero-headline', '.hero-sub', '.hero-actions', '.hero-trust',
   '.section-eyebrow', '.section-headline', '.section-sub',
@@ -17,11 +18,14 @@ const REVEAL_SELECTORS = [
 
 const SPOTLIGHT_SELECTORS = '.bento-card, .service-card, .spotlight'
 
+// Matches the .reveal transition in globals.css, with headroom for the stagger.
+const REVEAL_MS = 1000
+
 export default function SiteFX() {
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    // 1. Scroll reveal
+    // ── 1. Scroll reveal ────────────────────────────────────────────────────
     const els = Array.from(document.querySelectorAll<HTMLElement>(REVEAL_SELECTORS))
     if (reduce) {
       els.forEach((el) => el.classList.add('reveal', 'in'))
@@ -32,11 +36,36 @@ export default function SiteFX() {
         const within = i % 4
         el.style.transitionDelay = `${within * 70}ms`
       })
+
+      // will-change is granted per element at the moment it is about to fade,
+      // not up front in the stylesheet. `.reveal` lands on ~40 elements as soon
+      // as this effect runs, so a will-change in the base rule promoted all of
+      // them at load — including everything still far below the fold — which is
+      // the exact case where will-change stops helping and just costs memory
+      // and layerization time. Granted here, held for one 0.7s fade, handed
+      // back on transitionend.
+      const release = (el: HTMLElement) => {
+        let done = false
+        const off = () => {
+          if (done) return
+          done = true
+          el.style.willChange = 'auto'
+          el.removeEventListener('transitionend', off)
+        }
+        el.addEventListener('transitionend', off)
+        window.setTimeout(off, REVEAL_MS)
+      }
+      const show = (el: HTMLElement) => {
+        el.style.willChange = 'opacity, transform'
+        el.classList.add('in')
+        release(el)
+      }
+
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
             if (e.isIntersecting) {
-              e.target.classList.add('in')
+              show(e.target as HTMLElement)
               io.unobserve(e.target)
             }
           })
@@ -44,35 +73,65 @@ export default function SiteFX() {
         { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
       )
       els.forEach((el) => io.observe(el))
-      // safety: anything already in view on load
+
+      // Safety net for anything already in view on load. Every measurement is
+      // taken before any class is added: interleaving them made each
+      // getBoundingClientRect flush the style and layout invalidated by the
+      // previous element's class change, a forced synchronous layout per item.
       requestAnimationFrame(() => {
-        els.forEach((el) => {
-          const r = el.getBoundingClientRect()
-          if (r.top < window.innerHeight * 0.92) el.classList.add('in')
-        })
+        const limit = window.innerHeight * 0.92
+        const visible = els.filter((el) => el.getBoundingClientRect().top < limit)
+        visible.forEach(show)
       })
     }
 
-    // 2. Nav scrolled state
+    // ── 2 & 3. Nav state and the scroll-idle flag ───────────────────────────
     const nav = document.querySelector('.nav')
-    const onScroll = () => {
-      if (!nav) return
-      nav.classList.toggle('scrolled', window.scrollY > 12)
+    const body = document.body
+    let scrollRaf = 0
+    let idleTimer = 0
+    // Last value written to the DOM, so a scroll that does not cross the
+    // threshold touches nothing at all.
+    let isScrolled: boolean | null = null
+
+    const applyNav = () => {
+      scrollRaf = 0
+      // Read at the top of the frame, while layout is still clean from the
+      // last paint, and write in the same tick — never read in the listener.
+      const next = window.scrollY > 12
+      if (next === isScrolled) return
+      isScrolled = next
+      nav?.classList.toggle('scrolled', next)
     }
-    onScroll()
+
+    const clearIdle = () => {
+      idleTimer = 0
+      body.classList.remove('is-scrolling')
+    }
+
+    const onScroll = () => {
+      // Coalesce every scroll event in a frame into one DOM write.
+      if (!scrollRaf) scrollRaf = requestAnimationFrame(applyNav)
+      if (reduce) return
+      if (idleTimer) clearTimeout(idleTimer)
+      else body.classList.add('is-scrolling')
+      idleTimer = window.setTimeout(clearIdle, 120)
+    }
+
+    applyNav()
     window.addEventListener('scroll', onScroll, { passive: true })
 
-    // 3. Spotlight pointer tracking
-    let raf = 0
+    // ── 4. Spotlight pointer tracking ───────────────────────────────────────
+    let moveRaf = 0
     const onMove = (e: PointerEvent) => {
       const card = (e.target as HTMLElement)?.closest<HTMLElement>(SPOTLIGHT_SELECTORS)
       if (!card) return
-      if (raf) return
-      raf = requestAnimationFrame(() => {
+      if (moveRaf) return
+      moveRaf = requestAnimationFrame(() => {
         const r = card.getBoundingClientRect()
         card.style.setProperty('--mx', `${e.clientX - r.left}px`)
         card.style.setProperty('--my', `${e.clientY - r.top}px`)
-        raf = 0
+        moveRaf = 0
       })
     }
     if (!reduce) window.addEventListener('pointermove', onMove, { passive: true })
@@ -80,7 +139,10 @@ export default function SiteFX() {
     return () => {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('pointermove', onMove)
-      if (raf) cancelAnimationFrame(raf)
+      if (scrollRaf) cancelAnimationFrame(scrollRaf)
+      if (moveRaf) cancelAnimationFrame(moveRaf)
+      if (idleTimer) clearTimeout(idleTimer)
+      body.classList.remove('is-scrolling')
     }
   }, [])
 

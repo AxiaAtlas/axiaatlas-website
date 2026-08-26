@@ -49,8 +49,8 @@ export default function LinksPage() {
           <span className="lt-mark-wrap">
             <AMark className="lt-mark" />
           </span>
-          <span className="lt-eyebrow">Axia Atlas</span>
-          <h1 className="lt-tagline">To be found is to be seen.</h1>
+          <h1 className="lt-eyebrow">Axia Atlas</h1>
+          <p className="lt-tagline">To be found is to be seen.</p>
           <p className="lt-desc">
             Strategy-led marketing that makes brands, local businesses, and founders
             impossible to miss — in search, in answer engines, and in the feeds where buyers decide.

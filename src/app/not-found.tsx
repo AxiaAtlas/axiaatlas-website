@@ -21,9 +21,10 @@ export default function NotFound() {
         <Wordmark className="nf-mark" />
         <div className="nf-code">404</div>
         <span className="nf-eyebrow">Off the map</span>
-        <h1 className="nf-title">You’ve wandered off the map.</h1>
+        <h1 className="nf-title">Page not found.</h1>
         <p className="nf-sub">
-          This page doesn’t exist or has moved. Let’s get you back to familiar ground.
+          You’ve wandered off the map. This page doesn’t exist or has moved, so let’s get
+          you back to familiar ground.
         </p>
         <div className="nf-actions">
           <Link href="/" className="btn-primary">

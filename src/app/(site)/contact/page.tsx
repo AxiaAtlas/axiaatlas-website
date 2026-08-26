@@ -100,10 +100,10 @@ export default function ContactPage() {
 
       <div className="contact-body">
         <div>
-          <div className="contact-info-title">Get in touch</div>
+          <h2 className="contact-info-title">Get in touch</h2>
 
           <div className="contact-info-item">
-            <div className="contact-info-label">New &amp; prospective clients</div>
+            <h3 className="contact-info-label">New &amp; prospective clients</h3>
             <div className="contact-info-value"><a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a></div>
             <div style={{ fontWeight: 400, fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-muted)', marginTop: 4 }}>
               Thinking about working together, exploring a partnership, or just have a question — this is the inbox for you.
@@ -111,7 +111,7 @@ export default function ContactPage() {
           </div>
 
           <div className="contact-info-item">
-            <div className="contact-info-label">Current clients</div>
+            <h3 className="contact-info-label">Current clients</h3>
             <div className="contact-info-value"><a href="mailto:strategy@axiaatlas.com">strategy@axiaatlas.com</a></div>
             <div style={{ fontWeight: 400, fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-muted)', marginTop: 4 }}>
               Already working with us? Reach your strategist here for anything about your account, plan, or deliverables.
@@ -119,12 +119,12 @@ export default function ContactPage() {
           </div>
 
           <div className="contact-info-item">
-            <div className="contact-info-label">Response time</div>
+            <h3 className="contact-info-label">Response time</h3>
             <div className="contact-info-value">Within 24 hours, usually same day</div>
           </div>
 
           <div className="contact-info-item">
-            <div className="contact-info-label">Ready to start?</div>
+            <h3 className="contact-info-label">Ready to start?</h3>
             <div className="contact-info-value" style={{ fontWeight: 400, fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-muted)' }}>
               Skip the back-and-forth and <Link href="/demo" style={{ color: 'var(--accent)' }}>book a demo</Link> — a quick survey, then we audit how you show up today and come to the call with your pain points pinpointed and solutions to propose.
             </div>
@@ -132,7 +132,7 @@ export default function ContactPage() {
 
           <div className="contact-careers">
             <div className="contact-info-label">Careers</div>
-            <div className="contact-careers-title">Want to work with us?</div>
+            <h2 className="contact-careers-title">Want to work with us?</h2>
             <p className="contact-careers-desc">We&apos;re always glad to meet sharp people who do great work. Apply in three quick steps and attach your resume.</p>
             <Link href="/careers" className="btn-outline">View careers &amp; apply <Arrow className="arr" /></Link>
           </div>
@@ -145,13 +145,13 @@ export default function ContactPage() {
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16, color: 'var(--accent)' }}>
                   <Check style={{ width: 40, height: 40 }} />
                 </div>
-                <h2 style={{ fontFamily: 'var(--font-head)', fontSize: '1.375rem', fontWeight: 600, color: 'var(--text)', marginBottom: 12 }}>Message sent.</h2>
+                <div style={{ fontFamily: 'var(--font-head)', fontSize: '1.375rem', fontWeight: 600, color: 'var(--text)', marginBottom: 12 }}>Message sent.</div>
                 <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>We&apos;ll reply within 24 hours at <a href="mailto:partner@axiaatlas.com" style={{ color: 'var(--accent)' }}>partner@axiaatlas.com</a>. In a hurry? <Link href="/demo" style={{ color: 'var(--accent)' }}>Book a demo →</Link></p>
               </div>
             </div>
           ) : (
             <form className="contact-form" onSubmit={submit}>
-              <div className="form-title">Send us a message</div>
+              <h2 className="form-title">Send us a message</h2>
               <p className="form-intro">Not ready for a demo yet? Ask us anything — we&apos;re happy to help.</p>
 
               <div className="form-2col">
@@ -195,7 +195,7 @@ export default function ContactPage() {
           <div className="faq-list">
             {FAQS.map((f, i) => (
               <details key={i} className="faq-item">
-                <summary className="faq-q">{f.q}<Plus className="faq-ico" /></summary>
+                <summary className="faq-q"><h3 className="faq-q-text">{f.q}</h3><Plus className="faq-ico" /></summary>
                 <div className="faq-a">{f.a}</div>
               </details>
             ))}

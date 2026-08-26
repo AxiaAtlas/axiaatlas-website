@@ -138,7 +138,7 @@ export default function ServicesPage() {
                     </div>
                   </div>
                   <div className="service-points-col">
-                    <div className="deliverables-title">In Practice</div>
+                    <h3 className="deliverables-title">In Practice</h3>
                     <div className="service-points">
                       {s.points.map((p) => <span key={p} className="service-point">{p}</span>)}
                     </div>
