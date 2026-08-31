@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 import { Arrow } from '@/components/icons'
 import { getPost, getPosts, postDate, formatDate, readingTime } from '@/lib/blog'
+import { pageTitle, social } from '@/lib/seo'
 
 export const revalidate = 3600
 // A post published after the last build must still resolve, so unknown slugs
@@ -34,20 +35,24 @@ export async function generateMetadata({
   const description = post.excerpt || undefined
   const published = postDate(post)
 
+  // `title` goes through the root template; og:title and twitter:title do not,
+  // so they are built here. The article keeps its publishedTime/author/section.
   return {
     title: post.title,
     description,
     alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: {
-      type: 'article',
-      url,
-      title: post.title,
+    ...social({
+      title: pageTitle(post.title),
       description,
-      publishedTime: published,
-      authors: [post.author || 'Axia Atlas'],
-      section: post.category || undefined,
-    },
-    twitter: { card: 'summary_large_image', title: post.title, description },
+      path: `/blog/${post.slug}`,
+      type: 'article',
+      og: {
+        url,
+        publishedTime: published,
+        authors: [post.author || 'Axia Atlas'],
+        section: post.category || undefined,
+      },
+    }),
   }
 }
 

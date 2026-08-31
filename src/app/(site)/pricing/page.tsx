@@ -3,12 +3,16 @@ import Link from 'next/link'
 import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 import { Arrow, Check } from '@/components/icons'
+import { pageTitle, social } from '@/lib/seo'
+
+const DESCRIPTION =
+  'Three Axia Atlas tiers — Starter, Growth, and Authority — scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.'
 
 export const metadata: Metadata = {
-  title: 'Pricing',
-  description:
-    'Three Axia Atlas tiers — Starter, Growth, and Authority — scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.',
+  title: 'Digital Marketing Pricing and Packages',
+  description: DESCRIPTION,
   alternates: { canonical: '/pricing' },
+  ...social({ title: pageTitle('Digital Marketing Pricing and Packages'), description: DESCRIPTION, path: '/pricing' }),
 }
 
 const TIERS = [
@@ -58,7 +62,7 @@ export default function PricingPage() {
     <div className="page pricing-page">
       <div className="pricing-hero">
         <div className="section-eyebrow">Pricing</div>
-        <h1 className="section-headline">Three tiers. Pick your pace.</h1>
+        <h1 className="section-headline">Digital Marketing Packages, Priced in Three Clear Tiers</h1>
         <p className="section-sub">Every tier is a monthly partnership scoped to your goals. We share exact pricing on your demo call — we audit your presence beforehand, so once we understand what you need, you&apos;ll know precisely what it costs.</p>
       </div>
 

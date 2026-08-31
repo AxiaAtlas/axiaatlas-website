@@ -1,12 +1,16 @@
 import type { Metadata } from 'next'
 import Footer from '@/components/Footer'
+import { pageTitle, social } from '@/lib/seo'
+
+const DESCRIPTION =
+  'The terms and conditions that govern your use of the Axia Atlas website and the services we provide.'
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
-  description:
-    'The terms and conditions that govern your use of the Axia Atlas website and the services we provide.',
+  description: DESCRIPTION,
   alternates: { canonical: '/terms' },
   robots: { index: true, follow: true },
+  ...social({ title: pageTitle('Terms of Service'), description: DESCRIPTION, path: '/terms' }),
 }
 
 const UPDATED = 'July 11, 2026'

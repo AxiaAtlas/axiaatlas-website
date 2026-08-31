@@ -20,8 +20,11 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Marketing that makes you impossible to miss.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#354940',
-    theme_color: '#354940',
+    // The site's ground, not the brand green: these paint the PWA splash and
+    // the Android browser chrome, and a spruce bar above a #070C09 page reads
+    // as a rendering bug rather than as branding.
+    background_color: '#070C09',
+    theme_color: '#070C09',
     icons: [
       { src: '/icon-48.png', sizes: '48x48', type: 'image/png', purpose: 'any' },
       { src: '/icon-96.png', sizes: '96x96', type: 'image/png', purpose: 'any' },

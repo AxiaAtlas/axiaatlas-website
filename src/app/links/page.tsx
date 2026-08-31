@@ -5,12 +5,16 @@ import {
   Home, Compass, Mail, Arrow,
   LinkedIn, Instagram, Facebook, XLogo, YouTube,
 } from '@/components/icons'
+import { pageTitle, social } from '@/lib/seo'
+
+const DESCRIPTION =
+  'One place for everything Axia Atlas — visit our website, book a demo, and follow along on LinkedIn, Instagram, Facebook, X, and YouTube.'
 
 export const metadata: Metadata = {
   title: 'Links',
-  description:
-    'One place for everything Axia Atlas — visit our website, book a demo, and follow along on LinkedIn, Instagram, Facebook, X, and YouTube.',
+  description: DESCRIPTION,
   alternates: { canonical: '/links' },
+  ...social({ title: pageTitle('Links'), description: DESCRIPTION, path: '/links' }),
 }
 
 type Variant = 'feature' | 'featured' | 'social'

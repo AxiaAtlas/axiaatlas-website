@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { Arrow } from '@/components/icons'
+import ResultShape from '@/components/artifacts/ResultShape'
 
 export type ResultSlide = {
   industry: string
@@ -10,6 +11,13 @@ export type ResultSlide = {
 }
 
 const AUTOPLAY_MS = 5200
+
+/* The end/start ratio each slide's shape is drawn to. These are read off the
+   direction each result states and nothing more — they scale a curve, they are
+   not a measurement, and the card they render into says "Sample shape" inside
+   its own frame. See components/artifacts/ResultShape.tsx for why I would still
+   argue for cutting these charts entirely. */
+const LIFT = [4.4, 2.6, 1.9, 3.1, 2.2]
 
 /* Auto-advancing results carousel. Pauses on hover/focus, respects
    prefers-reduced-motion (no autoplay), dots + arrows for manual control.
@@ -81,6 +89,7 @@ export default function ResultsSlider({ slides }: { slides: ResultSlide[] }) {
               </div>
               <div className="rs-detail">
                 <p>{s.result_detail}</p>
+                <ResultShape lift={LIFT[i % LIFT.length]} label={s.industry} />
               </div>
             </div>
           ))}

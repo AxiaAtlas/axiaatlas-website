@@ -200,7 +200,7 @@ export default function DemoPage() {
     <div className="page demo-page">
       <div className="demo-hero">
         <div className="section-eyebrow">Book a Demo</div>
-        <h1 className="section-headline">Your next customer is searching right now.</h1>
+        <h1 className="section-headline">Book a Digital Marketing Demo and Visibility Audit</h1>
         <p className="section-sub">Three quick steps to a call worth your time. Before we meet, we audit how you show up across search, answer engines, local, and social — so we arrive with the gaps mapped and real solutions, not a pitch deck.</p>
       </div>
 

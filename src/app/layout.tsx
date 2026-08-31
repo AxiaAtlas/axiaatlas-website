@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+import { SITE_URL, HOME_TITLE, BRAND_TAIL, OG_IMAGE } from '@/lib/seo'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -10,24 +11,17 @@ const montserrat = Montserrat({
   display: 'swap',
 })
 
-const SITE_URL = 'https://axiaatlas.com'
 const DESCRIPTION =
   'Axia Atlas is a digital marketing studio that makes brands, local businesses, and founders impossible to miss — in search, answer engines, and in the feeds where your buyers decide. Strategy first, then content that compounds.'
 
-// Finished social/link-preview card (1200×630): the side-by-side Axia Atlas
-// lockup on Deep Spruce, shipped as a static asset in public/.
-const OG_IMAGE = {
-  url: '/og-card.png',
-  width: 1200,
-  height: 630,
-  alt: 'Axia Atlas — Digital Marketing',
-}
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  // Page name first, brand second. The template covers metadata.title only —
+  // og:title and twitter:title are built per page with lib/seo's social().
+  // See lib/seo.ts for why.
   title: {
-    default: 'Axia Atlas — Digital Marketing',
-    template: 'Axia Atlas — %s — Digital Marketing',
+    default: HOME_TITLE,
+    template: `%s - ${BRAND_TAIL}`,
   },
   description: DESCRIPTION,
   keywords: [
@@ -58,13 +52,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: SITE_URL,
     siteName: 'Axia Atlas',
-    title: 'Axia Atlas — Digital Marketing',
+    title: HOME_TITLE,
     description: DESCRIPTION,
     images: [OG_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Axia Atlas — Digital Marketing',
+    title: HOME_TITLE,
     description: DESCRIPTION,
     images: [OG_IMAGE],
   },

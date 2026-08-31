@@ -4,26 +4,25 @@ import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 import { Arrow } from '@/components/icons'
 import { getPosts, postDate, formatDate, readingTime } from '@/lib/blog'
+import { pageTitle, social } from '@/lib/seo'
 
 // The articles live in the database, so the index is regenerated hourly rather
 // than frozen at build time. Publishing a post in the platform puts it on the
 // site within the hour with no deploy.
 export const revalidate = 3600
 
-const SITE_URL = 'https://axiaatlas.com'
+const DESCRIPTION =
+  'Practical writing on search, answer engines, local presence, and social from the Axia Atlas team. How buyers actually find businesses now, and what to do about it.'
 
+// The hand-written openGraph block this replaces had no `images`, and Next
+// replaces openGraph rather than merging it — so /blog was the one page on the
+// site that shared with no link-preview card at all. social() always returns a
+// complete block.
 export const metadata: Metadata = {
-  title: 'Insights',
-  description:
-    'Practical writing on search, answer engines, local presence, and social from the Axia Atlas team. How buyers actually find businesses now, and what to do about it.',
+  title: 'Search, AEO and Social Marketing Insights',
+  description: DESCRIPTION,
   alternates: { canonical: '/blog' },
-  openGraph: {
-    type: 'website',
-    url: `${SITE_URL}/blog`,
-    title: 'Axia Atlas — Insights — Digital Marketing',
-    description:
-      'Practical writing on search, answer engines, local presence, and social from the Axia Atlas team.',
-  },
+  ...social({ title: pageTitle('Search, AEO and Social Marketing Insights'), description: DESCRIPTION, path: '/blog' }),
 }
 
 export default async function BlogIndexPage() {
@@ -37,9 +36,9 @@ export default async function BlogIndexPage() {
       <div className="blog-hero">
         <div className="section-eyebrow">Insights</div>
         <h1 className="section-headline">
-          How buyers find you,
+          Marketing Insights on Search,
           <br />
-          and what to do about it.
+          Answer Engines and Social
         </h1>
         <p className="section-sub">
           Field notes on search, answer engines, local presence, and social. Written by the

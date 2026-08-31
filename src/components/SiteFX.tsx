@@ -12,13 +12,21 @@ const REVEAL_SELECTORS = [
   '.hero-artifact',
   '.section-eyebrow', '.section-headline', '.section-sub',
   '.service-card', '.bento-card', '.results-slider', '.problem-card',
+  '.channel-card', '.sys-plan', '.sys-station', '.sg',
   '.process-step', '.belief-card', '.cs-card', '.pricing-card',
   '.service-detail-inner', '.about-body', '.contact-form', '.contact-info-item',
   '.faq-item', '.demo-card', '.pricing-note',
   '.cta-band-beacon', '.cta-band-btn', '.cta-band-note',
 ].join(',')
 
-const SPOTLIGHT_SELECTORS = '.bento-card, .service-card, .spotlight'
+const SPOTLIGHT_SELECTORS = '.bento-card, .service-card, .channel-card, .spotlight'
+
+/* Elements that draw themselves once when the section arrives: the system
+   diagram's branches and the process rail's progress fill. They get `.in` from
+   the same observer as the reveals, but they are NOT in REVEAL_SELECTORS —
+   `.reveal` starts an element at opacity 0, and a rail that is invisible until
+   it is observed would pop rather than draw. */
+const DRAW_SELECTORS = '.sys-svg, .rail'
 
 // The three loops that otherwise animate for as long as the tab is open.
 const MARQUEE_SELECTORS = '.marquee-track, .bm-track'
@@ -88,6 +96,30 @@ export default function SiteFX() {
         const visible = els.filter((el) => el.getBoundingClientRect().top < limit)
         visible.forEach(show)
       })
+    }
+
+    // ── 1b. One-shot draws (system diagram, process rail) ───────────────────
+    // Motion on scroll into view, never on load. Under reduced motion the class
+    // is added immediately: the finished state is correct and the global
+    // transition-duration override in globals.css means nothing animates to it.
+    const draws = Array.from(document.querySelectorAll<HTMLElement>(DRAW_SELECTORS))
+    let drawIo: IntersectionObserver | null = null
+    if (draws.length) {
+      if (reduce) {
+        draws.forEach((el) => el.classList.add('in'))
+      } else {
+        drawIo = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (!e.isIntersecting) return
+              e.target.classList.add('in')
+              drawIo!.unobserve(e.target)
+            })
+          },
+          { rootMargin: '0px 0px -12% 0px', threshold: 0.2 },
+        )
+        draws.forEach((el) => drawIo!.observe(el))
+      }
     }
 
     // ── 2 & 3. Nav state and the scroll-idle flag ───────────────────────────
@@ -191,6 +223,7 @@ export default function SiteFX() {
       if (moveRaf) cancelAnimationFrame(moveRaf)
       if (idleTimer) clearTimeout(idleTimer)
       marqueeIo?.disconnect()
+      drawIo?.disconnect()
       body.classList.remove('is-scrolling')
     }
   }, [])

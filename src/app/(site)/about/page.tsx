@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Footer from '@/components/Footer'
 import { Arrow } from '@/components/icons'
 import { getPosts, postDate, formatDate } from '@/lib/blog'
+import { pageTitle, social } from '@/lib/seo'
 
 // The articles teased below come from the same hourly-revalidated source as
 // /blog, so a newly published post surfaces here without a deploy. The teasers
@@ -10,11 +11,14 @@ import { getPosts, postDate, formatDate } from '@/lib/blog'
 // an /about path.
 export const revalidate = 3600
 
+const DESCRIPTION =
+  'Axia Atlas is a digital marketing studio built on one idea: to be found is to be seen. We help brands, local businesses, and founders show up where their buyers are looking.'
+
 export const metadata: Metadata = {
-  title: 'About',
-  description:
-    'Axia Atlas is a digital marketing studio built on one idea: to be found is to be seen. We help brands, local businesses, and founders show up where their buyers are looking.',
+  title: 'About Our Search and Social Marketing Studio',
+  description: DESCRIPTION,
   alternates: { canonical: '/about' },
+  ...social({ title: pageTitle('About Our Search and Social Marketing Studio'), description: DESCRIPTION, path: '/about' }),
 }
 
 /* Animated cartographic figure for the about hero — rotating compass dials and
@@ -62,7 +66,7 @@ export default async function AboutPage() {
         <AboutFigure />
         <div className="about-hero-text">
           <div className="section-eyebrow">About</div>
-          <h1 className="section-headline">We started Axia Atlas because most marketing sells activity, not results.</h1>
+          <h1 className="section-headline">About the Search and Social Marketing Studio We Built</h1>
         </div>
       </div>
 

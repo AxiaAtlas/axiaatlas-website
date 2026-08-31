@@ -1,12 +1,16 @@
 import type { Metadata } from 'next'
 import Footer from '@/components/Footer'
+import { pageTitle, social } from '@/lib/seo'
+
+const DESCRIPTION =
+  'How Axia Atlas collects, uses, and protects the personal information you share through our website, contact and audit forms, and analytics.'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description:
-    'How Axia Atlas collects, uses, and protects the personal information you share through our website, contact and audit forms, and analytics.',
+  description: DESCRIPTION,
   alternates: { canonical: '/privacy' },
   robots: { index: true, follow: true },
+  ...social({ title: pageTitle('Privacy Policy'), description: DESCRIPTION, path: '/privacy' }),
 }
 
 const UPDATED = 'July 11, 2026'

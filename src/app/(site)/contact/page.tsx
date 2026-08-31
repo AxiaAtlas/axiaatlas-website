@@ -94,7 +94,7 @@ export default function ContactPage() {
     <div className="page contact-page">
       <div className="contact-hero">
         <div className="section-eyebrow">Contact</div>
-        <h1 className="section-headline">Questions? Let&apos;s talk.</h1>
+        <h1 className="section-headline">Contact Our Digital Marketing Team With Any Question</h1>
         <p className="section-sub">Send us a message and we&apos;ll reply within 24 hours. Ready to start? The fastest path is to <Link href="/demo" style={{ color: 'var(--inverse-accent)', textDecoration: 'underline', textUnderlineOffset: 2 }}>book a demo</Link>.</p>
       </div>
 

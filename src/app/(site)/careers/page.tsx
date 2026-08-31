@@ -143,7 +143,7 @@ export default function CareersPage() {
     <div className="page careers-page">
       <div className="demo-hero">
         <div className="section-eyebrow">Careers</div>
-        <h1 className="section-headline">Help businesses become impossible to miss.</h1>
+        <h1 className="section-headline">Careers and Open Roles at a Digital Marketing Studio</h1>
         <p className="section-sub">We build presence across search, answer engines, local, and social — and we&apos;re always glad to meet sharp, curious people who do great work. Tell us about yourself in three quick steps.</p>
       </div>
 
