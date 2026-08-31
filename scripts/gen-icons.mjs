@@ -33,6 +33,14 @@
 // SIZES. Google wants a square favicon whose side is a multiple of 48px, so
 // every linked icon is 48, 96, or 192. 512 exists only for the PWA manifest.
 //
+// SMALL SIZES ARE RENDERED, NOT SHRUNK. The .ico also carries purpose-made 16
+// and 32 frames drawn straight from the vector. Before, the smallest asset on
+// the site was 48px, so every 16px rendering was a browser downscaling a raster
+// that had already been downscaled once, and the gap between the two halves of
+// the mark filled in and went grey. Rendering 16 and 32 from the geometry keeps
+// that gap open. They live only in the .ico, where a browser can pick the exact
+// frame; the linked PNGs stay on Google's multiple-of-48 rule.
+//
 //   npm run icons
 import sharp from 'sharp'
 import { writeFileSync } from 'fs'
@@ -80,7 +88,7 @@ const png = (size) =>
 // every browser and crawler that asks for /favicon.ico reads them, so the .ico
 // is the same bytes as the PNGs rather than a second rendering of the mark.
 // Header is 6 bytes, then one 16-byte directory entry per image, then the
-// payloads. Side is written as a single byte, so 48 and 96 both fit.
+// payloads. Side is written as a single byte, so every size here fits.
 const ico = (images) => {
   const head = Buffer.alloc(6)
   head.writeUInt16LE(0, 0) // reserved
@@ -110,13 +118,22 @@ for (const size of [48, 96, 192, 512]) {
   rasters[size] = await png(size)
   writeFileSync(`public/icon-${size}.png`, rasters[size])
 }
+
+// 16 and 32 go into the .ico only. They are not written to public/ because a
+// linked icon below 48px is one Google will not use, and an undeclared file is
+// just another icon source to drift.
+for (const size of [16, 32]) rasters[size] = await png(size)
 // iOS masks this itself, so it is the same full-bleed square. 192 keeps every
 // linked icon on Google's multiple-of-48 rule.
 writeFileSync('public/apple-icon.png', rasters[192])
 
 // /favicon.ico is the one favicon URL that never moves: it is what Google
 // probes when it wants a site icon, and it 404'd on this domain until now.
+// Frames ascending, so a browser at 16px takes the 16px drawing and Google,
+// which wants the one nearest 48, takes the 48.
 writeFileSync('public/favicon.ico', ico([
+  { size: 16, data: rasters[16] },
+  { size: 32, data: rasters[32] },
   { size: 48, data: rasters[48] },
   { size: 96, data: rasters[96] },
 ]))

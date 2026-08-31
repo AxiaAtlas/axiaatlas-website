@@ -87,9 +87,21 @@ export const metadata: Metadata = {
   // /favicon.ico is first because it is the URL Google probes for a site icon
   // and the one that must never move. It carried a 404 on this domain until
   // now, which is why the search result was never stable in the first place.
+  // It now carries four frames, 16 through 96, each drawn from the vector
+  // rather than shrunk from a bigger raster, so a 16px tab gets a 16px drawing.
+  //
+  // DO NOT ADD AN SVG ICON HERE, and do not restore public/icon.svg. This is a
+  // trade we made with our eyes open, not an oversight. An adaptive
+  // prefers-color-scheme SVG is the nicer browser tab: it flips ink color with
+  // the tab strip. It is also the one file Google can select and composite
+  // against its own result-row background, which is how the same bytes end up
+  // looking like two different icons. Browsers prefer image/svg+xml over any
+  // PNG no matter where it sits in this list, so there is no ordering that
+  // keeps the SVG for the tab and the PNGs for search. We sell search
+  // visibility. The search icon wins over the tab icon.
   icons: {
     icon: [
-      { url: '/favicon.ico', type: 'image/x-icon', sizes: '48x48 96x96' },
+      { url: '/favicon.ico', type: 'image/x-icon', sizes: '16x16 32x32 48x48 96x96' },
       { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
       { url: '/icon-48.png', type: 'image/png', sizes: '48x48' },
     ],
