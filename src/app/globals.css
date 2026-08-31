@@ -2061,3 +2061,557 @@ section {
   .blog-lead { padding: 26px 22px; }
   .blog-card { padding: 24px 22px; }
 }
+
+/* ════════════════════════════════════════════════════════════════════════
+   HOME — THE PORTAL'S SYSTEM, ON THE MARKETING SITE
+   ════════════════════════════════════════════════════════════════════════
+
+   The site and the product read as two companies. The portal is the stronger
+   system, so the home page moves to it: its dark ground, its Deep Spruce
+   scale, its 6px radius, its Montserrat-everywhere rule, its 1280px content
+   width — and, in the hero, its actual components.
+
+   SCOPED, NOT GLOBAL, AND THAT IS DELIBERATE. Every token below is redefined
+   under `.home-dark`, which lands on the home page's own wrapper. The rest of
+   the site is still built on the light alabaster system (light page heroes,
+   white cards, spruce-on-bone text); flipping `:root` would take those pages
+   dark without redesigning them, which is how you get bone text on a bone card.
+   The other pages want this same move. They want it as their own work.
+
+   The three grounds are the portal's three grounds, and nothing invents a
+   fourth:
+     #070C09  the page
+     #131A15  a card on the page
+     #354940  Deep Spruce, the emphasis panel — used TWICE on this page
+              (the bento feature cell, the final process step) and nowhere else.
+   ──────────────────────────────────────────────────────────────────────── */
+
+.home-dark {
+  color-scheme: dark;
+
+  /* ── Montserrat for body text too. The portal's rule is "Montserrat for ALL
+        text — never switch fonts", and the split font was half of why the two
+        properties looked unrelated at a glance. ── */
+  --font-body: var(--font-montserrat), 'Montserrat', Arial, system-ui, sans-serif;
+
+  /* ── The portal's radius and content width ── */
+  --r: 6px;
+  --r-sm: 3px;
+  --maxw: 1280px;
+
+  /* ── Grounds ── */
+  --bg: #070C09;
+  --bg-alt: #0b120e;
+  --surface: #131a15;
+  --surface-2: #0f1611;
+  --surface-hover: #18211a;
+
+  /* ── Ink. Muted flips to light sage exactly as the portal's --spruce-mid
+        does in dark; spruce-on-dark would be unreadable. ── */
+  --text: #f1f0ea;
+  --text-muted: rgba(200, 209, 197, 0.62);
+  /* 0.58, not the light theme's 0.40-equivalent. Faint is the third tier, but
+     on a near-black ground the same alpha that reads as "quiet" on alabaster
+     lands under 3:1 — and this tier carries real text (the capability-list
+     label, the slider's service line), not decoration. 0.58 clears 4.5:1 on
+     both the page and the card. */
+  --text-faint: rgba(200, 209, 197, 0.58);
+
+  --border: rgba(200, 209, 197, 0.10);
+  --border-strong: rgba(200, 209, 197, 0.24);
+  --hairline: rgba(200, 209, 197, 0.07);
+
+  /* ── A solid spruce button disappears on #070C09, so the primary inverts to
+        bone with dark ink — the same swap the hero already made. ── */
+  --primary: #f1f0ea;
+  --primary-hover: #ffffff;
+  --on-primary: #0b120e;
+  --accent: #c8d1c5;
+  --accent-soft: rgba(200, 209, 197, 0.08);
+  --ring: rgba(200, 209, 197, 0.55);
+
+  /* ── The emphasis panel: Deep Spruce, one step ABOVE the page rather than
+        below it. On a light site the depth panel is the dark one; here the
+        relationship flips and the tokens flip with it. ── */
+  --inverse-bg: #354940;
+  --inverse-bg-2: #2a3c34;
+  --inverse-surface: rgba(255, 255, 255, 0.07);
+  --inverse-text: #f1f0ea;
+  --inverse-muted: rgba(241, 240, 234, 0.74);
+  --inverse-faint: rgba(241, 240, 234, 0.52);
+  --inverse-border: rgba(200, 209, 197, 0.18);
+  --inverse-accent: #c8d1c5;
+  --inverse-primary: #f1f0ea;
+  --inverse-on-primary: #16221d;
+
+  --grid-line: rgba(200, 209, 197, 0.045);
+  --glow-a: rgba(200, 209, 197, 0.07);
+  --glow-b: rgba(200, 209, 197, 0.10);
+
+  /* Elevation on a near-black ground is carried by the border, not by a soft
+     grey halo — a light-mode shadow simply does not exist against #070C09. */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 26px 60px rgba(0, 0, 0, 0.65);
+
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* The body paints the ground behind the fixed nav and past the end of the
+   page; without this the browser's white shows through on overscroll. */
+body:has(.home-dark) { background: #070c09; }
+
+/* ── The nav, while the home page is under it ──────────────────────────────
+   The nav is shared chrome rendered as a sibling of the page, so it cannot be
+   reached by a class on the page wrapper. `:has()` is the whole mechanism —
+   CSS only, no flash, no JS, and it costs nothing on the pages that do not
+   match. Browsers without `:has()` get the light nav over the dark hero, which
+   is legible but wrong; that is the trade, and it is a shrinking one. */
+body:has(.home-dark) .nav {
+  background: color-mix(in srgb, #070c09 72%, transparent);
+}
+body:has(.home-dark) .nav.scrolled {
+  background: color-mix(in srgb, #070c09 92%, transparent);
+  border-bottom-color: rgba(200, 209, 197, 0.10);
+}
+body:has(.home-dark) .nav-brand { color: #f1f0ea; }
+body:has(.home-dark) .nav-links a:not(.nav-login):not(.nav-cta) { color: rgba(200, 209, 197, 0.62); }
+body:has(.home-dark) .nav-links a:not(.nav-login):not(.nav-cta):hover,
+body:has(.home-dark) .nav-links a.active { color: #f1f0ea; }
+body:has(.home-dark) .nav-links a:not(.nav-login):not(.nav-cta):hover { background: rgba(200, 209, 197, 0.08); }
+body:has(.home-dark) .nav-login {
+  color: #f1f0ea !important;
+  border-color: rgba(200, 209, 197, 0.26);
+  border-radius: 6px;
+}
+body:has(.home-dark) .nav-login:hover { border-color: #c8d1c5; background: rgba(200, 209, 197, 0.08); }
+body:has(.home-dark) .nav-cta {
+  background: #f1f0ea; color: #0b120e !important; border-radius: 6px;
+}
+body:has(.home-dark) .nav-cta:hover { background: #ffffff; }
+body:has(.home-dark) .nav-mobile-toggle span { background: #f1f0ea; }
+body:has(.home-dark) .nav-links {
+  background: color-mix(in srgb, #070c09 98%, transparent);
+  border-bottom-color: rgba(200, 209, 197, 0.10);
+}
+body:has(.home-dark) .nav-actions { border-top-color: rgba(200, 209, 197, 0.10); }
+
+/* ── Buttons on the dark ground ────────────────────────────────────────────
+   THE SECONDARY CTA. It was bone text on a border at 16% sage over near-black:
+   the label read, the button did not, so the pair looked like one CTA and a
+   link. It now sits on the card ground with a border at 32% — a real, hittable
+   second option that still loses the hierarchy contest to the bone primary. */
+.home-dark .btn-outline,
+.home-dark .hero .btn-outline {
+  background: var(--surface);
+  border-color: rgba(200, 209, 197, 0.32);
+  color: #f1f0ea;
+}
+.home-dark .btn-outline:hover,
+.home-dark .hero .btn-outline:hover {
+  background: var(--surface-hover);
+  border-color: #c8d1c5;
+  transform: translateY(-1px);
+}
+/* The bone primary needs no alabaster shine sweep — the sweep IS bone. */
+.home-dark .btn-primary::after { display: none; }
+.home-dark .btn-primary:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
+
+/* ── HERO — asymmetric: the pitch left, the product right ──────────────────
+   The old hero was three lines of display type, centred, and nothing else: a
+   poster for a company that sells software and showed none of it. Display type
+   comes down by roughly a third to buy the room, and the room goes to the
+   portal. */
+.home-dark .hero {
+  /* The shared depth-panel rule paints every hero on the site with
+     --inverse-bg, and --inverse-bg is Deep Spruce here. On a dark site the
+     hero is not a panel sitting on the page — it IS the page. */
+  background: var(--bg);
+  text-align: left;
+  padding: clamp(56px, 8vh, 104px) var(--gutter);
+  align-items: center;
+  /* Capped, not just "a full viewport". On a tall desktop window the old
+     `calc(100svh - nav)` stretched the hero to 1100px+ and parked 300px of
+     empty ground under the artifact, and the marquee — the one thing telling
+     a visitor there is a page below this — fell off the bottom of every fold.
+     780px holds the copy and the artifact with room to breathe and leaves the
+     strip peeking. */
+  min-height: min(calc(100svh - var(--nav-h)), 780px);
+}
+/* The grid texture and the aura were both tuned to read against #16221d. At
+   #070C09 the same values are a haze across the whole fold, and the artifact
+   has to fight through it. */
+.home-dark .hero::before {
+  background-image:
+    linear-gradient(rgba(200, 209, 197, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 209, 197, 0.028) 1px, transparent 1px);
+}
+.home-dark .hero-inner {
+  max-width: var(--maxw);
+  width: 100%;
+  /* .hero is a flex container, so this is a flex item, so its automatic
+     minimum size is min-content — and the portal artifact's min-content is
+     wide. Without this the hero column stretched past a phone viewport and
+     took the headline, the nav and the marquee off the right edge with it. */
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+  gap: clamp(36px, 4.5vw, 68px);
+  align-items: center;
+}
+.home-dark .hero-copy { min-width: 0; }
+.home-dark .hero-eyebrow { margin: 0 0 26px; }
+.home-dark .hero-headline {
+  /* Was clamp(2.85rem, 7vw, 5.25rem) — 84px at desktop. The two headline lines
+     alone ate 170px of a 700px fold and left nothing for an artifact; at half
+     the hero's width they broke into four. 42px is the largest size at which
+     the longer of the two lines ("Make sure they find you.", 24 characters in
+     Montserrat 800) still sets on ONE line in this column, which is what the
+     authored <br> asks for. */
+  font-size: clamp(2rem, 2.4vw + 0.7rem, 2.625rem);
+  line-height: 1.06;
+  letter-spacing: -0.032em;
+  margin-bottom: 18px;
+  /* balance has nothing left to balance once each authored line fits, and it
+     would only reintroduce a break if a viewport landed a hair short. */
+  text-wrap: normal;
+}
+.home-dark .hero-sub {
+  /* Down from --t-lead (21px at desktop) — the same 246-character sentence at
+     15px in a 660px column instead of 21px in a 640px one. */
+  font-size: 0.9375rem;
+  line-height: 1.72;
+  max-width: none;
+  margin: 0 0 30px;
+  color: rgba(200, 209, 197, 0.72);
+}
+.home-dark .hero-actions { justify-content: flex-start; }
+
+/* ── The capability list that used to sit in the logo slot ─────────────────
+   Four channel names, centred under the fold line, on the row where a visitor
+   has been trained for fifteen years to find customer logos. It read as proof
+   and delivered none. Same four words, drawn as what they are: a checked list
+   of where the work is aimed, in the copy column, under the CTAs, at list
+   scale — no centring, no divider rule spanning the page, no logo-bar spacing. */
+.home-dark .hero-trust {
+  display: block;
+  margin: 34px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  max-width: none;
+}
+.home-dark .hero-trust-label {
+  display: block;
+  color: var(--text-faint);
+  letter-spacing: 0.14em;
+  margin-bottom: 14px;
+}
+.home-dark .hero-trust-items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: 10px 32px;
+  justify-content: start;
+  list-style: none;
+}
+.home-dark .hero-trust-items li {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--font-head);
+  font-size: var(--t-sm); font-weight: 500;
+  color: var(--text-muted);
+}
+.home-dark .hero-trust-items li svg {
+  width: 14px; height: 14px; flex-shrink: 0;
+  color: var(--accent);
+}
+
+/* The artifact column. The aura moves off centre so it sits behind the copy
+   rather than behind the interface, which does not need help being seen. */
+.home-dark .hero-artifact { min-width: 0; position: relative; z-index: 2; }
+/* Off centre, behind the copy, and much weaker: the sage aura at its light-page
+   strength washes a near-black ground grey. */
+.home-dark .hero-aura {
+  left: 24%; top: 48%;
+  width: min(760px, 72vw);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(200, 209, 197, 0.085) 0%, rgba(200, 209, 197, 0.03) 34%, transparent 66%);
+}
+
+/* ── Marquee on the dark ground ── */
+.home-dark .hero-marquee { background: var(--surface-2); border-top: 1px solid var(--border); }
+.home-dark .hero-marquee::before { background: linear-gradient(90deg, var(--surface-2), transparent); }
+.home-dark .hero-marquee::after  { background: linear-gradient(270deg, var(--surface-2), transparent); }
+
+/* ── Sections ─────────────────────────────────────────────────────────────
+   Deep Spruce stays punctuation. The service tiles were spruce panels on a
+   bone page, where spruce was the standout; on this ground six spruce tiles
+   would be the page's largest block of colour and the two panels that are
+   meant to be emphasis (the bento feature, the final process step) would have
+   nothing to stand out from. The tiles become cards. */
+.home-dark .service-card {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+.home-dark .service-card:hover { border-color: rgba(200, 209, 197, 0.28); box-shadow: var(--shadow-md); }
+.home-dark .service-name { color: var(--text); }
+.home-dark .service-desc { color: var(--text-muted); }
+.home-dark .service-link { color: var(--accent); }
+.home-dark .service-card .service-icon {
+  background: rgba(200, 209, 197, 0.07);
+  border-color: var(--border);
+  color: var(--accent);
+}
+.home-dark .service-card:hover .service-icon {
+  background: rgba(200, 209, 197, 0.13);
+  border-color: rgba(200, 209, 197, 0.34);
+  color: #f1f0ea;
+}
+
+/* Results slider viewport, on the card ground. */
+.home-dark .rs-result { color: var(--accent); }
+.home-dark .rs-slide::before { background: radial-gradient(circle, rgba(200, 209, 197, 0.10), transparent 70%); }
+.home-dark .rs-detail p { border-left-color: rgba(200, 209, 197, 0.30); }
+.home-dark .rs-arrow { background: var(--surface); color: var(--text); }
+.home-dark .rs-arrow:hover { border-color: var(--accent); }
+.home-dark .rs-dot.active { background: var(--accent); }
+.home-dark .case-tag { color: var(--accent); background: rgba(200, 209, 197, 0.08); border-color: var(--border); }
+
+/* The process connector and the open steps. */
+.home-dark .process-num { background: var(--surface); border-color: var(--border-strong); color: var(--accent); }
+.home-dark .process-ants::before {
+  background: repeating-linear-gradient(90deg, rgba(200, 209, 197, 0.22) 0 6px, transparent 6px 12px);
+}
+
+/* ── CTA band ─────────────────────────────────────────────────────────────
+   It is still the one band on the page that changes ground, and it is still
+   not the footer — but sage-soft is #e4e9e3, and a near-white slab across a
+   #070C09 page is a flash, not an accent. It becomes the Deep Spruce panel,
+   which is the portal's own emphasis surface and the one place the brand green
+   is allowed to fill a whole section. */
+.home-dark .cta-band {
+  background: linear-gradient(180deg, #2a3c34 0%, #354940 100%);
+  border-top: 1px solid var(--border);
+  color: var(--inverse-text);
+}
+.home-dark .cta-band::after {
+  background: radial-gradient(ellipse 55% 65% at 50% 0%, rgba(200, 209, 197, 0.10), transparent 62%);
+}
+.home-dark .cta-band-grid::before {
+  background-image:
+    linear-gradient(rgba(200, 209, 197, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 209, 197, 0.06) 1px, transparent 1px);
+}
+.home-dark .cta-band .section-eyebrow,
+.home-dark .cta-band-beacon,
+.home-dark .cta-band-note { color: var(--inverse-accent); }
+.home-dark .cta-band .section-headline { color: var(--inverse-text); }
+.home-dark .cta-band .section-sub { color: var(--inverse-muted); }
+.home-dark .cta-band-beacon .ring { border-color: var(--inverse-accent); }
+.home-dark .cta-band-btn::before { border-color: rgba(241, 240, 234, 0.42); }
+
+/* ── Footer ───────────────────────────────────────────────────────────────
+   --inverse-bg is Deep Spruce on this page, and a spruce footer under a spruce
+   CTA band would merge the two into one green block. The footer takes the
+   portal's darkest ground — the value its sidebar uses in dark mode — so the
+   page ends a step below where it started. */
+.home-dark footer { background: #0a110d; }
+.home-dark footer::before {
+  background:
+    radial-gradient(ellipse 50% 70% at 85% 0%, rgba(200, 209, 197, 0.05), transparent 60%),
+    radial-gradient(ellipse 60% 80% at 15% 120%, rgba(200, 209, 197, 0.04), transparent 60%);
+}
+
+/* ── Where the split stops paying ─────────────────────────────────────────
+   The artifact column is worth having only while the chart inside it is worth
+   reading. Below roughly 1120px the two-column hero leaves the chart under
+   250px, at which point the axis is decoration; the hero stacks instead, and
+   the artifact takes a capped full-width row where the chart gets its own
+   scale back. */
+@media (max-width: 1120px) {
+  .home-dark .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .home-dark .hero { min-height: auto; padding-top: clamp(48px, 7vh, 88px); }
+  .home-dark .hero-aura { left: 50%; }
+  .home-dark .hero-artifact { max-width: 600px; }
+}
+@media (max-width: 600px) {
+  .home-dark .hero-trust-items { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   PORTAL UI — copied from axiaatlas-platform/portal-theme.css
+   ════════════════════════════════════════════════════════════════════════
+
+   The hero artifact is not a drawing of the portal. It is the portal's markup
+   (.sidebar / .sb-link / .tb-top / .kpi / .card / .badge) over the portal's
+   own stylesheet, with the portal's chart components inside it. What follows
+   is that stylesheet, dark-mode values inlined, scoped under `.portal-ui` so
+   these very generic class names cannot leak into the marketing site — the
+   site has no `.card` or `.badge` of its own today, and this makes sure it
+   never accidentally acquires one.
+
+   KEEP IN SYNC with portal-theme.css. Values here are copied, not adapted.
+   ──────────────────────────────────────────────────────────────────────── */
+
+.portal-ui {
+  /* The portal's own token names, because the ported chart components ask for
+     them by those names. Values are the platform's html[data-theme="dark"]. */
+  --page-bg: #070c09;
+  --card-bg: #131a15;
+  --fg-primary: #f1f0ea;
+  --spruce-mid: rgba(200, 209, 197, 0.55);
+  --spruce-faint: rgba(200, 209, 197, 0.05);
+  --border: rgba(200, 209, 197, 0.10);
+  --bone: #f1f0ea;
+  --radius: 6px;
+  --font: var(--font-montserrat), 'Montserrat', Arial, sans-serif;
+
+  font-family: var(--font);
+  color: var(--fg-primary);
+  background: var(--page-bg);
+}
+
+.portal-ui .sidebar {
+  width: 152px; flex-shrink: 0;
+  background: #1a2e1f;
+  display: flex; flex-direction: column;
+  border-right: 1px solid rgba(200, 209, 197, 0.06);
+  font-family: var(--font);
+}
+.portal-ui .sb-brand {
+  padding: 13px 14px;
+  display: flex; align-items: center; gap: 8px;
+  color: rgba(200, 209, 197, 0.92);
+  min-height: 52px; flex-shrink: 0;
+}
+.portal-ui .sb-brand .brand-mark { height: 19px; width: auto; display: block; }
+.portal-ui .sb-brand .brand-word { height: 12px; width: auto; display: block; }
+.portal-ui .sb-brand .ink { fill: currentColor; }
+.portal-ui .sb-nav { flex: 1; padding: 4px 0; }
+.portal-ui .sb-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 14px;
+  border-left: 2px solid transparent;
+  color: rgba(200, 209, 197, 0.5);
+  font-size: 11.5px; font-weight: 400;
+  white-space: nowrap; font-family: var(--font);
+}
+.portal-ui .sb-link.a {
+  border-left-color: #c8d9c0;
+  background: rgba(200, 209, 197, 0.1);
+  color: #c8d9c0; font-weight: 600;
+}
+
+.portal-ui .tb-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px 13px;
+  border-bottom: 1px solid var(--border);
+  background: var(--card-bg); flex-shrink: 0;
+}
+.portal-ui .tb-left { display: flex; flex-direction: column; gap: 2px; }
+.portal-ui .tb-label {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--spruce-mid);
+}
+.portal-ui .tb-title { font-size: 17px; font-weight: 700; color: #f1f0ea; line-height: 1.2; }
+
+.portal-ui .content { padding: 16px 18px 18px; }
+
+.portal-ui .kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 10px; margin-bottom: 12px;
+}
+.portal-ui .kpi {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 11px 13px;
+  display: block;
+}
+.portal-ui .kpi-label {
+  font-size: 8.5px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--spruce-mid); margin-bottom: 7px;
+}
+.portal-ui .kpi-value {
+  font-size: 21px; font-weight: 700;
+  letter-spacing: -0.02em; color: var(--fg-primary); line-height: 1;
+}
+.portal-ui .kpi-spark { margin-top: 7px; }
+
+.portal-ui .card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.portal-ui .card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+}
+.portal-ui .card-title {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: #f1f0ea;
+}
+.portal-ui .card-body { padding: 14px 16px 12px; }
+.portal-ui .ps-range { font-size: 10px; color: var(--spruce-mid); }
+
+.portal-ui .badge {
+  display: inline-block;
+  font-size: 9px; font-weight: 700;
+  padding: 3px 9px; border-radius: 3px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  font-family: var(--font);
+}
+
+/* ── The hero artifact frame ───────────────────────────────────────────────
+   A window onto a running product, so it is cropped like one: it sits flush to
+   its right edge and the browser clips it, rather than being centred and
+   fully contained like a stock illustration. */
+.portal-shot {
+  display: flex;
+  border: 1px solid rgba(200, 209, 197, 0.14);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  min-width: 0;
+}
+.portal-shot .ps-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+/* The charts are viewBox SVGs at width:100%, which gives them an intrinsic
+   min-content width. Below that width they must scale, not push. */
+.portal-shot svg { max-width: 100%; }
+
+/* SAMPLE DATA, SAID ON THE ARTIFACT ITSELF.
+   We sell measurement. An invented figure on our own site, unlabelled, is
+   disqualifying — and a caption underneath is not a label, because the crop
+   that ends up in a deck or a screenshot never includes it. The badge lives in
+   the topbar, inside the frame, where it travels with the image. */
+.portal-shot .ps-sample {
+  background: rgba(200, 209, 197, 0.12);
+  color: #c8d1c5;
+  border: 1px solid rgba(200, 209, 197, 0.22);
+  flex-shrink: 0;
+}
+
+.portal-ui .sb-label { min-width: 0; overflow: hidden; }
+
+/* THE RAIL COLLAPSES, IT DOES NOT VANISH.
+   Between roughly 1120 and 1360 the split hero gives the artifact 460–580px,
+   and a 152px rail spends a quarter of that on four words. The portal has a
+   collapsed sidebar state of its own — icons only, 60px — so the artifact uses
+   it rather than inventing a narrow variant, and the shape a client recognises
+   as "the portal" survives. */
+@media (max-width: 1360px) {
+  .portal-shot .sidebar { width: 56px; }
+  .portal-shot .sb-brand { justify-content: center; padding: 13px 0; }
+  .portal-shot .sb-brand .brand-word { display: none; }
+  .portal-shot .sb-link { justify-content: center; padding: 9px 0; }
+  .portal-shot .sb-label { display: none; }
+}
+/* Below tablet even the rail is gone: on a phone it is 56px of chrome in front
+   of the one thing the artifact exists to show. */
+@media (max-width: 700px) {
+  .portal-shot .sidebar { display: none; }
+}

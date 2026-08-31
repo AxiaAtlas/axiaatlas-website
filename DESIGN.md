@@ -121,7 +121,10 @@ Body: `line-height 1.6–1.85`, `text-wrap: pretty`.
 - **System map:** the full-width bento feature cell draws a looping route
   (Find → Convert → Compound) with waypoints popping in sequence (`smRoute`/`smPop*`).
 - **Results slider:** auto-advancing carousel (5.2s), pauses on hover/focus, no
-  autoplay under reduced motion (`ResultsSlider.tsx`).
+  autoplay under reduced motion (`ResultsSlider.tsx`). **Autoplay starts on
+  scroll into view, not on mount** — the slider sits four sections down, and a
+  timer running from page load meant it had cycled through the results twice
+  before anyone reached it. The observer stops it again when it leaves view.
 - **CTA band:** pulsing pin beacon (`ctaRing`), drifting grid, soft button pulse
   (`ctaPulse`), shine sweep on `.btn-primary` hover (`btnShine`).
 - **Micro-interactions:** buttons lift 1px + nudge their `.arr` arrow 3px + shine
@@ -165,11 +168,57 @@ Body: `line-height 1.6–1.85`, `text-wrap: pretty`.
 
 ---
 
-## 7. Single theme
+## 7. Themes: one light system, plus the home page on the portal's
 
-- One committed theme (alabaster-dominant, spruce depth). No toggle, no
-  `data-theme`, no `prefers-color-scheme` switching. `color-scheme: light` is set
-  once on `:root` so native form controls/scrollbars match.
+- **Everything except `/`** is the single committed light theme
+  (alabaster-dominant, spruce depth). No toggle, no `data-theme`, no
+  `prefers-color-scheme` switching. `color-scheme: light` is set once on
+  `:root` so native form controls/scrollbars match.
+- **`/` runs the portal's dark system**, under a `.home-dark` scope on the page
+  wrapper (`globals.css`, "HOME — THE PORTAL'S SYSTEM"). It redefines the
+  semantic tokens only; no component reaches past a token. What it inherits from
+  `axiaatlas-platform`:
+
+  | | Portal | Home |
+  |---|---|---|
+  | Page ground | `#070C09` | same |
+  | Card | `#131A15` | same |
+  | Emphasis panel | `#354940` (Deep Spruce) | same — used **twice** (bento feature, final process step) |
+  | Radius | 6px | same (`--r`) |
+  | Content width | 1280px | same (`--maxw`) |
+  | Font | Montserrat for **all** text | same (`--font-body` too) |
+  | Muted ink | light sage, not spruce | same |
+
+  Two values are the site's own and are marked as such in the CSS: the footer
+  takes the portal's dark sidebar ground `#0a110d` so it does not merge with the
+  spruce CTA band above it, and `--text-faint` sits at 0.58 alpha rather than
+  the light theme's equivalent, because the same alpha that reads as quiet on
+  alabaster lands under 3:1 on near-black.
+- **The nav** is shared chrome rendered as a sibling of the page, so it is
+  restyled through `body:has(.home-dark) .nav…`. Browsers without `:has()` get
+  the light nav over the dark hero — legible, wrong, and a shrinking population.
+- **Why scoped and not global.** Every other page is still built on the light
+  system (light page heroes, white cards, spruce-on-bone text). Flipping `:root`
+  would take them dark without redesigning them. They want this same move; they
+  want it as their own work.
+
+### 7a. The hero artifact and the chart primitives
+
+`components/PortalShot.tsx` is the right-hand column of the home hero. It is not
+a drawing of the portal: the class names (`.sidebar`, `.sb-link`, `.tb-top`,
+`.kpi`, `.card`, `.badge`) are the portal's, the CSS behind them is copied from
+`axiaatlas-platform/portal-theme.css` under a `.portal-ui` scope, and the charts
+are the portal's own primitives ported into `components/charts/` (`TimeSeries`,
+`Spark`, `theme.ts`) plus the refusals in `lib/analytics/series.ts`. **Keep those
+files in sync with the platform.** The only intentional divergence is
+`TimeSeries`'s `plotWidth` prop, which defaults to the platform's hard-coded 720
+and exists because an SVG scales its type along with its geometry.
+
+**Any number shown is sample data and says so on the artifact**, in a badge in
+the topbar rather than a caption underneath, because the crop that ends up in a
+deck never includes the caption. The sessions KPI is the exact sum of the 28
+plotted days. We sell measurement; an unlabeled invented figure here would be
+disqualifying.
 
 ---
 

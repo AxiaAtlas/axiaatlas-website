@@ -9,6 +9,7 @@ import { useEffect } from 'react'
    5. Marquee gating: pauses the infinite loops while they are off screen. */
 const REVEAL_SELECTORS = [
   '.hero-eyebrow', '.hero-headline', '.hero-sub', '.hero-actions', '.hero-trust',
+  '.hero-artifact',
   '.section-eyebrow', '.section-headline', '.section-sub',
   '.service-card', '.bento-card', '.results-slider', '.problem-card',
   '.process-step', '.belief-card', '.cs-card', '.pricing-card',

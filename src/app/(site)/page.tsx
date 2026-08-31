@@ -3,8 +3,9 @@ import { supabase } from '@/lib/supabase/client'
 import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 import ResultsSlider, { type ResultSlide } from '@/components/ResultsSlider'
-import { Arrow, ServiceIcons } from '@/components/icons'
+import { Arrow, Check, ServiceIcons } from '@/components/icons'
 import BrandMarquee from '@/components/BrandMarquee'
+import PortalShot from '@/components/PortalShot'
 
 async function getCaseStudies() {
   try {
@@ -63,33 +64,48 @@ export default async function HomePage() {
   const slides: ResultSlide[] = db.length >= 5 ? (db as ResultSlide[]) : RESULTS
 
   return (
-    <div className="page">
+    <div className="page home-dark">
 
-      {/* ── HERO ── */}
+      {/* ── HERO ──
+          Asymmetric: the pitch on the left, the running product on the right.
+          The right-hand column is <PortalShot />, which is the portal's own
+          markup over the portal's own stylesheet with the portal's own chart
+          components inside it — not an illustration of a dashboard.
+
+          The capability list below the CTAs carries the same four words it
+          always did. What changed is that it is no longer centred in the
+          customer-logo slot under the fold line, where it read as proof and
+          delivered none. It is a checked list in the copy column now. */}
       <div className="hero">
         <div className="hero-aura" aria-hidden="true" />
         <div className="hero-inner">
-          <div className="hero-eyebrow"><span className="pulse" /> Digital marketing studio</div>
-          <h1 className="hero-headline">
-            Your buyers are looking.<br />
-            <em>Make sure they find you.</em>
-          </h1>
-          <p className="hero-sub">
-            Every day, people search the web, scroll their feeds, and ask answer engines what to buy and who to trust. Axia Atlas puts your business in those moments — for brands, local businesses, and the founders behind them.
-          </p>
-          <div className="hero-actions">
-            <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
-            <Link href="/services" className="btn-outline">See How It Works</Link>
+          <div className="hero-copy">
+            <div className="hero-eyebrow"><span className="pulse" /> Digital marketing studio</div>
+            <h1 className="hero-headline">
+              Your buyers are looking.<br />
+              <em>Make sure they find you.</em>
+            </h1>
+            <p className="hero-sub">
+              Every day, people search the web, scroll their feeds, and ask answer engines what to buy and who to trust. Axia Atlas puts your business in those moments — for brands, local businesses, and the founders behind them.
+            </p>
+            <div className="hero-actions">
+              <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
+              <Link href="/services" className="btn-outline">See How It Works</Link>
+            </div>
+
+            <div className="hero-trust">
+              <span className="hero-trust-label">Built to be found in</span>
+              <ul className="hero-trust-items">
+                <li><Check aria-hidden="true" /><span>Google Search</span></li>
+                <li><Check aria-hidden="true" /><span>Answer Engines</span></li>
+                <li><Check aria-hidden="true" /><span>Local &amp; Maps</span></li>
+                <li><Check aria-hidden="true" /><span>Social Feeds</span></li>
+              </ul>
+            </div>
           </div>
 
-          <div className="hero-trust">
-            <span className="hero-trust-label">Built to be found in</span>
-            <div className="hero-trust-items">
-              <span>Google Search</span>
-              <span>Answer Engines</span>
-              <span>Local &amp; Maps</span>
-              <span>Social Feeds</span>
-            </div>
+          <div className="hero-artifact">
+            <PortalShot />
           </div>
         </div>
       </div>
