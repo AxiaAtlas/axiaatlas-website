@@ -2,6 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
 import { Arrow } from '@/components/icons'
+import { getPosts, postDate, formatDate } from '@/lib/blog'
+
+// The articles teased below come from the same hourly-revalidated source as
+// /blog, so a newly published post surfaces here without a deploy. The teasers
+// are links out to /blog/<slug>; the articles themselves are never served from
+// an /about path.
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'About',
@@ -43,7 +50,11 @@ function AboutFigure() {
   )
 }
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  // Three most recent articles, teased here purely as navigation. If the query
+  // comes back empty the section is dropped rather than rendered hollow.
+  const latest = (await getPosts()).slice(0, 3)
+
   return (
     <div className="page">
       <div className="about-hero">
@@ -90,6 +101,38 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
+
+      {latest.length ? (
+        <div className="about-section">
+          <div className="about-insights-inner">
+            <h2 className="about-headline">What we&apos;re writing about</h2>
+            <p className="about-insights-sub">
+              We publish what we learn — how buyers actually search, how answer engines pick
+              who to cite, and what moves local visibility. Same thinking we bring to the work.
+            </p>
+            <div className="blog-grid">
+              {latest.map((p) => (
+                <Link key={p.id} href={`/blog/${p.slug}`} className="blog-card">
+                  <div className="blog-meta">
+                    {p.category ? <span className="blog-cat">{p.category}</span> : null}
+                    <time dateTime={postDate(p)}>{formatDate(postDate(p))}</time>
+                  </div>
+                  <h3 className="blog-card-title">{p.title}</h3>
+                  {p.excerpt ? <p className="blog-card-excerpt">{p.excerpt}</p> : null}
+                  <span className="blog-more">
+                    Read <Arrow className="arr" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+            <div className="about-insights-all">
+              <Link href="/blog" className="btn-outline">
+                All insights <Arrow className="arr" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <div className="about-section">
         <div className="about-inner">
