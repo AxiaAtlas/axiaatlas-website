@@ -8,7 +8,7 @@ import { ChannelArt as ServiceArt } from '@/components/artifacts/ChannelArtifact
 import { pageTitle, social } from '@/lib/seo'
 
 const DESCRIPTION =
-  'Eight ways Axia Atlas gets you found and chosen: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & SEO, Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, and Strategic Advisory & Embedded Thinking.'
+  'Eight ways Axia Atlas gets you found and chosen: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & Maps, Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, and Strategic Advisory & Embedded Thinking.'
 
 export const metadata: Metadata = {
   title: 'SEO, AEO & Social Media Marketing Services',
@@ -21,88 +21,86 @@ export const metadata: Metadata = {
    other channel points traffic at. The remaining seven follow the same order
    as the home-page grid.
 
-   `layout` IS THE POINT OF THIS PAGE. Eight rows built from one template are
-   eight of the same row, and the reader stops distinguishing them by the third.
-   Each service now gets a composition and an artifact of its own:
+   WHAT THIS PASS TOOK OUT, and why the page is shorter than it was:
 
-     lead       full-bleed artifact band, then copy — the core engagement only
-     split      copy left, artifact right
-     split-rev  artifact left, copy right
-     rail       wide copy with a narrow vertical artifact beside it
-     band       copy, then the artifact run full width beneath it
+   1. THE "IN PRACTICE" CHIPS. Every one of the eight rows carried four or five
+      pills restating, in two words each, things the paragraph above them had
+      just said in full. Sixteen rows of chrome down the page, and the reader
+      learns nothing from the second set that the first did not already teach
+      them to skip.
 
-   A NOTE ON "EIGHT GENUINELY DISTINCT TREATMENTS", which is what I was asked
-   for and not quite what I built. Five compositions across eight services, with
-   the sides alternating and a different artifact every time, means no two rows
-   read alike as you scroll. Eight unrelated layouts would have been more
-   distinct and much worse: this whole redesign exists to make the site read as
-   one system, and a page with eight private layouts has no system at all — it
-   just has eight exceptions. If you want more variance I would add artifacts
-   before I added compositions. */
+   2. FIVE OF THE EIGHT ARTIFACTS. A structural sketch beside a service is
+      worth having when the sketch shows a shape the prose cannot — a map pack
+      with one pin lit, a citation line under an answer, the wireframe of a
+      page. It is not worth having when it is three grey bars standing in for
+      "we do this too", which is what the other five were. Three artifacts
+      survive, on the three services whose shape is genuinely visual.
+
+   The prose itself is untouched. "Too much text" was the note, but the
+   descriptions are the substance of the page — the length came from the
+   furniture around them, and that is what came off.
+
+   `art: true` marks a row that earns a figure. Rows alternate which side the
+   copy takes, so no two consecutive rows read alike; rows without a figure run
+   as a single measured column. */
 const SERVICES = [
   {
     id: 'website',
-    layout: 'lead',
+    art: true,
     headline: 'Website Design & Build',
     desc: "This is the core engagement, and it is not a design job. It starts with positioning — what you actually sell, who it is for, and why a buyer should pick you over the two alternatives they are also looking at. That decision drives the copy, and the copy drives the layout, so the pages argue a case instead of decorating one. Search foundations go in during the build rather than after it: an information architecture that matches how people search, titles and headings written for real queries, schema markup, clean internal linking, fast Core Web Vitals on a real phone, and a sitemap that gets indexed. We build it too — you get a working site, not a mockup handed to someone else to interpret.",
     who: 'For businesses whose site is the front door: a first build, a rebuild, or a site that photographs well and still does not sell.',
-    points: ['Positioning & messaging', 'Copy written page by page', 'Design & front-end build', 'SEO foundation from day one', 'Analytics & conversion tracking'],
   },
   {
     id: 'social',
-    layout: 'split',
+    art: false,
     headline: 'Social Media Management',
     desc: 'Each platform rewards something different — a hook inside the first second on TikTok, a defensible opinion on LinkedIn, a look you can recognise at thumbnail size on Instagram. We pick the two or three platforms worth your time and ignore the rest, set a handful of recurring content pillars so the account says one thing consistently instead of a new thing weekly, then produce, schedule, and publish it natively for each platform. We work the comments as well: answering the buying questions in public, and handling complaints so the thread ends up reading as evidence you are good to deal with.',
     who: 'For brands and businesses treating social as a growth channel rather than an obligation — B2B or B2C.',
-    points: ['Platform selection & voice', 'Content pillars, planned monthly', 'Produced natively per platform', 'Community & reputation management'],
   },
   {
     id: 'intel',
-    layout: 'split-rev',
+    art: false,
     headline: 'Competitive Intelligence',
     desc: 'You pick the competitors — usually five to ten who genuinely take deals off you. We watch what they do and report it with the receipts: pricing and packaging changes, the queries and pages they rank for that you do not, publishing cadence and which posts actually earned engagement, the roles they are hiring for, review volume and what the complaints are really about, and whether the answer engines name them in the moments they do not name you. Every claim is sourced and dated so you can check it yourself. The deliverable is not a dashboard nobody opens — it is arriving at each decision about price, positioning, or where to publish next already knowing what your buyer sees when they look at the alternatives.',
     who: 'For teams making positioning, pricing, or channel bets in a crowded category who are tired of guessing what the other side is doing.',
-    points: ['Named competitor set', 'Pricing & positioning changes', 'Share of voice: search, social, AI', 'Sourced, dated monthly briefing'],
   },
   {
     id: 'local',
-    layout: 'rail',
-    headline: 'Local Presence & SEO',
+    art: true,
+    /* Renamed from "Local Presence & SEO" to match the service catalogue. See
+       the note on the home page's channel card. */
+    headline: 'Local Presence & Maps',
     desc: 'Two results decide whether a nearby buyer finds you: the map pack, and the organic listings underneath it. We work both, because winning one and losing the other cedes half the page. On the local side that means a Google Business Profile built out properly — categories, services, hours, photos, Q&A — citations kept consistent across the directories that feed the map, a review programme that produces a steady flow rather than a spike, and public replies to the hard ones that show a prospect how you handle a problem. On the search side it is the service and location pages that rank for "service in city", the internal linking between them, and the technical fixes that stop good pages from being ignored. Rankings and calls are tracked per location, never averaged into one flattering number.',
     who: 'For clinics, trades, shops, restaurants, practices, and multi-location businesses that sell inside a radius.',
-    points: ['Google Business Profile build-out', 'Citations & NAP consistency', 'Review generation & response', 'Service and location pages', 'Rank tracking by location'],
   },
   {
     id: 'geo',
-    layout: 'split',
+    art: true,
     headline: 'Answer Engine Optimization (AEO)',
     desc: 'Buyers now ask Claude, ChatGPT, Perplexity, and Gemini which company to use, and they largely take the answer at face value. We start by measuring it: the exact prompts a buyer in your category would type, run across all four platforms, recorded so you can see who gets named today and what is said about you when you are. Then we fix what those systems read. Entity data and schema so the models know what you are and what you do. Source pages written to be quoted whole — a clear claim, the evidence under it, and a date — rather than skimmed. Presence on the third-party pages, directories, and communities the models fall back on when they will not take your own site at its word. We re-run the same prompt set every month, so you can see the point at which you start getting cited and exactly where you are still being left out.',
     who: 'For any business whose buyers ask an assistant before they ask a person — and for categories where going unnamed means going unconsidered.',
-    points: ['Prompt-set baseline across all four platforms', 'Entity & schema groundwork', 'Quotable source content', 'Third-party presence', 'Monthly citation tracking'],
   },
   {
     id: 'leadgen',
-    layout: 'split-rev',
+    art: false,
     headline: 'Lead Generation',
     desc: 'Search and content compound; outbound produces conversations this quarter. We define the ideal customer tightly enough that it disqualifies — industry, size, the role that signs, and a trigger that makes contact worth making now — then build the list by hand instead of buying one, verify every address, and write sequences that reference something specific and true about the company rather than dropping a name into a template. Email and LinkedIn run together so the same person meets you twice. You see every prospect, every touch, and every reply, so the targeting and the message sharpen each cycle instead of being thrown out and restarted.',
     who: 'For B2B and service businesses that know who their best customers are and want conversations booked now.',
-    points: ['ICP definition & trigger criteria', 'Hand-built, verified lists', 'Email + LinkedIn sequences', 'Reply handling & pipeline reporting'],
   },
   {
     id: 'executive',
-    layout: 'rail',
+    art: false,
     headline: 'Executive Personal Brand',
     desc: 'A company account gets read the way an ad gets read. A person gets read differently. We build the founder or executive a voice that stands on its own: a small set of positions they are genuinely willing to defend in public, drawn out of them in interviews rather than invented in a strategy doc, then written up as posts, longer essays, and talking points that sound like the person and not like a marketing department. Comments and DMs are triaged so the buyers hiding among them get a real reply from a real person. The account stays theirs — the archive, the audience, and the reputation belong to the individual and carry back into the company.',
     who: 'For founders, owners, and executives who are the face of the business, or intend to be.',
-    points: ['Positioning interviews', 'Recurring themes & point of view', 'Ghostwritten posts & essays', 'Inbound triage & engagement'],
   },
   {
     id: 'strategy',
-    layout: 'band',
+    art: false,
     headline: 'Strategic Advisory & Embedded Thinking',
     desc: 'Sometimes what is missing is not another deliverable. This is standing access to a strategist who already knows your business: recurring working sessions on the decisions that do not belong to any one channel — what to charge and how to package it, which segment to go after next, whether to build a capability or partner for it, what to say when a competitor undercuts you by thirty percent. We sit in on the calls where it actually gets decided, write up the decision and the reasoning behind it so it survives the week, and open the next session by checking what happened. No deck nobody reads.',
     who: 'For owners and teams who want a thinking partner across the whole business, not a vendor for one channel.',
-    points: ['Recurring working sessions', 'Pricing & packaging decisions', 'Channel sequencing & roadmap', 'Decisions written down, then revisited'],
   },
 ]
 
@@ -134,6 +132,11 @@ const SERVICES_JSON_LD = {
 }
 
 export default function ServicesPage() {
+  /* Which side the copy takes. Counted across the rows that HAVE a figure, so
+     the three figures alternate sides down the page rather than depending on
+     where the text-only rows happen to fall. */
+  let figureIndex = -1
+
   return (
     <div className="page services-page">
       <script
@@ -153,45 +156,48 @@ export default function ServicesPage() {
         <div className="services-route">
           {SERVICES.map((s) => {
             const Icon = ServiceIcons[s.id]
-            const Art = ServiceArt[s.id]
+            const Art = s.art ? ServiceArt[s.id] : null
+            if (Art) figureIndex += 1
+            const flip = Art ? figureIndex % 2 === 1 : false
+
             return (
-              <div key={s.id} id={s.id} className={`service-detail sd-${s.layout}`}>
+              <div
+                key={s.id}
+                id={s.id}
+                className={`service-detail${Art ? ' has-art' : ' text-only'}${flip ? ' flip' : ''}`}
+              >
                 {/* SEO used to be its own section; keep the old deep link working. */}
                 {s.id === 'local' && <span id="seo" aria-hidden="true" />}
 
-                {s.layout === 'lead' && Art && (
-                  <div className="sd-band"><Art /></div>
-                )}
-
                 <div className="service-detail-inner">
+                  {/* Two groups, always. On a row with a figure they simply
+                      stack; on a row without one, `.sd-copy` becomes the
+                      two-column grid itself and the mark and headline sit
+                      opposite the prose. Grouping them in the markup is what
+                      lets the headline stay level with its own icon instead of
+                      being dragged down the page by the paragraph beside it. */}
                   <div className="sd-copy">
-                    <div className="service-detail-label">
-                      <span className="service-icon">{Icon && <Icon />}</span>
+                    <div className="sd-head">
+                      <div className="service-detail-label">
+                        <span className="service-icon">{Icon && <Icon />}</span>
+                      </div>
+                      <h2 className="service-detail-headline">{s.headline}</h2>
                     </div>
-                    <h2 className="service-detail-headline">{s.headline}</h2>
-                    <p className="service-detail-desc">{s.desc}</p>
-                    <p className="service-who">{s.who}</p>
-                    <div>
-                      <Link href="/demo" className="btn-primary">Get Started <Arrow className="arr" /></Link>
-                    </div>
-                  </div>
-
-                  <div className="sd-aside">
-                    {s.layout !== 'lead' && s.layout !== 'band' && Art && (
-                      <div className="sd-art"><Art /></div>
-                    )}
-                    <div className="service-points-col">
-                      <h3 className="deliverables-title">In Practice</h3>
-                      <div className="service-points">
-                        {s.points.map((p) => <span key={p} className="service-point">{p}</span>)}
+                    <div className="sd-prose">
+                      <p className="service-detail-desc">{s.desc}</p>
+                      <p className="service-who">{s.who}</p>
+                      <div>
+                        <Link href="/demo" className="btn-primary">Get Started <Arrow className="arr" /></Link>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {s.layout === 'band' && Art && (
-                  <div className="sd-band sd-band-under"><Art /></div>
-                )}
+                  {Art && (
+                    <div className="sd-aside">
+                      <div className="sd-art"><Art /></div>
+                    </div>
+                  )}
+                </div>
               </div>
             )
           })}

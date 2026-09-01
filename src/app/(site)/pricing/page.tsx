@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
-import CtaBand from '@/components/CtaBand'
 import { Arrow, Check } from '@/components/icons'
 import { pageTitle, social } from '@/lib/seo'
 
@@ -20,7 +19,7 @@ const TIERS = [
     name: 'Starter',
     blurb: 'Get momentum on one or two channels and prove the model before you scale.',
     features: [
-      'One or two channels (e.g. Local Presence & SEO, or Social)',
+      'One or two channels (e.g. Local Presence & Maps, or Social)',
       'Strategy and 90-day plan',
       'Monthly content and execution',
       'Core setup: profile, on-page, tracking',
@@ -28,6 +27,7 @@ const TIERS = [
       'Email support',
     ],
     featured: false,
+    cta: 'Start with Starter',
   },
   {
     name: 'Growth',
@@ -41,6 +41,7 @@ const TIERS = [
       'Live dashboard and priority support',
     ],
     featured: true,
+    cta: 'Scope a Growth plan',
   },
   {
     name: 'Authority',
@@ -54,6 +55,7 @@ const TIERS = [
       'Senior strategist as your lead contact',
     ],
     featured: false,
+    cta: 'Talk about Authority',
   },
 ]
 
@@ -63,7 +65,6 @@ export default function PricingPage() {
       <div className="pricing-hero">
         <div className="section-eyebrow">Pricing</div>
         <h1 className="section-headline">Digital Marketing Packages, Priced in Three Clear Tiers</h1>
-        <p className="section-sub">Every tier is a monthly partnership scoped to your goals. We share exact pricing on your demo call — we audit your presence beforehand, so once we understand what you need, you&apos;ll know precisely what it costs.</p>
       </div>
 
       <div className="pricing-grid">
@@ -78,10 +79,10 @@ export default function PricingPage() {
             </ul>
             <Link
               href="/demo"
-              className={t.featured ? "btn-primary" : "btn-dark"}
+              className={t.featured ? 'btn-primary' : 'btn-outline'}
               style={{ width: '100%', justifyContent: 'center' }}
             >
-              Book a Demo <Arrow className="arr" />
+              {t.cta} <Arrow className="arr" />
             </Link>
           </div>
         ))}
@@ -90,12 +91,6 @@ export default function PricingPage() {
       <p className="pricing-note">
         No long lock-ins and no surprise add-ons. Pricing depends on the channels you choose and how much we&apos;re building — we&apos;ll quote it clearly on your demo call, and you decide from there.
       </p>
-
-      <CtaBand
-        eyebrow="Still deciding?"
-        headline="Let's find the right tier together."
-        sub="Tell us your goals and we'll recommend the smallest plan that gets you there — and exactly what it costs. No pressure to go bigger than you need."
-      />
 
       <Footer />
     </div>

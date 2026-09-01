@@ -22,7 +22,7 @@ export default function Footer() {
               <li><Link href="/services#website">Website Design &amp; Build</Link></li>
               <li><Link href="/services#social">Social Media Management</Link></li>
               <li><Link href="/services#intel">Competitive Intelligence</Link></li>
-              <li><Link href="/services#local">Local Presence &amp; SEO</Link></li>
+              <li><Link href="/services#local">Local Presence &amp; Maps</Link></li>
               <li><Link href="/services#geo">Answer Engine Optimization</Link></li>
               <li><Link href="/services#leadgen">Lead Generation</Link></li>
               <li><Link href="/services#executive">Executive Personal Brand</Link></li>
@@ -35,7 +35,6 @@ export default function Footer() {
             <ul className="footer-links">
               <li><Link href="/about">About</Link></li>
               <li><Link href="/pricing">Pricing</Link></li>
-              <li><Link href="/case-studies">Case Studies</Link></li>
               <li><Link href="/blog">Insights</Link></li>
               <li><Link href="/contact">Contact</Link></li>
             </ul>

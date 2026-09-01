@@ -109,7 +109,7 @@ const SERVICE_CATALOG = [
   'Website Design & Build',
   'Social Media Management',
   'Competitive Intelligence',
-  'Local Presence & SEO',
+  'Local Presence & Maps',
   'Answer Engine Optimization (AEO)',
   'Lead Generation',
   'Executive Personal Brand',

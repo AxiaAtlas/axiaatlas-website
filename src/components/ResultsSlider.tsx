@@ -1,35 +1,50 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { Arrow } from '@/components/icons'
-import ResultShape from '@/components/artifacts/ResultShape'
+import { RESULT_VISUALS } from '@/components/artifacts/ResultVisual'
 
-export type ResultSlide = {
+/* ────────────────────────────────────────────────────────────────────────────
+   THE RESULTS SECTION IS NOW THE CASE STUDIES.
+
+   /case-studies was a page that repeated what this section already gave, with
+   five entries behind it — not enough to be a library, and enough to make the
+   home page read like a teaser for a fuller list that did not exist. The page
+   is deleted and redirected here; this component is the treatment that page
+   had, moved up, wording untouched.
+
+   WHAT EACH SLIDE CARRIES. The left column is fixed: the segment it happened
+   in, the headline result, and the service that produced it. The right column
+   VARIES, and that is deliberate — three of the five carry the challenge, the
+   work and the outcome in full, and two carry a visual instead. A slider where
+   every slide is built the same way stops being read by the third one.
+
+   THE VISUALS DRAW ONLY QUOTED NUMBERS. See artifacts/ResultVisual.tsx: the
+   decorative "sample shape" curve that used to sit beside every claim is gone,
+   and a result with no precisely stated endpoints gets the text, not a shape.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+export type CaseItem = {
+  id?: string | number
   industry: string
+  company_type?: string
+  stat?: { value: string; label: string } | null
   result_headline: string
+  callouts?: string[]
+  challenge: string
+  approach: string
   result_detail: string
   service_used: string
 }
 
-const AUTOPLAY_MS = 5200
+const AUTOPLAY_MS = 7800
 
-/* The end/start ratio each slide's shape is drawn to. These are read off the
-   direction each result states and nothing more — they scale a curve, they are
-   not a measurement, and the card they render into says "Sample shape" inside
-   its own frame. See components/artifacts/ResultShape.tsx for why I would still
-   argue for cutting these charts entirely. */
-const LIFT = [4.4, 2.6, 1.9, 3.1, 2.2]
-
-/* Auto-advancing results carousel. Pauses on hover/focus, respects
-   prefers-reduced-motion (no autoplay), dots + arrows for manual control.
-
-   AUTOPLAY STARTS ON SCROLL INTO VIEW, NOT ON MOUNT. The slider sits four
-   sections down the home page. Advancing on a timer from the moment the page
-   loads meant that by the time anyone reached it, it had already cycled
-   through the results twice with nobody watching — a visitor arriving at slide
-   three has no way to know slides one and two exist, and the motion has spent
-   itself on an empty room. The observer also stops the timer once the section
-   leaves the viewport again, for the same reason and for the frames. */
-export default function ResultsSlider({ slides }: { slides: ResultSlide[] }) {
+/* AUTOPLAY STARTS ON SCROLL INTO VIEW, NOT ON MOUNT, and stops when the section
+   leaves again. This sits well down the page: advancing on a timer from load
+   means that by the time anyone arrives it has already cycled through the
+   results with nobody watching, and a visitor landing on slide four has no way
+   to know slides one to three exist. No autoplay at all under
+   prefers-reduced-motion. */
+export default function ResultsSlider({ slides }: { slides: CaseItem[] }) {
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
   const [inView, setInView] = useState(false)
@@ -51,15 +66,14 @@ export default function ResultsSlider({ slides }: { slides: ResultSlide[] }) {
     }
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => setInView(e.isIntersecting)),
-      { threshold: 0.35 },
+      { threshold: 0.3 },
     )
     io.observe(el)
     return () => io.disconnect()
   }, [])
 
   useEffect(() => {
-    if (paused || !inView || count < 2) return
-    if (reduce.current) return
+    if (paused || !inView || count < 2 || reduce.current) return
     const t = setInterval(() => setIndex((i) => (i + 1) % count), AUTOPLAY_MS)
     return () => clearInterval(t)
   }, [paused, inView, count])
@@ -80,19 +94,53 @@ export default function ResultsSlider({ slides }: { slides: ResultSlide[] }) {
     >
       <div className="rs-viewport">
         <div className="rs-track" style={{ transform: `translateX(-${index * 100}%)` }}>
-          {slides.map((s, i) => (
-            <div key={i} className="rs-slide" aria-hidden={i !== index}>
-              <div className="rs-main">
-                <div className="case-tag">{s.industry}</div>
-                <div className="rs-result">{s.result_headline}</div>
-                <div className="rs-service">{s.service_used}</div>
-              </div>
-              <div className="rs-detail">
-                <p>{s.result_detail}</p>
-                <ResultShape lift={LIFT[i % LIFT.length]} label={s.industry} />
-              </div>
-            </div>
-          ))}
+          {slides.map((c, i) => {
+            const visual = RESULT_VISUALS[c.result_headline]
+            return (
+              <article key={c.id ?? i} className="rs-slide" aria-hidden={i !== index}>
+                <div className="rs-main">
+                  <div className="case-tag">
+                    {c.industry}{c.company_type ? ` · ${c.company_type}` : ''}
+                  </div>
+                  {/* The slide's own heading. Without one the page jumped H2 ->
+                      H3 at "The Challenge", a skipped level on every slide. */}
+                  {c.stat ? (
+                    <h3 className="rs-stat">
+                      <span className="rs-stat-value">{c.stat.value}</span>
+                      <span className="rs-stat-label">{c.stat.label}</span>
+                    </h3>
+                  ) : (
+                    <h3 className="rs-result">{c.result_headline}</h3>
+                  )}
+                  {c.callouts?.length ? (
+                    <ul className="rs-callouts">
+                      {c.callouts.map((co) => <li key={co}>{co}</li>)}
+                    </ul>
+                  ) : null}
+                  <div className="rs-service">{c.service_used}</div>
+                </div>
+
+                <div className="rs-detail">
+                  {visual ?? (
+                    <div className="rs-route">
+                      <div className="rs-step">
+                        <h4 className="rs-label">The Challenge</h4>
+                        <p className="rs-text">{c.challenge}</p>
+                      </div>
+                      <div className="rs-step">
+                        <h4 className="rs-label">What We Did</h4>
+                        <p className="rs-text">{c.approach}</p>
+                      </div>
+                      <div className="rs-step result">
+                        <h4 className="rs-label">The Result</h4>
+                        <p className="rs-text">{c.result_detail}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </article>
+            )
+          })}
         </div>
       </div>
 

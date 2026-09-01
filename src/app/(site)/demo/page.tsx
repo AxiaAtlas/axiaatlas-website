@@ -198,15 +198,22 @@ export default function DemoPage() {
 
   return (
     <div className="page demo-page">
+      {/* THE H1 NO LONGER REPEATS THE HOME PAGE'S KEYWORD. It was "Book a
+          Digital Marketing Demo and Visibility Audit", and "Digital Marketing"
+          is the home page's H1 keyword — two pages competing for one term. This
+          page's own term is the thing it uniquely offers, and it is already the
+          page title in demo/layout.tsx, so the H1 now matches it rather than
+          introducing a third wording. */}
       <div className="demo-hero">
         <div className="section-eyebrow">Book a Demo</div>
-        <h1 className="section-headline">Book a Digital Marketing Demo and Visibility Audit</h1>
-        <p className="section-sub">Three quick steps to a call worth your time. Before we meet, we audit how you show up across search, answer engines, local, and social — so we arrive with the gaps mapped and real solutions, not a pitch deck.</p>
+        <h1 className="section-headline">Book a Demo and a Free Visibility Audit</h1>
+        <p className="section-sub">Before we meet, we audit how you show up across search, answer engines, local, and social — so we arrive with the gaps mapped and real solutions, not a pitch deck.</p>
       </div>
 
       <div className="demo-body">
         <div className="demo-card">
           <>
+              <p className="demo-steps-intro">Three quick steps to a call worth your time.</p>
               <div className="demo-steps" aria-hidden="true">
                 <div className={`demo-step-dot ${stepClass(1)}`}>
                   <span className="num">{step > 1 ? '✓' : '1'}</span> About you

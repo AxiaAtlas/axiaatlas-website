@@ -1,15 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* ════════════════════════════════════════════════════════════════════════
    AXIA ATLAS — DESIGN SYSTEM (single theme)
    Cartographic editorial. Alabaster-dominant; Deep Spruce as accent + depth.
    Source of truth for tokens + patterns: see DESIGN.md
    ════════════════════════════════════════════════════════════════════════ */
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
   color-scheme: light;
 
@@ -113,7 +110,6 @@
   --shadow-md: 0 12px 34px rgba(25, 36, 30, 0.09);
   --shadow-lg: 0 26px 64px rgba(25, 36, 30, 0.15);
 }
-
 /* ── BASE ──────────────────────────────────────────────────────────────── */
 /* Native scroll only. `scroll-behavior: smooth` used to live here; it made every
    browser-driven scroll (hash links from the footer into /services#…, Home/End,
@@ -121,7 +117,6 @@
    the page. There is no scroll library on the site — this line was the whole of
    the non-standard behaviour. */
 html { -webkit-text-size-adjust: 100%; }
-
 body {
   font-family: var(--font-body);
   background: var(--bg);
@@ -131,24 +126,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
-
 /* Every heading on this site is styled by its own class, which sets the
    bottom margin it wants. Zero the UA margins so promoting a styled div to
    the correct heading level is a semantic change only, never a visual one. */
 h1, h2, h3, h4, h5, h6 { font-family: var(--font-head); margin: 0; }
-
 a { color: inherit; text-decoration: none; }
-
 ::selection { background: rgba(var(--sage-rgb), 0.5); color: var(--text); }
-
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: var(--r-sm);
 }
-
 img { max-width: 100%; }
-
 /* ── SHARED PRIMITIVES ─────────────────────────────────────────────────── */
 .eyebrow, .section-eyebrow, .hero-eyebrow, .service-detail-label {
   font-family: var(--font-head);
@@ -158,7 +147,6 @@ img { max-width: 100%; }
   text-transform: uppercase;
   color: var(--accent);
 }
-
 .section-eyebrow, .hero-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -171,7 +159,6 @@ img { max-width: 100%; }
   background: currentColor;
   opacity: 0.7;
 }
-
 .section-headline {
   font-family: var(--font-head);
   font-size: var(--t-h2);
@@ -182,7 +169,6 @@ img { max-width: 100%; }
   margin-bottom: 20px;
   text-wrap: balance;
 }
-
 .section-sub {
   font-size: var(--t-lead);
   line-height: 1.6;
@@ -191,7 +177,6 @@ img { max-width: 100%; }
   margin-bottom: 56px;
   text-wrap: pretty;
 }
-
 /* ── SCROLL REVEAL (progressive — JS adds .reveal) ─────────────────────── */
 .reveal {
   opacity: 0;
@@ -205,7 +190,6 @@ img { max-width: 100%; }
      element is revealed, and hands it back on transitionend. */
 }
 .reveal.in { opacity: 1; transform: none; }
-
 /* ── BUTTONS ───────────────────────────────────────────────────────────── */
 .btn-primary, .btn-outline, .btn-dark, .btn-ghost {
   display: inline-flex;
@@ -224,10 +208,8 @@ img { max-width: 100%; }
               color 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
 .btn-primary svg, .btn-outline svg, .btn-dark svg { width: 15px; height: 15px; }
-
 .btn-primary .arr, .btn-outline .arr, .btn-dark .arr, .service-link .arr { transition: transform 0.25s var(--ease); }
 .btn-primary:hover .arr, .btn-outline:hover .arr, .btn-dark:hover .arr { transform: translateX(3px); }
-
 .btn-primary { background: var(--primary); color: var(--on-primary); position: relative; overflow: hidden; }
 .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
 /* shine sweep on hover */
@@ -241,7 +223,6 @@ img { max-width: 100%; }
 /* Sweeps on transform, not `left`. `left` is a layout property, so the old
    version ran a layout pass on every frame of the 0.7s sweep. */
 @keyframes btnShine { to { transform: translateX(455%) skewX(-18deg); } }
-
 /* Services page: on-brand button hover — deepen to spruce with a sage inner
    ring instead of the alabaster shine sweep (no white flash / white bg). */
 .services-page .btn-primary::after { display: none; }
@@ -251,19 +232,15 @@ img { max-width: 100%; }
   box-shadow: 0 6px 18px -8px rgba(var(--spruce-rgb), 0.55),
               inset 0 0 0 1px rgba(var(--sage-rgb), 0.55);
 }
-
 .btn-dark { background: var(--primary); color: var(--on-primary); }
 .btn-dark:hover { background: var(--primary-hover); transform: translateY(-1px); }
-
 .btn-outline { background: transparent; color: var(--text); border-color: var(--border-strong); }
 .btn-outline:hover { border-color: var(--text); transform: translateY(-1px); }
-
 /* on depth (spruce) panels */
 .on-inverse .btn-primary, .btn-on-inverse { background: var(--inverse-primary); color: var(--inverse-on-primary); }
 .on-inverse .btn-primary:hover, .btn-on-inverse:hover { filter: brightness(1.05); transform: translateY(-1px); }
 .on-inverse .btn-outline { color: var(--inverse-text); border-color: var(--inverse-border); }
 .on-inverse .btn-outline:hover { border-color: var(--inverse-text); }
-
 /* ── NAV ───────────────────────────────────────────────────────────────── */
 .nav {
   position: fixed;
@@ -308,7 +285,6 @@ img { max-width: 100%; }
   border-bottom-color: var(--border);
 }
 .nav.scrolled::after { opacity: 1; }
-
 /* ── BRAND LOCKUP ───────────────────────────────────────────────────────
    The side-by-side lockup: A-mark, gap, wordmark. Composed from two SVGs
    rather than one combined mark so each half is sized on its own ink — the
@@ -320,12 +296,9 @@ img { max-width: 100%; }
 .brand-lockup .brand-mark { height: 28px; width: auto; display: block; }
 .brand-lockup .brand-word { height: 18px; width: auto; display: block; }
 .brand-lockup .ink { fill: currentColor; }
-
 .nav-brand { flex-shrink: 0; color: var(--text); }
-
 .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
 .nav-links > li { display: flex; align-items: center; }
-
 .nav-links a:not(.nav-login):not(.nav-cta) {
   color: var(--text-muted);
   font-family: var(--font-head);
@@ -338,9 +311,7 @@ img { max-width: 100%; }
 }
 .nav-links a:not(.nav-login):not(.nav-cta):hover { color: var(--text); background: var(--accent-soft); }
 .nav-links a.active { color: var(--text); }
-
 .nav-actions { display: flex; align-items: center; gap: 10px; margin-left: 14px; }
-
 .nav-login {
   color: var(--text) !important;
   font-family: var(--font-head);
@@ -352,7 +323,6 @@ img { max-width: 100%; }
   transition: border-color 0.18s var(--ease), background 0.18s var(--ease);
 }
 .nav-login:hover { border-color: var(--text); background: var(--accent-soft); }
-
 .nav-cta {
   background: var(--primary);
   color: var(--on-primary) !important;
@@ -365,13 +335,10 @@ img { max-width: 100%; }
   transition: background 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
 .nav-cta:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
-
 .nav-mobile-toggle { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 8px; }
 .nav-mobile-toggle span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 1px; }
-
 /* ── PAGE WRAPPER ──────────────────────────────────────────────────────── */
 .page { padding-top: var(--nav-h); }
-
 /* ── CARTOGRAPHIC BACKDROP (reusable) ──────────────────────────────────── */
 .carto-grid::after {
   content: '';
@@ -388,7 +355,6 @@ img { max-width: 100%; }
 /* Lift the section's real content above the decorative grid so the white cards
    read as fully opaque surfaces (the grid no longer paints over them). */
 .carto-grid .section-inner { z-index: 1; }
-
 /* ── DEPTH PANELS (shared) ─────────────────────────────────────────────── */
 .hero, .page-hero, footer,
 .services-hero, .cs-hero, .about-hero, .contact-hero, .pricing-hero, .demo-hero,
@@ -396,7 +362,6 @@ img { max-width: 100%; }
   background: var(--inverse-bg);
   color: var(--inverse-text);
 }
-
 /* ── HERO ──────────────────────────────────────────────────────────────────
    Clean, type-forward and confident: bold headline as the focal point, one
    soft sage aura behind it, generous space, minimal motion. ──────────────── */
@@ -421,7 +386,6 @@ img { max-width: 100%; }
   mask-image: radial-gradient(ellipse 78% 70% at 50% 46%, #000 0%, transparent 80%);
   -webkit-mask-image: radial-gradient(ellipse 78% 70% at 50% 46%, #000 0%, transparent 80%);
 }
-
 /* the single focal element: a large, soft sage glow that breathes slowly */
 .hero-aura {
   position: absolute; z-index: 0; pointer-events: none;
@@ -444,9 +408,7 @@ img { max-width: 100%; }
    about-page figure. */
 @keyframes hbSpin { to { transform: rotate(360deg); } }
 @keyframes hbFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-
 .hero-inner { position: relative; z-index: 2; max-width: 880px; margin: 0 auto; }
-
 .hero-eyebrow {
   color: var(--inverse-accent);
   margin: 0 auto 30px;
@@ -477,7 +439,6 @@ img { max-width: 100%; }
   70%  { transform: scale(3.33); opacity: 0; }
   100% { transform: scale(3.33); opacity: 0; }
 }
-
 .hero-headline {
   font-family: var(--font-head);
   font-size: clamp(2.85rem, 7vw, 5.25rem);
@@ -489,7 +450,6 @@ img { max-width: 100%; }
   text-wrap: balance;
 }
 .hero-headline em { font-style: normal; color: var(--inverse-accent); }
-
 .hero-sub {
   font-size: var(--t-lead);
   line-height: 1.62;
@@ -498,28 +458,12 @@ img { max-width: 100%; }
   margin: 0 auto 42px;
   text-wrap: pretty;
 }
-
 .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 .hero .btn-primary { background: var(--inverse-primary); color: var(--inverse-on-primary); }
 .hero .btn-primary:hover { filter: brightness(1.06); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
 .hero .btn-outline { color: var(--inverse-text); border-color: var(--inverse-border); }
 .hero .btn-outline:hover { border-color: var(--inverse-text); background: var(--inverse-surface); }
-
-.hero-trust {
-  position: relative; z-index: 2;
-  margin: 64px auto 0; padding-top: 28px;
-  border-top: 1px solid var(--inverse-border);
-  display: flex; align-items: center; justify-content: center; gap: 16px 28px; flex-wrap: wrap;
-  max-width: 760px;
-}
-.hero-trust-label { font-family: var(--font-head); font-size: var(--t-xs); letter-spacing: 0.16em; text-transform: uppercase; color: var(--inverse-faint); font-weight: 600; }
-.hero-trust-items { display: flex; gap: 16px 26px; flex-wrap: wrap; justify-content: center; }
-.hero-trust-items span { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--inverse-muted); }
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-aura { animation: none; }
-}
-
+@media (prefers-reduced-motion: reduce) {.hero-aura { animation: none; }}
 /* ── MARQUEE (light strip under hero — where buying decisions happen) ──── */
 .hero-marquee {
   background: var(--surface);
@@ -579,17 +523,13 @@ img { max-width: 100%; }
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .hero-marquee::before, .hero-marquee::after { display: none; }
-  .marquee-track { animation: none; transform: none; will-change: auto; }
-}
-
+@media (prefers-reduced-motion: reduce) {.hero-marquee::before, .hero-marquee::after { display: none; }
+.marquee-track { animation: none; transform: none; will-change: auto; }}
 /* ── SECTIONS ──────────────────────────────────────────────────────────── */
 section { padding: var(--section-y) var(--gutter); position: relative; }
 .section-inner { max-width: var(--maxw); margin: 0 auto; position: relative; }
 .section-head { max-width: 720px; }
 .section-alt { background: var(--bg-alt); }
-
 /* ── CTA BAND (sage accent — deliberately distinct from the dark footer) ── */
 .cta-band {
   position: relative;
@@ -620,7 +560,6 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
   animation: ctaGridDrift 52s linear infinite;
 }
 @keyframes ctaGridDrift { to { transform: translate3d(56px, 56px, 0); } }
-
 .cta-band::after {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background: radial-gradient(ellipse 55% 65% at 50% 0%, rgba(255, 255, 255, 0.55), transparent 62%);
@@ -684,27 +623,11 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
   font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.06em;
   color: var(--accent);
 }
-
 /* ── PROBLEM SECTION (light) ───────────────────────────────────────────── */
 .problem-section { background: var(--bg-alt); overflow: hidden; }
 .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; margin-top: 8px; }
 .problem-text p { font-size: var(--t-body); line-height: 1.8; color: var(--text-muted); margin-bottom: 18px; max-width: 480px; }
 .problem-text .btn-primary { margin-top: 10px; }
-.problem-cards { display: flex; flex-direction: column; gap: 12px; }
-.problem-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 22px 24px 22px 26px;
-  position: relative;
-  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
-}
-.problem-card::before { content: ''; position: absolute; left: 0; top: 18px; bottom: 18px; width: 2px; background: var(--accent); opacity: 0; transition: opacity 0.25s var(--ease); }
-.problem-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-sm); transform: translateX(3px); }
-.problem-card:hover::before { opacity: 0.8; }
-.problem-card-title { font-family: var(--font-head); font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 7px; }
-.problem-card-desc { font-size: var(--t-sm); line-height: 1.65; color: var(--text-muted); }
-
 /* ── BENTO ─────────────────────────────────────────────────────────────── */
 .services-section { background: var(--bg); }
 .bento { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: auto; gap: 14px; }
@@ -725,7 +648,6 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 }
 .bento-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--border-strong); }
 .bento-card:hover::before, .spotlight:hover::before { opacity: 1; }
-
 /* Feature cell: full-width depth panel. Mirrors the old SystemMap layout —
    heading/copy fills the top two-thirds, the brand marquee is constrained to
    the bottom third. The 01/02/03 cards sit in ONE row beneath it. */
@@ -751,7 +673,6 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 .bento-card.feature .bento-desc { color: var(--inverse-muted); font-size: var(--t-body); }
 .bento-card.feature .bento-num { color: var(--inverse-accent); }
 .feature-copy { position: relative; z-index: 1; align-self: start; }
-
 /* Brand-mark marquees — two faint rows of locally-bundled brand icons that
    auto-scroll in opposite directions, reading as subtle texture (not a focal
    element) inside the feature card. Row 1 = platforms we publish to (scrolls
@@ -803,14 +724,10 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 .bm-right .bm-track { animation: bmRight 79s linear infinite; }
 @keyframes bmLeft  { from { transform: translateX(0);     } to { transform: translateX(-25%); } }
 @keyframes bmRight { from { transform: translateX(-25%);  } to { transform: translateX(0);    } }
-@media (prefers-reduced-motion: reduce) {
-  .bm-left .bm-track, .bm-right .bm-track { animation: none; }
-}
-
+@media (prefers-reduced-motion: reduce) {.bm-left .bm-track, .bm-right .bm-track { animation: none; }}
 .bento-num { font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 14px; position: relative; z-index: 1; }
 .bento-title { font-family: var(--font-head); font-size: 1.1875rem; font-weight: 600; color: var(--text); margin-bottom: 10px; letter-spacing: -0.01em; position: relative; z-index: 1; }
 .bento-desc { font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); position: relative; z-index: 1; }
-
 /* ── SERVICES GRID ─────────────────────────────────────────────────────── */
 .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 /* "What We Do" tiles — Deep Spruce depth panels so they stand out, with a
@@ -831,7 +748,6 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 }
 .service-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: rgba(var(--sage-rgb), 0.34); }
 .service-card:hover::before, .service-card.spotlight:hover::before { opacity: 1; }
-
 .service-icon {
   display: inline-flex; width: 44px; height: 44px;
   align-items: center; justify-content: center;
@@ -851,7 +767,6 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 }
 .service-name { font-family: var(--font-head); font-size: 1.0625rem; font-weight: 600; color: var(--inverse-text); margin-bottom: 9px; letter-spacing: -0.01em; position: relative; z-index: 1; }
 .service-desc { font-size: var(--t-sm); line-height: 1.7; color: var(--inverse-muted); margin-bottom: 20px; position: relative; z-index: 1; }
-
 .service-link { position: relative; z-index: 1; white-space: nowrap; font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; color: var(--inverse-accent); letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 6px; }
 .service-link:hover .arr { transform: translateX(3px); }
 .service-link .arr { transition: transform 0.25s var(--ease); }
@@ -860,7 +775,6 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
    service card's `overflow: hidden` clipped it into a faint wash nobody read as
    an arrow; the channel card shows it at full size. Size it once, here. */
 .service-link svg { width: 14px; height: 14px; flex: none; }
-
 /* ── RESULTS SLIDER (auto-advancing) ───────────────────────────────────── */
 .results-section { background: var(--bg); }
 .results-slider { margin-top: 8px; }
@@ -920,7 +834,6 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 }
 .rs-dot:hover { background: var(--text-faint); }
 .rs-dot.active { background: var(--accent); }
-
 .case-tag {
   display: inline-block; font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600;
   letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);
@@ -946,7 +859,6 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 }
 .process-title { font-family: var(--font-head); font-size: 1.0625rem; font-weight: 600; color: var(--text); margin-bottom: 9px; }
 .process-desc { font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); }
-
 /* Final step rendered as a Deep Spruce depth panel so the payoff stands out.
    Negative top/side margins keep its number badge aligned with the open steps
    while the panel extends to cover the connector line behind it. */
@@ -964,7 +876,6 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 }
 .process-step.featured .process-title { color: var(--inverse-text); }
 .process-step.featured .process-desc { color: var(--inverse-muted); }
-
 /* ── FOOTER (depth) ────────────────────────────────────────────────────── */
 footer { padding: 72px var(--gutter) 32px; position: relative; overflow: hidden; }
 footer::before {
@@ -993,7 +904,6 @@ footer::before {
 .footer-legal { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .footer-legal a { transition: color 0.18s var(--ease); }
 .footer-legal a:hover { color: var(--inverse-text); }
-
 /* ── LEGAL PAGES (privacy / terms) ─────────────────────────────────────── */
 .legal-page { max-width: 760px; margin: 0 auto; padding: clamp(48px, 7vw, 88px) var(--gutter) clamp(56px, 7vw, 88px); }
 .legal-page .section-eyebrow { margin-bottom: 14px; }
@@ -1007,7 +917,6 @@ footer::before {
 .legal-body li { margin-bottom: 8px; }
 .legal-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
 .legal-body strong { color: var(--text); font-weight: 600; }
-
 /* ── PAGE HEROES (depth) ───────────────────────────────────────────────── */
 .page-hero, .services-hero, .cs-hero, .about-hero, .contact-hero, .pricing-hero, .demo-hero,
 .blog-hero, .blog-post-hero {
@@ -1047,10 +956,8 @@ footer::before {
 .contact-hero .section-headline, .about-hero .section-headline { max-width: 680px; }
 .contact-hero .section-sub { color: var(--inverse-muted); max-width: 560px; }
 .page-hero-inner { max-width: var(--maxw); margin: 0 auto; }
-
 /* ── SERVICES PAGE (light overview rows) ───────────────────────────────── */
 .services-page { background: var(--bg); }
-
 /* A straight vertical spine connecting the seven services (see
    ServiceRouteLine.tsx). It draws itself on scroll via inline
    stroke-dashoffset, painted imperatively each animation frame — so there is
@@ -1073,7 +980,6 @@ footer::before {
   /* Eight nodes; promoting all eight for the life of the page cost more than
      the opacity writes ever did. */
 }
-
 .service-detail { padding: clamp(52px, 6.5vw, 80px) var(--gutter); border-bottom: 1px solid var(--border); }
 .service-detail:nth-child(even) { background: var(--bg-alt); }
 .service-detail-inner { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: start; }
@@ -1083,22 +989,6 @@ footer::before {
 .service-detail-headline { font-family: var(--font-head); font-size: var(--t-h3); font-weight: 700; color: var(--text); line-height: 1.12; margin-bottom: 16px; letter-spacing: -0.025em; }
 .service-detail-desc { font-size: var(--t-body); line-height: 1.8; color: var(--text-muted); margin-bottom: 22px; max-width: 560px; }
 .service-who { font-size: var(--t-sm); color: var(--text); font-weight: 500; margin-bottom: 26px; padding: 14px 18px; background: var(--accent-soft); border-left: 2px solid var(--accent); border-radius: var(--r-sm); line-height: 1.6; max-width: 520px; }
-.deliverables-title { font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 16px; }
-/* Drop the column past the icon badge (44px + its 16px margin) so "In Practice"
-   starts level with the service headline and reads as part of that block,
-   instead of floating up beside the icon. */
-.service-points-col { padding-top: 60px; }
-.service-points { display: flex; flex-wrap: wrap; gap: 10px; }
-.service-point {
-  font-family: var(--font-head);
-  font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.01em;
-  color: var(--text); background: var(--surface);
-  border: 1px solid var(--border-strong); border-radius: var(--r-pill);
-  padding: 10px 17px;
-  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
-}
-.service-point:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
-
 /* ── PRICING ───────────────────────────────────────────────────────────── */
 .pricing-page { background: var(--bg); }
 .pricing-grid { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: clamp(56px, 7vw, 80px) var(--gutter) 32px; align-items: stretch; }
@@ -1126,82 +1016,12 @@ footer::before {
 .pricing-card.featured .pricing-features li svg { color: var(--inverse-accent); }
 .pricing-card.featured .btn-primary { background: var(--inverse-primary); color: var(--inverse-on-primary); }
 .pricing-note { max-width: 640px; margin: 8px auto 0; padding: 0 var(--gutter) clamp(56px, 7vw, 80px); text-align: center; font-size: var(--t-sm); line-height: 1.7; color: var(--text-faint); }
-
 /* ── CASE STUDIES PAGE (route-timeline cards) ──────────────────────────── */
 .cs-page { background: var(--bg); }
-.cs-grid { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; padding: clamp(56px, 7vw, 80px) var(--gutter); }
-.cs-card {
-  display: flex; flex-direction: column;
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
-  transition: box-shadow 0.3s var(--ease), transform 0.3s var(--ease), border-color 0.3s var(--ease);
-}
-.cs-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); border-color: var(--border-strong); }
-.cs-card-header { background: var(--surface-2); border-bottom: 1px solid var(--border); padding: 30px 30px 26px; position: relative; overflow: hidden; }
-.cs-card-header::before { content: ''; position: absolute; top: -50px; right: -50px; width: 170px; height: 170px; border-radius: 50%; background: radial-gradient(circle, rgba(var(--sage-rgb),0.45), transparent 70%); }
-.cs-card-header::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background-image:
-    linear-gradient(rgba(var(--spruce-rgb), 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--spruce-rgb), 0.05) 1px, transparent 1px);
-  background-size: 36px 36px;
-  mask-image: radial-gradient(ellipse 90% 120% at 100% 0%, #000 0%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 120% at 100% 0%, #000 0%, transparent 75%);
-}
 .cs-industry { font-family: var(--font-head); font-size: 0.625rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; position: relative; z-index: 1; }
-.cs-result-headline { font-family: var(--font-head); font-size: clamp(1.45rem, 1.1rem + 1.2vw, 1.875rem); font-weight: 700; color: var(--primary); line-height: 1.12; letter-spacing: -0.02em; position: relative; z-index: 1; text-wrap: balance; }
-
-/* metric is the hero — oversized stat value + supporting label.
-   Fixed sizes (no per-card variants) + reserved label height keep every card's
-   header identical, so the cards line up evenly across the grid. */
-.cs-stat { position: relative; z-index: 1; }
-.cs-stat-value {
-  font-family: var(--font-head); font-weight: 700;
-  font-size: clamp(3.1rem, 2.1rem + 3.2vw, 4.5rem);
-  line-height: 1; letter-spacing: -0.045em;
-  color: var(--primary);
-}
-.cs-stat-label {
-  margin-top: 14px; min-height: 2.5em;
-  font-family: var(--font-head); font-weight: 600;
-  font-size: clamp(1rem, 0.9rem + 0.45vw, 1.1875rem);
-  line-height: 1.25; letter-spacing: -0.01em;
-  color: var(--text); text-wrap: balance; max-width: 26ch;
-}
-
-/* prominent stat callouts — metric badges */
-.cs-callouts { display: flex; flex-wrap: wrap; gap: 10px; padding: 20px 30px 0; }
-.cs-callout {
-  display: inline-flex; align-items: center; gap: 9px;
-  font-family: var(--font-head); font-size: 0.6875rem; font-weight: 600;
-  letter-spacing: 0.03em; color: var(--accent);
-  background: var(--accent-soft); border: 1px solid var(--border);
-  padding: 9px 13px 9px 11px; border-radius: var(--r);
-}
-.cs-callout::before {
-  content: ''; flex: none; width: 7px; height: 7px;
-  background: var(--accent); transform: rotate(45deg);
-}
-
 /* body — challenge → approach → result drawn as a dashed route */
-.cs-route { padding: 24px 30px 6px; display: flex; flex-direction: column; gap: 20px; flex: 1; }
-.cs-step { position: relative; padding-left: 32px; }
-.cs-step::before {
-  content: ''; position: absolute; left: 4px; top: 4px;
-  width: 8px; height: 8px;
-  border: 1.5px solid var(--accent); background: var(--surface);
-  transform: rotate(45deg);
-}
 .cs-step.result::before { background: var(--accent); }
-.cs-step:not(:last-child)::after {
-  content: ''; position: absolute; left: 8px; top: 20px; bottom: -16px; width: 1px;
-  background: repeating-linear-gradient(180deg, var(--border-strong) 0 5px, transparent 5px 10px);
-}
-.cs-label { font-family: var(--font-head); font-size: 0.625rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
-.cs-text { font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); }
 .cs-step.result .cs-text { color: var(--text); }
-.cs-card-foot { padding: 20px 30px 28px; }
-.cs-service-badge { display: inline-block; font-family: var(--font-head); font-size: 0.625rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: var(--accent-soft); border: 1px solid var(--border); color: var(--accent); padding: 6px 12px; border-radius: var(--r-pill); }
-
 /* ── ABOUT ─────────────────────────────────────────────────────────────── */
 .about-section { padding: clamp(64px, 8vw, 96px) var(--gutter); }
 .about-section:nth-child(even) { background: var(--bg-alt); }
@@ -1209,61 +1029,23 @@ footer::before {
 .about-headline { font-family: var(--font-head); font-size: var(--t-h3); font-weight: 700; color: var(--text); margin-bottom: 24px; letter-spacing: -0.02em; }
 .about-body { font-size: var(--t-body); line-height: 1.85; color: var(--text-muted); }
 .about-body p { margin-bottom: 20px; }
-
 /* Insights teaser on /about. Wider than .about-inner because it carries the
    three-up .blog-grid cards; the articles are linked out to /blog/<slug>, never
    nested under /about. */
 .about-insights-inner { max-width: var(--maxw); margin: 0 auto; }
 .about-insights-sub { font-size: var(--t-body); line-height: 1.8; color: var(--text-muted); max-width: var(--maxw-narrow); margin-bottom: 30px; }
 .about-insights-all { margin-top: 30px; }
-
 /* ── ABOUT — cartographic motion (depth hero figure + drifting grid) ────── */
 .about-hero .about-hero-text { position: relative; z-index: 1; }
-@media (min-width: 1100px) {
-  .about-hero .about-hero-text { max-width: 60%; }
-}
+@media (min-width: 1100px) {.about-hero .about-hero-text { max-width: 60%; }}
 /* drifting survey grid behind the hero copy */
 /* Two layers again: mask and clip on the element, grid and motion on its
    ::before, so the drift is a composited transform rather than a per-frame
    repaint of the whole hero. */
-.about-grid {
-  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
-  mask-image: radial-gradient(ellipse 75% 85% at 82% 35%, #000 0%, transparent 78%);
-  -webkit-mask-image: radial-gradient(ellipse 75% 85% at 82% 35%, #000 0%, transparent 78%);
-}
-.about-grid::before {
-  content: ''; position: absolute; inset: -54px;
-  background-image:
-    linear-gradient(rgba(var(--sage-rgb), 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--sage-rgb), 0.06) 1px, transparent 1px);
-  background-size: 54px 54px;
-  animation: aboutGridDrift 60s linear infinite;
-}
 @keyframes aboutGridDrift { to { transform: translate3d(54px, 54px, 0); } }
-
 /* animated compass + route figure, mirrors the home hero beacon */
-.about-figure {
-  position: absolute; z-index: 0; pointer-events: none;
-  right: clamp(12px, 5vw, 96px); top: 50%; transform: translateY(-50%);
-  width: clamp(280px, 26vw, 392px); aspect-ratio: 1 / 1;
-  display: none; opacity: 0.9;
-}
-@media (min-width: 1100px) { .about-figure { display: block; } }
-.about-figure svg { width: 100%; height: 100%; overflow: visible; }
-.af-grid line { stroke: rgba(var(--sage-rgb), 0.09); stroke-width: 1; }
-.af-dial {
-  fill: none; stroke: rgba(var(--sage-rgb), 0.34); stroke-width: 1; stroke-dasharray: 3 8;
-  transform-box: fill-box; transform-origin: center;
-  animation: hbSpin 64s linear infinite;
-}
 .af-dial.inner { stroke-dasharray: 2 7; opacity: 0.6; animation: hbSpin 44s linear infinite reverse; }
-.af-tick { stroke: rgba(var(--sage-rgb), 0.3); stroke-width: 1; }
 /* base = drawn + visible, so reduced-motion (fill: none) rests on a full route */
-.af-route {
-  fill: none; stroke: var(--sage); stroke-width: 1.6; stroke-linecap: round;
-  stroke-dasharray: 1; stroke-dashoffset: 0; opacity: 0.9;
-  animation: afRoute 11s var(--ease) infinite;
-}
 @keyframes afRoute {
   0% { stroke-dashoffset: 1; opacity: 0; }
   8% { opacity: 0.95; }
@@ -1271,24 +1053,9 @@ footer::before {
   90% { stroke-dashoffset: 0; opacity: 0.95; }
   98%, 100% { stroke-dashoffset: 0; opacity: 0; }
 }
-.af-dot { fill: var(--sage); }
-.af-halo { fill: none; stroke: rgba(var(--sage-rgb), 0.4); stroke-width: 1; }
-.af-pin {
-  transform-box: fill-box; transform-origin: center;
-  animation: hbFloat 6s ease-in-out infinite;
-}
-.af-pin path { fill: var(--inverse-bg); stroke: var(--sage); stroke-width: 1.6; }
-.af-pin circle { fill: var(--sage); }
-.af-label {
-  font-family: var(--font-head);
-  font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-  fill: rgba(var(--sage-rgb), 0.72);
-}
 .af-label.faint { fill: rgba(var(--sage-rgb), 0.4); letter-spacing: 0.14em; }
-
 /* "To be found is to be seen" — plain section, no route line under the heading */
 .about-seen { position: relative; }
-
 /* legal pages (/privacy, /terms) */
 .legal-updated { font-family: var(--font-head); font-size: var(--t-xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 28px; }
 .legal-body h3 { font-family: var(--font-head); font-size: var(--t-h4); font-weight: 600; color: var(--text); letter-spacing: -0.01em; margin: 36px 0 14px; }
@@ -1305,7 +1072,6 @@ footer::before {
 .belief-num { font-family: var(--font-head); font-size: 2rem; font-weight: 700; color: var(--border-strong); line-height: 1; margin-bottom: 14px; }
 .belief-title { font-family: var(--font-head); font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 9px; }
 .belief-desc { font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); }
-
 /* ── CONTACT ───────────────────────────────────────────────────────────── */
 .contact-page { background: var(--bg); }
 .contact-body { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: 1fr 1.5fr; gap: 64px; padding: clamp(56px, 7vw, 80px) var(--gutter); align-items: start; }
@@ -1334,7 +1100,6 @@ footer::before {
    label wraps to a second line. The double class outranks the mobile collapse. */
 .form-2col.form-2col-inline { grid-template-columns: 1fr 1fr; align-items: end; }
 .form-hint { font-size: var(--t-xs); color: var(--text-faint); margin-top: 6px; font-weight: 400; letter-spacing: 0; text-transform: none; }
-
 /* ── FAQ (contact) ─────────────────────────────────────────────────────── */
 .faq-section { background: var(--bg-alt); }
 .faq-list { max-width: var(--maxw-narrow); margin: 8px 0 0; display: flex; flex-direction: column; gap: 10px; }
@@ -1349,7 +1114,6 @@ footer::before {
 .faq-item[open] .faq-q .faq-ico { transform: rotate(45deg); }
 .faq-a { padding: 0 22px 22px; font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); }
 .faq-a a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
-
 /* ── DEMO SURVEY ───────────────────────────────────────────────────────── */
 .demo-page { background: var(--bg); }
 .demo-body { max-width: 720px; margin: 0 auto; padding: clamp(48px, 6vw, 72px) var(--gutter) clamp(64px, 8vw, 96px); }
@@ -1390,11 +1154,9 @@ footer::before {
 /* Clear separation between the "no social presence" checkbox and the next
    field so they don't read as one group. */
 .demo-growth-row { margin-top: 30px; }
-
 /* The demo flow stays calm — no white shine-sweep / glare on its buttons. */
 .demo-page .btn-primary::after { content: none; }
 .demo-page .btn-primary:hover::after { animation: none; }
-
 /* ── CAREERS — resume upload + note (shares .demo-* card/steps/forms) ─────── */
 .file-drop {
   width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -1418,13 +1180,12 @@ footer::before {
 .file-chip-remove { background: none; border: none; cursor: pointer; font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-faint); flex-shrink: 0; transition: color 0.18s var(--ease); }
 .file-chip-remove:hover { color: var(--negative); }
 .careers-note { margin-top: 22px; text-align: center; font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); }
-.careers-note a { color: var(--accent); } .careers-note a:hover { text-decoration: underline; }
-
+.careers-note a { color: var(--accent); }
+.careers-note a:hover { text-decoration: underline; }
 /* Careers block on /contact */
 .contact-careers { margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--border); }
 .contact-careers-title { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--text); margin: 6px 0 6px; }
 .contact-careers-desc { font-size: 0.8125rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 16px; }
-
 /* Step 3 — on-site booking picker + branded confirmation. The survey has
    already saved the lead to Prospects; we fetch live availability and POST a
    request. The portal confirms and sends the invite + Meet link (this site
@@ -1440,7 +1201,6 @@ footer::before {
 .demo-booking-foot { margin-top: 18px; font-size: var(--t-xs); color: var(--text-faint); }
 .demo-booking-foot a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 3px; }
 .demo-booking-foot a:hover { color: var(--text); }
-
 /* Loading / error / empty states for the slot fetch */
 .slot-status { font-size: var(--t-sm); color: var(--text-muted); line-height: 1.7; padding: 22px 0; text-align: center; }
 .slot-status a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
@@ -1449,7 +1209,6 @@ footer::before {
   font: inherit; color: var(--accent); text-decoration: underline; text-underline-offset: 3px;
 }
 .slot-retry:hover { color: var(--text); }
-
 /* Month-calendar slot picker — days with availability light up and are
    selectable; picking one reveals that day's time chips below the grid. */
 .demo-calendar { margin-top: 6px; }
@@ -1502,7 +1261,6 @@ footer::before {
 .cal-day.selected:hover { background: var(--primary-hover); transform: none; }
 .cal-day.selected .cal-dot { background: var(--on-primary); }
 .cal-num { line-height: 1; }
-
 .cal-times { margin-top: 22px; }
 .cal-times-head {
   font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600;
@@ -1521,11 +1279,9 @@ footer::before {
   background: var(--primary); color: var(--on-primary); border-color: var(--primary);
 }
 .slot-chip.selected:hover { background: var(--primary-hover); }
-
 .slot-actions { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
 .slot-selected-label { font-size: var(--t-sm); color: var(--text-muted); line-height: 1.5; }
 .slot-selected-label strong { color: var(--text); font-weight: 600; }
-
 /* ── CHAT WIDGET ───────────────────────────────────────────────────────── */
 .chat-btn {
   position: fixed; bottom: 26px; right: 26px; width: 54px; height: 54px; border-radius: 50%;
@@ -1535,14 +1291,12 @@ footer::before {
 }
 .chat-btn .amark { height: 24px; width: auto; color: var(--on-primary); }
 .chat-btn:hover { transform: scale(1.06) translateY(-1px); }
-
 .chat-panel {
   position: fixed; bottom: 92px; right: 26px; width: 384px; height: 560px; max-height: calc(100svh - 120px);
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow-lg);
   display: flex; flex-direction: column; z-index: 900; overflow: hidden; animation: chatSlideUp 0.28s var(--ease-out);
 }
 @keyframes chatSlideUp { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
-
 .chat-panel-header { background: var(--inverse-bg); color: var(--inverse-text); padding: 15px 18px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .chat-panel-header .amark { height: 20px; width: auto; color: var(--inverse-text); }
 .chat-panel-title { font-family: var(--font-head); font-size: 0.8125rem; font-weight: 600; color: var(--inverse-text); letter-spacing: 0.01em; }
@@ -1588,17 +1342,12 @@ footer::before {
 .chat-send { width: 38px; height: 38px; background: var(--primary); border: none; border-radius: var(--r); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.18s var(--ease); flex-shrink: 0; }
 .chat-send:hover { background: var(--primary-hover); }
 .chat-send svg { width: 15px; height: 15px; color: var(--on-primary); }
-
 /* ── RESPONSIVE ────────────────────────────────────────────────────────── */
-@media (max-width: 1000px) {
-  .nav-links { gap: 2px; }
-  .bento-card.feature { min-height: 300px; }
-}
-
-@media (max-width: 900px) {
-  :root { --gutter: 24px; }
-  .nav-mobile-toggle { display: flex; }
-  .nav-links {
+@media (max-width: 1000px) {.nav-links { gap: 2px; }
+.bento-card.feature { min-height: 300px; }}
+@media (max-width: 900px) {:root { --gutter: 24px; }
+.nav-mobile-toggle { display: flex; }
+.nav-links {
     display: none; position: fixed; top: var(--nav-h); left: 0; right: 0;
     background: color-mix(in srgb, var(--bg) 98%, transparent);
     /* 8px, the same ceiling as the desktop bar. At 16px this panel blurred
@@ -1607,66 +1356,49 @@ footer::before {
     flex-direction: column; align-items: stretch; padding: 16px 24px 24px; gap: 2px;
     border-bottom: 1px solid var(--border); max-height: calc(100svh - var(--nav-h)); overflow-y: auto;
   }
-  .nav-links.open { display: flex; }
-  .nav-links > li { padding: 6px 0; }
-  .nav-links a:not(.nav-login):not(.nav-cta) { font-size: 0.9375rem; padding: 10px 12px; }
-  .nav-actions { flex-direction: column; align-items: stretch; gap: 10px; margin-left: 0; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--border); }
-  .nav-login, .nav-cta { text-align: center; padding: 13px 20px; font-size: 0.9375rem !important; justify-content: center; }
-
-  .problem-grid { grid-template-columns: 1fr; gap: 36px; }
-  .services-grid { grid-template-columns: 1fr 1fr; }
-  .bento { grid-template-columns: 1fr 1fr; }
-  /* Below tablet the copy is too tall for a fixed 2fr row, and the card's
+.nav-links.open { display: flex; }
+.nav-links > li { padding: 6px 0; }
+.nav-links a:not(.nav-login):not(.nav-cta) { font-size: 0.9375rem; padding: 10px 12px; }
+.nav-actions { flex-direction: column; align-items: stretch; gap: 10px; margin-left: 0; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--border); }
+.nav-login, .nav-cta { text-align: center; padding: 13px 20px; font-size: 0.9375rem !important; justify-content: center; }
+.problem-grid { grid-template-columns: 1fr; gap: 36px; }
+.services-grid { grid-template-columns: 1fr 1fr; }
+.bento { grid-template-columns: 1fr 1fr; }
+/* Below tablet the copy is too tall for a fixed 2fr row, and the card's
      overflow:hidden (needed for the marquee mask) was clipping the tail of
      "The approach". Content sizes both rows here, so the card grows to fit at
      every width instead of cropping. */
-  .bento-card.feature {
+.bento-card.feature {
     grid-column: span 2;
     grid-template-rows: auto auto;
     min-height: 0;
     row-gap: 26px;
   }
-  .rs-slide { grid-template-columns: 1fr; gap: 22px; }
-  .process-steps { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
-  .process-steps::before { display: none; }
-  .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
-  /* stacked: the column follows the copy, so it needs no headline offset */
-  .service-detail-inner { grid-template-columns: 1fr; gap: 36px; }
-  .service-points-col { padding-top: 0; }
-  .cs-grid { grid-template-columns: 1fr; }
-  .pricing-grid { grid-template-columns: 1fr; max-width: 480px; }
-  .contact-body { grid-template-columns: 1fr; gap: 40px; }
-  .beliefs-grid { grid-template-columns: 1fr; }
-  .chat-panel { width: calc(100vw - 32px); right: 16px; }
-}
-
-@media (max-width: 600px) {
-  :root { --gutter: 20px; }
-  .hero { padding: 64px var(--gutter); min-height: auto; }
-  .hero-actions { flex-direction: column; align-items: stretch; }
-  .hero-actions .btn-primary, .hero-actions .btn-outline { justify-content: center; }
-  .hero-trust { gap: 16px; }
-  .hero-marquee { padding: 15px 0; }
-  .services-grid { grid-template-columns: 1fr; }
-  .bento { grid-template-columns: 1fr; }
-  .bento-card.feature { grid-column: span 1; min-height: 0; padding: 26px 22px; }
-  .bento-card.feature .bento-title { text-wrap: balance; }
-  .process-steps { grid-template-columns: 1fr; gap: 28px; }
-  .cs-grid { grid-template-columns: 1fr; }
-  .cs-card-header { padding: 24px 22px 22px; }
-  .cs-callouts { padding: 18px 22px 0; }
-  .cs-route { padding: 22px 22px 4px; }
-  .cs-card-foot { padding: 16px 22px 24px; }
-  .footer-top { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
-  .form-2col { grid-template-columns: 1fr; }
-  .contact-form { padding: 24px; }
-  .demo-actions { flex-wrap: wrap; }
-}
-
-@media (max-width: 380px) {
-  .footer-top { grid-template-columns: 1fr; }
-}
-
+.rs-slide { grid-template-columns: 1fr; gap: 22px; }
+.process-steps { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+.process-steps::before { display: none; }
+.footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+/* stacked: the column follows the copy, so it needs no headline offset */
+.service-detail-inner { grid-template-columns: 1fr; gap: 36px; }
+.pricing-grid { grid-template-columns: 1fr; max-width: 480px; }
+.contact-body { grid-template-columns: 1fr; gap: 40px; }
+.beliefs-grid { grid-template-columns: 1fr; }
+.chat-panel { width: calc(100vw - 32px); right: 16px; }}
+@media (max-width: 600px) {:root { --gutter: 20px; }
+.hero { padding: 64px var(--gutter); min-height: auto; }
+.hero-actions { flex-direction: column; align-items: stretch; }
+.hero-actions .btn-primary, .hero-actions .btn-outline { justify-content: center; }
+.hero-marquee { padding: 15px 0; }
+.services-grid { grid-template-columns: 1fr; }
+.bento { grid-template-columns: 1fr; }
+.bento-card.feature { grid-column: span 1; min-height: 0; padding: 26px 22px; }
+.bento-card.feature .bento-title { text-wrap: balance; }
+.process-steps { grid-template-columns: 1fr; gap: 28px; }
+.footer-top { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+.form-2col { grid-template-columns: 1fr; }
+.contact-form { padding: 24px; }
+.demo-actions { flex-wrap: wrap; }}
+@media (max-width: 380px) {.footer-top { grid-template-columns: 1fr; }}
 /* ── REDUCED MOTION ────────────────────────────────────────────────────── */
 /* ── LINK-IN-BIO (/links) — standalone bento ───────────────────────────── */
 .lt-page {
@@ -1709,9 +1441,7 @@ footer::before {
 }
 @keyframes ltAuroraA { 0%, 100% { transform: translate(-50%, 0) scale(1); } 50% { transform: translate(-43%, 4vmax) scale(1.12); } }
 @keyframes ltAuroraB { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(8vmax, -4vmax) scale(1.1); } }
-
 .lt-col { position: relative; z-index: 1; width: 100%; max-width: 520px; }
-
 /* hero */
 .lt-hero { text-align: center; margin-bottom: 22px; }
 .lt-mark-wrap { display: inline-block; animation: ltFloat 7s ease-in-out infinite; }
@@ -1734,11 +1464,9 @@ footer::before {
   font-size: var(--t-sm); line-height: 1.6; color: var(--text-muted);
   max-width: 400px; margin: 0 auto; animation: ltRise 0.6s var(--ease) 0.2s backwards;
 }
-
 /* bento grid */
 .lt-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .lt-span2 { grid-column: span 2; }
-
 .lt-tile {
   position: relative; overflow: hidden;
   display: flex; flex-direction: column; justify-content: space-between; gap: 14px;
@@ -1758,7 +1486,6 @@ footer::before {
   transition: opacity 0.35s var(--ease);
 }
 .lt-tile:hover::after { opacity: 1; }
-
 .lt-tile-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .lt-tile-ico {
   flex: 0 0 auto; width: 42px; height: 42px; border-radius: 12px;
@@ -1769,11 +1496,9 @@ footer::before {
 .lt-tile:hover .lt-tile-ico { transform: translateY(-2px) rotate(-4deg); }
 .lt-tile-arrow { width: 16px; height: 16px; flex: 0 0 auto; color: var(--text-faint); transition: transform 0.25s var(--ease), color 0.25s var(--ease); }
 .lt-tile:hover .lt-tile-arrow { transform: translate(3px, -3px); color: var(--text-muted); }
-
 .lt-tile-text { position: relative; z-index: 1; display: flex; flex-direction: column; }
 .lt-tile-label { font-family: var(--font-head); font-weight: 650; font-size: 0.98rem; letter-spacing: 0.005em; }
 .lt-tile-sub { font-size: var(--t-xs); color: var(--text-muted); margin-top: 3px; }
-
 .lt-pill {
   align-self: flex-start; margin-bottom: 9px;
   display: inline-flex; align-items: center; gap: 6px;
@@ -1782,18 +1507,14 @@ footer::before {
   color: var(--inverse-accent); background: rgba(var(--alabaster-rgb), 0.12);
   padding: 4px 9px; border-radius: 999px;
 }
-
 /* watermark glyph on social tiles */
 .lt-tile-wm { position: absolute; right: -14px; bottom: -18px; width: 86px; height: 86px; color: var(--spruce); opacity: 0.05; pointer-events: none; z-index: 0; }
 .lt-tile-wm svg { width: 100%; height: 100%; }
-
 /* tile variants */
 .lt-tile--social { min-height: 86px; }
 .lt-tile--social .lt-tile-label { font-size: 0.92rem; }
-
 .lt-tile--feature { min-height: 108px; background: linear-gradient(140deg, var(--surface), var(--surface-2)); }
 .lt-tile--feature .lt-tile-label { font-size: 1.2rem; }
-
 .lt-tile--featured {
   min-height: 120px; color: var(--inverse-text); border-color: transparent;
   background:
@@ -1808,12 +1529,10 @@ footer::before {
 .lt-tile--featured .lt-tile-sub { color: rgba(var(--alabaster-rgb), 0.68); }
 .lt-tile--featured .lt-tile-arrow { color: rgba(var(--alabaster-rgb), 0.6); }
 .lt-tile--featured:hover .lt-tile-arrow { color: var(--inverse-text); }
-
 /* footnote */
 .lt-foot { text-align: center; margin-top: 22px; font-size: var(--t-xs); color: var(--text-faint); animation: ltRise 0.6s var(--ease) 0.7s backwards; }
 .lt-foot a { color: var(--accent); font-weight: 600; }
 .lt-foot a:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
-
 /* ── 404 NOT FOUND ─────────────────────────────────────────────────────── */
 .nf-page {
   position: relative; min-height: 100svh; overflow: hidden;
@@ -1847,17 +1566,12 @@ footer::before {
   display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
   animation: ltRise 0.6s var(--ease) 0.32s backwards;
 }
-
 /* keyframes */
 @keyframes ltRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes ltPop { from { opacity: 0; transform: scale(0.82); } to { opacity: 1; transform: scale(1); } }
 @keyframes ltFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-
-@media (min-width: 560px) {
-  .lt-mark { width: 66px; height: 66px; }
-  .nf-actions { flex-wrap: nowrap; }
-}
-
+@media (min-width: 560px) {.lt-mark { width: 66px; height: 66px; }
+.nf-actions { flex-wrap: nowrap; }}
 /* ── SCROLL PERFORMANCE ──────────────────────────────────────────────────
    Two rules, both aimed at the same measured problem: during a scroll this
    page was running a style recalculation on essentially every frame. A traced
@@ -1894,12 +1608,9 @@ section {
      larger estimate below. */
   contain-intrinsic-size: auto 700px;
 }
-@media (max-width: 640px) {
-  section { contain-intrinsic-size: auto 1200px; }
-}
+@media (max-width: 640px) {section { contain-intrinsic-size: auto 1200px; }}
 /* The hero is a div, not a section, so it is never skipped and the page always
    paints its first screen immediately. */
-
 /* `body.is-scrolling { pointer-events: none }` used to live here. pointer-events
    is an INHERITED property, so toggling it on <body> invalidated the computed
    style of every element in the document, ~600 of them on the home page, once
@@ -1907,29 +1618,21 @@ section {
    intent was to skip hover work while scrolling; SiteFX now does that with a
    flag it reads in JS, which costs nothing in style. The class is still set on
    <body> so anything else can key off it. */
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+@media (prefers-reduced-motion: reduce) {*, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal { opacity: 1 !important; transform: none !important; }
-}
-
+.reveal { opacity: 1 !important; transform: none !important; }}
 /* ── BLOG / INSIGHTS ───────────────────────────────────────────────────────
    The index and the article view. Heroes reuse the shared depth-panel and
    page-hero rules above (.blog-hero and .blog-post-hero are registered in
    those selector lists), so only the parts unique to the blog live here. */
-
 .blog-page { background: var(--bg); }
-
 .blog-hero .section-sub { max-width: 640px; }
-
 /* Index ------------------------------------------------------------------ */
 .blog-list { max-width: var(--maxw); margin: 0 auto; padding: clamp(56px, 7vw, 80px) var(--gutter); }
-
 /* Shared metadata line: category pill, date, reading time. */
 .blog-meta {
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
@@ -1940,7 +1643,6 @@ section {
   background: var(--accent-soft); border: 1px solid var(--border); color: var(--accent);
   padding: 5px 11px; border-radius: var(--r-pill); letter-spacing: 0.08em;
 }
-
 /* "Read the article" affordance. The arrow slides on card hover, matching the
    buttons elsewhere on the site. */
 .blog-more {
@@ -1949,7 +1651,6 @@ section {
 }
 .blog-more svg { width: 15px; height: 15px; transition: transform 0.25s var(--ease); }
 .blog-lead:hover .blog-more svg, .blog-card:hover .blog-more svg { transform: translateX(3px); }
-
 /* The newest article, given the full width. */
 .blog-lead {
   display: block; background: var(--surface); border: 1px solid var(--border);
@@ -1963,7 +1664,6 @@ section {
   letter-spacing: -0.02em; color: var(--text); margin: 16px 0 0;
 }
 .blog-lead-excerpt { font-size: var(--t-lead); line-height: 1.65; color: var(--text-muted); margin: 16px 0 24px; }
-
 .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .blog-card {
   display: flex; flex-direction: column; background: var(--surface);
@@ -1976,12 +1676,10 @@ section {
   letter-spacing: -0.01em; color: var(--text); margin: 14px 0 0;
 }
 .blog-card-excerpt { font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); margin: 12px 0 22px; }
-
 /* Shown only when the table returns no published row. */
 .blog-empty { max-width: var(--maxw-narrow); margin: 0 auto; padding: clamp(64px, 9vw, 110px) var(--gutter); text-align: center; }
 .blog-empty-title { font-family: var(--font-head); font-size: var(--t-h3); font-weight: 700; color: var(--text); margin-bottom: 12px; }
 .blog-empty-sub { font-size: var(--t-body); line-height: 1.7; color: var(--text-muted); margin-bottom: 28px; }
-
 /* Article ---------------------------------------------------------------- */
 .blog-post-page { background: var(--bg); }
 .blog-post-hero { text-align: left; }
@@ -2005,7 +1703,6 @@ section {
 .blog-post-meta .blog-cat {
   background: rgba(var(--sage-rgb), 0.12); border-color: var(--inverse-border); color: var(--inverse-accent);
 }
-
 /* The article body. Markdown from the database renders unclassed, so these are
    element selectors scoped to the body wrapper. */
 .blog-body {
@@ -2049,7 +1746,6 @@ section {
 .blog-body table { width: 100%; border-collapse: collapse; font-size: var(--t-sm); }
 .blog-body th, .blog-body td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
 .blog-body th { background: var(--surface-2); font-family: var(--font-head); font-weight: 600; }
-
 /* "Keep reading" rail beneath the article. */
 .blog-more-wrap { background: var(--bg-alt); border-top: 1px solid var(--border); }
 .blog-more-inner { max-width: var(--maxw); margin: 0 auto; padding: clamp(56px, 7vw, 80px) var(--gutter); }
@@ -2057,16 +1753,10 @@ section {
   font-family: var(--font-head); font-size: var(--t-h3); font-weight: 700;
   letter-spacing: -0.015em; color: var(--text); margin-bottom: 26px;
 }
-
-@media (max-width: 900px) {
-  .blog-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 600px) {
-  .blog-grid { grid-template-columns: 1fr; }
-  .blog-lead { padding: 26px 22px; }
-  .blog-card { padding: 24px 22px; }
-}
-
+@media (max-width: 900px) {.blog-grid { grid-template-columns: repeat(2, 1fr); }}
+@media (max-width: 600px) {.blog-grid { grid-template-columns: 1fr; }
+.blog-lead { padding: 26px 22px; }
+.blog-card { padding: 24px 22px; }}
 /* ════════════════════════════════════════════════════════════════════════
    THE PORTAL'S SYSTEM, ON THE MARKETING SITE
    ════════════════════════════════════════════════════════════════════════
@@ -2094,7 +1784,6 @@ section {
               hero is the page ground, not a spruce slab — that was the whole
               mistake the light theme's `--inverse-bg` invited here.
    ──────────────────────────────────────────────────────────────────────── */
-
 :root {
   color-scheme: dark;
 
@@ -2188,11 +1877,9 @@ section {
   --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.55);
   --shadow-lg: 0 26px 60px rgba(0, 0, 0, 0.65);
 }
-
 /* The body paints the ground behind the fixed nav and past the end of the
    page; without this the browser's white shows through on overscroll. */
 { background: #070c09; }
-
 /* ── The nav, while the home page is under it ──────────────────────────────
    The nav is shared chrome rendered as a sibling of the page, so it cannot be
    reached by a class on the page wrapper. `:has()` is the whole mechanism —
@@ -2227,7 +1914,6 @@ section {
   border-bottom-color: rgba(200, 209, 197, 0.10);
 }
 .nav-actions { border-top-color: rgba(200, 209, 197, 0.10); }
-
 /* ── Buttons on the dark ground ────────────────────────────────────────────
    THE SECONDARY CTA. It was bone text on a border at 16% sage over near-black:
    the label read, the button did not, so the pair looked like one CTA and a
@@ -2248,7 +1934,6 @@ section {
 /* The bone primary needs no alabaster shine sweep — the sweep IS bone. */
 .btn-primary::after { display: none; }
 .btn-primary:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
-
 /* ── HERO — asymmetric: the pitch left, the product right ──────────────────
    The old hero was three lines of display type, centred, and nothing else: a
    poster for a company that sells software and showed none of it. Display type
@@ -2318,44 +2003,6 @@ section {
   color: rgba(200, 209, 197, 0.72);
 }
 .hero-actions { justify-content: flex-start; }
-
-/* ── The capability list that used to sit in the logo slot ─────────────────
-   Four channel names, centred under the fold line, on the row where a visitor
-   has been trained for fifteen years to find customer logos. It read as proof
-   and delivered none. Same four words, drawn as what they are: a checked list
-   of where the work is aimed, in the copy column, under the CTAs, at list
-   scale — no centring, no divider rule spanning the page, no logo-bar spacing. */
-.hero-trust {
-  display: block;
-  margin: 34px 0 0;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-  max-width: none;
-}
-.hero-trust-label {
-  display: block;
-  color: var(--text-faint);
-  letter-spacing: 0.14em;
-  margin-bottom: 14px;
-}
-.hero-trust-items {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, max-content));
-  gap: 10px 32px;
-  justify-content: start;
-  list-style: none;
-}
-.hero-trust-items li {
-  display: flex; align-items: center; gap: 9px;
-  font-family: var(--font-head);
-  font-size: var(--t-sm); font-weight: 500;
-  color: var(--text-muted);
-}
-.hero-trust-items li svg {
-  width: 14px; height: 14px; flex-shrink: 0;
-  color: var(--accent);
-}
-
 /* The artifact column. The aura moves off centre so it sits behind the copy
    rather than behind the interface, which does not need help being seen. */
 .hero-artifact { min-width: 0; position: relative; z-index: 2; }
@@ -2367,12 +2014,10 @@ section {
   background:
     radial-gradient(circle at 50% 50%, rgba(200, 209, 197, 0.085) 0%, rgba(200, 209, 197, 0.03) 34%, transparent 66%);
 }
-
 /* ── Marquee on the dark ground ── */
 .hero-marquee { background: var(--surface-2); border-top: 1px solid var(--border); }
 .hero-marquee::before { background: linear-gradient(90deg, var(--surface-2), transparent); }
 .hero-marquee::after  { background: linear-gradient(270deg, var(--surface-2), transparent); }
-
 /* ── Sections ─────────────────────────────────────────────────────────────
    Deep Spruce stays punctuation. The service tiles were spruce panels on a
    bone page, where spruce was the standout; on this ground six spruce tiles
@@ -2398,7 +2043,6 @@ section {
   border-color: rgba(200, 209, 197, 0.34);
   color: #f1f0ea;
 }
-
 /* Results slider viewport, on the card ground. */
 .rs-result { color: var(--accent); }
 .rs-slide::before { background: radial-gradient(circle, rgba(200, 209, 197, 0.10), transparent 70%); }
@@ -2407,13 +2051,11 @@ section {
 .rs-arrow:hover { border-color: var(--accent); }
 .rs-dot.active { background: var(--accent); }
 .case-tag { color: var(--accent); background: rgba(200, 209, 197, 0.08); border-color: var(--border); }
-
 /* The process connector and the open steps. */
 .process-num { background: var(--surface); border-color: var(--border-strong); color: var(--accent); }
 .process-ants::before {
   background: repeating-linear-gradient(90deg, rgba(200, 209, 197, 0.22) 0 6px, transparent 6px 12px);
 }
-
 /* ── CTA band ─────────────────────────────────────────────────────────────
    It is still the one band on the page that changes ground, and it is still
    not the footer — but sage-soft is #e4e9e3, and a near-white slab across a
@@ -2440,7 +2082,6 @@ section {
 .cta-band .section-sub { color: var(--inverse-muted); }
 .cta-band-beacon .ring { border-color: var(--inverse-accent); }
 .cta-band-btn::before { border-color: rgba(241, 240, 234, 0.42); }
-
 /* ── Footer ───────────────────────────────────────────────────────────────
    --inverse-bg is Deep Spruce on this page, and a spruce footer under a spruce
    CTA band would merge the two into one green block. The footer takes the
@@ -2452,24 +2093,16 @@ footer::before {
     radial-gradient(ellipse 50% 70% at 85% 0%, rgba(200, 209, 197, 0.05), transparent 60%),
     radial-gradient(ellipse 60% 80% at 15% 120%, rgba(200, 209, 197, 0.04), transparent 60%);
 }
-
 /* ── Where the split stops paying ─────────────────────────────────────────
    The artifact column is worth having only while the chart inside it is worth
    reading. Below roughly 1120px the two-column hero leaves the chart under
    250px, at which point the axis is decoration; the hero stacks instead, and
    the artifact takes a capped full-width row where the chart gets its own
    scale back. */
-@media (max-width: 1120px) {
-  .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
-  .hero { min-height: auto; padding-top: clamp(48px, 7vh, 88px); }
-  .hero-aura { left: 50%; }
-  .hero-artifact { max-width: 600px; }
-}
-@media (max-width: 600px) {
-  .hero-trust-items { grid-template-columns: minmax(0, 1fr); gap: 10px; }
-}
-
-
+@media (max-width: 1120px) {.hero-inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+.hero { min-height: auto; padding-top: clamp(48px, 7vh, 88px); }
+.hero-aura { left: 50%; }
+.hero-artifact { max-width: 600px; }}
 /* ── PAGE HEROES ──────────────────────────────────────────────────────────
    Every hero on the site — services, pricing, case studies, about, contact,
    demo, careers, blog index, blog post — was a Deep Spruce depth panel,
@@ -2494,14 +2127,12 @@ footer::before {
     radial-gradient(ellipse 55% 70% at 72% 0%, rgba(200, 209, 197, 0.055) 0%, transparent 60%),
     radial-gradient(ellipse 60% 80% at 10% 120%, rgba(200, 209, 197, 0.035) 0%, transparent 60%);
 }
-
 /* ── SERVICES ─────────────────────────────────────────────────────────────
    The route spine down the page took `--primary`, which is now bone: a white
    line at 22% down a near-black page reads as a scratch. Sage is the accent
    that ground already speaks. */
 .route-path { stroke: var(--accent); opacity: 0.28; }
 .route-node { fill: var(--accent); stroke: var(--bg); }
-
 /* The services page swapped the bone shine sweep for a deepen-to-spruce hover.
    With a bone button on a dark page that hover turned the button near-black
    mid-gesture — the button appeared to switch off. It lifts instead. */
@@ -2510,30 +2141,12 @@ footer::before {
   transform: translateY(-1px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(200, 209, 197, 0.4);
 }
-
-/* ── CASE STUDIES ─────────────────────────────────────────────────────────
-   The card header carried a 45% sage bloom and a spruce grid, both drawn for a
-   white card. On #0f1611 the bloom is a headlight and the grid is invisible. */
-.cs-card-header::before {
-  background: radial-gradient(circle, rgba(200, 209, 197, 0.10), transparent 70%);
-}
-.cs-card-header::after {
-  background-image:
-    linear-gradient(rgba(200, 209, 197, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200, 209, 197, 0.05) 1px, transparent 1px);
-}
-/* The result number and the big stat were `--primary`, which used to be spruce
-   and is now bone — the same weight as the headline beside it. Sage keeps it
-   the loudest thing in the card without shouting in white. */
-.cs-result-headline, .cs-stat-value { color: var(--accent); }
-
 /* ── PRICING ──────────────────────────────────────────────────────────────
    The featured card stays the one Deep Spruce panel on the page. On this
    ground it needs a border that separates it from #070C09, which 18% sage does
    not do at that size. */
 .pricing-card.featured { border-color: rgba(200, 209, 197, 0.28); }
 .belief-num { color: rgba(200, 209, 197, 0.30); }
-
 /* ── FORMS (contact, demo, careers) ───────────────────────────────────────
    Inputs sit a step BELOW the card they are in rather than above it, which is
    how a dark UI says "you can type here" — a lighter well on a dark card reads
@@ -2559,7 +2172,6 @@ footer::before {
 }
 .file-drop { background: #0b110d; }
 .cal-nav, .slot-chip, .cal-day.has { background: var(--surface-2); }
-
 /* ── 404 / short-link fallback ────────────────────────────────────────────
    The big code was a gradient from Deep Spruce, which on #070C09 starts almost
    exactly at the page colour: the top two thirds of the numeral disappeared. */
@@ -2567,13 +2179,10 @@ footer::before {
   background: linear-gradient(178deg, #f1f0ea 0%, var(--accent) 58%, rgba(200, 209, 197, 0.28) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-
 /* ── SELECTION ────────────────────────────────────────────────────────────
    Bone text on a 50% sage highlight is bone on near-bone. The highlight keeps
    the sage; the ink flips to the ground. */
 ::selection { background: rgba(200, 209, 197, 0.85); color: #070C09; }
-
-
 /* ════════════════════════════════════════════════════════════════════════
    SECTION RHYTHM AND SHAPE
    ════════════════════════════════════════════════════════════════════════
@@ -2591,31 +2200,16 @@ footer::before {
       heads are a two-column split — heading left, subhead or action right —
       and each section below carries its own composition.
    ──────────────────────────────────────────────────────────────────────── */
-
 .section-alt { background: var(--bg-alt); }
-
 /* The shared two-column section head. Heading left, the thing that qualifies
    it right, baseline-aligned. */
-.system-head, .channels-head, .results-head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
-  gap: clamp(24px, 4vw, 64px);
-  align-items: end;
-  margin-bottom: clamp(36px, 4vw, 56px);
-}
 .system-head .section-headline,
 .channels-head .section-headline,
 .results-head .section-headline { margin-bottom: 0; }
 .system-head .section-sub,
 .channels-head .section-sub { margin-bottom: 0; max-width: none; }
-.results-head { align-items: center; }
 .results-head .btn-outline { justify-self: end; }
-
-@media (max-width: 900px) {
-  .system-head, .channels-head, .results-head { grid-template-columns: minmax(0, 1fr); gap: 18px; align-items: start; }
-  .results-head .btn-outline { justify-self: start; }
-}
-
+@media (max-width: 900px) {.results-head .btn-outline { justify-self: start; }}
 /* ── THE VISIBILITY TICKER ────────────────────────────────────────────────
    Two rows, opposing directions, each phrase drawn as the search field it
    describes. The old single strip read as decorative text; a field with a
@@ -2633,30 +2227,9 @@ footer::before {
 }
 .ticker::before { left: 0;  background: linear-gradient(90deg, var(--surface-2), transparent); }
 .ticker::after  { right: 0; background: linear-gradient(270deg, var(--surface-2), transparent); }
-.ticker-row { overflow: hidden; }
 /* The second row travels the other way. Same keyframes, reversed. */
 .ticker-row.rev .marquee-track { animation-direction: reverse; animation-duration: 76s; }
-
-.q-chip {
-  display: inline-flex; align-items: center; gap: 9px;
-  padding: 8px 16px 8px 13px; margin-right: 14px;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--r-pill);
-  background: var(--surface);
-  white-space: nowrap; flex: none;
-}
-.q-chip .q-mag { width: 13px; height: 13px; color: var(--accent); flex: none; }
-.q-text {
-  font-family: var(--font-head);
-  font-size: var(--t-sm); font-weight: 500; letter-spacing: 0.005em;
-  color: var(--text-muted);
-}
-.q-caret {
-  width: 1px; height: 14px; background: var(--accent); flex: none;
-  animation: qBlink 1.15s steps(2, start) infinite;
-}
 @keyframes qBlink { 50% { opacity: 0; } }
-
 /* ── THE PROBLEM — argument left, absence right ── */
 .problem-section { background: var(--bg); overflow: hidden; }
 .problem-split {
@@ -2671,17 +2244,12 @@ footer::before {
 /* The evidence column is much taller than the argument. Sticking the argument
    means the result list scrolls past the claim it illustrates, instead of the
    claim scrolling away and leaving 300px of empty ground beside it. */
-@media (min-width: 1001px) {
-  .problem-arg { position: sticky; top: calc(var(--nav-h) + 32px); }
-}
+@media (min-width: 1001px) {.problem-arg { position: sticky; top: calc(var(--nav-h) + 32px); }}
 .problem-evidence { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-.problem-cards { display: flex; flex-direction: column; gap: 10px; }
-
 /* The failure modes light up as they arrive rather than all at once. SiteFX
    stages them; this is only the lit state. */
 .problem-card.in { border-color: rgba(200, 209, 197, 0.20); }
 .problem-card.in::before { opacity: 0.8; }
-
 /* The mock result list. */
 .sg {
   margin: 0;
@@ -2708,7 +2276,6 @@ footer::before {
   color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .sg-caret { width: 1px; height: 14px; background: var(--accent); flex: none; animation: qBlink 1.15s steps(2, start) infinite; }
-
 .sg-list { list-style: none; margin: 0; padding: 8px; display: flex; flex-direction: column; gap: 2px; }
 .sg-row {
   display: flex; align-items: center; gap: 14px;
@@ -2723,7 +2290,6 @@ footer::before {
 .sg-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
 .sg-name { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--text-muted); }
 .sg-host { font-size: var(--t-xs); color: var(--text-faint); }
-
 /* The whole point of the graphic: the row that is not filled. */
 .sg-gap {
   border-color: rgba(200, 209, 197, 0.30);
@@ -2736,7 +2302,6 @@ footer::before {
   height: 6px; border-radius: 3px; max-width: 180px;
   background: repeating-linear-gradient(135deg, rgba(200, 209, 197, 0.20) 0 4px, transparent 4px 8px);
 }
-
 /* The tag every artifact carries inside its own frame. */
 .artifact-tag {
   flex: none;
@@ -2747,103 +2312,24 @@ footer::before {
   border: 1px solid rgba(200, 209, 197, 0.22);
   color: var(--accent);
 }
-
-/* ── THE SYSTEM — one diagram ── */
-.sys-figure {
-  display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
-  gap: clamp(20px, 3vw, 44px);
-  align-items: stretch;
-  margin-bottom: clamp(30px, 4vw, 48px);
-}
 /* The plan node: the one Deep Spruce panel in this section. */
-.sys-plan {
-  position: relative; overflow: hidden;
-  background: var(--inverse-bg);
-  border: 1px solid rgba(200, 209, 197, 0.20);
-  border-radius: var(--r);
-  padding: clamp(24px, 3vw, 34px);
-  color: var(--inverse-text);
-  display: flex; flex-direction: column; gap: 12px;
-}
 .sys-plan .bento-num { color: var(--inverse-accent); margin-bottom: 0; }
 .sys-plan .bento-title { color: var(--inverse-text); font-size: var(--t-h3); margin-bottom: 0; }
 .sys-plan .bento-desc { color: var(--inverse-muted); }
 .sys-plan .brand-marquee { margin-top: auto; padding-top: 12px; }
-
-.sys-branch { position: relative; display: flex; align-items: stretch; min-width: 0; }
-.sys-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.sys-path {
-  stroke: rgba(200, 209, 197, 0.34); stroke-width: 1.25; stroke-linecap: round;
-  stroke-dasharray: 1; stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1.1s var(--ease-out);
-}
 /* pathLength is normalised to 1 by the dasharray/offset pair above, so a single
    transition drives every curve regardless of its real length. */
 .sys-svg.in .sys-path { stroke-dashoffset: 0; }
 .sys-svg.in .p1 { transition-delay: 0.1s; }
 .sys-svg.in .p2 { transition-delay: 0.2s; }
 .sys-svg.in .p3 { transition-delay: 0.3s; }
-.sys-origin { fill: var(--accent); }
-
-.sys-channels {
-  position: relative; z-index: 1;
-  list-style: none; margin: 0; padding: 0;
-  display: flex; flex-direction: column; justify-content: space-around;
-  width: 100%; gap: 10px;
-}
-.sys-channel {
-  display: inline-flex; align-items: center; gap: 10px;
-  align-self: flex-end;
-  padding: 11px 18px;
-  border: 1px solid var(--border-strong); border-radius: var(--r-pill);
-  background: var(--surface);
-  font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600;
-  color: var(--text);
-  white-space: nowrap;
-}
-.sys-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
-
 /* The spine: three stations on one rule. */
-.sys-spine {
-  list-style: none; margin: 0; padding: 0;
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(18px, 3vw, 40px);
-  position: relative;
-}
-.sys-spine::before {
-  content: ''; position: absolute; left: 0; right: 0; top: 5px; height: 1px;
-  background: repeating-linear-gradient(90deg, var(--border-strong) 0 6px, transparent 6px 12px);
-}
-.sys-station { position: relative; padding-top: 26px; }
-.sys-station-node {
-  position: absolute; top: 0; left: 0;
-  width: 11px; height: 11px; border-radius: 50%;
-  background: var(--bg-alt); border: 2px solid var(--accent);
-}
 .sys-station .bento-num { margin-bottom: 8px; }
 .sys-station .bento-title { margin-bottom: 8px; }
-
 /* ── THE CHANNELS — asymmetric eight ── */
 .channels-section { background: var(--bg); }
-.channels-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-}
-.channel-card {
-  position: relative; overflow: hidden;
-  grid-column: span 1;
-  display: flex; flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
-}
 /* Two double-wide cells break the 4x2 rhythm so this is not eight equal boxes. */
 .channel-card.emphasis { grid-column: span 2; }
-.channel-card:hover { transform: translateY(-3px); border-color: rgba(200, 209, 197, 0.28); box-shadow: var(--shadow-md); }
-.channel-body { padding: 22px 22px 24px; display: flex; flex-direction: column; flex: 1; }
 .channel-card .service-icon { margin-bottom: 16px; }
 .channel-card .service-name { margin-bottom: 8px; }
 .channel-card .service-desc { margin-bottom: 18px; }
@@ -2853,16 +2339,8 @@ footer::before {
 .channel-card.terse .channel-body { justify-content: center; }
 .channel-card.terse .service-name { margin-bottom: 14px; }
 .channels-foot { margin-top: 30px; }
-
-@media (max-width: 1100px) {
-  .channels-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .channel-card.emphasis { grid-column: span 2; }
-}
-@media (max-width: 640px) {
-  .channels-grid { grid-template-columns: minmax(0, 1fr); }
-  .channel-card.emphasis { grid-column: span 1; }
-}
-
+@media (max-width: 1100px) {.channel-card.emphasis { grid-column: span 2; }}
+@media (max-width: 640px) {.channel-card.emphasis { grid-column: span 1; }}
 /* The per-channel artifacts. Structure only — never a figure. */
 .ch-art {
   height: 96px; position: relative; overflow: hidden;
@@ -2872,15 +2350,12 @@ footer::before {
   display: flex; align-items: center;
 }
 .channel-card.emphasis .ch-art { height: 118px; }
-
 .ch-cal { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; width: 100%; }
 .ch-cell { height: 9px; border-radius: 2px; background: rgba(200, 209, 197, 0.09); }
 .ch-cell.on { background: var(--accent); opacity: 0.75; }
-
 .ch-bars { display: flex; flex-direction: column; gap: 6px; width: 100%; }
 .ch-bar { display: block; height: 7px; border-radius: 4px; background: rgba(200, 209, 197, 0.09); overflow: hidden; }
 .ch-bar span { display: block; height: 100%; background: var(--accent); opacity: 0.55; border-radius: 4px; }
-
 .ch-browser { width: 100%; border: 1px solid var(--border-strong); border-radius: 4px; overflow: hidden; }
 .ch-chrome { display: flex; gap: 4px; padding: 6px 8px; background: rgba(200, 209, 197, 0.06); }
 .ch-chrome i { width: 5px; height: 5px; border-radius: 50%; background: rgba(200, 209, 197, 0.3); }
@@ -2889,7 +2364,6 @@ footer::before {
 .ch-wire .w1 { width: 55%; background: var(--accent); opacity: 0.6; }
 .ch-wire .w2 { width: 88%; }
 .ch-wire .w3 { width: 70%; }
-
 .ch-map {
   width: 100%; height: 100%; position: relative; border-radius: 4px;
   background-image:
@@ -2898,41 +2372,37 @@ footer::before {
   background-size: 22px 22px;
 }
 .ch-pin { position: absolute; width: 8px; height: 8px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: rgba(200, 209, 197, 0.28); }
-.ch-pin.a { left: 18%; top: 26%; } .ch-pin.b { left: 62%; top: 18%; } .ch-pin.c { left: 78%; top: 62%; }
+.ch-pin.a { left: 18%; top: 26%; }
+.ch-pin.b { left: 62%; top: 18%; }
+.ch-pin.c { left: 78%; top: 62%; }
 .ch-pin.lit { left: 40%; top: 50%; width: 12px; height: 12px; background: var(--accent); box-shadow: 0 0 0 5px rgba(200, 209, 197, 0.12); }
-
 .ch-answer { width: 100%; display: flex; flex-direction: column; gap: 7px; }
 .ch-line { display: block; height: 6px; border-radius: 3px; background: rgba(200, 209, 197, 0.14); }
 .ch-line.short { width: 62%; }
 .ch-cite { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
 .ch-cite-mark { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
 .ch-cite-rule { flex: 1; height: 2px; background: var(--accent); opacity: 0.6; border-radius: 2px; max-width: 120px; }
-
 .ch-funnel { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .ch-funnel span { display: block; height: 9px; border-radius: 3px; background: var(--accent); }
 .ch-funnel .f1 { width: 86%; opacity: 0.28; }
 .ch-funnel .f2 { width: 58%; opacity: 0.5; }
 .ch-funnel .f3 { width: 30%; opacity: 0.85; }
-
 .ch-post { width: 100%; display: flex; flex-direction: column; gap: 7px; }
 .ch-post-head { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
 .ch-avatar { width: 18px; height: 18px; border-radius: 50%; background: var(--accent); opacity: 0.7; flex: none; }
 .ch-handle { height: 6px; width: 84px; border-radius: 3px; background: rgba(200, 209, 197, 0.22); }
-
 .ch-log { width: 100%; display: flex; flex-direction: column; gap: 12px; }
 .ch-log-row { display: flex; align-items: center; gap: 10px; }
 .ch-log-node { width: 7px; height: 7px; flex: none; background: var(--accent); transform: rotate(45deg); }
 .ch-log-line { flex: 1; height: 5px; border-radius: 3px; background: rgba(200, 209, 197, 0.14); }
 .ch-log-row:nth-child(2) .ch-log-line { max-width: 72%; }
 .ch-log-row:nth-child(3) .ch-log-line { max-width: 55%; }
-
 .ch-rank { width: 100%; display: flex; flex-direction: column; gap: 8px; }
 .ch-rank-row { display: flex; align-items: center; gap: 10px; }
 .ch-rank-n { font-family: var(--font-head); font-size: 10px; font-weight: 700; color: var(--text-faint); width: 12px; flex: none; }
 .ch-rank-bar { flex: 1; height: 7px; border-radius: 4px; background: rgba(200, 209, 197, 0.12); }
 .ch-rank-row.you .ch-rank-n { color: var(--accent); }
 .ch-rank-row.you .ch-rank-bar { background: var(--accent); opacity: 0.7; }
-
 /* ── HOW WE WORK — one rail, four stations ── */
 .process-section { background: var(--bg); }
 .rail {
@@ -2965,28 +2435,19 @@ footer::before {
 .rail.in .rail-station:nth-child(3) .rail-node { border-color: var(--accent); }
 .rail.in .rail-station:nth-child(4) .rail-node { border-color: var(--accent); }
 .rail.in .rail-station:nth-child(5) .rail-node { border-color: var(--accent); }
-
-@media (max-width: 820px) {
-  /* Vertical rail on a phone rather than four more stacked boxes. */
-  .rail { grid-template-columns: minmax(0, 1fr); gap: 26px; padding-left: 52px; }
-  .rail-line { left: 17px; right: auto; top: 0; bottom: 0; width: 2px; height: auto; }
-  .rail-fill { width: 100% !important; height: 0; transition: height 1.4s var(--ease-out); }
-  .rail.in .rail-fill { height: 100%; }
-  .rail-station { padding-top: 0; padding-left: 0; min-height: 36px; }
-  .rail-node { left: -52px; top: 0; }
-}
-
+@media (max-width: 820px) {/* Vertical rail on a phone rather than four more stacked boxes. */
+.rail { grid-template-columns: minmax(0, 1fr); gap: 26px; padding-left: 52px; }
+.rail-line { left: 17px; right: auto; top: 0; bottom: 0; width: 2px; height: auto; }
+.rail-fill { width: 100% !important; height: 0; transition: height 1.4s var(--ease-out); }
+.rail.in .rail-fill { height: 100%; }
+.rail-station { padding-top: 0; padding-left: 0; min-height: 36px; }
+.rail-node { left: -52px; top: 0; }}
 /* ── RESULTS — the claim and its shape ── */
 .results-section { background: var(--bg-alt); }
 .rs-slide { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
 .rs-detail { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
 .result-shape .card { margin-bottom: 0; }
 .result-shape .card-body { padding: 14px 16px 12px; }
-.result-shape-note {
-  margin-top: 8px; font-size: 10px; line-height: 1.55;
-  color: var(--spruce-mid, var(--text-faint));
-}
-
 /* ── BOOK A DEMO — asymmetric, with the thing it produces ── */
 .cta-band.has-artifact { text-align: left; }
 .cta-band.has-artifact .cta-band-inner {
@@ -3001,11 +2462,7 @@ footer::before {
 .cta-band.has-artifact .section-sub { margin: 0 0 30px; max-width: 52ch; }
 .cta-band.has-artifact .cta-band-note { text-align: left; }
 .cta-band-artifact { min-width: 0; }
-
-@media (max-width: 900px) {
-  .cta-band.has-artifact .cta-band-inner { grid-template-columns: minmax(0, 1fr); }
-}
-
+@media (max-width: 900px) {.cta-band.has-artifact .cta-band-inner { grid-template-columns: minmax(0, 1fr); }}
 /* The audit artifact. */
 .audit-card .card { margin-bottom: 0; }
 .audit-rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
@@ -3024,18 +2481,7 @@ footer::before {
 .audit-row.ok .audit-state { color: #7fc4a0; }
 .audit-row.partial .audit-fill { background: #d9b37c; }
 .audit-row.partial .audit-state { color: #d9b37c; }
-
-@media (max-width: 1000px) {
-  .problem-split { grid-template-columns: minmax(0, 1fr); gap: 40px; }
-  .sys-figure { grid-template-columns: minmax(0, 1fr); }
-  .sys-branch { min-height: 230px; }
-  .sys-spine { grid-template-columns: minmax(0, 1fr); gap: 26px; }
-  .sys-spine::before { display: none; }
-  .sys-station { padding-top: 0; padding-left: 26px; }
-  .sys-station-node { top: 6px; }
-}
-
-
+@media (max-width: 1000px) {.problem-split { grid-template-columns: minmax(0, 1fr); gap: 40px; }}
 /* ── SERVICES — five compositions, eight rows, no two alike ───────────────
    The base row is a 1.2fr / 1fr split; each `sd-*` modifier rearranges it. The
    artifact sits in the aside above the "In Practice" pills, except in `lead`
@@ -3050,37 +2496,22 @@ footer::before {
   overflow: hidden;
 }
 .sd-art .ch-art { height: 150px; border-bottom: none; background: transparent; padding: 22px 26px; }
-
 /* lead — the core engagement. A wide artifact band above the row. */
-.sd-band {
-  max-width: var(--maxw); margin: 0 auto 34px;
-  border: 1px solid var(--border); border-radius: var(--r);
-  background: var(--surface); overflow: hidden;
-}
 .sd-band .ch-art { height: 168px; border-bottom: none; background: transparent; padding: 26px clamp(26px, 5vw, 64px); }
-.sd-band-under { margin: 34px auto 0; }
-
 /* split-rev — the artifact leads, the copy follows. */
 .sd-split-rev .service-detail-inner { grid-template-columns: 1fr 1.2fr; }
 .sd-split-rev .sd-copy { order: 2; }
 .sd-split-rev .sd-aside { order: 1; }
-
 /* rail — wide copy, a narrow tall artifact beside it. */
 .sd-rail .service-detail-inner { grid-template-columns: 1.55fr 1fr; }
 .sd-rail .sd-art .ch-art { height: 210px; }
-
 /* The pills column no longer needs its old headline offset: the artifact above
    it does that job, and where there is no artifact the column starts clean. */
-.service-points-col { padding-top: 0; }
 .sd-lead .service-points-col, .sd-band .service-points-col { padding-top: 0; }
-
-@media (max-width: 900px) {
-  .sd-split-rev .service-detail-inner { grid-template-columns: 1fr; }
-  .sd-split-rev .sd-copy { order: 1; }
-  .sd-split-rev .sd-aside { order: 2; }
-  .sd-rail .service-detail-inner { grid-template-columns: 1fr; }
-}
-
+@media (max-width: 900px) {.sd-split-rev .service-detail-inner { grid-template-columns: 1fr; }
+.sd-split-rev .sd-copy { order: 1; }
+.sd-split-rev .sd-aside { order: 2; }
+.sd-rail .service-detail-inner { grid-template-columns: 1fr; }}
 /* ── PRICING — the portal's card, not a second card system ────────────────
    The tiers were bespoke panels with their own border weight and elevation.
    They are the portal's card now (6px radius, 1px hairline, the flat 1px
@@ -3094,34 +2525,16 @@ footer::before {
 }
 .pricing-card:hover { box-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); }
 .pricing-features li svg { color: var(--accent); }
-
 /* The comparison has to be readable on a phone without a horizontal scroll, so
    the grid becomes one column and the featured card keeps its flag rather than
    having it clipped by the card above. */
-@media (max-width: 900px) {
-  .pricing-grid { grid-template-columns: minmax(0, 1fr); max-width: 460px; gap: 26px; }
-  .pricing-card.featured { margin-top: 8px; }
-}
-
+@media (max-width: 900px) {.pricing-grid { grid-template-columns: minmax(0, 1fr); max-width: 460px; gap: 26px; }
+.pricing-card.featured { margin-top: 8px; }}
 /* ── CASE STUDIES — the same slider language as home ──────────────────────
    The grid of five cards became a slider so the page speaks the same way the
    home Results section does, and so a reader meets one result at a time
    instead of scanning five headers. */
-.cs-slider-wrap { max-width: var(--maxw); margin: 0 auto; padding: clamp(48px, 6vw, 72px) var(--gutter); }
-.cs-slide { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: start; }
-.cs-slide-head { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; min-width: 0; }
 .cs-slide-head .case-tag { margin-bottom: 0; }
-.cs-slide-head .cs-stat { display: block; margin: 0; }
-.cs-slide-head .cs-stat-value { display: block; font-size: clamp(2.4rem, 1.8rem + 2.4vw, 3.4rem); }
-.cs-slide-head .cs-stat-label { display: block; }
-.cs-slide-head .cs-result-headline { margin: 0; }
-.cs-slide-head .cs-stat-label { margin-top: 8px; }
-.cs-slide-head .cs-callouts { padding: 0; }
-.cs-slide-body { min-width: 0; }
-.cs-slide-body .cs-route { padding: 0; gap: 22px; }
-@media (max-width: 900px) { .cs-slide { grid-template-columns: minmax(0, 1fr); gap: 26px; } }
-
-
 /* ── PAGE HEROES — asymmetric, like every other head on the site ──────────
    Nine page heroes were centred single columns, which is the shape the whole
    redesign is trying to get rid of. They are the same two-column head the
@@ -3157,16 +2570,12 @@ footer::before {
   margin-inline: auto;
 }
 .blog-post-hero { max-width: none; }
-
-@media (max-width: 900px) {
-  .services-hero, .cs-hero, .pricing-hero, .demo-hero, .blog-hero {
+@media (max-width: 900px) {.services-hero, .cs-hero, .pricing-hero, .demo-hero, .blog-hero {
     grid-template-columns: minmax(0, 1fr);
   }
-  .services-hero > .section-sub, .cs-hero > .section-sub,
+.services-hero > .section-sub, .cs-hero > .section-sub,
   .pricing-hero > .section-sub, .demo-hero > .section-sub,
-  .blog-hero > .section-sub { grid-column: 1; grid-row: 3; margin-top: 16px; }
-}
-
+  .blog-hero > .section-sub { grid-column: 1; grid-row: 3; margin-top: 16px; }}
 /* ════════════════════════════════════════════════════════════════════════
    PORTAL UI — copied from axiaatlas-platform/portal-theme.css
    ════════════════════════════════════════════════════════════════════════
@@ -3181,7 +2590,6 @@ footer::before {
 
    KEEP IN SYNC with portal-theme.css. Values here are copied, not adapted.
    ──────────────────────────────────────────────────────────────────────── */
-
 .portal-ui {
   /* The portal's own token names, because the ported chart components ask for
      them by those names. Values are the platform's html[data-theme="dark"]. */
@@ -3199,7 +2607,6 @@ footer::before {
   color: var(--fg-primary);
   background: var(--page-bg);
 }
-
 .portal-ui .sidebar {
   width: 152px; flex-shrink: 0;
   background: #1a2e1f;
@@ -3230,7 +2637,6 @@ footer::before {
   background: rgba(200, 209, 197, 0.1);
   color: #c8d9c0; font-weight: 600;
 }
-
 .portal-ui .tb-top {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 18px 13px;
@@ -3244,9 +2650,7 @@ footer::before {
   color: var(--spruce-mid);
 }
 .portal-ui .tb-title { font-size: 17px; font-weight: 700; color: #f1f0ea; line-height: 1.2; }
-
 .portal-ui .content { padding: 16px 18px 18px; }
-
 .portal-ui .kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
@@ -3269,7 +2673,6 @@ footer::before {
   letter-spacing: -0.02em; color: var(--fg-primary); line-height: 1;
 }
 .portal-ui .kpi-spark { margin-top: 7px; }
-
 .portal-ui .card {
   background: var(--card-bg);
   border-radius: var(--radius);
@@ -3286,7 +2689,6 @@ footer::before {
 }
 .portal-ui .card-body { padding: 14px 16px 12px; }
 .portal-ui .ps-range { font-size: 10px; color: var(--spruce-mid); }
-
 .portal-ui .badge {
   display: inline-block;
   font-size: 9px; font-weight: 700;
@@ -3294,7 +2696,6 @@ footer::before {
   letter-spacing: 0.06em; text-transform: uppercase;
   font-family: var(--font);
 }
-
 /* ── The hero artifact frame ───────────────────────────────────────────────
    A window onto a running product, so it is cropped like one: it sits flush to
    its right edge and the browser clips it, rather than being centred and
@@ -3311,7 +2712,6 @@ footer::before {
 /* The charts are viewBox SVGs at width:100%, which gives them an intrinsic
    min-content width. Below that width they must scale, not push. */
 .portal-shot svg { max-width: 100%; }
-
 /* SAMPLE DATA, SAID ON THE ARTIFACT ITSELF.
    We sell measurement. An invented figure on our own site, unlabelled, is
    disqualifying — and a caption underneath is not a label, because the crop
@@ -3323,24 +2723,660 @@ footer::before {
   border: 1px solid rgba(200, 209, 197, 0.22);
   flex-shrink: 0;
 }
-
 .portal-ui .sb-label { min-width: 0; overflow: hidden; }
-
 /* THE RAIL COLLAPSES, IT DOES NOT VANISH.
    Between roughly 1120 and 1360 the split hero gives the artifact 460–580px,
    and a 152px rail spends a quarter of that on four words. The portal has a
    collapsed sidebar state of its own — icons only, 60px — so the artifact uses
    it rather than inventing a narrow variant, and the shape a client recognises
    as "the portal" survives. */
-@media (max-width: 1360px) {
-  .portal-shot .sidebar { width: 56px; }
-  .portal-shot .sb-brand { justify-content: center; padding: 13px 0; }
-  .portal-shot .sb-brand .brand-word { display: none; }
-  .portal-shot .sb-link { justify-content: center; padding: 9px 0; }
-  .portal-shot .sb-label { display: none; }
-}
+@media (max-width: 1360px) {.portal-shot .sidebar { width: 56px; }
+.portal-shot .sb-brand { justify-content: center; padding: 13px 0; }
+.portal-shot .sb-brand .brand-word { display: none; }
+.portal-shot .sb-link { justify-content: center; padding: 9px 0; }
+.portal-shot .sb-label { display: none; }}
 /* Below tablet even the rail is gone: on a phone it is 56px of chrome in front
    of the one thing the artifact exists to show. */
-@media (max-width: 700px) {
-  .portal-shot .sidebar { display: none; }
+@media (max-width: 700px) {.portal-shot .sidebar { display: none; }}
+/* ════════════════════════════════════════════════════════════════════════
+   SECOND PASS — GROUNDS, ALIGNMENT, AND THE HEADER ARTIFACT
+   ════════════════════════════════════════════════════════════════════════
+
+   THREE THINGS THIS BLOCK FIXES, all of them site-wide.
+
+   1. THE PAGE WAS ONE SURFACE. #070C09 and #0b120e are four values apart. That
+      is not a rhythm, it is a rounding error, and stacking nine sections on it
+      made the whole site read as a single scrolling panel. There are now four
+      declared grounds and every section picks one:
+
+        .g-black   #070C09  the page. The default, and still the most common.
+        .g-raise   #101812  a lifted near-black. Related to the page, clearly
+                            not the same as it. Cards on it lift again.
+        .g-spruce  #354940  Deep Spruce, the brand primary, at full strength.
+        .g-lift    #47614F  a lighter spruce. EMPHASIS ONLY — one section per
+                            page at most, and only where the page is asking for
+                            something. On home that is the Book a Demo band and
+                            nothing else.
+
+      ADJACENT SECTIONS NEVER SHARE A GROUND. Home reads
+      black · spruce · black · spruce · raise · spruce · black · lift · black.
+
+      The coloured grounds redeclare the semantic tokens rather than restyling
+      their children, so every `var(--text-muted)` / `var(--surface)` /
+      `var(--border)` already in the file resolves correctly inside them and
+      nothing downstream needs to know which ground it landed on. Alpha values
+      are set per ground so muted text clears 4.5:1 on each: the same
+      rgba(...,0.62) that reads as quiet on near-black lands at 3.1:1 on spruce.
+
+   2. EVERY HEADING STARTED AT THE LEFT GUTTER. Section heads now carry an
+      alignment chosen against what sits beside them — `.centred` where the
+      thing below is symmetric and full width, `.aligned-right` where the head
+      has a graphic or a grid to lean against, and the unmodified left where the
+      head introduces a left-hand column. It is not an alternation; three
+      sections in a row can share one if the page reads better that way.
+
+   3. THE HEADER BOX. Services, Pricing, Insights, About and Contact drew a
+      hard-edged pale rectangle under the page heading that looked like a
+      rendering fault, and it was one. The page-hero ::before painted
+      `radial-gradient(ellipse 60% 80% at 10% 120%, ...)` — an ellipse whose
+      bright centre sits BELOW AND OUTSIDE the element. With overflow:hidden on
+      the hero, the browser drew the one corner of that ellipse which fell
+      inside the box and clipped it dead straight along the hero's left and
+      bottom edges. Soft on two sides, hard on two, in a fixed position that
+      did not move when the heading changed length. The decoration is removed
+      outright rather than retuned.
+   ──────────────────────────────────────────────────────────────────────── */
+/* ── 3. The header artifact, deleted ────────────────────────────────────── */
+.page-hero::before, .services-hero::before, .cs-hero::before, .about-hero::before,
+.contact-hero::before, .pricing-hero::before, .demo-hero::before,
+.blog-hero::before, .blog-post-hero::before,
+.careers-hero::before {
+  display: none;
 }
+/* ── 1. The grounds ─────────────────────────────────────────────────────── */
+.g-black { background: var(--bg); }
+.g-raise {
+  background: #101812;
+  --surface: #1c261f;
+  --surface-2: #16201a;
+  --surface-hover: #212d24;
+  --border: rgba(200, 209, 197, 0.12);
+  --border-strong: rgba(200, 209, 197, 0.26);
+}
+/* Deep Spruce. Cards on it go DOWN, not up: a lighter card on a mid-green
+   ground reads as a sticker, a darker one reads as a recess, and the portal
+   already teaches the eye that a card is the darker thing. */
+.g-spruce {
+  background: #354940;
+  --surface: #2b3a33;
+  --surface-2: #30413a;
+  --surface-hover: #33463d;
+  --text: #f1f0ea;
+  --text-muted: rgba(241, 240, 234, 0.76);
+  --text-faint: rgba(241, 240, 234, 0.66);
+  --border: rgba(241, 240, 234, 0.16);
+  --border-strong: rgba(241, 240, 234, 0.30);
+  --accent: #d6e0d2;
+  --accent-soft: rgba(241, 240, 234, 0.10);
+  --ring: rgba(241, 240, 234, 0.5);
+  --primary: #f1f0ea;
+  --primary-hover: #ffffff;
+  --on-primary: #22302a;
+  --glow-a: rgba(241, 240, 234, 0.07);
+}
+/* The lighter panel. Muted runs higher here than on spruce because the ground
+   itself is lighter — 0.76 lands at 4.1:1 on #47614F and 0.84 clears it. */
+.g-lift {
+  background: #47614f;
+  --surface: #3c5344;
+  --surface-2: #41594a;
+  --surface-hover: #4c684f;
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.84);
+  --text-faint: rgba(255, 255, 255, 0.72);
+  --border: rgba(255, 255, 255, 0.18);
+  --border-strong: rgba(255, 255, 255, 0.34);
+  --accent: #e8efe4;
+  --accent-soft: rgba(255, 255, 255, 0.12);
+  --ring: rgba(255, 255, 255, 0.55);
+  --primary: #ffffff;
+  --primary-hover: #ffffff;
+  --on-primary: #22302a;
+}
+/* A ground class on a <section> beats the older per-section background rules
+   (.problem-section, .results-section, .section-alt …), which all still exist
+   further up the file and would otherwise win on source order. */
+section.g-black, section.g-raise, section.g-spruce, section.g-lift,
+.cta-band.g-lift { background-image: none; }
+section.g-raise { background-color: #101812; }
+section.g-spruce { background-color: #354940; }
+section.g-lift, .cta-band.g-lift { background-color: #47614f; }
+/* ── 2. Section-head alignment ──────────────────────────────────────────── */
+.section-head { max-width: 720px; }
+.section-head.centred {
+  max-width: 760px; margin-inline: auto; text-align: center;
+}
+.section-head.centred .section-eyebrow { justify-content: center; }
+.section-head.centred .section-sub { margin-inline: auto; }
+.section-head.aligned-right {
+  max-width: 620px; margin-left: auto; text-align: right;
+}
+.section-head.aligned-right .section-eyebrow { justify-content: flex-end; flex-direction: row-reverse; }
+.section-head.aligned-right .section-sub { margin-left: auto; }
+@media (max-width: 820px) {/* Right-alignment stops paying once the column is the whole screen: a
+     ragged-left paragraph on a phone is harder to read for no compositional
+     gain, because there is nothing left beside it to balance against. */
+.section-head.aligned-right { max-width: none; margin-left: 0; text-align: left; }
+.section-head.aligned-right .section-eyebrow { justify-content: flex-start; flex-direction: row; }
+.section-head.aligned-right .section-sub { margin-left: 0; }}
+/* ════════════════════════════════════════════════════════════════════════
+   HOME — SECTION BY SECTION
+   ════════════════════════════════════════════════════════════════════════ */
+/* ── HERO ────────────────────────────────────────────────────────────────
+   Shorter than it was: the capability checklist under the CTAs is gone (its
+   four channel names are the audit card's four rows), so the copy column ends
+   on the buttons and the artifact sits higher in the fold. */
+.hero-display-sub {
+  font-family: var(--font-head);
+  font-size: clamp(1.15rem, 0.9rem + 1.1vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.018em;
+  color: var(--accent);
+  margin: 0 0 20px;
+  max-width: 22ch;
+}
+.hero-copy .hero-sub { margin-bottom: 32px; }
+/* The audit card is a portal card, not a cropped window: it is fully contained,
+   centred in its column, and capped so it does not stretch to a slab on a wide
+   screen. */
+.hero-artifact .audit-card { max-width: 460px; margin-left: auto; }
+.hero-artifact .audit-card .card { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55); }
+.hero-artifact .audit-card .card-body { padding: 20px 20px 18px; }
+.hero-artifact .audit-rows { gap: 16px; }
+@media (max-width: 1120px) {.hero-artifact .audit-card { margin-left: 0; max-width: 460px; }}
+/* ── TICKER ──────────────────────────────────────────────────────────────
+   One row on Deep Spruce. The two-row version with a magnifier and a blinking
+   caret in every chip put a flashing pipe in the middle of the fold and read
+   as three separate motions; this is the live site's strip, on a ground that
+   makes it a rule between two sections rather than a section of its own. */
+.ticker {
+  padding: 17px 0;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  border-top: none;
+  border-bottom: none;
+}
+.ticker::before, .ticker::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 8%;
+  z-index: 1; pointer-events: none;
+}
+.ticker::before { left: 0;  background: linear-gradient(90deg, #354940, transparent); }
+.ticker::after  { right: 0; background: linear-gradient(270deg, #354940, transparent); }
+.ticker .marquee-track { animation: marqueeScroll 64s linear infinite; }
+.ticker:hover .marquee-track { animation-play-state: paused; }
+.ticker .marquee-item {
+  color: rgba(241, 240, 234, 0.86);
+  font-size: var(--t-sm); font-weight: 600; letter-spacing: 0.02em;
+}
+.ticker .marquee-sep { background: rgba(241, 240, 234, 0.42); }
+/* ── THE PROBLEM ─────────────────────────────────────────────────────────
+   One graphic, so the evidence column is the mock and nothing else. Without
+   the three cards under it the mock no longer needs to be as tall as the
+   argument, so it caps and pins to the top of its column. */
+.problem-evidence { max-width: 560px; }
+.problem-split { align-items: center; }
+@media (min-width: 1001px) {/* The argument no longer outruns the evidence, so it does not need to stick. */
+.problem-arg { position: static; }}
+/* ── THE SYSTEM ──────────────────────────────────────────────────────────
+   The live site's bento, on Deep Spruce. The feature panel used --inverse-bg
+   (Deep Spruce) which would now be invisible against its own section, so it
+   takes the darker card ground and the three step cards sit a step below it. */
+.system-section .bento-card {
+  background: var(--surface);
+  border-color: var(--border);
+}
+.system-section .bento-card.feature {
+  background: linear-gradient(150deg, #21302a 0%, #2b3a33 100%);
+  border-color: rgba(241, 240, 234, 0.20);
+}
+.system-section .bento-card.feature::after {
+  background: radial-gradient(ellipse 70% 60% at 80% 110%, rgba(241, 240, 234, 0.08), transparent 60%);
+}
+.system-section .bento-title,
+.system-section .bento-card.feature .bento-title { color: var(--text); }
+.system-section .bento-desc,
+.system-section .bento-card.feature .bento-desc { color: var(--text-muted); }
+.system-section .bento-num,
+.system-section .bento-card.feature .bento-num { color: var(--accent); }
+.system-section .bento-card:hover { border-color: var(--border-strong); }
+/* ── THE CHANNELS ────────────────────────────────────────────────────────
+   Six uniform cards, three across. */
+.channels-section .services-grid { gap: 14px; }
+.channels-section .service-card {
+  display: flex; flex-direction: column;
+  padding: 30px;
+  border-radius: var(--r);
+}
+.channels-section .service-desc { flex: 1; }
+.channels-section .service-link { margin-top: 18px; }
+.channels-foot { margin-top: 40px; text-align: center; }
+/* ── RESULTS ─────────────────────────────────────────────────────────────
+   The /case-studies treatment, on Deep Spruce.
+
+   THE GLARE IS GONE. `.rs-slide::before` was a 220px sage radial bloom pinned
+   to each slide's top-right corner. On a light card it read as a soft
+   highlight; on this ground it read as a lens flare sitting on the copy. */
+.rs-slide::before { display: none; }
+.rs-viewport {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+}
+.rs-slide {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: start;
+  gap: clamp(28px, 4vw, 56px);
+}
+.rs-main { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
+.rs-main .case-tag { margin-bottom: 18px; }
+/* The headline result. A <h3> carrying two spans, so the figure and what it
+   measures are one heading rather than a number and an orphaned caption. */
+.rs-stat { margin: 0 0 14px; }
+.rs-stat-value {
+  display: block;
+  font-family: var(--font-head);
+  font-size: clamp(2.4rem, 1.7rem + 2.6vw, 3.4rem);
+  font-weight: 700; line-height: 1; letter-spacing: -0.03em;
+  color: var(--text);
+}
+.rs-stat-label {
+  display: block; margin-top: 10px;
+  font-family: var(--font-head);
+  font-size: var(--t-body); font-weight: 500; line-height: 1.45;
+  color: var(--text-muted);
+}
+.rs-result {
+  font-family: var(--font-head);
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2rem);
+  font-weight: 700; line-height: 1.14; letter-spacing: -0.025em;
+  color: var(--text); margin: 0 0 14px;
+}
+.rs-callouts {
+  list-style: none; margin: 0 0 18px; padding: 0;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.rs-callouts li {
+  position: relative; padding-left: 16px;
+  font-size: var(--t-sm); line-height: 1.55; color: var(--text-muted);
+}
+.rs-callouts li::before {
+  content: ''; position: absolute; left: 0; top: 0.55em;
+  width: 5px; height: 5px; background: var(--accent); transform: rotate(45deg);
+}
+.rs-service {
+  margin-top: auto; padding-top: 4px;
+  font-family: var(--font-head);
+  font-size: var(--t-xs); font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--accent);
+}
+/* The right-hand column: the full route, or a visual. */
+.rs-detail { min-width: 0; }
+.rs-route { display: flex; flex-direction: column; gap: 20px; }
+.rs-step { position: relative; padding-left: 20px; }
+.rs-step::before {
+  content: ''; position: absolute; left: 0; top: 4px; bottom: 2px;
+  width: 2px; border-radius: 2px; background: var(--border-strong);
+}
+.rs-step.result::before { background: var(--accent); }
+.rs-label {
+  font-family: var(--font-head);
+  font-size: var(--t-xs); font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--accent); margin: 0 0 7px;
+}
+.rs-text { font-size: var(--t-sm); line-height: 1.72; color: var(--text-muted); margin: 0; }
+.rs-arrow { background: var(--surface); border-color: var(--border-strong); color: var(--text); }
+.rs-arrow:hover { border-color: var(--accent); }
+.rs-dot { background: var(--border-strong); }
+.rs-dot.active { background: var(--accent); }
+@media (max-width: 900px) {.rs-slide { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+.rs-main { align-items: stretch; }
+.rs-service { margin-top: 0; }}
+/* ── THE RESULT VISUALS ──────────────────────────────────────────────────
+   Two shapes that draw only numbers the result beside them already states. */
+.result-visual .card { margin-bottom: 0; }
+.result-visual .card-body { padding: 18px 18px 14px; }
+.result-visual-src {
+  margin: 14px 0 0;
+  font-size: 10.5px; line-height: 1.6;
+  color: var(--spruce-mid, rgba(200, 209, 197, 0.55));
+}
+/* Two endpoints, side by side. */
+.rv-cols { display: flex; align-items: flex-end; gap: 22px; height: 148px; }
+.rv-col {
+  flex: 1; min-width: 0; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 8px;
+  background: none; border: 0; padding: 0; cursor: default;
+  font-family: var(--font); text-align: center;
+}
+.rv-col-value {
+  font-family: var(--font); font-size: 15px; font-weight: 700;
+  letter-spacing: -0.01em; color: rgba(200, 209, 197, 0.55);
+  transition: color 0.2s var(--ease);
+}
+.rv-col.on .rv-col-value, .rv-col:focus-visible .rv-col-value { color: #f1f0ea; }
+.rv-col-bar {
+  display: block; width: 100%; border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, #7fc4a0, rgba(127, 196, 160, 0.35));
+  transition: filter 0.2s var(--ease);
+}
+.rv-col.on .rv-col-bar { filter: brightness(1.22); }
+.rv-col-label {
+  font-family: var(--font); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: rgba(200, 209, 197, 0.55);
+}
+.rv-col:focus-visible { outline: 2px solid #c8d1c5; outline-offset: 3px; border-radius: 4px; }
+/* A cited range, and a stated distance above it. */
+.rv-scale { padding: 12px 0 2px; }
+.rv-track {
+  position: relative; height: 10px; border-radius: 5px;
+  background: rgba(200, 209, 197, 0.10);
+  margin-bottom: 20px;
+}
+.rv-band {
+  position: absolute; top: 0; bottom: 0;
+  background: rgba(200, 209, 197, 0.34); border-radius: 3px;
+  transition: background 0.2s var(--ease);
+}
+.rv-band.on { background: rgba(200, 209, 197, 0.62); }
+.rv-marker {
+  position: absolute; top: -6px; bottom: -6px; width: 3px;
+  background: #7fc4a0; border-radius: 2px;
+  box-shadow: 0 0 0 4px rgba(127, 196, 160, 0.16);
+  transition: box-shadow 0.2s var(--ease);
+}
+.rv-marker.on { box-shadow: 0 0 0 7px rgba(127, 196, 160, 0.26); }
+.rv-keys { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.rv-key {
+  display: flex; align-items: center; gap: 9px;
+  background: none; border: 0; padding: 0; cursor: default;
+  font-family: var(--font); font-size: 11px; line-height: 1.4;
+  color: rgba(200, 209, 197, 0.55); text-align: left;
+  transition: color 0.2s var(--ease);
+}
+.rv-key.on, .rv-key:focus-visible { color: #f1f0ea; }
+.rv-key:focus-visible { outline: 2px solid #c8d1c5; outline-offset: 3px; border-radius: 3px; }
+.rv-key-swatch { width: 12px; height: 10px; border-radius: 3px; flex: none; }
+.rv-key.band .rv-key-swatch { background: rgba(200, 209, 197, 0.42); }
+.rv-key.marker .rv-key-swatch { background: #7fc4a0; width: 3px; margin: 0 4px 0 4px; }
+/* ── HOW WE WORK ─────────────────────────────────────────────────────────
+   Built out around the portal shot. The graphic leads on the left, the head
+   sits right against it, and the four-station rail runs full width beneath. */
+.process-lead {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+  margin-bottom: clamp(48px, 6vw, 78px);
+}
+.process-shot { min-width: 0; }
+.process-lead .section-head { margin-bottom: 0; }
+.process-lead .section-sub { margin-bottom: 0; }
+@media (max-width: 980px) {.process-lead { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+.process-shot { order: 2; }}
+/* ── BOOK A DEMO ─────────────────────────────────────────────────────────
+   The lighter spruce panel, and the only one on the page. */
+.cta-band {
+  background: #47614f;
+  border-top: none;
+  color: #ffffff;
+}
+.cta-band::after {
+  background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(255, 255, 255, 0.10), transparent 64%);
+}
+.cta-band-grid::before {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+}
+.cta-band .section-eyebrow, .cta-band-beacon, .cta-band-note { color: #e8efe4; }
+.cta-band .section-headline { color: #ffffff; }
+.cta-band .section-sub { color: rgba(255, 255, 255, 0.86); }
+.cta-band-beacon .ring { border-color: #e8efe4; }
+.cta-band-btn { background: #ffffff; color: #22302a; }
+.cta-band-btn:hover { background: #ffffff; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28); }
+.cta-band-btn::before { border-color: rgba(255, 255, 255, 0.5); }
+/* The footer sits directly under this band on every page, so it drops to the
+   darkest ground on the site — the page must not end on two greens. */
+footer { background: #050906; }
+/* ════════════════════════════════════════════════════════════════════════
+   THE OTHER PAGES
+   ════════════════════════════════════════════════════════════════════════ */
+/* ── PAGE HEROES — alignment per page ────────────────────────────────────
+   Not one rule for all nine. Pricing centres because three symmetric tiers sit
+   under it; services, insights, about, contact and demo lead left because the
+   thing under each of them starts at the left gutter. */
+.pricing-hero {
+  grid-template-columns: minmax(0, 1fr);
+  text-align: center;
+  justify-items: center;
+  max-width: 860px;
+}
+.pricing-hero > .section-eyebrow { justify-content: center; }
+.demo-hero { max-width: 900px; }
+.demo-hero > .section-sub { align-self: start; }
+/* ── SERVICES — long-form rows, three figures ────────────────────────────
+   The In Practice pill column is gone from the markup, so `.sd-aside` now
+   holds a figure or is not rendered at all. A row without one is a single
+   measured column rather than a full-width paragraph: 68 characters is the
+   readable limit and these paragraphs run long. */
+/* A row with no figure is not a paragraph floating in half a page. The mark
+   and the headline take a narrow left column and the prose runs beside them —
+   an editorial split that uses the full width, keeps the measure readable, and
+   reads differently from the figure rows without needing a graphic to do it. */
+.service-detail.text-only .service-detail-inner { display: block; }
+.service-detail.text-only .sd-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+}
+.service-detail.text-only .service-detail-headline {
+  font-size: clamp(1.35rem, 1.05rem + 1.1vw, 1.75rem);
+  margin-bottom: 0;
+}
+.service-detail.text-only .service-detail-desc,
+.service-detail.text-only .service-who { max-width: none; }
+@media (max-width: 900px) {
+  .service-detail.text-only .sd-copy { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+}
+
+/* ── PRICING — three tiers, one loud button ──────────────────────────────
+   Two of the three CTAs are outline now, so the featured tier's bone primary
+   is the only filled button on the page. */
+.pricing-card .btn-outline { border-color: var(--border-strong); }
+.pricing-card .btn-outline:hover { border-color: var(--accent); }
+.pricing-note { margin-bottom: clamp(64px, 8vw, 104px); }
+/* ── ABOUT — the hero is type now ────────────────────────────────────────
+   The cartographic figure (rotating dials, a route plotting itself, a
+   coordinate label) was the largest object on the page and said nothing the
+   page says. Removed, and the hero collapses to the column it always had
+   underneath. */
+.about-hero { display: block; min-height: 0; }
+.about-hero-text { max-width: 860px; }
+/* ── INSIGHTS ────────────────────────────────────────────────────────────
+   The hero sub is gone, so the H1 carries the head on its own. */
+.blog-hero > .section-headline { grid-column: 1 / -1; }
+/* ── CONTACT — the FAQ, sectioned ────────────────────────────────────────
+   Four labelled groups on Deep Spruce. The section <h2> per group is a real
+   heading, and every question under it is a real <h3>: the shape an extractor
+   needs, not a styled list. */
+.faq-group { max-width: var(--maxw-narrow); margin: 0 auto; }
+.faq-group + .faq-group { margin-top: clamp(40px, 5vw, 60px); }
+.faq-group-title {
+  font-family: var(--font-head);
+  font-size: var(--t-h3); font-weight: 700; letter-spacing: -0.015em;
+  color: var(--text);
+  margin: 0 0 18px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-strong);
+}
+.faq-list { max-width: none; margin: 0; }
+.faq-a p { margin: 0; }
+.faq-a-link {
+  display: inline-block; margin-top: 12px;
+  font-family: var(--font-head); font-size: var(--t-xs); font-weight: 700;
+  letter-spacing: 0.06em; color: var(--accent);
+  text-decoration: none;
+}
+.faq-a-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.faq-section .section-head.centred { margin-bottom: clamp(36px, 4vw, 52px); }
+/* ── DEMO — the count sits on the thing it counts ────────────────────────── */
+.demo-steps-intro {
+  font-family: var(--font-head);
+  font-size: var(--t-sm); font-weight: 600;
+  color: var(--text-muted);
+  margin: 0 0 18px;
+}
+/* ════════════════════════════════════════════════════════════════════════
+   THE BRAND MARQUEE — TWO TIKTOKS AND TWO OPENAI MARKS, AND WHY
+   ════════════════════════════════════════════════════════════════════════
+
+   The track held four copies of a group and translated 25% of the track, which
+   is exactly one copy, so the loop was seamless. The bug was that a GROUP was
+   narrower than the ROW: six icons at ~34px with a ~58px gap is about 550px
+   against a card over 1000px wide, so two whole copies fit on screen at once
+   and the row showed TikTok twice and the OpenAI mark twice, side by side.
+
+   The fix is geometric rather than a matter of picking gap values that happen
+   to work at one width: the track is 400% of the row and each group is 25% of
+   the track, so ONE GROUP IS ALWAYS EXACTLY THE ROW'S WIDTH, at every viewport,
+   and the icons distribute inside it. The 25% translation still lands group 2
+   precisely where group 1 began, so the loop is unchanged — and no mark can
+   ever appear twice on screen, because there is never more than one full group
+   plus the head of the next.
+
+   THE ICONS ALSO NOW READ. They were at opacity 0.18 as "subtle texture", which
+   on this panel meant a row of grey smudges that a visitor could not identify
+   — and a marquee of platform logos nobody can recognise is worse than no
+   marquee, because it costs the frames and delivers none of the recognition it
+   exists for. 0.5, with the active row a little stronger still.
+   ──────────────────────────────────────────────────────────────────────── */
+.bm-row { display: block; width: 100%; }
+.bm-track { width: 400%; display: flex; }
+.bm-group {
+  width: 25%; flex: none;
+  display: flex; align-items: center; justify-content: space-evenly;
+  gap: 0; padding-right: 0;
+}
+.bm-icon {
+  width: clamp(24px, 2.6vw, 32px); height: clamp(24px, 2.6vw, 32px);
+  opacity: 0.5;
+  color: var(--accent);
+}
+.brand-marquee {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+/* ════════════════════════════════════════════════════════════════════════
+   THE PORTAL SHOT, IN ITS NEW HOME
+   ════════════════════════════════════════════════════════════════════════
+
+   In the hero it was cropped flush to its right edge on purpose — a window
+   onto a running product. In How We Work it is the section's subject rather
+   than a glimpse, so it is fully contained; and the crop was also what clipped
+   the card and ran the sessions chart off the right edge of a 390px screen.
+   ──────────────────────────────────────────────────────────────────────── */
+.portal-shot { border-radius: 10px; box-shadow: 0 26px 64px rgba(0, 0, 0, 0.55); }
+.process-shot .portal-shot { width: 100%; }
+/* At two columns the third KPI was left alone on a row with a hole beside it.
+   It is the one with the sparkline, so it takes the full row instead. */
+@media (max-width: 760px) {.portal-ui .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.portal-shot .kpi:last-child { grid-column: 1 / -1; }}
+/* ════════════════════════════════════════════════════════════════════════
+   390px — NOTHING LEAVES THE VIEWPORT, ON ANY PAGE
+   ════════════════════════════════════════════════════════════════════════
+
+   Two real overflows, both measured rather than guessed at (the audit is in
+   the report): the demo/careers stepper, and the footer's column grid.
+   ──────────────────────────────────────────────────────────────────────── */
+/* THE STEPPER. `.demo-steps` is a flex row of three labelled dots and two
+   connecting bars, and the labels cannot shrink below their own text — three
+   uppercase words at 0.08em tracking plus two 26px numerals plus the gaps came
+   to 404px inside a 390px screen, so the whole row pushed the document wide.
+   It wraps to a column below the two-column breakpoint: the bars go, and the
+   three steps read as a list, which is what they are. */
+@media (max-width: 560px) {.demo-steps { flex-wrap: wrap; gap: 10px 14px; }
+.demo-step-bar { display: none; }
+.demo-step-dot { font-size: 0.6875rem; letter-spacing: 0.05em; }}
+/* THE FOOTER. Four columns become two at 600px and one only at 380px, which
+   left 390–420 as a band where two columns of link text did not fit and the
+   right-hand one ran past the gutter. One column from 430 down. */
+@media (max-width: 430px) {.footer-top { grid-template-columns: minmax(0, 1fr); gap: 26px; }}
+/* Belt and braces, and cheap: nothing on any page has a legitimate reason to
+   paint outside the document's own width, and a single horizontal scrollbar
+   undoes an entire responsive pass. This does not hide a bug — the two above
+   are fixed at source — it stops the next one from shipping. */
+html, body { overflow-x: hidden; max-width: 100%; }
+/* Two adjustments after looking at the built page.
+
+   THE HERO'S HEIGHT. 780px was sized for a copy column that ended in the
+   capability checklist. Without it the column is ~450px and the cap was
+   parking 120px of empty ground under both columns. */
+.hero { min-height: min(calc(100svh - var(--nav-h)), 680px); }
+/* THE VISUAL SLIDES. Every slide in the track is as tall as the tallest one,
+   which is a three-part challenge/work/result. The two that carry a visual
+   instead were pinned to the top of that height with the rest of the column
+   empty under them; they centre in it now. */
+.rs-detail { display: flex; flex-direction: column; justify-content: center; }
+/* ── GROUND ROTATION ON THE LONG PAGES ───────────────────────────────────
+   Rule A applies everywhere, not only on home. /services was eight rows
+   alternating #070C09 and #0b120e — the same four-value non-step the home page
+   had — and /about was five sections all on the page ground.
+
+   SERVICES. The lead row (Website Design & Build, the core engagement and the
+   one every other channel points traffic at) takes Deep Spruce, which is the
+   only emphasis on the page. The remaining seven alternate black and the
+   raised near-black, so no two consecutive rows share a ground. */
+.service-detail:nth-child(odd) { background: #070c09; }
+.service-detail:nth-child(even) { background: #101812; --surface: #1c261f; --surface-2: #16201a; }
+.service-detail:first-child {
+  background: #354940;
+  --surface: #2b3a33;
+  --text: #f1f0ea;
+  --text-muted: rgba(241, 240, 234, 0.76);
+  --text-faint: rgba(241, 240, 234, 0.66);
+  --border: rgba(241, 240, 234, 0.16);
+  --border-strong: rgba(241, 240, 234, 0.30);
+  --accent: #d6e0d2;
+  --accent-soft: rgba(241, 240, 234, 0.10);
+  --primary: #f1f0ea;
+  --on-primary: #22302a;
+}
+/* The figure lines up with the headline it belongs to, not with the middle of
+   a paragraph that runs three times its height. */
+.service-detail.has-art .service-detail-inner { align-items: start; }
+.service-detail.has-art .sd-art { margin-top: 60px; }
+@media (max-width: 900px) {.service-detail.has-art .sd-art { margin-top: 0; }}
+/* ABOUT. Four prose sections and an article teaser, all on one value. They
+   alternate now, and the belief cards' section takes the spruce because it is
+   the page's argument rather than its narration. */
+.about-section:nth-child(even) { background: #101812; --surface: #1c261f; }
+.about-section:nth-child(3) {
+  background: #354940;
+  --surface: #2b3a33;
+  --text: #f1f0ea;
+  --text-muted: rgba(241, 240, 234, 0.76);
+  --text-faint: rgba(241, 240, 234, 0.66);
+  --border: rgba(241, 240, 234, 0.16);
+  --border-strong: rgba(241, 240, 234, 0.30);
+  --accent: #d6e0d2;
+  --accent-soft: rgba(241, 240, 234, 0.10);
+}
+.about-section { padding: clamp(56px, 7vw, 96px) var(--gutter); }
+/* The hero's bottom padding was sized for a hero that had a figure in it. */
+.pricing-hero, .about-hero { padding-bottom: clamp(40px, 5vw, 64px); }
+/* Stacked, the visual should sit under the copy rather than float in the
+   middle of the height borrowed from the tallest slide. */
+@media (max-width: 900px) {.rs-detail { justify-content: flex-start; }}

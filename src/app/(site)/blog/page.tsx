@@ -40,10 +40,6 @@ export default async function BlogIndexPage() {
           <br />
           Answer Engines and Social
         </h1>
-        <p className="section-sub">
-          Field notes on search, answer engines, local presence, and social. Written by the
-          people doing the work, not a content farm.
-        </p>
       </div>
 
       {posts.length === 0 ? (
@@ -55,7 +51,7 @@ export default async function BlogIndexPage() {
             New articles land here as they go live. In the meantime, the case studies show
             the work itself.
           </p>
-          <Link href="/case-studies" className="btn-primary">
+          <Link href="/#results" className="btn-primary">
             See case studies <Arrow className="arr" />
           </Link>
         </div>

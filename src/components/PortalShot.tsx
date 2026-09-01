@@ -4,7 +4,7 @@ import Spark from './charts/Spark'
 import type { SeriesPoint } from '@/lib/analytics/series'
 
 /* ────────────────────────────────────────────────────────────────────────────
-   THE HERO ARTIFACT IS THE PRODUCT.
+   THE "HOW WE WORK" ARTIFACT IS THE PRODUCT.
 
    Every class name below (.sidebar, .sb-link, .tb-top, .kpi, .card) is the
    portal's own, and the CSS behind them in globals.css is copied from
@@ -13,13 +13,22 @@ import type { SeriesPoint } from '@/lib/analytics/series'
    Nothing here is an illustration of the portal; it is the portal's markup,
    its tokens and its components, rendered read-only.
 
-   ON THE NUMBERS. We sell measurement, so an unlabeled invented figure on this
-   page would be disqualifying. Every figure below is sample data, it says so on
-   the artifact itself in a badge that sits in the topbar and cannot be cropped
-   out of the composition, and it is internally consistent: the sessions KPI is
-   the exact sum of the 28 plotted days, because a summary tile that disagrees
-   with the chart under it is the first thing a buyer who knows this work will
-   check.
+   ON THE NUMBERS, AND ON THE LABEL THAT IS NO LONGER HERE. Every figure below
+   is invented. It used to say so, in a "Sample data" badge sitting in the
+   topbar where a crop could not remove it. That badge has been taken out by
+   direction: this is the product shot in "How We Work", and a demo screen of
+   our own software is not a claim about a client the way an unlabelled chart
+   beside a case study would be.
+
+   THE REASON IT WAS THERE IS STILL TRUE, so it is recorded rather than
+   deleted. We sell measurement. A screenshot of a dashboard, cropped into a
+   deck or a search result, is the exact artifact a buyer reads as evidence.
+   If this graphic ever moves next to a claim about a real client, the label
+   has to come back with it.
+
+   What survives is internal consistency: the sessions KPI is the exact sum of
+   the 28 plotted days, because a summary tile that disagrees with the chart
+   under it is the first thing a buyer who knows this work will check.
    ──────────────────────────────────────────────────────────────────────────── */
 
 /** Fixed windows. No Date.now() anywhere: the server and the client must draw
@@ -107,7 +116,6 @@ export default function PortalShot() {
             <div className="tb-label">Client Portal</div>
             <div className="tb-title">Overview</div>
           </div>
-          <span className="badge ps-sample">Sample data</span>
         </div>
 
         <div className="content">
@@ -142,11 +150,11 @@ export default function PortalShot() {
                 ]}
                 height={150}
                 unit="sessions"
-                /* The card body is roughly 355px here, not the portal's 800.
+                /* The card body is roughly 360px here, not the portal's 800.
                    Without this the axis labels scale to 4px along with the
                    geometry, and an unreadable axis on a chart that is meant to
                    BE the argument is worse than no axis. */
-                plotWidth={380}
+                plotWidth={360}
               />
             </div>
           </div>

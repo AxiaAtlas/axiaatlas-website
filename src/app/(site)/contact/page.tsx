@@ -4,64 +4,179 @@ import Link from 'next/link'
 import Footer from '@/components/Footer'
 import { Arrow, Check, Plus } from '@/components/icons'
 
-const FAQS = [
+/* ────────────────────────────────────────────────────────────────────────────
+   THE FAQ IS AN ANSWER-ENGINE SURFACE, SO IT IS BUILT LIKE ONE.
+
+   Nine flat questions became four labelled sections with four to five each,
+   under three rules that are not cosmetic:
+
+   1. THE QUESTION IS THE HEADING. Each one is an <h3> under its section's
+      <h2>, phrased the way a person actually types it — "how much does it
+      cost", not "Pricing". A model extracting an answer needs the question in
+      the markup, not a noun.
+
+   2. THE ANSWER IS DIRECT IN THE FIRST 40-60 WORDS. Everything an extractor
+      needs is in the opening sentences; qualification comes after. An answer
+      that warms up for three lines is an answer that gets truncated before it
+      says anything.
+
+   3. NOTHING HERE IS A NEW CLAIM. Every fact below already ships on this site:
+      the eight services and their descriptions from /services, the three tiers
+      and their contents from /pricing, the audit-plan-build-grow sequence and
+      the week-one output from the home page and /about, the two inboxes and
+      the 24-hour reply from this page, and `areaServed: "Worldwide"` from the
+      Organization node in app/layout.tsx. The local-intent question is answered
+      from that last one — we say how the work is done for a city, and we do NOT
+      claim an office in one, because the site claims no address anywhere.
+
+   ANSWERS ARE PLAIN STRINGS, with an optional trailing link, so that the
+   visible copy and the FAQPage JSON-LD below are generated from ONE source and
+   cannot drift apart. Do not switch these back to JSX.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+type Faq = { q: string; a: string; link?: { href: string; label: string; external?: boolean } }
+type FaqSection = { id: string; title: string; items: Faq[] }
+
+const FAQ_SECTIONS: FaqSection[] = [
   {
-    q: 'What services do you offer?',
-    a: (
-      <>
-        Eight: website design &amp; build, social media management, competitive intelligence, local presence &amp; SEO, answer engine optimization, lead generation, executive personal brand, and strategic advisory. Most clients combine three or four into one connected plan. See the full breakdown on the <Link href="/services">services page</Link>.
-      </>
-    ),
+    id: 'services',
+    title: 'Services',
+    items: [
+      {
+        q: 'What services does Axia Atlas offer?',
+        a: 'Eight: website design and build, social media management, competitive intelligence, local presence and maps, answer engine optimization, lead generation, executive personal brand, and strategic advisory. Most clients combine three or four of them into one connected plan rather than buying a single channel. Which three depends on where your buyers already are and where you are currently missing.',
+        link: { href: '/services', label: 'See the full breakdown of all eight services' },
+      },
+      {
+        q: 'What is answer engine optimization (AEO), and do I need it?',
+        a: 'Answer engine optimization is the work of getting your business named and cited when buyers ask Claude, ChatGPT, Perplexity, or Gemini which company to use. We measure it first: the exact prompts a buyer in your category would type, run across all four platforms, recorded so you can see who gets named today. Then we fix the entity data, schema, and source pages those systems read.',
+        link: { href: '/services#geo', label: 'How answer engine optimization works' },
+      },
+      {
+        q: 'Do you do local SEO and Google Business Profile management?',
+        a: 'Yes. Two results decide whether a nearby buyer finds you — the map pack and the organic listings under it — and we work both. That means a Google Business Profile built out properly with categories, services, hours, photos and Q&A; citations kept consistent across the directories that feed the map; a review programme; and the service and location pages that rank for "service in city". Rankings and calls are tracked per location.',
+        link: { href: '/services#local', label: 'Local Presence & Maps in detail' },
+      },
+      {
+        q: 'Can you build or rebuild my website?',
+        a: 'Yes, and it is the core engagement most other channels point traffic at. It starts with positioning — what you sell, who it is for, and why a buyer picks you — which drives the copy, which drives the layout. Search foundations go in during the build rather than after it. You get a working site, not a mockup handed to someone else to interpret.',
+        link: { href: '/services#website', label: 'What a website engagement includes' },
+      },
+      {
+        q: 'Do you work with B2B and B2C?',
+        a: 'Both. We work with consumer brands, local businesses, and B2B and professional services. The playbook adapts — the goal is the same: make you impossible to miss where your buyers actually spend attention. What changes between them is which two or three channels are worth your money first, which is the first thing we tell you.',
+      },
+    ],
   },
   {
-    q: 'How does working with you start?',
-    a: (
-      <>
-        It starts with a demo. Before the call we audit where you show up today, where you don&apos;t, and the fastest wins — so we arrive with your pain points pinpointed and solutions to propose, then build a clear 90-day plan. No 30-day onboarding; real output lands in week one. <Link href="/demo">Book a demo →</Link>
-      </>
-    ),
+    id: 'pricing',
+    title: 'Pricing',
+    items: [
+      {
+        q: 'How much does Axia Atlas cost?',
+        a: 'We work in three tiers — Starter, Growth, and Authority — scoped to how fast you want to move, and exact pricing is shared on your demo call once we know your goals. Pricing depends on the channels you choose and how much we are building, so we quote it clearly on the call and you decide from there.',
+        link: { href: '/pricing', label: 'See what each tier includes' },
+      },
+      {
+        q: "What's the difference between Starter, Growth, and Authority?",
+        a: 'Starter is one or two channels, a 90-day plan, monthly execution and a plain-English report. Growth adds a third and fourth channel working together, answer engine optimization, website or landing-page work, a monthly strategy call, a live dashboard and priority support. Authority is full channel coverage plus the executive personal brand programme, campaign work, lead generation where it fits, and a senior strategist as your lead contact.',
+        link: { href: '/pricing', label: 'Compare the three tiers' },
+      },
+      {
+        q: 'Am I locked into a long contract?',
+        a: 'No. There are no long lock-ins and no surprise add-ons. Each tier is a monthly engagement, and what you pay depends on the channels you picked and how much we are building — quoted clearly on your demo call before anything starts, not discovered later on an invoice.',
+      },
+      {
+        q: 'Can I start with just one channel?',
+        a: 'Yes. Starter exists for exactly that: get momentum on one or two channels and prove the model before you scale. You do not need all eight services, and we would rather tell you which two or three will pay off fastest than sell you the full system on day one.',
+        link: { href: '/pricing', label: 'What Starter includes' },
+      },
+    ],
   },
   {
-    q: 'How much does it cost?',
-    a: (
-      <>
-        We work in three tiers — Starter, Growth, and Authority — scoped to how fast you want to move. Exact pricing is shared on your demo call once we know your goals. See what each tier includes on the <Link href="/pricing">pricing page</Link>.
-      </>
-    ),
+    id: 'process',
+    title: 'Process',
+    items: [
+      {
+        q: 'How does working with Axia Atlas start?',
+        a: 'It starts with a demo. Before the call we audit where you show up today, where you do not, and the fastest wins — so we arrive with your pain points pinpointed and solutions to propose, then build a clear 90-day plan. There is no 30-day onboarding; real output lands in week one.',
+        link: { href: '/demo', label: 'Book a demo' },
+      },
+      {
+        q: 'What happens before the demo call?',
+        a: 'We run an audit of how you show up today across search, answer engines, local, and social. That means the call itself is about your pain points and the solutions we would propose, not a generic pitch. You leave with the map either way, whether or not you work with us.',
+      },
+      {
+        q: 'How fast will I see results?',
+        a: 'Work starts in week one and you will see output immediately. Compounding channels like SEO and answer engine optimization build over 60 to 90 days; local and social can move faster. We set expectations channel by channel on your demo call rather than promising one timeline for all eight.',
+      },
+      {
+        q: 'How do you report on results?',
+        a: 'In plain English, monthly. We measure pipeline, rankings, citations, and compounding assets — not posts published. Growth and Authority tiers include a live dashboard and a monthly strategy call, so you can see the numbers between reports rather than waiting for one.',
+        link: { href: 'https://app.axiaatlas.com', label: 'The client portal', external: true },
+      },
+      {
+        q: 'Who actually does the work?',
+        a: 'The people you meet. We operate as an extension of your team rather than a faceless vendor, and you get direct access to the people doing the work. We take on fewer clients than most agencies, on purpose, so we can go deep instead of wide. On the Authority tier a senior strategist is your lead contact.',
+        link: { href: '/about', label: 'How we work, and why' },
+      },
+    ],
   },
   {
-    q: 'Do you work with B2B and B2C?',
-    a: 'Both. We work with consumer brands, local businesses, and B2B / professional services. The playbook adapts — the goal is the same: make you impossible to miss where your buyers actually spend attention.',
-  },
-  {
-    q: 'How do you report on results?',
-    a: 'In plain English, monthly. We measure pipeline, rankings, citations, and compounding assets — not posts published. Growth and Authority tiers include a live dashboard and a monthly strategy call.',
-  },
-  {
-    q: 'How fast will I see results?',
-    a: 'Work starts in week one and you\'ll see output immediately. Compounding channels like SEO and answer-engine optimization build over 60–90 days; local and social can move faster. We set expectations channel by channel on your demo call.',
-  },
-  {
-    q: "I'm a current client — who do I contact?",
-    a: (
-      <>
-        Email <a href="mailto:strategy@axiaatlas.com">strategy@axiaatlas.com</a> and your strategist will pick it up. You can also sign in to the <a href="https://app.axiaatlas.com">client portal</a> for reporting, deliverables, and messages.
-      </>
-    ),
-  },
-  {
-    q: "I'm new — what's the right email to reach you?",
-    a: (
-      <>
-        For new and prospective clients, partnerships, and general questions, write to <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a>. If you&apos;re ready to talk, the fastest path is to <Link href="/demo">book a demo</Link> — we audit your presence beforehand and come with specific recommendations.
-      </>
-    ),
-  },
-  {
-    q: 'What happens before the demo call?',
-    a: 'We run an audit of how you show up today — search, answer engines, local, and social — so the call itself is about your pain points and the solutions we\'d propose, not a generic pitch.',
+    id: 'company',
+    title: 'Company',
+    items: [
+      {
+        q: 'Are you a marketing agency in Miami?',
+        /* THE LOCAL-INTENT ANSWER, AND WHAT IT DELIBERATELY DOES NOT SAY. We
+           hold no address, and the Organization node says areaServed
+           "Worldwide". So this answers the intent behind the query — can you do
+           this for my city — without claiming a Miami office, which would be a
+           new and false claim. If a real city is ever added to the brand, this
+           is the answer that has to change first. */
+        a: 'We work with businesses in Miami and anywhere else — Axia Atlas works remotely with clients worldwide rather than from a single city storefront. For a Miami business the local work is the same as anywhere: a Google Business Profile built out for your categories and service area, citations kept consistent across the directories that feed the map, a review programme, and service and location pages that rank for "service in Miami". Rankings and calls are tracked per location.',
+        link: { href: '/services#local', label: 'How local presence work is done' },
+      },
+      {
+        q: "I'm a current client — who do I contact?",
+        a: 'Email strategy@axiaatlas.com and your strategist will pick it up. You can also sign in to the client portal for reporting, deliverables, and messages. Use this inbox for anything about your account, your plan, or your deliverables rather than the general one.',
+        link: { href: 'https://app.axiaatlas.com', label: 'Sign in to the client portal', external: true },
+      },
+      {
+        q: "I'm new — what's the right email to reach you?",
+        a: 'Write to partner@axiaatlas.com. That inbox covers new and prospective clients, partnerships, and general questions. If you are ready to talk, the fastest path is to book a demo instead — we audit your presence beforehand and come to the call with specific recommendations rather than questions.',
+        link: { href: '/demo', label: 'Book a demo' },
+      },
+      {
+        q: 'How quickly will you reply?',
+        a: 'Within 24 hours, usually the same day. That applies to both inboxes — partner@axiaatlas.com for new enquiries and strategy@axiaatlas.com for current clients. If you would rather skip the back-and-forth entirely, booking a demo puts a time in the calendar directly.',
+      },
+      {
+        q: 'Are you hiring?',
+        a: 'We are always glad to meet sharp people who do great work. Applying takes three quick steps and you attach your resume at the end. Open roles and the application form both live on the careers page.',
+        link: { href: '/careers', label: 'View careers and apply' },
+      },
+    ],
   },
 ]
+
+/* One FAQPage node covering every question on the page, generated from the
+   same array the page renders — so an answer edited above cannot leave a stale
+   copy in the structured data. `acceptedAnswer` carries the prose only; the
+   trailing links are navigation, not part of the answer. */
+const SITE_URL = 'https://axiaatlas.com'
+const FAQ_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${SITE_URL}/contact#faq`,
+  mainEntity: FAQ_SECTIONS.flatMap((sec) =>
+    sec.items.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  ),
+}
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', company: '', message: '' })
@@ -185,21 +300,42 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <section className="faq-section">
+      <section className="faq-section g-spruce">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
+        />
         <div className="section-inner">
-          <div className="section-head">
+          <div className="section-head centred">
             <div className="section-eyebrow">FAQ</div>
             <h2 className="section-headline">Common questions</h2>
-            <p className="section-sub">Quick answers on services, process, pricing, and getting started.</p>
           </div>
-          <div className="faq-list">
-            {FAQS.map((f, i) => (
-              <details key={i} className="faq-item">
-                <summary className="faq-q"><h3 className="faq-q-text">{f.q}</h3><Plus className="faq-ico" /></summary>
-                <div className="faq-a">{f.a}</div>
-              </details>
-            ))}
-          </div>
+
+          {FAQ_SECTIONS.map((sec) => (
+            <div key={sec.id} className="faq-group" id={`faq-${sec.id}`}>
+              <h2 className="faq-group-title">{sec.title}</h2>
+              <div className="faq-list">
+                {sec.items.map((f) => (
+                  <details key={f.q} className="faq-item">
+                    <summary className="faq-q">
+                      <h3 className="faq-q-text">{f.q}</h3>
+                      <Plus className="faq-ico" />
+                    </summary>
+                    <div className="faq-a">
+                      <p>{f.a}</p>
+                      {f.link ? (
+                        f.link.external ? (
+                          <a className="faq-a-link" href={f.link.href}>{f.link.label} &rarr;</a>
+                        ) : (
+                          <Link className="faq-a-link" href={f.link.href}>{f.link.label} &rarr;</Link>
+                        )
+                      ) : null}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
