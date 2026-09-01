@@ -8,12 +8,12 @@
 // drift apart again. If the portal's mark ever changes, change MARK_PATHS here
 // and re-run; do not hand-edit anything in public/.
 //
-// THE FRAMING. The portal ships the mark on a 1024 canvas with a lot of air,
-// which is right for a header lockup and wrong for a 16px browser tab. Icons
-// therefore use their own square crop, computed from the geometry rather than
+// THE FRAMING. Icons use a square crop computed from the geometry rather than
 // eyeballed: the mark's own bounding box, centered, scaled to MARK_RATIO of the
-// canvas. That keeps the ink big enough to read in a tab while staying inside
-// the ~80% safe circle Android crops a maskable icon to.
+// canvas. MARK_RATIO is the brand asset's own 400/1024 framing, so the favicon
+// is the logo rather than a tighter crop of it, and it sits well inside the
+// ~80% safe circle Android crops a maskable icon to. See MARK_RATIO below for
+// what that costs at 16px and why it is worth it.
 //
 // WHY EVERYTHING IS OPAQUE. Google composites a transparent favicon against its
 // own result-row background, which is why a transparent icon looks correct in
@@ -36,10 +36,11 @@
 // SMALL SIZES ARE RENDERED, NOT SHRUNK. The .ico also carries purpose-made 16
 // and 32 frames drawn straight from the vector. Before, the smallest asset on
 // the site was 48px, so every 16px rendering was a browser downscaling a raster
-// that had already been downscaled once, and the gap between the two halves of
-// the mark filled in and went grey. Rendering 16 and 32 from the geometry keeps
-// that gap open. They live only in the .ico, where a browser can pick the exact
-// frame; the linked PNGs stay on Google's multiple-of-48 rule.
+// that had already been downscaled once. Rendering 16 and 32 from the geometry
+// is the most the pipeline can do for them; at the brand's own MARK_RATIO the
+// 16px slot still antialiases to a seam, and that is accepted rather than
+// fixed. They live only in the .ico, where a browser can pick the exact frame;
+// the linked PNGs stay on Google's multiple-of-48 rule.
 //
 //   npm run icons
 import sharp from 'sharp'
@@ -59,8 +60,26 @@ const BOX = { x0: 318.627, y0: 312, x1: 704.861, y1: 711.998 }
 const CX = (BOX.x0 + BOX.x1) / 2
 const CY = (BOX.y0 + BOX.y1) / 2
 // Fraction of the icon's side the mark's tallest dimension should occupy.
-// 0.625 reads clearly at 16px and sits well inside Android's 80% maskable crop.
-const MARK_RATIO = 0.625
+//
+// 0.39 IS THE BRAND ASSET'S OWN FRAMING — 400 units of mark on a 1024 canvas,
+// which is how the mark is drawn everywhere else it appears. It was 0.625,
+// which cropped in on the geometry to buy legibility at 16px and, in doing so,
+// made the favicon a different piece of artwork from the logo it is supposed to
+// be. The icon now matches the asset.
+//
+// THE TRADE, TAKEN DELIBERATELY. At 0.39 the mark is smaller in the frame, so
+// at 16px the apex antialiases and the slot between the two halves reads as a
+// seam rather than a clean split. That gap is under one device pixel at that
+// size and no rendering method fixes it — rendering 16 straight from the vector
+// (which this script does) is already the best available answer. Brand fidelity
+// in search results, where the icon is drawn at 48px and up and is the only
+// place most people will ever see it, beats crispness in a browser tab. Do not
+// raise this number back to "fix" the 16px seam.
+//
+// KEEP IN SYNC with axiaatlas-platform/scripts/gen-icons.mjs. Both generators
+// write the same six files from the same geometry at the same ratio, and the
+// two properties are checked byte-for-byte at every size.
+const MARK_RATIO = 0.39
 const r = (n) => +n.toFixed(3)
 const SIDE = r(Math.max(BOX.x1 - BOX.x0, BOX.y1 - BOX.y0) / MARK_RATIO)
 const X0 = r(CX - SIDE / 2)
@@ -70,7 +89,9 @@ const VIEW_BOX = `${X0} ${Y0} ${SIDE} ${SIDE}`
 const paths = (fill) => MARK_PATHS.map((d) => `<path d="${d}" fill="${fill}"/>`).join('')
 
 // The raster source: bone mark, full-bleed Deep Spruce ground, no rounding.
-const filledSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VIEW_BOX}" width="1024" height="1024">
+// width/height are the TARGET size, so the rasterizer draws the vector at the
+// size being written instead of shrinking a bigger bitmap.
+const svgAt = (size) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VIEW_BOX}" width="${size}" height="${size}">
   <rect x="${X0}" y="${Y0}" width="${SIDE}" height="${SIDE}" fill="${SPRUCE}"/>
   ${paths(BONE)}
 </svg>`
@@ -78,8 +99,7 @@ const filledSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VIEW_BOX}"
 // flatten() drops the alpha channel outright, so the file cannot carry
 // transparency even in its corners.
 const png = (size) =>
-  sharp(Buffer.from(filledSvg))
-    .resize(size, size, { fit: 'fill' })
+  sharp(Buffer.from(svgAt(size)))
     .flatten({ background: SPRUCE })
     .png({ compressionLevel: 9 })
     .toBuffer()

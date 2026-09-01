@@ -70,38 +70,58 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: SITE_URL },
   // ── ICONS ────────────────────────────────────────────────────────────────
-  // ONE artwork, one generator, three containers. Every file below is written
-  // by scripts/gen-icons.mjs from the portal's canonical mark geometry, is a
-  // full-bleed square on a solid Deep Spruce ground, and carries no alpha
-  // channel. Do not add a second icon source, and do not add a transparent one.
+  // ONE mark, two jobs. The opaque set below is written by scripts/gen-icons.mjs
+  // from the portal's canonical mark geometry: full-bleed squares on a solid
+  // Deep Spruce ground, no alpha channel, no pre-rounded corners. The adaptive
+  // src/app/icon.svg is hand-maintained, transparent, and flips its ink between
+  // Deep Spruce and Bone Alabaster on prefers-color-scheme. Every one of these
+  // files is byte-identical to the portal's, and the two generators are kept in
+  // sync — see the header of scripts/gen-icons.mjs.
   //
-  // History, so this is not undone twice. First there were FIVE competing
-  // declarations led by `shortcut: '/icon-512.png'`, a rounded tile with
-  // transparent corners at a size Google rejects. Removing that left a subtler
-  // version of the same bug: an adaptive, transparent /icon.svg. Browsers
-  // prefer image/svg+xml over any PNG no matter where it sits in the list, so
-  // the tab drew the bare mark against the tab strip while Google drew THE SAME
-  // FILE against its own result-row background. Identical bytes, two different
-  // icons. The SVG is deleted, not merely reordered.
+  // DECLARATION ORDER MATCHES THE PORTAL'S EMITTED ORDER EXACTLY. favicon.ico,
+  // icon.svg, icon-192.png, icon-48.png. Do not reorder one property without
+  // the other.
   //
   // /favicon.ico is first because it is the URL Google probes for a site icon
   // and the one that must never move. It carried a 404 on this domain until
-  // now, which is why the search result was never stable in the first place.
-  // It now carries four frames, 16 through 96, each drawn from the vector
-  // rather than shrunk from a bigger raster, so a 16px tab gets a 16px drawing.
+  // recently, which is why the search result was never stable. It carries four
+  // frames, 16 through 96, each rasterized from the vector at its own size
+  // rather than shrunk from a bigger raster.
   //
-  // DO NOT ADD AN SVG ICON HERE, and do not restore public/icon.svg. This is a
-  // trade we made with our eyes open, not an oversight. An adaptive
-  // prefers-color-scheme SVG is the nicer browser tab: it flips ink color with
-  // the tab strip. It is also the one file Google can select and composite
-  // against its own result-row background, which is how the same bytes end up
-  // looking like two different icons. Browsers prefer image/svg+xml over any
-  // PNG no matter where it sits in this list, so there is no ordering that
-  // keeps the SVG for the tab and the PNGs for search. We sell search
-  // visibility. The search icon wins over the tab icon.
+  // icon.svg is declared EXPLICITLY rather than left to Next's file convention.
+  // Next would otherwise emit its own <link> for src/app/icon.svg on top of
+  // this list, and the tab would carry two competing declarations of the same
+  // file. Declaring it here suppresses that duplicate.
+  //
+  // WHAT WE CANNOT CONTROL, KNOWN AND ACCEPTED — DO NOT TRY TO SOLVE IT.
+  // Chromium rasterizes favicons outside any document, so prefers-color-scheme
+  // always resolves LIGHT in the tab strip (crbug.com/1311553). The adaptive
+  // SVG therefore draws its Deep Spruce ink in a Chromium tab no matter what
+  // the OS theme is. That is a browser limitation, not a bug in this file, and
+  // there is no ordering, media query, or asset that fixes it. The SVG is here
+  // for Firefox, Safari and direct loads, which do honor the media query.
+  // favicon.ico is what Google reads. Both are the same mark either way.
+  //
+  // Browsers prefer image/svg+xml over any PNG regardless of link order, so the
+  // SVG wins the tab, which is what we want. We cannot force which file a
+  // search engine selects; link order is the only lever there is, and
+  // favicon.ico has it. That is a stated preference, not a guarantee.
+  //
+  // THE FRAMING TRADE, ACCEPTED AND CLOSED. gen-icons.mjs draws the mark at its
+  // own brand framing — 400 units on a 1024 canvas, MARK_RATIO 0.39 — so the
+  // favicon is the logo rather than a tighter crop of it. It used to be 0.625,
+  // which zoomed in to buy legibility in a browser tab and made the favicon a
+  // different piece of artwork from the logo. The cost of the real framing is
+  // that at 16px the slot between the mark's two halves is about half a device
+  // pixel, so the apex antialiases and the halves fuse. It survives at 32px and
+  // up. No rendering method buys back a pixel that is not there. Search results
+  // draw this at 48px and up and are where nearly everyone will ever see it.
+  // Brand fidelity in search beats tab-icon crispness. Do not "fix" the seam by
+  // cropping in, and do not delete the SVG to make the opaque set the only icon.
   icons: {
     icon: [
       { url: '/favicon.ico', type: 'image/x-icon', sizes: '16x16 32x32 48x48 96x96' },
+      { url: '/icon.svg', type: 'image/svg+xml', sizes: 'any' },
       { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
       { url: '/icon-48.png', type: 'image/png', sizes: '48x48' },
     ],
