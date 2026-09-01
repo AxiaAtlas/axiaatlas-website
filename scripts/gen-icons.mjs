@@ -23,12 +23,16 @@
 // and Android apply their own mask, and a pre-rounded tile leaves transparent
 // corners for Google to fill.
 //
-// This script used to also write an adaptive, TRANSPARENT public/icon.svg for
-// the tab. That was the last transparent icon on the site and the only one the
-// tab and Google could disagree about: browsers prefer image/svg+xml over any
-// PNG regardless of link order, so the tab rendered the bare mark against the
-// tab strip while Google rendered the same file against its own background. It
-// is gone. There is now ONE artwork, opaque, in three containers.
+// THE TAB ICON IS THE ONE EXCEPTION, AND IT IS GENERATED HERE TOO. The last
+// block of this script writes public/icon-light.svg and public/icon-dark.svg:
+// transparent, no ground, Deep Spruce ink and Bone Alabaster ink respectively.
+// They are chosen by the media attribute on the <link> in src/app/layout.tsx and
+// they are the ONLY icons that layout declares. favicon.ico is still written
+// here and still served at the root path, but it is deliberately NOT linked --
+// Chrome maps a declared favicon.ico to the tab strip whatever the link order,
+// so declaring it is what takes the tab back. See the trade recorded above the
+// icon declarations in src/app/layout.tsx. Do not make the transparent pair
+// Google's icon, and do not re-declare favicon.ico.
 //
 // SIZES. Google wants a square favicon whose side is a multiple of 48px, so
 // every linked icon is 48, 96, or 192. 512 exists only for the PWA manifest.
@@ -159,3 +163,46 @@ writeFileSync('public/favicon.ico', ico([
 ]))
 
 console.log(`icons written from canonical mark, viewBox "${VIEW_BOX}"`)
+
+// ── THE ADAPTIVE TAB PAIR ────────────────────────────────────────────────
+// Two transparent files, one per OS theme, and the ONLY icons that
+// src/app/layout.tsx declares. The theme query lives in the media attribute ON
+// THE <link> ELEMENT, never inside the file.
+//
+// WHY TWO FILES AND NOT ONE. Both repos used to ship a single adaptive icon.svg
+// carrying an @media (prefers-color-scheme: dark) block INSIDE the SVG. A
+// favicon is rasterized outside any document, so an in-file query has no
+// document to evaluate against and could never have flipped the ink. It was
+// also never reached: Chrome was serving the tab from favicon.ico the whole
+// time. The link-level media attribute is a SEPARATE mechanism -- the query is
+// evaluated by the document that declares the link and the browser fetches only
+// the file that matched. Two files, no query inside either one, nothing for the
+// rasterizer to resolve.
+//
+// WHY THE PAIR NOW WINS THE TAB. Not because SVG outranks PNG or ICO; it does
+// not. Chrome maps favicon.ico to the tab strip whenever it is DECLARED,
+// regardless of link order, and never downloads the SVG. Measured, not assumed.
+// The pair wins only because layout.tsx declares no favicon.ico at all. The .ico
+// written above is still served at /favicon.ico, which is where Google looks by
+// convention whether or not a link points at it.
+//
+// TRANSPARENT ON PURPOSE. These two are the only transparent icons this site
+// serves and they are tab-only. A tab strip is a known background; a search
+// result row is not. Everything above stays opaque and Google keeps reading
+// favicon.ico.
+//
+// NO PNG TWINS. An earlier pass also wrote transparent icon-light.png /
+// icon-dark.png as a fallback for a client that reads <link media> but not an
+// SVG favicon. Nothing declares them, and an undeclared transparent icon at a
+// root path is exactly the kind of second icon source this file exists to
+// prevent. They are not written.
+//
+// Same geometry, same MARK_RATIO, same square VIEW_BOX as every asset above --
+// only the ink and the missing ground differ.
+const adaptiveSvg = (fill) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VIEW_BOX}" width="512" height="512">${paths(fill)}</svg>\n`
+
+for (const [name, fill] of [['light', SPRUCE], ['dark', BONE]])
+  writeFileSync(`public/icon-${name}.svg`, adaptiveSvg(fill))
+
+console.log('adaptive tab pair written: icon-light.svg (spruce ink), icon-dark.svg (bone ink)')
