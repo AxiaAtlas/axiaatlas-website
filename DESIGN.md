@@ -41,31 +41,54 @@ theme (no toggle). This document explains the intent so future work stays cohesi
 | `--sage-soft` | `#e4e9e3` | Soft sage tint |
 
 ### Semantic tokens (always use these in components)
+The site is dark. `:root` carries the portal's system — `color-scheme: dark` — and
+every token below resolves against a near-black page, not the alabaster one this
+document described before the redesign.
+
 | Token | Role |
 |---|---|
-| `--bg` `#f4f3ed`, `--bg-alt` `#eae9e1` | Dominant page canvas + alternating sections |
-| `--surface`, `--surface-2`, `--surface-hover` | Cards, inputs, raised panels |
-| `--text`, `--text-muted`, `--text-faint` | Text hierarchy |
+| `--bg` `#070C09`, `--bg-alt` `#0b120e` | Page ground + its barely-separated sibling |
+| `--surface` `#131a15`, `--surface-2`, `--surface-hover` | Cards, inputs, raised panels |
+| `--text` `#f1f0ea`, `--text-muted`, `--text-faint` | Text hierarchy. Muted is light sage, not spruce |
 | `--border`, `--border-strong`, `--hairline` | Dividers and outlines |
-| `--primary`, `--primary-hover`, `--on-primary` | Solid spruce CTA button |
-| `--accent` `#41685a`, `--accent-soft` | Eyebrows, links, icon tint, focus ring fill |
+| `--primary`, `--primary-hover`, `--on-primary` | CTA button. Inverts to bone-on-dark, because solid spruce disappears on `#070C09` |
+| `--accent`, `--accent-soft` | Eyebrows, links, icon tint, focus ring fill |
 | `--ring` | Focus outline color |
-| `--inverse-*` | Depth-panel family (deep spruce). Text/border/accent tokens for the few dark sections |
 | `--grid-line`, `--glow-a`, `--glow-b` | Cartographic grid + ambient glows |
-| `--shadow-sm/md/lg` | Elevation |
 
-**Depth panels** (`--inverse-*`) are deep spruce and used *sparingly* for contrast:
-the home hero, every page hero, and the footer — plus two single accent panels
-(the featured pricing card and the full-width bento feature cell). The **CTA band**
-(`.cta-band`, `components/CtaBand.tsx`) is *not* a depth panel: it's a sage-soft
-gradient section with dark text, a pulsing beacon, drifting grid, and an emphasized
-spruce CTA — the one light-green moment on each page, so it never reads as the
-footer. Everything else is alabaster/white surfaces with spruce/sage accents.
-Ambient sage glows (including at the bottom of the footer) sit on the dark panels.
+### The four grounds
+`#070C09` and `#0b120e` are four values apart. That is not a rhythm, and nine
+sections stacked on it read as one scrolling panel. Every section now picks one of
+four declared grounds (`globals.css`, "SECOND PASS — GROUNDS, ALIGNMENT, AND THE
+HEADER ARTIFACT"):
+
+| Class | Hex | Use |
+|---|---|---|
+| `.g-black` | `#070C09` | The page. The default, and still the most common |
+| `.g-raise` | `#101812` | A lifted near-black. Clearly not the page. Cards on it lift again |
+| `.g-spruce` | `#354940` | Deep Spruce, the brand primary, at full strength |
+| `.g-lift` | `#47614F` | A lighter spruce. **Emphasis only** — at most one section per page |
+
+**Adjacent sections never share a ground.** Home reads
+`black · spruce · black · spruce · raise · spruce · black · lift · black`.
+
+Each ground **redeclares the semantic tokens** rather than restyling its children,
+so every `var(--text-muted)` / `var(--surface)` / `var(--border)` already in the
+file resolves correctly inside it and nothing downstream needs to know where it
+landed. On Deep Spruce, cards go **down** rather than up: a lighter card on a
+mid-green ground reads as a sticker, a darker one as a recess, and the portal
+already teaches the eye that a card is the darker thing.
 
 ### Contrast
 Body text targets WCAG AA (≥ 4.5:1); large display text ≥ 3:1. `--text-muted` is
 reserved for secondary copy, never for primary reading at small sizes.
+
+**Alpha is set per ground**, because one value cannot clear 4.5:1 on all four. The
+`rgba(..., 0.62)` that reads as quiet on near-black lands at 3.1:1 on spruce. So
+muted runs `0.62` on the near-blacks, `0.76` on `.g-spruce`, and `0.84` on
+`.g-lift` — the lighter the ground, the higher the alpha has to run, since `0.76`
+lands at 4.1:1 on `#47614F` and only `0.84` clears it. Changing a ground's hex
+means re-checking its alphas; they are not decoration.
 
 ---
 
@@ -168,22 +191,21 @@ Body: `line-height 1.6–1.85`, `text-wrap: pretty`.
 
 ---
 
-## 7. Themes: one light system, plus the home page on the portal's
+## 7. Theme: the portal's system, site-wide
 
-- **Everything except `/`** is the single committed light theme
-  (alabaster-dominant, spruce depth). No toggle, no `data-theme`, no
-  `prefers-color-scheme` switching. `color-scheme: light` is set once on
-  `:root` so native form controls/scrollbars match.
-- **`/` runs the portal's dark system**, under a `.home-dark` scope on the page
-  wrapper (`globals.css`, "HOME — THE PORTAL'S SYSTEM"). It redefines the
-  semantic tokens only; no component reaches past a token. What it inherits from
-  `axiaatlas-platform`:
+- **The whole site runs the portal's dark system.** It began scoped to a
+  `.home-dark` wrapper on `/` while the rest of the site was still alabaster;
+  that scope is gone and the tokens now live on `:root` (`globals.css`, "THIS IS
+  THE SITE'S ONE COMMITTED THEME"). There is no toggle, no `data-theme`, no
+  `prefers-color-scheme` switching — `color-scheme: dark` is set once so native
+  form controls and scrollbars match. Any page reached from the nav is dark.
+- What it inherits from `axiaatlas-platform`:
 
-  | | Portal | Home |
+  | | Portal | Site |
   |---|---|---|
   | Page ground | `#070C09` | same |
   | Card | `#131A15` | same |
-  | Emphasis panel | `#354940` (Deep Spruce) | same — used **twice** (bento feature, final process step) |
+  | Emphasis panel | `#354940` (Deep Spruce) | same, plus `#47614F` above it — see the four grounds |
   | Radius | 6px | same (`--r`) |
   | Content width | 1280px | same (`--maxw`) |
   | Font | Montserrat for **all** text | same (`--font-body` too) |
@@ -191,16 +213,11 @@ Body: `line-height 1.6–1.85`, `text-wrap: pretty`.
 
   Two values are the site's own and are marked as such in the CSS: the footer
   takes the portal's dark sidebar ground `#0a110d` so it does not merge with the
-  spruce CTA band above it, and `--text-faint` sits at 0.58 alpha rather than
-  the light theme's equivalent, because the same alpha that reads as quiet on
-  alabaster lands under 3:1 on near-black.
-- **The nav** is shared chrome rendered as a sibling of the page, so it is
-  restyled through `body:has(.home-dark) .nav…`. Browsers without `:has()` get
-  the light nav over the dark hero — legible, wrong, and a shrinking population.
-- **Why scoped and not global.** Every other page is still built on the light
-  system (light page heroes, white cards, spruce-on-bone text). Flipping `:root`
-  would take them dark without redesigning them. They want this same move; they
-  want it as their own work.
+  section above it, and `--text-faint` sits at 0.58 alpha rather than the light
+  theme's equivalent, because the same alpha that reads as quiet on alabaster
+  lands under 3:1 on near-black.
+- **The nav** is shared chrome rendered as a sibling of the page. It is styled
+  with the rest of the dark system now that the theme is global.
 
 ### 7a. The hero artifact and the chart primitives
 
@@ -219,6 +236,29 @@ the topbar rather than a caption underneath, because the crop that ends up in a
 deck never includes the caption. The sessions KPI is the exact sum of the 28
 plotted days. We sell measurement; an unlabeled invented figure here would be
 disqualifying.
+
+### 7b. Heading placement
+
+Every section head used to start at the left gutter, which made nine sections
+land on the same vertical line. `.section-head` now takes an alignment chosen
+against **what sits beside it**:
+
+| Modifier | Use |
+|---|---|
+| *(none)* | Left. The head introduces a left-hand column |
+| `.centred` | The thing below is symmetric and full width |
+| `.aligned-right` | The head has a graphic or a grid to lean against |
+
+**This is a rotation, not an alternation** — three sections in a row may share one
+if the page reads better that way. Right-alignment is a compositional device, so
+it is reverted below **820px**: once the column is the whole screen there is
+nothing left beside it to balance against, and a ragged-left paragraph on a phone
+is harder to read for no gain. Below that breakpoint `.aligned-right` returns to
+`text-align: left`, full width, with its eyebrow flipped back to `row`.
+
+Section heads also no longer draw a decorative `::before`. The page-hero ellipse
+that painted a hard-edged pale rectangle under the heading on Services, Pricing,
+Insights, About and Contact is removed outright rather than retuned.
 
 ---
 
@@ -286,10 +326,13 @@ disqualifying.
 
 ## 11. Do / Don't
 
-**Do** keep the page predominantly alabaster, use spruce as deliberate punctuation,
-use semantic tokens, keep corners sharp, lean on whitespace and type scale, add
-restrained motion, write copy in plain language.
+**Do** keep the page predominantly near-black (alabaster is the ink now, not the
+ground), use spruce as deliberate punctuation, give adjacent sections different
+grounds, use semantic tokens, keep corners sharp, lean on whitespace and type
+scale, add restrained motion, write copy in plain language.
 
-**Don't** flood sections with spruce, introduce new accent colors (no gold), use
-emoji as UI, hardcode hex in components, say "AI", reintroduce a theme toggle, ship
-default-looking template sections, or animate without a `prefers-reduced-motion` fallback.
+**Don't** flood sections with spruce, put `.g-lift` on more than one section per
+page, repeat a ground on two adjacent sections, introduce new accent colors (no
+gold), use emoji as UI, hardcode hex in components, say "AI", reintroduce a theme
+toggle, ship default-looking template sections, or animate without a
+`prefers-reduced-motion` fallback.

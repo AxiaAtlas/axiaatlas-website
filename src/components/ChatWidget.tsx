@@ -27,7 +27,7 @@ const L = {
   social: { label: 'Social Media details', href: '/services#social' },
   intel: { label: 'Competitive Intelligence details', href: '/services#intel' },
   geo: { label: 'AEO details', href: '/services#geo' },
-  local: { label: 'Local Presence & SEO details', href: '/services#local' },
+  local: { label: 'Local Presence & Maps details', href: '/services#local' },
   executive: { label: 'Executive brand details', href: '/services#executive' },
   website: { label: 'Website details', href: '/services#website' },
   leadgen: { label: 'Lead gen details', href: '/services#leadgen' },
@@ -45,7 +45,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['service', 'offer', 'what can you', 'help with', 'channels', 'what do you sell'],
     answer:
-      'We run eight services: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & SEO, Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, and Strategic Advisory & Embedded Thinking. Most clients combine three or four.',
+      'We run eight services: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & Maps, Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, and Strategic Advisory & Embedded Thinking. Most clients combine three or four.',
     links: [L.services, L.demo],
     followups: ['How does answer engine optimization work?', 'What are your tiers?'],
   },
@@ -60,7 +60,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['local', 'google business', 'map pack', 'maps', 'near me', 'review'],
     answer:
-      "Local Presence & SEO works the map pack and the organic results under it together: a fully built Google Business Profile, consistent citations, a review programme with public responses, plus the service and location pages that rank for 'service in city'. Rankings and calls are tracked per location. Usually the highest-ROI channel for a business that sells inside a radius.",
+      "Local Presence & Maps works the map pack and the organic results under it together: a fully built Google Business Profile, consistent citations, a review programme with public responses, plus the service and location pages that rank for 'service in city'. Rankings and calls are tracked per location. Usually the highest-ROI channel for a business that sells inside a radius.",
     links: [L.local, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
@@ -84,7 +84,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['seo', 'search engine optimization', 'ranking', 'rank', 'keyword', 'organic', 'blog', 'article'],
     answer:
-      "SEO isn't a separate line item — search foundations are built into the website engagement from day one, and the ongoing ranking work lives inside Local Presence & SEO: service and location pages, internal linking, technical fixes, and rank tracking you can check.",
+      "SEO isn't a separate line item — search foundations are built into the website engagement from day one, and the ongoing ranking work lives inside Local Presence & Maps: service and location pages, internal linking, technical fixes, and rank tracking you can check.",
     links: [L.local, L.website],
     topic: true,
     followups: ['How does answer engine optimization work?', 'How long until I see results?'],

@@ -142,6 +142,14 @@ const PROCESS = [
 
 export default async function HomePage() {
   const db = await getCaseStudies()
+  // THE THRESHOLD, AND WHY THE PAGE IS STILL HARDCODED. The database overrides
+  // the curated CASES list only at five or more published rows. case_studies
+  // held 3 published rows when this was last checked, so what renders below is
+  // CASES -- the five hardcoded results -- and it will keep being CASES until
+  // two more real ones are published. This is the only surface with this rule;
+  // /case-studies is deleted and 308s to /#results, so there is no second
+  // threshold to keep in sync. A partial set is worse than the curated one: a
+  // slider that shows three is a thinner claim than a slider that shows five.
   const slides: CaseItem[] = db.length >= 5 ? (db as unknown as CaseItem[]) : CASES
 
   return (
