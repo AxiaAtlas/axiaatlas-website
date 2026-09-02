@@ -6,13 +6,14 @@ import type { MetadataRoute } from 'next'
 
    They are full-bleed with no rounding and no alpha, which is exactly what
    `maskable` wants: Android applies its own mask and crops to roughly the
-   middle 80%, and the generator keeps the mark at 62.5% of the canvas so it
-   survives that crop. 512 is here for the PWA install prompt only; the icons
-   Google reads are /favicon.ico and the PNGs declared in app/layout.tsx.
+   middle 80%, and the generator frames the mark at 39% of the canvas — the
+   brand asset's own framing — so it sits far inside that crop. 512 is here for
+   the PWA install prompt only; the icons Google reads are /favicon.ico and the
+   PNGs declared in app/layout.tsx.
 
-   There is deliberately no SVG entry. A transparent vector icon is the one
-   thing that can make a tab and a search result disagree, so the site no
-   longer ships one anywhere. */
+   There is deliberately no SVG entry HERE. The site does ship an adaptive
+   src/app/icon.svg for the browser tab, but a PWA icon is composited against
+   backgrounds the manifest does not control, so this list stays opaque. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Axia Atlas',

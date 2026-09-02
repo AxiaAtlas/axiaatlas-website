@@ -64,40 +64,76 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: SITE_URL },
   // ── ICONS ────────────────────────────────────────────────────────────────
-  // ONE artwork, one generator, three containers. Every file below is written
-  // by scripts/gen-icons.mjs from the portal's canonical mark geometry, is a
-  // full-bleed square on a solid Deep Spruce ground, and carries no alpha
-  // channel. Do not add a second icon source, and do not add a transparent one.
+  // TWO ASSETS, TWO JOBS, AND ONE OF THEM IS DELIBERATELY NOT DECLARED.
   //
-  // History, so this is not undone twice. First there were FIVE competing
-  // declarations led by `shortcut: '/icon-512.png'`, a rounded tile with
-  // transparent corners at a size Google rejects. Removing that left a subtler
-  // version of the same bug: an adaptive, transparent /icon.svg. Browsers
-  // prefer image/svg+xml over any PNG no matter where it sits in the list, so
-  // the tab drew the bare mark against the tab strip while Google drew THE SAME
-  // FILE against its own result-row background. Identical bytes, two different
-  // icons. The SVG is deleted, not merely reordered.
+  //   /icon-light.svg + /icon-dark.svg  transparent, mediated  ->  browser tabs
+  //   /favicon.ico                      opaque Deep Spruce     ->  Google
   //
-  // /favicon.ico is first because it is the URL Google probes for a site icon
-  // and the one that must never move. It carried a 404 on this domain until
-  // now, which is why the search result was never stable in the first place.
-  // It now carries four frames, 16 through 96, each drawn from the vector
-  // rather than shrunk from a bigger raster, so a 16px tab gets a 16px drawing.
+  // THE TAB. The two SVGs below are the only icons this document declares. They
+  // carry no ground: Deep Spruce (#354940) ink on the light branch, Bone
+  // Alabaster (#F1F0EA) on the dark one, same geometry as the .ico but framed
+  // WIDER than it, chosen by the `media` attribute ON THE LINK. The query is
+  // evaluated by this document and the browser fetches only the file that
+  // matched. On the framing difference, which is deliberate, see THE FRAMING
+  // TRADE below.
   //
-  // DO NOT ADD AN SVG ICON HERE, and do not restore public/icon.svg. This is a
-  // trade we made with our eyes open, not an oversight. An adaptive
-  // prefers-color-scheme SVG is the nicer browser tab: it flips ink color with
-  // the tab strip. It is also the one file Google can select and composite
-  // against its own result-row background, which is how the same bytes end up
-  // looking like two different icons. Browsers prefer image/svg+xml over any
-  // PNG no matter where it sits in this list, so there is no ordering that
-  // keeps the SVG for the tab and the PNGs for search. We sell search
-  // visibility. The search icon wins over the tab icon.
+  // WHY favicon.ico IS NOT IN THIS LIST. Chrome maps favicon.ico to the tab
+  // strip whenever it is DECLARED -- regardless of link order, regardless of
+  // what else is listed -- and never downloads the SVG at all. That was
+  // measured, not assumed: with the .ico declared the tab was the opaque tile
+  // and the SVG was never fetched; with only the mediated SVGs declared Chrome
+  // fetched and mapped icon-dark.svg. So the .ico is omitted from the HTML. The
+  // FILE is byte-unchanged and still served at /favicon.ico, which is where
+  // Google looks for a site icon by convention, link or no link -- that is what
+  // serves the search result for this domain.
+  //
+  // RE-DECLARING favicon.ico HERE SILENTLY REVERTS THE TAB TO THE OPAQUE TILE.
+  // It will not error and it will not look like a regression in review. Do not
+  // add it back.
+  //
+  // THE KNOWN RISK, STATED. The root-path convention is well established but
+  // unproven for this domain. If the icon disappears from our search results
+  // over the coming weeks, the revert is one line -- put the favicon.ico
+  // descriptor back in `icon` -- and we go back to an opaque tab.
+  //
+  // TWO EARLIER EXPLANATIONS LIVED HERE AND BOTH WERE WRONG. Browsers do NOT
+  // prefer image/svg+xml over ICO in Chrome's tab strip, so link order was
+  // never the only lever. And the SVG-internal @media block was not what
+  // failed -- crbug.com/1311553 was never reached, because Chrome was taking
+  // the declared .ico and never downloading the SVG at all. Undeclaring the
+  // .ico is the move that was missing, and it gets us both icons.
+  //
+  // WHAT STAYS OPAQUE. apple-touch-icon below, the manifest icons and the
+  // og-card. A home-screen tile and a search row composite an icon against
+  // their own background, so transparency there is not adaptive, it is
+  // undefined. All of them are full-bleed squares written by
+  // scripts/gen-icons.mjs from the portal's canonical mark geometry, so the
+  // marketing site and the portal are one icon.
+  //
+  // THE FRAMING TRADE, ACCEPTED AND CLOSED -- AND IT APPLIES TO GOOGLE'S FILES
+  // ONLY. gen-icons.mjs draws the opaque assets at the brand's own framing --
+  // 400 units on a 1024 canvas, MARK_RATIO_OPAQUE 0.39 -- so the favicon is the
+  // logo rather than a tighter crop of it. The cost is that at 16px the slot
+  // between the mark's two halves is about half a device pixel, so the apex
+  // antialiases and the halves fuse. It survives at 32px and up. Search results
+  // draw this at 48px and up and are where nearly everyone will ever see it, so
+  // brand fidelity in search beats tab crispness. Do not "fix" that seam by
+  // cropping in.
+  //
+  // The two SVGs above are NOT on that framing and never were bound by it. The
+  // trade bought brand fidelity where Google reads, and Google does not read
+  // them -- it reads /favicon.ico. They are tab-only, so they are framed at
+  // MARK_RATIO_TAB 0.62 for the one job they have, where the same slot measures
+  // 0.83 of a device pixel and renders as a 58%-ink channel against 100% flanks
+  // instead of closing. Measured at 16px on the shipped icon-light.svg.
+  //
+  // Two ratios, two consumers, on purpose. Do not unify them: pulling the tab
+  // pair back to 0.39 returns the wedge, and widening the opaque set to 0.62
+  // re-opens the trade above.
   icons: {
     icon: [
-      { url: '/favicon.ico', type: 'image/x-icon', sizes: '16x16 32x32 48x48 96x96' },
-      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
-      { url: '/icon-48.png', type: 'image/png', sizes: '48x48' },
+      { url: '/icon-light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
+      { url: '/icon-dark.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: dark)' },
     ],
     apple: [{ url: '/apple-icon.png', type: 'image/png', sizes: '192x192' }],
   },
