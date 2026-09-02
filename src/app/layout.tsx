@@ -77,9 +77,11 @@ export const metadata: Metadata = {
   //
   // THE TAB. The two SVGs below are the only icons this document declares. They
   // carry no ground: Deep Spruce (#354940) ink on the light branch, Bone
-  // Alabaster (#F1F0EA) on the dark one, same geometry, same 0.39 framing,
-  // chosen by the `media` attribute ON THE LINK. The query is evaluated by this
-  // document and the browser fetches only the file that matched.
+  // Alabaster (#F1F0EA) on the dark one, same geometry as the .ico but framed
+  // WIDER than it, chosen by the `media` attribute ON THE LINK. The query is
+  // evaluated by this document and the browser fetches only the file that
+  // matched. On the framing difference, which is deliberate, see THE FRAMING
+  // TRADE below.
   //
   // WHY favicon.ico IS NOT IN THIS LIST. Chrome maps favicon.ico to the tab
   // strip whenever it is DECLARED -- regardless of link order, regardless of
@@ -114,14 +116,26 @@ export const metadata: Metadata = {
   // scripts/gen-icons.mjs from the portal's canonical mark geometry, so the
   // marketing site and the portal are one icon.
   //
-  // THE FRAMING TRADE, ACCEPTED AND CLOSED. gen-icons.mjs draws the mark at its
-  // own brand framing -- 400 units on a 1024 canvas, MARK_RATIO 0.39 -- so the
-  // favicon is the logo rather than a tighter crop of it. The cost is that at
-  // 16px the slot between the mark's two halves is about half a device pixel,
-  // so the apex antialiases and the halves fuse. It survives at 32px and up.
-  // Search results draw this at 48px and up and are where nearly everyone will
-  // ever see it. Brand fidelity in search beats tab-icon crispness. Do not
-  // "fix" the seam by cropping in.
+  // THE FRAMING TRADE, ACCEPTED AND CLOSED -- AND IT APPLIES TO GOOGLE'S FILES
+  // ONLY. gen-icons.mjs draws the opaque assets at the brand's own framing --
+  // 400 units on a 1024 canvas, MARK_RATIO_OPAQUE 0.39 -- so the favicon is the
+  // logo rather than a tighter crop of it. The cost is that at 16px the slot
+  // between the mark's two halves is about half a device pixel, so the apex
+  // antialiases and the halves fuse. It survives at 32px and up. Search results
+  // draw this at 48px and up and are where nearly everyone will ever see it, so
+  // brand fidelity in search beats tab crispness. Do not "fix" that seam by
+  // cropping in.
+  //
+  // The two SVGs above are NOT on that framing and never were bound by it. The
+  // trade bought brand fidelity where Google reads, and Google does not read
+  // them -- it reads /favicon.ico. They are tab-only, so they are framed at
+  // MARK_RATIO_TAB 0.62 for the one job they have, where the same slot measures
+  // 0.83 of a device pixel and renders as a 58%-ink channel against 100% flanks
+  // instead of closing. Measured at 16px on the shipped icon-light.svg.
+  //
+  // Two ratios, two consumers, on purpose. Do not unify them: pulling the tab
+  // pair back to 0.39 returns the wedge, and widening the opaque set to 0.62
+  // re-opens the trade above.
   icons: {
     icon: [
       { url: '/icon-light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
