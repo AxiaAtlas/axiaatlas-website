@@ -126,16 +126,25 @@ export const metadata: Metadata = {
   // brand fidelity in search beats tab crispness. Do not "fix" that seam by
   // cropping in.
   //
-  // The two SVGs above are NOT on that framing and never were bound by it. The
-  // trade bought brand fidelity where Google reads, and Google does not read
-  // them -- it reads /favicon.ico. They are tab-only, so they are framed at
-  // MARK_RATIO_TAB 0.62 for the one job they have, where the same slot measures
-  // 0.83 of a device pixel and renders as a 58%-ink channel against 100% flanks
-  // instead of closing. Measured at 16px on the shipped icon-light.svg.
+  // The two SVGs above are NOT on that framing and never were bound by it, and
+  // they carry NO brand-framing obligation of their own. The trade bought brand
+  // fidelity where Google reads, and Google does not read them -- it reads
+  // /favicon.ico. They are tab-only, so they are framed at MARK_RATIO_TAB 0.80
+  // for the one job they have, where the same slot measures 1.07 device pixels
+  // and renders as a 47%-ink channel against 100% flanks across seven contiguous
+  // rows instead of closing. Measured at 16px on the shipped icon-light.svg; on
+  // a 2x strip the channel opens to 0% and becomes an actual gap.
+  //
+  // 0.80 REPLACED 0.62, WHICH WAS A GUESS RATHER THAN A CONSTRAINT. 0.62 did
+  // hold the slot open, but it had never been measured against anything else. It
+  // has been now, across 0.39 / 0.62 / 0.70 / 0.75 / 0.80 / 0.85 / 0.90 / 1.00,
+  // and 0.80 is better on every count at 16px: 47% centre ink against 58%, seven
+  // full-flank rows against four, and a base that reaches 0% instead of 30%.
   //
   // Two ratios, two consumers, on purpose. Do not unify them: pulling the tab
-  // pair back to 0.39 returns the wedge, and widening the opaque set to 0.62
-  // re-opens the trade above.
+  // pair back to 0.39 returns the wedge, and widening the opaque set to 0.80
+  // re-opens the trade above. Raising the TAB ratio alone is safe and is what
+  // happened here; raising the OPAQUE one is the move that costs us search.
   icons: {
     icon: [
       { url: '/icon-light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
