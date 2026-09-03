@@ -74,12 +74,12 @@ const FAQ_SECTIONS: FaqSection[] = [
     items: [
       {
         q: 'How much does Axia Atlas cost?',
-        a: 'We work in three tiers — Starter, Growth, and Authority — scoped to how fast you want to move, and exact pricing is shared on your demo call once we know your goals. Pricing depends on the channels you choose and how much we are building, so we quote it clearly on the call and you decide from there.',
+        a: 'We work in three tiers — Starter, Growth, and Command — scoped to how fast you want to move, and exact pricing is shared on your demo call once we know your goals. Pricing depends on the channels you choose and how much we are building, so we quote it clearly on the call and you decide from there.',
         link: { href: '/pricing', label: 'See what each tier includes' },
       },
       {
-        q: "What's the difference between Starter, Growth, and Authority?",
-        a: 'Starter is one or two channels, a 90-day plan, monthly execution and a plain-English report. Growth adds a third and fourth channel working together, answer engine optimization, website or landing-page work, a monthly strategy call, a live dashboard and priority support. Authority is full channel coverage plus the executive personal brand programme, campaign work, lead generation where it fits, and a senior strategist as your lead contact.',
+        q: "What's the difference between Starter, Growth, and Command?",
+        a: 'Starter is one or two channels, a 90-day plan, monthly execution and a plain-English report. Growth adds a third and fourth channel working together, answer engine optimization, website or landing-page work, a monthly strategy call, a live dashboard and priority support. Command is full channel coverage plus the executive personal brand programme, campaign work, lead generation where it fits, and a senior strategist as your lead contact.',
         link: { href: '/pricing', label: 'Compare the three tiers' },
       },
       {
@@ -112,12 +112,12 @@ const FAQ_SECTIONS: FaqSection[] = [
       },
       {
         q: 'How do you report on results?',
-        a: 'In plain English, monthly. We measure pipeline, rankings, citations, and compounding assets — not posts published. Growth and Authority tiers include a live dashboard and a monthly strategy call, so you can see the numbers between reports rather than waiting for one.',
+        a: 'In plain English, monthly. We measure pipeline, rankings, citations, and compounding assets — not posts published. Growth and Command tiers include a live dashboard and a monthly strategy call, so you can see the numbers between reports rather than waiting for one.',
         link: { href: 'https://app.axiaatlas.com', label: 'The client portal', external: true },
       },
       {
         q: 'Who actually does the work?',
-        a: 'The people you meet. We operate as an extension of your team rather than a faceless vendor, and you get direct access to the people doing the work. We take on fewer clients than most agencies, on purpose, so we can go deep instead of wide. On the Authority tier a senior strategist is your lead contact.',
+        a: 'The people you meet. We operate as an extension of your team rather than a faceless vendor, and you get direct access to the people doing the work. We take on fewer clients than most agencies, on purpose, so we can go deep instead of wide. On the Command tier a senior strategist is your lead contact.',
         link: { href: '/about', label: 'How we work, and why' },
       },
     ],

@@ -132,14 +132,14 @@ const QA_SET: QA[] = [
   {
     keywords: ['price', 'pricing', 'cost', 'how much', 'budget', 'rate', 'fee'],
     answer:
-      'We work in three tiers — Starter, Growth, and Authority — scoped to how fast you want to move. Exact pricing is shared on your demo call, once we know your goals. See what each tier includes:',
+      'We work in three tiers — Starter, Growth, and Command — scoped to how fast you want to move. Exact pricing is shared on your demo call, once we know your goals. See what each tier includes:',
     links: [L.pricing, L.demo],
     followups: ['What are your tiers?', 'How do I get started?'],
   },
   {
-    keywords: ['tier', 'starter', 'growth', 'authority', 'plan', 'package'],
+    keywords: ['tier', 'starter', 'growth', 'command', 'authority', 'plan', 'package'],
     answer:
-      'Three tiers: Starter (one or two channels, get momentum), Growth (multi-channel system, our most popular), and Authority (full-spectrum, founder brand + campaigns).',
+      'Three tiers: Starter (one or two channels, get momentum), Growth (multi-channel system, our most popular), and Command (full-spectrum, founder brand + campaigns).',
     links: [L.pricing, L.demo],
     followups: ['How much does it cost?', 'How do I get started?'],
   },

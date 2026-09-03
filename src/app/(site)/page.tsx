@@ -123,11 +123,32 @@ export default async function HomePage() {
         <div className="hero-aura" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-copy">
-            {/* The badge no longer repeats the H1. It said "Digital marketing
-                studio", two words of which are the H1's keyword; it carries the
-                company's own line instead — already on /about and already in the
-                Organization JSON-LD as `slogan`. */}
-            <div className="hero-eyebrow"><span className="pulse" /> To be found is to be seen</div>
+            {/* The badge is the first text on the page, above the H1, on the
+                only page most visitors will read before deciding to stay. It
+                names the four categories a buyer actually searches for, so it
+                does a job a slogan cannot: it says what we are, and it carries
+                keywords the H1 does not. It still avoids the H1's keyword,
+                which is why the "Digital marketing studio" badge was dropped
+                in the first place.
+
+                It also recovers what the deleted "Built to be found in" strip
+                was reaching for — naming the surfaces — without occupying a
+                proof slot and proving nothing.
+
+                The slogan is not retired, only moved out of the hero: it keeps
+                its homes on /about, on /links, and in the Organization JSON-LD
+                as `slogan`. Authored in title case because `text-transform:
+                uppercase` renders it as SEO · ANSWER ENGINES · LOCAL · SOCIAL
+                either way, and the cased source is what a screen reader says.
+
+                Considered and rejected: "Search · Social · Local · Answers"
+                (parallel and pretty, but "Search" is the vaguer word and
+                "Answers" reads as a promise rather than a surface — nobody
+                searches for "answers" as a service), and "Get found where your
+                buyers are looking" (a benefit line, so it competes with the
+                H1's job instead of adding to it, and carries no keyword at
+                all). */}
+            <div className="hero-eyebrow"><span className="pulse" /> SEO · Answer Engines · Local · Social</div>
             <h1 className="hero-headline">
               Digital Marketing That Makes You<br />
               <em>Impossible to Miss</em>
@@ -266,11 +287,22 @@ export default async function HomePage() {
           earns its place (six cards are showing; the reader needs to know the
           catalogue is bigger) and trades the channel claim for the claim the
           section is actually making, which the eyebrow, the grid, and the
-          whole page already argue: these are bought together. */}
+          whole page already argue: these are bought together.
+
+          THE EYEBROW IS NO LONGER "THE CHANNELS". Nothing on screen was
+          false — the cards below are channels — but the eyebrow and the H2
+          were counting different things, which is the same two-counts problem
+          this pass removed from the heading. "The System" says what the H2
+          says, carries no count of its own, and cannot drift when the
+          catalogue grows — except that "The System" is already the eyebrow on
+          the section above, and two sections cannot share one label. "The
+          Services" is the fix: it is the same noun the H2 counts, so the
+          eyebrow and the heading are now counting one thing instead of two,
+          and it introduces no count of its own. */}
       <section className="channels-section g-raise">
         <div className="section-inner">
           <div className="section-head aligned-right">
-            <div className="section-eyebrow">The Channels</div>
+            <div className="section-eyebrow">The Services</div>
             <h2 className="section-headline">Nine services. One system.</h2>
           </div>
           <div className="services-grid">

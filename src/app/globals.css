@@ -1978,6 +1978,17 @@ section {
 }
 .hero-copy { min-width: 0; }
 .hero-eyebrow { margin: 0 0 26px; }
+/* Measured in a real 390px viewport, not a headless window: the badge's 37
+   characters set at 0.22em tracking measure 375px against 350px of usable
+   width, so it broke into two lines inside a pill — which reads as a mistake
+   rather than as a badge. Tracking is the compressible part (it is 89px of
+   that 375px, more than the overflow), so giving back most of it, plus 5px of
+   side padding, lands the line at ~330px with real headroom for a slower font
+   swap. Only the hero badge changes, only below 430px; every other eyebrow on
+   the site keeps 0.22em. */
+@media (max-width: 430px) {
+  .hero-eyebrow { letter-spacing: 0.12em; padding: 7px 13px 7px 11px; }
+}
 .hero-headline {
   /* Was clamp(2.85rem, 7vw, 5.25rem) — 84px at desktop. The two headline lines
      alone ate 170px of a 700px fold and left nothing for an artifact; at half

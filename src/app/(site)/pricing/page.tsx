@@ -5,7 +5,7 @@ import { Arrow, Check } from '@/components/icons'
 import { pageTitle, social } from '@/lib/seo'
 
 const DESCRIPTION =
-  'Three Axia Atlas tiers — Starter, Growth, and Authority — scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.'
+  'Three Axia Atlas tiers — Starter, Growth, and Command — scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.'
 
 export const metadata: Metadata = {
   title: 'Digital Marketing Pricing and Packages',
@@ -44,7 +44,7 @@ const TIERS = [
     cta: 'Scope a Growth plan',
   },
   {
-    name: 'Authority',
+    name: 'Command',
     blurb: 'Full-spectrum visibility, founder brand, and campaigns — for businesses that want to own their category.',
     features: [
       'Full channel coverage',
@@ -55,7 +55,7 @@ const TIERS = [
       'Senior strategist as your lead contact',
     ],
     featured: false,
-    /* NOT "Talk about Authority". A top tier's objection is commitment, not
+    /* NOT "Talk about Command". A top tier's objection is commitment, not
        curiosity: the reader who has got this far already believes the tier is
        good, and is weighing whether clicking starts something they cannot back
        out of. "Talk about X" answers that with a meeting. "Explore your
@@ -63,7 +63,7 @@ const TIERS = [
        three CTAs that promises the reader nothing is being decided.
 
        The two it beat, kept here so the next pass does not re-run the argument:
-       "Explore full coverage" (same verb, names what Authority is, but "full"
+       "Explore full coverage" (same verb, names what Command is, but "full"
        re-raises the size question the tier already loses on) and "Own your
        category" (strongest line, straight out of the tier's own blurb, but it
        is a claim on a button — the loudest promise on the page sitting under
@@ -104,12 +104,12 @@ export default function PricingPage() {
       {/* ── CLIENT DASHBOARDS — A BAND, NOT A FOURTH CARD ──────────────────
           A fourth card in that grid would say "fourth rung of the same
           ladder", and that is exactly the wrong claim. Starter, Growth, and
-          Authority are three sizes of one thing: channels, bought monthly,
+          Command are three sizes of one thing: channels, bought monthly,
           scoped to how fast you want to move. A client dashboard is not a
           bigger version of any of them — it is software built for the client's
           own operation, it is not a way to be found, and it is priced on a
           shape the ladder does not have. Putting it beside the three would
-          have made a reader compare it to Authority, which is the one
+          have made a reader compare it to Command, which is the one
           comparison that teaches them nothing true.
 
           A band reads as "and separately", which is the relationship.

@@ -251,8 +251,8 @@
         },
         {
           "level": 2,
-          "text": "Authority",
-          "chars": 9
+          "text": "Command",
+          "chars": 7
         },
         {
           "level": 2,
@@ -441,8 +441,8 @@
         },
         {
           "level": 3,
-          "text": "What's the difference between Starter, Growth, and Authority?",
-          "chars": 61
+          "text": "What's the difference between Starter, Growth, and Command?",
+          "chars": 59
         },
         {
           "level": 3,
