@@ -139,8 +139,17 @@ export const metadata: Metadata = {
   },
 }
 
-// The eight services, in the same order as /services. Kept here so the
-// Organization node advertises the full catalog on every page.
+// The services, in the same order as /services. Kept here so the Organization
+// node advertises the full catalog on every page.
+//
+// IT MUST MATCH /services, AND NOT LOOSELY. This array and the ItemList that
+// page builds from its own SERVICES both publish under the SAME @id
+// (`/services#catalog`), so a parser reading the services page merges them. For
+// as long as both said the same eight that was harmless. The moment they
+// disagreed — one node claiming eight offers, the other listing nine — the
+// merge stopped being a no-op and started being a coin toss over which count
+// the entity is described by. Anything added to /services belongs here in the
+// same pass.
 const SERVICE_CATALOG = [
   'Website Design & Build',
   'Social Media Management',
@@ -149,6 +158,7 @@ const SERVICE_CATALOG = [
   'Answer Engine Optimization (AEO)',
   'Lead Generation',
   'Executive Personal Brand',
+  'Client Dashboards',
   'Strategic Advisory & Embedded Thinking',
 ]
 
@@ -237,7 +247,12 @@ const ORG_NODE = {
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     '@id': `${SITE_URL}/services#catalog`,
-    name: `Axia Atlas services — ${SERVICE_CATALOG.length} ways to get found`,
+    // Not "N ways to get found" any more, and for the reason given on the
+    // /services ItemList this mirrors: Client Dashboards is not a way to get
+    // found. It is behind a login and indexed by nobody, so a catalogue name
+    // that calls every member a discovery channel is making a claim about it
+    // that is false. `numberOfItems` still carries the count.
+    name: 'Axia Atlas service catalog',
     numberOfItems: SERVICE_CATALOG.length,
     itemListElement: SERVICE_CATALOG.map((name, i) => ({
       '@type': 'Offer',
