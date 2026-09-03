@@ -26,7 +26,9 @@ import { RESULT_VISUALS } from '@/components/artifacts/ResultVisual'
 export type CaseItem = {
   id?: string | number
   industry: string
-  company_type?: string
+  /* `null` as well as absent: the column is nullable and both render the
+     same nothing. */
+  company_type?: string | null
   stat?: { value: string; label: string } | null
   result_headline: string
   callouts?: string[]

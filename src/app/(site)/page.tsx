@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase/client'
+import { getCaseStudies } from '@/lib/case-studies'
 import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 import ResultsSlider, { type CaseItem } from '@/components/ResultsSlider'
@@ -9,19 +9,12 @@ import PortalShot from '@/components/PortalShot'
 import SerpGap from '@/components/artifacts/SerpGap'
 import AuditPreview from '@/components/artifacts/AuditPreview'
 
-async function getCaseStudies() {
-  try {
-    const { data } = await supabase
-      .from('case_studies')
-      .select('*')
-      .eq('published', true)
-      .order('created_at', { ascending: false })
-      .limit(8)
-    return data || []
-  } catch {
-    return []
-  }
-}
+/* The results are read at render, so the page has to be allowed to re-render.
+   It was fully static because the CASES array made the read decorative; now
+   the read is the only source and a static page would freeze the slider at
+   whatever the table held on the last deploy. Same hour as the other
+   database-backed pages (/about, /blog). */
+export const revalidate = 3600
 
 /* SIX OF THE EIGHT, in the live site's order, because "View all 8 services"
    has to lead somewhere that holds more than the page already showed.
@@ -41,76 +34,6 @@ const SERVICES = [
   { id: 'local', name: 'Local Presence & Maps', desc: 'Profile, citations, and reviews managed so nearby buyers find you first, not the business down the road.', href: '/services#local' },
   { id: 'geo', name: 'Answer Engine Optimization (AEO)', desc: 'Get cited across leading AI platforms—Claude, ChatGPT, Perplexity, and Gemini—represented accurately and recommended when buyers search your category.', href: '/services#geo' },
   { id: 'leadgen', name: 'Lead Generation', desc: 'Prospects researched against your ideal customer, reached with outreach written for them, tracked from first touch onward.', href: '/services#leadgen' },
-]
-
-/* THE CASE STUDIES, MOVED HERE FROM THE PAGE THAT REPEATED THEM. /case-studies
-   is deleted and 308s to /#results: five results is a section, not a library,
-   and the page existed to say again what this already said. Every string below
-   is the one that page shipped, character for character.
-
-   The Supabase table takes over once it holds a real set (>=5 published rows) —
-   the original seed rows predate the current brand-copy rules. */
-const CASES: CaseItem[] = [
-  {
-    id: '1',
-    industry: 'Professional Services',
-    company_type: 'B2B Consulting',
-    stat: { value: '340%', label: 'organic growth in 90 days' },
-    callouts: ['~4,200 monthly organic sessions', 'First leads by month 3'],
-    challenge: 'No organic traffic and no social presence — every new client came through referrals, with nothing pulling in buyers on its own.',
-    approach: 'Built a sharper brand, grew a founder-voice presence on LinkedIn, and published buyer-keyword SEO articles aimed at the questions prospects actually search.',
-    result_headline: '340% organic growth in 90 days',
-    result_detail: 'Climbed to roughly 4,200 monthly organic sessions from a near-zero start, with the first inbound leads landing by month three.',
-    service_used: 'SEO + Founder Brand',
-  },
-  {
-    id: '2',
-    industry: 'E-commerce',
-    company_type: 'DTC Brand',
-    stat: { value: '5.3x', label: 'organic growth in under 4 months' },
-    callouts: ['Ranked top 3 on Google for buyer-intent terms', 'Traffic + conversions up month over month'],
-    challenge: 'No organic visibility — invisible for the searches that actually convert, with nothing pulling in buyers on its own.',
-    approach: 'Built a keyword and content strategy targeting buyer-intent terms, paired with on-site conversion fixes — no paid media.',
-    result_headline: '5.3x organic growth in under 4 months',
-    result_detail: 'Grew organic traffic 5.3x in under four months, ranking top three on Google for buyer-intent terms, with conversions climbing month over month — all organic.',
-    service_used: 'SEO + Conversion',
-  },
-  {
-    id: '3',
-    industry: 'E-commerce',
-    company_type: 'DTC Brand',
-    stat: { value: '+7 pts', label: 'above the cart-recovery benchmark — zero ad spend' },
-    callouts: ['7 pts above the 20–30% industry standard', 'Owned channels only — zero ad spend'],
-    challenge: 'High pre-order cart abandonment and a heavy reliance on paid media to recover the sales slipping away.',
-    approach: 'Built pre-order abandoned-cart recovery across owned channels — email, SMS, and content — with no paid media in the mix.',
-    result_headline: 'Beat the cart-recovery benchmark by 7 points — zero ad spend',
-    result_detail: 'Recovered abandoned pre-orders at a rate 7 points above the 20–30% industry standard, entirely through owned channels.',
-    service_used: 'Owned Channels + Content',
-  },
-  {
-    id: '4',
-    industry: 'Consumer Brand',
-    company_type: 'Lifestyle Brand',
-    stat: { value: '6x', label: 'follower growth in 60 days' },
-    callouts: ['Outpaced the category average', 'Engagement climbed alongside'],
-    challenge: 'Flat, inconsistent social that left audience growth stalled and the brand easy to scroll past.',
-    approach: 'Repositioned the voice, built content pillars, and held a consistent multi-platform posting cadence the audience could rely on.',
-    result_headline: '6x follower growth in 60 days',
-    result_detail: 'The following grew sixfold in two months — far beyond the typical rate for the category — with engagement climbing alongside it.',
-    service_used: 'Social Media + Brand Voice',
-  },
-  {
-    id: '5',
-    industry: 'Food & Hospitality',
-    company_type: 'Local Restaurant',
-    stat: { value: '#1', label: 'recommended local result in answer engines' },
-    callouts: ['Surfaced first for "near me" queries', 'Ahead on reviews, presence & citations'],
-    challenge: 'Invisible in answer-engine and map results while competitors owned every "near me" search nearby.',
-    approach: 'Ran an answer-engine optimization audit, added structured content, and tightened reviews and listing presence so the right details were everywhere they needed to be.',
-    result_headline: 'The top recommended local result in answer engines',
-    result_detail: 'Surfaced first when prospects asked answer engines and maps for the best option nearby — ahead of competitors on reviews, presence, and citations.',
-    service_used: 'Answer Engines + Local Presence',
-  },
 ]
 
 /* THE TICKER, BACK TO ONE LINE. It was two rows of search-field chips travelling
@@ -141,16 +64,12 @@ const PROCESS = [
 ]
 
 export default async function HomePage() {
-  const db = await getCaseStudies()
-  // THE THRESHOLD, AND WHY THE PAGE IS STILL HARDCODED. The database overrides
-  // the curated CASES list only at five or more published rows. case_studies
-  // held 3 published rows when this was last checked, so what renders below is
-  // CASES -- the five hardcoded results -- and it will keep being CASES until
-  // two more real ones are published. This is the only surface with this rule;
-  // /case-studies is deleted and 308s to /#results, so there is no second
-  // threshold to keep in sync. A partial set is worse than the curated one: a
-  // slider that shows three is a thinner claim than a slider that shows five.
-  const slides: CaseItem[] = db.length >= 5 ? (db as unknown as CaseItem[]) : CASES
+  /* Eight at most, and no in-code set behind them: the slider shows what
+     case_studies publishes, in sort_order. The five that used to sit in this
+     file as a CASES array are rows now (migration 004), word for word, and the
+     `>= 5` gate went with them -- a threshold only exists to choose between
+     two sources. See lib/case-studies.ts. */
+  const slides = await getCaseStudies(8)
 
   return (
     <div className="page">
@@ -351,7 +270,11 @@ export default async function HomePage() {
             <h2 className="section-headline">Measured in customers,<br />not vanity metrics.</h2>
             <p className="section-sub">We keep client names confidential. The numbers speak for themselves.</p>
           </div>
-          <ResultsSlider slides={slides} />
+          {/* No slides means the read failed -- there is no in-code set to fall
+              back to any more. The section and its heading stay so that the
+              /case-studies 308 still lands on something; only the slider,
+              which would otherwise be an empty track with no dots, goes. */}
+          {slides.length > 0 ? <ResultsSlider slides={slides} /> : null}
         </div>
       </section>
 
