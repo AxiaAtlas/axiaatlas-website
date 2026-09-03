@@ -207,7 +207,14 @@ const ORG_NODE = {
     'Axia Atlas is a digital marketing and SEO studio. It is not a healthcare provider, medical group, or patient services organization, and is unaffiliated with any similarly named business in healthcare.',
   slogan: 'To be found is to be seen.',
   email: 'partner@axiaatlas.com',
-  areaServed: 'Worldwide',
+  /* NATIONWIDE, NOT WORLDWIDE. Corrected on direction with the /contact answer
+     that made the same claim in prose ("works remotely with clients
+     nationwide"). A machine-readable areaServed of "Worldwide" sitting under a
+     visible answer that says nationwide is the drift the FAQ file works hard to
+     avoid, so the two moved together. `Country` with a name rather than the
+     bare string, because an engine can resolve a typed node and cannot resolve
+     an adjective. */
+  areaServed: { '@type': 'Country', name: 'United States' },
   // An engine that cannot tell what sector a company is in falls back to
   // whichever same-named entity it DOES have a sector for. Stating it explicitly
   // is what makes a healthcare entity a bad match rather than a plausible one.

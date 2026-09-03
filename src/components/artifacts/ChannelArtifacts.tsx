@@ -1,23 +1,51 @@
 /* ────────────────────────────────────────────────────────────────────────────
    ONE SMALL ARTIFACT PER CHANNEL.
 
-   A grid of eight cards that differ only in their words is eight of the same
-   card. Each of these shows the SHAPE of the work instead: a rank row looks
-   nothing like a citation line, which looks nothing like a posting calendar,
-   and that difference is the point — it is what tells a reader that "Local
-   Presence" and "Answer Engine Optimization" are not the same service with two
-   names.
+   A grid of cards that differ only in their words is the same card repeated.
+   Each of these shows the SHAPE of the work instead: a local listing looks
+   nothing like an assistant answering a question, which looks nothing like a
+   posting calendar, and that difference is the point — it is what tells a
+   reader that "Local Presence" and "Answer Engine Optimization" are not the
+   same service with two names.
 
-   NOT ONE OF THESE CARRIES A FIGURE. No session counts, no percentages, no
-   follower numbers. They draw structure — positions, cells, bars, a cursor —
-   because structure can be honest without a source and a number cannot. The
-   only digits anywhere are rank positions (1, 2, 3), which are the ordinal
-   labels of the rows themselves rather than a measurement of anything.
+   THIRD PASS: THREE OF THEM STOPPED BEING ABSTRACT.
+
+   Only three of these ship today, on /services — website, local, geo — and all
+   three were drawing the IDEA of the service rather than the thing the service
+   buys. A grid of dots with one pin lit is a diagram of "local"; it is not what
+   a buyer sees. So:
+
+     website   a browser, and a page inside it. Chrome, an address pill, a nav
+               bar, a hero with a heading and a button, a row of cards. It reads
+               as a website because it is drawn as one.
+     local     a Google local result: name, rating, review count, address, and
+               today's hours. That result IS the deliverable — winning it is
+               what the money buys — so it is what the figure shows.
+     geo       a short back-and-forth: a buyer's question, and an answer that
+               names a business. That exchange is literally the product.
+
+   WHAT THAT COST, AND WHY IT IS PAID. The old rule here was "not one of these
+   carries a figure" — no counts, no percentages — because structure can be
+   honest without a source and a number cannot. A star rating and a review count
+   break it. They are not measurements of anything of ours: they are furniture
+   of the surface being drawn, and a local result without them is not a local
+   result. The two figures that now mock a real search surface with a business
+   name in it therefore carry a tag inside their frame, the same way the SERP
+   mock on the home page does. That is the site's standing rule (Illustrative.tsx)
+   and it applies exactly here — to a graphic a crop of which could be mistaken
+   for a record of somebody.
+
+   THE BUSINESS IS INVENTED, AND IT IS THE SAME INVENTED BUSINESS the home
+   page's mock search result uses. One fictional company across the site reads
+   as a deliberate stand-in; four different plausible names read as four claims.
 
    They are decorative in the accessibility sense: the card's real heading and
    description carry the meaning, so every one of these is aria-hidden. A screen
    reader gets the service, not a description of a drawing of the service.
    ──────────────────────────────────────────────────────────────────────────── */
+
+/* The stand-in. Generic English compounds, no category, nothing that resolves. */
+const MOCK_BUSINESS = 'Northgate Services Co.'
 
 type A = { className?: string }
 
@@ -45,36 +73,88 @@ export const ArtIntel = (_: A) =>
     </div>,
   )
 
-/* Website — a browser frame with a wireframe inside it. */
+/* Website — a browser, and a page inside it. Chrome with an address pill, then
+   the page: a nav bar with a mark and links, a hero with two heading lines and
+   a button, and a row of three cards under it. Three grey bars in a frame was
+   "a wireframe"; this is a website. */
 export const ArtWebsite = (_: A) =>
   wrap(
     <div className="ch-browser">
-      <div className="ch-chrome"><i /><i /><i /></div>
-      <div className="ch-wire">
-        <span className="w1" /><span className="w2" /><span className="w3" />
+      <div className="ch-chrome">
+        <i /><i /><i />
+        <span className="ch-url" />
+      </div>
+      <div className="ch-page">
+        <div className="ch-nav">
+          <span className="ch-mark" />
+          <span className="ch-navlinks"><i /><i /><i /></span>
+          <span className="ch-navcta" />
+        </div>
+        <div className="ch-heroblock">
+          <span className="ch-hl" /><span className="ch-hl short" />
+          <span className="ch-hbtn" />
+        </div>
+        <div className="ch-cards"><span /><span /><span /></div>
       </div>
     </div>,
   )
 
-/* Local — a map field with a pin cluster and one lit pin. */
+/* One star, drawn once and reused five times. The fifth is dimmed rather than
+   half-filled: a clipped half-star at 11px reads as a rendering artefact. */
+const Star = ({ dim }: { dim?: boolean }) => (
+  <svg viewBox="0 0 24 24" className={`ch-star${dim ? ' dim' : ''}`} aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M12 2.6l2.9 5.88 6.49.95-4.7 4.58 1.11 6.46L12 17.42 6.2 20.47l1.11-6.46-4.7-4.58 6.49-.95z"
+    />
+  </svg>
+)
+
+/* Local — the Google local result itself: name, rating, review count, address,
+   and today's hours, with the listing photo on the right. This is the thing the
+   service buys, and it is what a buyer actually sees; the abstract map grid
+   with one pin lit was a diagram of the word "local". */
 export const ArtLocal = (_: A) =>
   wrap(
-    <div className="ch-map">
-      <span className="ch-pin a" /><span className="ch-pin b" />
-      <span className="ch-pin c" /><span className="ch-pin lit" />
-    </div>,
+    <>
+      <div className="ch-listing">
+        <div className="ch-listing-main">
+          <div className="ch-listing-name">{MOCK_BUSINESS}</div>
+          <div className="ch-listing-rate">
+            <span className="ch-rate-num">4.8</span>
+            <span className="ch-stars">
+              <Star /><Star /><Star /><Star /><Star dim />
+            </span>
+            <span className="ch-reviews">128 reviews</span>
+          </div>
+          <div className="ch-listing-meta">Northgate Ave · 0.6 mi</div>
+          <div className="ch-listing-meta">
+            <span className="ch-open">Open</span> · Closes 6 PM
+          </div>
+        </div>
+        <span className="ch-listing-thumb" aria-hidden="true" />
+      </div>
+      <span className="ch-art-tag">Not a real listing</span>
+    </>,
   )
 
-/* AEO — a citation line: an answer paragraph with the cited source underlined. */
+/* AEO — the exchange, not a diagram of it. A buyer asks an assistant who to
+   use; the assistant answers and names a business. That is the whole product,
+   and an answer paragraph with a rule under it never said so. */
 export const ArtGeo = (_: A) =>
   wrap(
-    <div className="ch-answer">
-      <span className="ch-line" /><span className="ch-line short" />
-      <span className="ch-cite">
-        <span className="ch-cite-mark" />
-        <span className="ch-cite-rule" />
-      </span>
-    </div>,
+    <>
+      <div className="ch-chat">
+        <div className="ch-ask">Who should I go with near me?</div>
+        <div className="ch-reply">
+          <span className="ch-spark" aria-hidden="true" />
+          <span className="ch-reply-text">
+            I&apos;d start with <b>{MOCK_BUSINESS}</b> — strong reviews and they cover your area.
+          </span>
+        </div>
+      </div>
+      <span className="ch-art-tag">Not a real answer</span>
+    </>,
   )
 
 /* Lead Generation — a pipeline narrowing through three stages. */

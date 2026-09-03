@@ -6,15 +6,24 @@ import { Illustrative } from './Illustrative'
    "You can have the better product and still lose to the business that shows up
    first" is the whole argument of the Problem section, and it was being made by
    a paragraph. This is that sentence as a picture: a result list where four
-   generic businesses are present and the fifth slot — the one the reader is
-   standing in — is empty.
+   businesses are present and the fifth slot — the one the reader is standing in
+   — is empty.
 
-   NO REAL COMPETITOR NAMES, EVER. Every entry is a category placeholder
-   ("A competitor", "Another provider") with a greyed pseudo-domain. Putting a
-   real business's name in a mock of them losing would be a claim about that
-   business, made in a graphic, on our own marketing site. The frame carries an
-   "Illustrative" tag for the same reason the hero's chart carries "Sample
-   data": the crop that ends up in a screenshot has to say what it is.
+   THE ROWS ARE INVENTED BUSINESSES, NOT PLACEHOLDER LABELS. They used to read
+   "A competitor / competitor-one.example" and "Another provider", which is a
+   description of a mock rather than a mock: a reader sees an unfinished
+   component, not a search result they lose. The names below are made up out of
+   generic English compounds, deliberately category-neutral (nothing here says
+   what the business sells, because the query above does not either), and every
+   host sits on `.example` — the TLD RFC 2606 reserves so it can never resolve
+   to anybody's site.
+
+   NO REAL COMPETITOR NAMES, EVER, and nothing shaped like a real company.
+   Putting a real business's name in a mock of them WINNING is an endorsement we
+   have not earned the right to make; putting one in a mock of them losing is a
+   claim about that business, made in a graphic, on our own marketing site. The
+   frame therefore keeps its "Not a real search" tag: the crop that ends up in a
+   screenshot has to say what it is.
 
    The gap row is the focal point, so it is the only row with an accent border,
    and it is announced to assistive tech rather than being a purely visual
@@ -23,10 +32,10 @@ import { Illustrative } from './Illustrative'
    ──────────────────────────────────────────────────────────────────────────── */
 
 const ROWS = [
-  { rank: 1, name: 'A competitor', host: 'competitor-one.example' },
-  { rank: 2, name: 'Another provider', host: 'provider-two.example' },
-  { rank: 3, name: 'A directory listing', host: 'directory.example' },
-  { rank: 4, name: 'A larger chain', host: 'chain-four.example' },
+  { rank: 1, name: 'Northgate Services Co.', host: 'northgate-services.example' },
+  { rank: 2, name: 'Bellrock & Partners', host: 'bellrockpartners.example' },
+  { rank: 3, name: 'CityList Directory', host: 'citylist-directory.example' },
+  { rank: 4, name: 'Harborline Group', host: 'harborline-group.example' },
 ]
 
 const Magnifier = () => (
@@ -38,7 +47,7 @@ const Magnifier = () => (
 
 export default function SerpGap() {
   return (
-    <figure className="sg" aria-label="An illustration of a search results page with four generic competitors listed and no entry for your business">
+    <figure className="sg" aria-label="An illustration of a search results page listing four invented example businesses and no entry for your business">
       <div className="sg-bar">
         <span className="sg-field" aria-hidden="true">
           <Magnifier />

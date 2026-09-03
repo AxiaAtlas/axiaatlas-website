@@ -1,5 +1,3 @@
-import { Sample } from './Illustrative'
-
 /* ────────────────────────────────────────────────────────────────────────────
    WHAT THE PRE-CALL AUDIT ACTUALLY PRODUCES.
 
@@ -8,11 +6,22 @@ import { Sample } from './Illustrative'
    promise arrives with something attached to it rather than as a sentence above
    a button.
 
-   THE FOUR ROW LABELS ARE THE FOUR CHANNELS the site already names, and the
-   states are the three states an audit can return. The scores are made up and
-   the card says so, in the frame, at the top — an audit graphic on the page of
-   a company that sells audits is exactly where an unlabelled invented figure
-   would do the most damage.
+   THE FOUR ROW LABELS ARE THE FOUR CHANNELS the site already names.
+
+   EVERY ROW NOW CARRIES ITS NUMBER. The bar drew a percentage and the right-
+   hand column named a state, so the one quantity in the card was the only thing
+   a reader had to estimate off a 6px track. The number is printed. The state
+   word stays beside it, because "12%" alone does not say whether 12 is a
+   disaster or a decent start in that channel — the pair is the finding, and the
+   colour ties them together.
+
+   NO "SAMPLE DATA" TAG. It read as an apology for a graphic nobody was going to
+   mistake for their own audit: this is a hero illustration on a marketing page,
+   under a headline and beside a "Book a Demo" button, for a visitor who has not
+   given us a domain yet. There is nothing here to attribute and nobody to
+   mislead. The label rule still holds where it earns its place — see the note
+   in Illustrative.tsx, and the mock result list, which keeps its tag because a
+   crop of it could be read as a real search.
    ──────────────────────────────────────────────────────────────────────────── */
 
 const ROWS: { label: string; state: 'gap' | 'partial' | 'ok'; fill: number }[] = [
@@ -30,7 +39,6 @@ export default function AuditPreview() {
       <div className="card">
         <div className="card-header">
           <span className="card-title">Visibility audit</span>
-          <Sample />
         </div>
         <div className="card-body">
           <ul className="audit-rows">
@@ -40,6 +48,7 @@ export default function AuditPreview() {
                 <span className="audit-track" aria-hidden="true">
                   <span className="audit-fill" style={{ width: `${r.fill}%` }} />
                 </span>
+                <span className="audit-pct">{r.fill}%</span>
                 <span className="audit-state">{STATE_LABEL[r.state]}</span>
               </li>
             ))}

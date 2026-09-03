@@ -2356,32 +2356,89 @@ footer::before {
 .ch-bars { display: flex; flex-direction: column; gap: 6px; width: 100%; }
 .ch-bar { display: block; height: 7px; border-radius: 4px; background: rgba(200, 209, 197, 0.09); overflow: hidden; }
 .ch-bar span { display: block; height: 100%; background: var(--accent); opacity: 0.55; border-radius: 4px; }
-.ch-browser { width: 100%; border: 1px solid var(--border-strong); border-radius: 4px; overflow: hidden; }
-.ch-chrome { display: flex; gap: 4px; padding: 6px 8px; background: rgba(200, 209, 197, 0.06); }
-.ch-chrome i { width: 5px; height: 5px; border-radius: 50%; background: rgba(200, 209, 197, 0.3); }
-.ch-wire { padding: 10px 10px 12px; display: flex; flex-direction: column; gap: 5px; }
-.ch-wire span { display: block; height: 6px; border-radius: 3px; background: rgba(200, 209, 197, 0.16); }
-.ch-wire .w1 { width: 55%; background: var(--accent); opacity: 0.6; }
-.ch-wire .w2 { width: 88%; }
-.ch-wire .w3 { width: 70%; }
-.ch-map {
-  width: 100%; height: 100%; position: relative; border-radius: 4px;
-  background-image:
-    linear-gradient(rgba(200, 209, 197, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200, 209, 197, 0.07) 1px, transparent 1px);
-  background-size: 22px 22px;
+/* ── website — a browser, and a page inside it ─────────────────────────── */
+/* Capped and centred: a browser is landscape, but at the full ~490px of the
+   services aside against a ~135px inner height it reads as a letterbox rather
+   than as a screen. */
+.ch-browser { width: 100%; max-width: 400px; margin-inline: auto; border: 1px solid var(--border-strong); border-radius: 5px; overflow: hidden; background: var(--surface-2); }
+.ch-chrome { display: flex; align-items: center; gap: 4px; padding: 7px 9px; background: rgba(200, 209, 197, 0.07); border-bottom: 1px solid var(--border); }
+.ch-chrome i { width: 5px; height: 5px; border-radius: 50%; background: rgba(200, 209, 197, 0.3); flex: none; }
+/* The address pill. It is what makes the frame read as a browser rather than as
+   a window: three dots alone are also a dialog, a player, a card header. */
+.ch-url { flex: 1; height: 9px; margin-left: 7px; border-radius: 5px; background: rgba(200, 209, 197, 0.12); }
+.ch-page { padding: 9px 10px 11px; display: flex; flex-direction: column; gap: 9px; }
+.ch-nav { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.ch-mark { width: 14px; height: 8px; border-radius: 2px; background: var(--accent); opacity: 0.75; flex: none; }
+.ch-navlinks { display: flex; gap: 7px; flex: 1; }
+.ch-navlinks i { width: 22px; height: 4px; border-radius: 2px; background: rgba(200, 209, 197, 0.20); }
+.ch-navcta { width: 30px; height: 10px; border-radius: 3px; background: rgba(200, 209, 197, 0.26); flex: none; }
+.ch-heroblock { display: flex; flex-direction: column; gap: 6px; padding: 2px 0 3px; }
+.ch-hl { display: block; height: 8px; width: 74%; border-radius: 3px; background: rgba(200, 209, 197, 0.30); }
+.ch-hl.short { width: 48%; height: 8px; }
+.ch-hbtn { display: block; width: 46px; height: 12px; border-radius: 3px; margin-top: 3px; background: var(--accent); opacity: 0.8; }
+.ch-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.ch-cards span { display: block; height: 26px; border-radius: 3px; background: rgba(200, 209, 197, 0.10); border: 1px solid var(--border); }
+/* ── local — the Google local result, not a map of the word "local" ─────── */
+.ch-listing {
+  width: 100%; display: flex; align-items: flex-start; gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-strong); border-radius: 5px;
+  background: var(--surface-2);
 }
-.ch-pin { position: absolute; width: 8px; height: 8px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: rgba(200, 209, 197, 0.28); }
-.ch-pin.a { left: 18%; top: 26%; }
-.ch-pin.b { left: 62%; top: 18%; }
-.ch-pin.c { left: 78%; top: 62%; }
-.ch-pin.lit { left: 40%; top: 50%; width: 12px; height: 12px; background: var(--accent); box-shadow: 0 0 0 5px rgba(200, 209, 197, 0.12); }
-.ch-answer { width: 100%; display: flex; flex-direction: column; gap: 7px; }
-.ch-line { display: block; height: 6px; border-radius: 3px; background: rgba(200, 209, 197, 0.14); }
-.ch-line.short { width: 62%; }
-.ch-cite { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-.ch-cite-mark { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
-.ch-cite-rule { flex: 1; height: 2px; background: var(--accent); opacity: 0.6; border-radius: 2px; max-width: 120px; }
+.ch-listing-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.ch-listing-name {
+  font-family: var(--font-head); font-size: 0.875rem; font-weight: 700;
+  color: var(--accent); letter-spacing: -0.01em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ch-listing-rate { display: flex; align-items: center; gap: 6px; }
+.ch-rate-num { font-family: var(--font-head); font-size: 0.75rem; font-weight: 700; color: var(--text); }
+.ch-stars { display: inline-flex; gap: 1px; }
+.ch-star { width: 11px; height: 11px; color: #d9b37c; flex: none; }
+.ch-star.dim { color: rgba(200, 209, 197, 0.22); }
+.ch-reviews { font-size: 0.6875rem; color: var(--text-faint); white-space: nowrap; }
+.ch-listing-meta { font-size: 0.6875rem; color: var(--text-faint); line-height: 1.55; }
+.ch-open { color: #7fc4a0; font-weight: 700; }
+/* The listing photo, where Google puts it. A flat tile, deliberately — an
+   invented photograph is a claim and a grey square is not. */
+.ch-listing-thumb {
+  width: 46px; height: 46px; flex: none; border-radius: 4px;
+  background:
+    linear-gradient(135deg, rgba(200, 209, 197, 0.16), rgba(200, 209, 197, 0.05)),
+    var(--surface);
+  border: 1px solid var(--border);
+}
+/* ── geo — the exchange, drawn as one ──────────────────────────────────── */
+.ch-chat { width: 100%; display: flex; flex-direction: column; gap: 9px; }
+.ch-ask {
+  align-self: flex-end; max-width: 78%;
+  padding: 7px 11px; border-radius: 11px 11px 3px 11px;
+  background: rgba(200, 209, 197, 0.13);
+  font-size: 0.75rem; line-height: 1.45; color: var(--text);
+}
+.ch-reply { display: flex; align-items: flex-start; gap: 8px; max-width: 92%; }
+/* A four-point spark: the mark every assistant surface uses for "this is the
+   model talking", and the cheapest way to say so without naming a vendor. */
+.ch-spark {
+  width: 13px; height: 13px; flex: none; margin-top: 1px;
+  background: var(--accent);
+  clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+}
+.ch-reply-text { font-size: 0.75rem; line-height: 1.6; color: var(--text-muted); }
+.ch-reply-text b { color: var(--accent); font-weight: 700; }
+/* The tag, inside the frame, on the two figures that mock a real surface with a
+   business name in them. Absolute rather than in flow: `.ch-art` is a centred
+   flex row and a tag in it would sit beside the artifact as a sixth column. */
+.ch-art-tag {
+  position: absolute; top: 8px; right: 10px;
+  font-family: var(--font-head); font-size: 8px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 3px;
+  background: rgba(200, 209, 197, 0.10);
+  border: 1px solid rgba(200, 209, 197, 0.18);
+  color: var(--text-faint);
+  pointer-events: none;
+}
 .ch-funnel { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .ch-funnel span { display: block; height: 9px; border-radius: 3px; background: var(--accent); }
 .ch-funnel .f1 { width: 86%; opacity: 0.28; }
@@ -2466,21 +2523,39 @@ footer::before {
 /* The audit artifact. */
 .audit-card .card { margin-bottom: 0; }
 .audit-rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-.audit-row { display: grid; grid-template-columns: 96px minmax(0, 1fr) 62px; align-items: center; gap: 12px; }
+/* FOUR COLUMNS, because the number is now printed rather than estimated off a
+   6px track: label · bar · percentage · state. The percentage is the readable
+   size (tabular, so the column does not jitter between 12% and 78%) and the
+   state word drops to the small caps it always was — together they read as one
+   finding rather than as two competing right-hand values. */
+.audit-row { display: grid; grid-template-columns: minmax(0, 88px) minmax(0, 1fr) 34px 54px; align-items: center; gap: 10px; }
 .audit-label { font-family: var(--font); font-size: 11px; font-weight: 600; color: var(--fg-primary); }
 .audit-track { height: 6px; border-radius: 3px; background: rgba(200, 209, 197, 0.10); overflow: hidden; }
 .audit-fill { display: block; height: 100%; border-radius: 3px; background: var(--spruce-mid); }
+.audit-pct {
+  font-family: var(--font); font-size: 12px; font-weight: 700;
+  font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1;
+  letter-spacing: -0.01em; text-align: right;
+  color: var(--fg-primary);
+}
 .audit-state {
   font-family: var(--font); font-size: 9px; font-weight: 700;
   letter-spacing: 0.06em; text-transform: uppercase; text-align: right;
   color: var(--spruce-mid);
 }
 .audit-row.gap .audit-fill { background: #e09a9a; }
-.audit-row.gap .audit-state { color: #e09a9a; }
+.audit-row.gap .audit-pct, .audit-row.gap .audit-state { color: #e09a9a; }
 .audit-row.ok .audit-fill { background: #7fc4a0; }
-.audit-row.ok .audit-state { color: #7fc4a0; }
+.audit-row.ok .audit-pct, .audit-row.ok .audit-state { color: #7fc4a0; }
 .audit-row.partial .audit-fill { background: #d9b37c; }
-.audit-row.partial .audit-state { color: #d9b37c; }
+.audit-row.partial .audit-pct, .audit-row.partial .audit-state { color: #d9b37c; }
+/* On a phone the card is ~310px inside its padding, and 88 + 34 + 54 + gaps
+   leaves the track under 90px. The label wraps to two lines instead and the
+   bar keeps a readable length. */
+@media (max-width: 460px) {
+  .audit-row { grid-template-columns: minmax(0, 72px) minmax(0, 1fr) 32px 48px; gap: 8px; }
+  .audit-label { font-size: 10.5px; line-height: 1.3; }
+}
 @media (max-width: 1000px) {.problem-split { grid-template-columns: minmax(0, 1fr); gap: 40px; }}
 /* ── SERVICES — five compositions, eight rows, no two alike ───────────────
    The base row is a 1.2fr / 1fr split; each `sd-*` modifier rearranges it. The
@@ -2495,7 +2570,10 @@ footer::before {
   background: var(--surface);
   overflow: hidden;
 }
-.sd-art .ch-art { height: 150px; border-bottom: none; background: transparent; padding: 22px 26px; }
+/* 176, not 150. The three figures that ship here are no longer three bars in a
+   box — a browser with a page in it, a local result with five fields, a two-turn
+   exchange — and 150px was cropping their breathing room, not their content. */
+.sd-art .ch-art { height: 176px; border-bottom: none; background: transparent; padding: 20px 24px; }
 /* lead — the core engagement. A wide artifact band above the row. */
 .sd-band .ch-art { height: 168px; border-bottom: none; background: transparent; padding: 26px clamp(26px, 5vw, 64px); }
 /* split-rev — the artifact leads, the copy follows. */
@@ -2569,6 +2647,19 @@ footer::before {
   max-width: calc(var(--maxw) + var(--gutter) * 2);
   margin-inline: auto;
 }
+/* CONTACT — THE HEAD AND THE THING IT INTRODUCES SIT TOGETHER.
+   The hero paid a full page-hero bottom (up to 104px) and .contact-body paid a
+   full section top (up to 80px) into the same seam, so up to 184px of ground
+   opened between "Contact Our Digital Marketing Team" and the two columns it is
+   the heading for — enough that on a laptop the H1 could scroll off before
+   "Get in touch" arrived. They are one block; the join is now a join. */
+.contact-hero { padding-bottom: clamp(24px, 3vw, 36px); }
+.contact-body { padding-top: clamp(28px, 3.5vw, 44px); }
+/* And the third contributor: .section-sub carries a 56px bottom margin for the
+   case where copy follows it inside the same block. Here it is the hero's last
+   child, so that margin was stacking on top of both paddings — 56 + 104 + 80.
+   Zeroed; the hero's own padding is the spacing. */
+.contact-hero .section-sub { margin-bottom: 0; }
 .blog-post-hero { max-width: none; }
 @media (max-width: 900px) {.services-hero, .cs-hero, .pricing-hero, .demo-hero, .blog-hero {
     grid-template-columns: minmax(0, 1fr);
@@ -2952,16 +3043,87 @@ section.g-lift, .cta-band.g-lift { background-color: #47614f; }
 .system-section .bento-card.feature .bento-num { color: var(--accent); }
 .system-section .bento-card:hover { border-color: var(--border-strong); }
 /* ── THE CHANNELS ────────────────────────────────────────────────────────
-   Six uniform cards, three across. */
-.channels-section .services-grid { gap: 14px; }
+   Six cards on four columns: two of them double-wide, four ordinary. 2x2 + 4x1
+   is eight column-units, so the block is still exactly two full rows with no
+   ragged tail, and the two wide cells fall in opposite halves of the grid
+   (row 1 ends on Website, row 2 opens on the pair Local + AEO) rather than
+   stacking down one side.
+
+   The emphasis is SCALE ONLY. The version of this block that carried a small
+   drawing in every cell was the busiest thing on the page; a wide cell with
+   larger type and its copy laid out beside the mark says "this one first"
+   without adding a ninth graphic to the page. */
+.channels-section .services-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .channels-section .service-card {
   display: flex; flex-direction: column;
   padding: 30px;
   border-radius: var(--r);
 }
-.channels-section .service-desc { flex: 1; }
-.channels-section .service-link { margin-top: 18px; }
+.channels-section .sc-body { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.channels-section .service-desc { flex: 1; margin-bottom: 0; }
+.channels-section .service-link { margin-top: 18px; align-self: flex-start; }
+/* The double-wide cell. Head left, prose right — the two-column split is what
+   stops it from being an ordinary card with a hole where the extra width is. */
+.channels-section .service-card.emphasis {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 40px);
+  /* Centred, not top-aligned. The ordinary cells set the row height and the
+     wide cell's two short columns do not fill it, so start-alignment left a
+     third of the card empty under the copy. */
+  align-items: center;
+}
+.channels-section .service-card.emphasis .service-name {
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  margin-bottom: 0; text-wrap: balance;
+}
+.channels-section .service-card.emphasis .service-icon { width: 48px; height: 48px; }
+.channels-section .service-card.emphasis .service-icon svg { width: 23px; height: 23px; }
 .channels-foot { margin-top: 40px; text-align: center; }
+/* Three columns is not divisible by a two-column cell, so between the desktop
+   grid and the tablet stack the wide cells simply become ordinary ones. */
+/* FOLDING THE WIDE CELL BACK, AT THREE WIDTHS.
+
+   `display: flex` alone is never enough: the grid rule also set
+   `align-items: center` and a column gap, and both survive the switch — which
+   centred the icon and the headline and opened a hole under them. Every
+   property the two-column layout sets has to be undone wherever it folds.
+
+   The ladder:
+     > 1180   four columns, the wide cell spans two, copy beside the mark.
+     <= 1180  the emphasis is dropped rather than faked, and the block is the
+              uniform grid the live site has — three across, then two, then one.
+
+   WHY IT IS DROPPED RATHER THAN CARRIED DOWN. Three columns are not divisible
+   by a two-column cell at all. Two columns are, and a full-width cell there
+   does still read as emphasis — but six cards with two of them double-wide
+   leaves one single-width cell alone on a row with a hole beside it, which
+   reads as a card that failed to load. The fix for the hole is
+   `grid-auto-flow: dense`, and that buys the hole by making the tab order jump
+   over a card the eye has already passed. A uniform grid costs less than
+   either. */
+@media (max-width: 1180px) {
+  .channels-section .service-card.emphasis {
+    display: flex; flex-direction: column;
+    align-items: stretch; gap: 0;
+  }
+  .channels-section .service-card.emphasis .service-name { font-size: 1.0625rem; margin-bottom: 9px; }
+  .channels-section .service-card.emphasis .service-icon { width: 44px; height: 44px; }
+  .channels-section .service-card.emphasis .service-icon svg { width: 21px; height: 21px; }
+}
+@media (max-width: 1180px) and (min-width: 901px) {
+  .channels-section .services-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 1180px) {
+  .channels-section .service-card.emphasis { grid-column: span 1; }
+}
+@media (max-width: 900px) {
+  .channels-section .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .channels-section .services-grid { grid-template-columns: minmax(0, 1fr); }
+}
 /* ── RESULTS ─────────────────────────────────────────────────────────────
    The /case-studies treatment, on Deep Spruce.
 
@@ -3167,6 +3329,48 @@ footer { background: #050906; }
 .pricing-hero > .section-eyebrow { justify-content: center; }
 .demo-hero { max-width: 900px; }
 .demo-hero > .section-sub { align-self: start; }
+/* ── DEMO — ONE BLOCK: THE HEAD LEFT, THE QUESTIONNAIRE RIGHT ─────────────
+   The page was a centred hero and then a separate 720px body, which put a full
+   hero bottom padding and a full body top padding into the same seam and
+   started the questionnaire below the fold on a laptop. It is one grid now, so
+   the heading is still on screen while the first field is being filled in.
+
+   `.demo-hero` is kept as the section class deliberately — it carries the page
+   ground, the ambient glow, and the bone/sage heading ink that every page head
+   on the site shares. Only its geometry is replaced. The head is a child now
+   rather than the eyebrow/H1/sub being direct children, so the old grid
+   placements simply stop matching, and the two that were addressed loosely
+   (colour, size) still do. */
+.demo-hero.demo-lead {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+  column-gap: clamp(32px, 5vw, 72px);
+  row-gap: clamp(32px, 4vw, 44px);
+  align-items: start;
+  text-align: left;
+  max-width: calc(var(--maxw) + var(--gutter) * 2);
+  padding-bottom: clamp(64px, 8vw, 96px);
+}
+.demo-lead .section-eyebrow { justify-content: flex-start; margin-bottom: 16px; }
+.demo-lead .section-headline { margin-bottom: 18px; }
+/* THE NOTE. It used to be a `.section-sub` in the right-hand column, level with
+   the H1 — which is where the card sits now, and at lead size it was arguing
+   with the headline rather than supporting it. Under the eyebrow and the
+   free-audit line, at body-small: the aside it always was. */
+.demo-lead-note {
+  font-size: var(--t-sm); line-height: 1.7;
+  color: var(--inverse-muted);
+  max-width: 46ch; margin: 0;
+}
+.demo-lead-form { min-width: 0; }
+/* The card was capped at 720px inside its own centred body. In the right-hand
+   column it takes the column, and the column is what caps it. */
+.demo-lead-form .demo-card { max-width: none; }
+/* Stacked, it is the head then the card — the order it reads in anyway. */
+@media (max-width: 900px) {
+  .demo-hero.demo-lead { grid-template-columns: minmax(0, 1fr); }
+  .demo-lead-note { max-width: none; }
+}
 /* ── SERVICES — long-form rows, three figures ────────────────────────────
    The In Practice pill column is gone from the markup, so `.sd-aside` now
    holds a figure or is not rendered at all. A row without one is a single
@@ -3271,14 +3475,34 @@ footer { background: #050906; }
   gap: 0; padding-right: 0;
 }
 .bm-icon {
-  width: clamp(24px, 2.6vw, 32px); height: clamp(24px, 2.6vw, 32px);
+  width: clamp(26px, 3vw, 34px); height: clamp(26px, 3vw, 34px);
   opacity: 0.5;
   color: var(--accent);
 }
+/* THIRD PASS — THE ROWS WERE TOO WIDE, WHICH IS WHY THEY READ AS TOO LOOSE.
+
+   The no-duplicates fix above says a GROUP must be exactly as wide as its ROW,
+   and it has to stay that way: the moment a group is narrower, two copies fit
+   on screen and TikTok appears twice. But the row inherited the feature card's
+   full width — over 1000px — and six marks distributed across 1000px sit ~140px
+   apart. That is not texture, it is six logos in different postcodes.
+
+   So the ROW gets narrower rather than the group: the marquee is capped and
+   centred under the copy, and the group follows it down. Six marks across
+   ~600px land about 58px apart, which is the density the live site had and the
+   one Amit asked for — with the invariant untouched, because the group is still
+   one row wide whatever that row measures.
+
+   The answer-engine row is capped tighter again. It carries five marks to the
+   first row's six, so at equal width its gaps come out a fifth larger and the
+   pair reads as two different rhythms; 88% brings the two densities level. */
 .brand-marquee {
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  max-width: 600px; margin-inline: auto;
+  gap: clamp(10px, 1.4vw, 16px);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
+.bm-row.bm-right { width: 88%; margin-inline: auto; }
 /* ════════════════════════════════════════════════════════════════════════
    THE PORTAL SHOT, IN ITS NEW HOME
    ════════════════════════════════════════════════════════════════════════

@@ -126,7 +126,9 @@ const SERVICES_JSON_LD = {
       url: `${SITE_URL}/services#${s.id}`,
       serviceType: s.headline,
       provider: { '@id': `${SITE_URL}/#organization` },
-      areaServed: 'Worldwide',
+      // Nationwide, matching the Organization node in app/layout.tsx and the
+      // /contact answer. See the note there.
+      areaServed: { '@type': 'Country', name: 'United States' },
     },
   })),
 }

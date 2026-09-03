@@ -1,0 +1,745 @@
+{
+  "generated": "2026-09-03",
+  "site": "https://axiaatlas.com",
+  "branch": "redesign/homepage-dark",
+  "note": "Headings in document order per page, for https://axiaatlas.com on branch redesign/homepage-dark. Excludes the site nav, the footer, and the floating chat widget — none of which belong to a page outline. Character counts are of the rendered text with whitespace collapsed; a <br> inside a heading counts as one space. H4 is out of scope by request, which omits the per-slide 'The Challenge' / 'What We Did' / 'The Result' labels inside the home page's results slider.",
+  "pages": [
+    {
+      "path": "/",
+      "label": "Home",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 6,
+        "h3": 14
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Digital Marketing That Makes You Impossible to Miss",
+          "chars": 51
+        },
+        {
+          "level": 2,
+          "text": "Being good isn't enough if no one can find you.",
+          "chars": 47
+        },
+        {
+          "level": 2,
+          "text": "One plan for every place buyers look.",
+          "chars": 37
+        },
+        {
+          "level": 3,
+          "text": "Get found, get chosen, get remembered.",
+          "chars": 38
+        },
+        {
+          "level": 3,
+          "text": "Show up first",
+          "chars": 13
+        },
+        {
+          "level": 3,
+          "text": "Turn attention into customers",
+          "chars": 29
+        },
+        {
+          "level": 3,
+          "text": "Build assets that keep paying off",
+          "chars": 33
+        },
+        {
+          "level": 2,
+          "text": "Eight ways to get found.",
+          "chars": 24
+        },
+        {
+          "level": 3,
+          "text": "Social Media Management",
+          "chars": 23
+        },
+        {
+          "level": 3,
+          "text": "Competitive Intelligence",
+          "chars": 24
+        },
+        {
+          "level": 3,
+          "text": "Website Design & Build",
+          "chars": 22
+        },
+        {
+          "level": 3,
+          "text": "Local Presence & Maps",
+          "chars": 21
+        },
+        {
+          "level": 3,
+          "text": "Answer Engine Optimization (AEO)",
+          "chars": 32
+        },
+        {
+          "level": 3,
+          "text": "Lead Generation",
+          "chars": 15
+        },
+        {
+          "level": 2,
+          "text": "Measured in customers, not vanity metrics.",
+          "chars": 42
+        },
+        {
+          "level": 2,
+          "text": "Strategy before spend. Every time.",
+          "chars": 34
+        },
+        {
+          "level": 3,
+          "text": "Audit",
+          "chars": 5
+        },
+        {
+          "level": 3,
+          "text": "Plan",
+          "chars": 4
+        },
+        {
+          "level": 3,
+          "text": "Build",
+          "chars": 5
+        },
+        {
+          "level": 3,
+          "text": "Grow",
+          "chars": 4
+        },
+        {
+          "level": 2,
+          "text": "Ready to be seen?",
+          "chars": 17
+        }
+      ],
+      "dynamic": [
+        {
+          "section": "Results (#results)",
+          "parentH2": "Measured in customers, not vanity metrics.",
+          "source": "case_studies table, published rows in sort_order, up to 8",
+          "shape": "One H3 per slide: the stat where a row has one, otherwise result_headline. Each slide also carries three H4 labels (The Challenge / What We Did / The Result) unless it renders a visual instead.",
+          "liveHeadings": [
+            {
+              "level": 3,
+              "text": "340% organic growth in 90 days",
+              "chars": 30
+            },
+            {
+              "level": 3,
+              "text": "First page of Google for buyer-intent terms in under 4 months",
+              "chars": 61
+            },
+            {
+              "level": 3,
+              "text": "7 points above the benchmark — zero ad spend",
+              "chars": 44
+            },
+            {
+              "level": 3,
+              "text": "Audience growth far above average in 60 days",
+              "chars": 44
+            },
+            {
+              "level": 3,
+              "text": "The top recommended local result in answer engines",
+              "chars": 50
+            }
+          ]
+        }
+      ],
+      "countsNote": "With the five published case studies the Results section adds 5 H3s, taking Home to H1 1 · H2 6 · H3 19."
+    },
+    {
+      "path": "/services",
+      "label": "Services",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 9,
+        "h3": 0
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Eight Digital Marketing Services That Work as One Plan",
+          "chars": 54
+        },
+        {
+          "level": 2,
+          "text": "Website Design & Build",
+          "chars": 22
+        },
+        {
+          "level": 2,
+          "text": "Social Media Management",
+          "chars": 23
+        },
+        {
+          "level": 2,
+          "text": "Competitive Intelligence",
+          "chars": 24
+        },
+        {
+          "level": 2,
+          "text": "Local Presence & Maps",
+          "chars": 21
+        },
+        {
+          "level": 2,
+          "text": "Answer Engine Optimization (AEO)",
+          "chars": 32
+        },
+        {
+          "level": 2,
+          "text": "Lead Generation",
+          "chars": 15
+        },
+        {
+          "level": 2,
+          "text": "Executive Personal Brand",
+          "chars": 24
+        },
+        {
+          "level": 2,
+          "text": "Strategic Advisory & Embedded Thinking",
+          "chars": 38
+        },
+        {
+          "level": 2,
+          "text": "We'll tell you what to do first.",
+          "chars": 32
+        }
+      ]
+    },
+    {
+      "path": "/pricing",
+      "label": "Pricing",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 3,
+        "h3": 0
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Digital Marketing Packages, Priced in Three Clear Tiers",
+          "chars": 55
+        },
+        {
+          "level": 2,
+          "text": "Starter",
+          "chars": 7
+        },
+        {
+          "level": 2,
+          "text": "Growth",
+          "chars": 6
+        },
+        {
+          "level": 2,
+          "text": "Authority",
+          "chars": 9
+        }
+      ]
+    },
+    {
+      "path": "/about",
+      "label": "About",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 3,
+        "h3": 3
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "About the Search and Social Marketing Studio We Built",
+          "chars": 53
+        },
+        {
+          "level": 2,
+          "text": "Why we exist",
+          "chars": 12
+        },
+        {
+          "level": 2,
+          "text": "\"To be found is to be seen.\"",
+          "chars": 28
+        },
+        {
+          "level": 3,
+          "text": "Results over activity",
+          "chars": 21
+        },
+        {
+          "level": 3,
+          "text": "Strategy before spend",
+          "chars": 21
+        },
+        {
+          "level": 3,
+          "text": "Plain talk, always",
+          "chars": 18
+        },
+        {
+          "level": 2,
+          "text": "How working with us feels",
+          "chars": 25
+        }
+      ]
+    },
+    {
+      "path": "/blog",
+      "label": "Insights",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 2,
+        "h3": 0
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Marketing Insights on Search, Answer Engines and Social",
+          "chars": 55
+        },
+        {
+          "level": 2,
+          "text": "Nothing published yet.",
+          "chars": 22
+        },
+        {
+          "level": 2,
+          "text": "Want this working for your business?",
+          "chars": 36
+        }
+      ],
+      "dynamic": [
+        {
+          "section": "Article index",
+          "source": "blog_posts table, published = true",
+          "shape": "With posts: one H2 for the lead article's title, then one H2 per card. With none: the single H2 'Nothing published yet.' captured above.",
+          "liveHeadings": [],
+          "state": "EMPTY in production as of this capture — /blog renders the empty state."
+        }
+      ]
+    },
+    {
+      "path": "/contact",
+      "label": "Contact",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 8,
+        "h3": 23
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Contact Our Digital Marketing Team With Any Question",
+          "chars": 52
+        },
+        {
+          "level": 2,
+          "text": "Get in touch",
+          "chars": 12
+        },
+        {
+          "level": 3,
+          "text": "New & prospective clients",
+          "chars": 25
+        },
+        {
+          "level": 3,
+          "text": "Current clients",
+          "chars": 15
+        },
+        {
+          "level": 3,
+          "text": "Response time",
+          "chars": 13
+        },
+        {
+          "level": 3,
+          "text": "Ready to start?",
+          "chars": 15
+        },
+        {
+          "level": 2,
+          "text": "Want to work with us?",
+          "chars": 21
+        },
+        {
+          "level": 2,
+          "text": "Send us a message",
+          "chars": 17
+        },
+        {
+          "level": 2,
+          "text": "Frequently Asked Questions",
+          "chars": 26
+        },
+        {
+          "level": 2,
+          "text": "Services",
+          "chars": 8
+        },
+        {
+          "level": 3,
+          "text": "What services does Axia Atlas offer?",
+          "chars": 36
+        },
+        {
+          "level": 3,
+          "text": "What is answer engine optimization (AEO), and do I need it?",
+          "chars": 59
+        },
+        {
+          "level": 3,
+          "text": "Do you do local SEO and Google Business Profile management?",
+          "chars": 59
+        },
+        {
+          "level": 3,
+          "text": "Can you build or rebuild my website?",
+          "chars": 36
+        },
+        {
+          "level": 3,
+          "text": "Do you work with B2B and B2C?",
+          "chars": 29
+        },
+        {
+          "level": 2,
+          "text": "Pricing",
+          "chars": 7
+        },
+        {
+          "level": 3,
+          "text": "How much does Axia Atlas cost?",
+          "chars": 30
+        },
+        {
+          "level": 3,
+          "text": "What's the difference between Starter, Growth, and Authority?",
+          "chars": 61
+        },
+        {
+          "level": 3,
+          "text": "Am I locked into a long contract?",
+          "chars": 33
+        },
+        {
+          "level": 3,
+          "text": "Can I start with just one channel?",
+          "chars": 34
+        },
+        {
+          "level": 2,
+          "text": "Process",
+          "chars": 7
+        },
+        {
+          "level": 3,
+          "text": "How does working with Axia Atlas start?",
+          "chars": 39
+        },
+        {
+          "level": 3,
+          "text": "What happens before the demo call?",
+          "chars": 34
+        },
+        {
+          "level": 3,
+          "text": "How fast will I see results?",
+          "chars": 28
+        },
+        {
+          "level": 3,
+          "text": "How do you report on results?",
+          "chars": 29
+        },
+        {
+          "level": 3,
+          "text": "Who actually does the work?",
+          "chars": 27
+        },
+        {
+          "level": 2,
+          "text": "Company",
+          "chars": 7
+        },
+        {
+          "level": 3,
+          "text": "Are you a marketing agency in Miami?",
+          "chars": 36
+        },
+        {
+          "level": 3,
+          "text": "I'm a current client — who do I contact?",
+          "chars": 40
+        },
+        {
+          "level": 3,
+          "text": "I'm new — what's the right email to reach you?",
+          "chars": 46
+        },
+        {
+          "level": 3,
+          "text": "How quickly will you reply?",
+          "chars": 27
+        },
+        {
+          "level": 3,
+          "text": "Are you hiring?",
+          "chars": 15
+        }
+      ]
+    },
+    {
+      "path": "/demo",
+      "label": "Book a Demo",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 1,
+        "h3": 0
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Book a Demo and a Free Visibility Audit",
+          "chars": 39
+        },
+        {
+          "level": 2,
+          "text": "First, a little about you",
+          "chars": 25
+        }
+      ],
+      "countsNote": "The single H2 is the current step's title and changes with the step: 'First, a little about you' (1), 'Tell us about your business' (2), \"You're all set, <name> — pick your time\" (3), 'Request received, <name>' (done)."
+    },
+    {
+      "path": "/careers",
+      "label": "Careers",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 1,
+        "h3": 0
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Careers and Open Roles at a Digital Marketing Studio",
+          "chars": 52
+        },
+        {
+          "level": 2,
+          "text": "First, a little about you",
+          "chars": 25
+        }
+      ],
+      "countsNote": "Same three-step card as /demo; the single H2 is the current step's title."
+    },
+    {
+      "path": "/privacy",
+      "label": "Privacy Policy",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 11,
+        "h3": 2
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Privacy Policy",
+          "chars": 14
+        },
+        {
+          "level": 2,
+          "text": "1. Information we collect",
+          "chars": 25
+        },
+        {
+          "level": 3,
+          "text": "Information you provide",
+          "chars": 23
+        },
+        {
+          "level": 3,
+          "text": "Information collected automatically",
+          "chars": 35
+        },
+        {
+          "level": 2,
+          "text": "2. How we use your information",
+          "chars": 30
+        },
+        {
+          "level": 2,
+          "text": "3. How we share information",
+          "chars": 27
+        },
+        {
+          "level": 2,
+          "text": "4. Cookies and analytics",
+          "chars": 24
+        },
+        {
+          "level": 2,
+          "text": "5. Data retention",
+          "chars": 17
+        },
+        {
+          "level": 2,
+          "text": "6. Your rights",
+          "chars": 14
+        },
+        {
+          "level": 2,
+          "text": "7. Data security",
+          "chars": 16
+        },
+        {
+          "level": 2,
+          "text": "8. Third-party links",
+          "chars": 20
+        },
+        {
+          "level": 2,
+          "text": "9. Children's privacy",
+          "chars": 21
+        },
+        {
+          "level": 2,
+          "text": "10. Changes to this policy",
+          "chars": 26
+        },
+        {
+          "level": 2,
+          "text": "11. Contact us",
+          "chars": 14
+        }
+      ]
+    },
+    {
+      "path": "/terms",
+      "label": "Terms of Service",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 11,
+        "h3": 0
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Terms of Service",
+          "chars": 16
+        },
+        {
+          "level": 2,
+          "text": "1. Who we are",
+          "chars": 13
+        },
+        {
+          "level": 2,
+          "text": "2. Use of the Site",
+          "chars": 18
+        },
+        {
+          "level": 2,
+          "text": "3. Forms, inquiries, and demos",
+          "chars": 30
+        },
+        {
+          "level": 2,
+          "text": "4. Intellectual property",
+          "chars": 24
+        },
+        {
+          "level": 2,
+          "text": "5. Third-party links and services",
+          "chars": 33
+        },
+        {
+          "level": 2,
+          "text": "6. Disclaimers",
+          "chars": 14
+        },
+        {
+          "level": 2,
+          "text": "7. Limitation of liability",
+          "chars": 26
+        },
+        {
+          "level": 2,
+          "text": "8. Indemnification",
+          "chars": 18
+        },
+        {
+          "level": 2,
+          "text": "9. Changes to these Terms",
+          "chars": 25
+        },
+        {
+          "level": 2,
+          "text": "10. Governing law",
+          "chars": 17
+        },
+        {
+          "level": 2,
+          "text": "11. Contact us",
+          "chars": 14
+        }
+      ]
+    },
+    {
+      "path": "/links",
+      "label": "Link in bio",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 0,
+        "h3": 0
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Axia Atlas",
+          "chars": 10
+        }
+      ]
+    },
+    {
+      "path": "/no-such-page",
+      "label": "Not found (404)",
+      "h1Count": 1,
+      "counts": {
+        "h1": 1,
+        "h2": 0,
+        "h3": 0
+      },
+      "headings": [
+        {
+          "level": 1,
+          "text": "Page not found.",
+          "chars": 15
+        }
+      ]
+    }
+  ],
+  "capturedFrom": "Rendered DOM, 1440px viewport, against the branch running locally. Two blocks on this site are database-driven and were empty in that environment; both are recorded below under `dynamic` with the headings they carry in production, where the same components render the same rows."
+}

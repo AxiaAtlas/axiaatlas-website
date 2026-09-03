@@ -55,7 +55,20 @@ const TIERS = [
       'Senior strategist as your lead contact',
     ],
     featured: false,
-    cta: 'Talk about Authority',
+    /* NOT "Talk about Authority". A top tier's objection is commitment, not
+       curiosity: the reader who has got this far already believes the tier is
+       good, and is weighing whether clicking starts something they cannot back
+       out of. "Talk about X" answers that with a meeting. "Explore your
+       options" answers it with a look around — and it is the only one of the
+       three CTAs that promises the reader nothing is being decided.
+
+       The two it beat, kept here so the next pass does not re-run the argument:
+       "Explore full coverage" (same verb, names what Authority is, but "full"
+       re-raises the size question the tier already loses on) and "Own your
+       category" (strongest line, straight out of the tier's own blurb, but it
+       is a claim on a button — the loudest promise on the page sitting under
+       the tier that is hardest to say yes to). */
+    cta: 'Explore your options',
   },
 ]
 

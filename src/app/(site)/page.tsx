@@ -19,20 +19,36 @@ export const revalidate = 3600
 /* SIX OF THE EIGHT, in the live site's order, because "View all 8 services"
    has to lead somewhere that holds more than the page already showed.
    Executive Personal Brand and Strategic Advisory & Embedded Thinking live on
-   /services (anchors #executive, #strategy) and in the footer. Two rows of
-   three in a uniform grid: same card, same icon, same link, no per-card
-   artifact and no double-wide cell. Eight tiles with artifacts made this the
-   busiest block on the page and buried the section that matters more. */
+   /services (anchors #executive, #strategy) and in the footer.
+
+   TWO OF THE SIX ARE EMPHASISED, and no card carries an artifact. The previous
+   pass flattened this block to a uniform 3x2 because the version before it was
+   eight tiles each with its own small drawing — the busiest thing on the page.
+   Flat fixed the noise and lost the argument: six identical cards say the six
+   services are interchangeable, which is the opposite of what the page is for.
+   The emphasis is scale alone, not a graphic. `emphasis` cells span two of four
+   columns and lay their copy out beside the mark instead of under it; 2x2 + 4x1
+   is exactly two rows of four, so the grid still tiles.
+
+   WHICH TWO, AND WHY THOSE. Website Design & Build, because /services already
+   calls it "the core engagement and the one every other channel points traffic
+   at" — the page should not rank it level with the rest while the services page
+   ranks it first. And Answer Engine Optimization, which is the service the
+   brand is built around: the hero names answer engines, the ticker names four
+   of them, the System card runs a whole marquee of their logos, and the audit
+   card's second row is Answer Engines. Local Presence & Maps holds an ordinary
+   cell — it is a strong service, but it is not one of the two the rest of the
+   page is already arguing for. */
 const SERVICES = [
   { id: 'social', name: 'Social Media Management', desc: 'Content built for each platform, managed end to end, designed to grow an audience that actually buys.', href: '/services#social' },
   { id: 'intel', name: 'Competitive Intelligence', desc: "Every competitor's positioning, cadence, and visibility tracked and sourced, so you decide on facts rather than hunches.", href: '/services#intel' },
-  { id: 'website', name: 'Website Design & Build', desc: 'Positioning, copy, design, and build in one engagement, with search foundations laid from day one.', href: '/services#website' },
+  { id: 'website', name: 'Website Design & Build', desc: 'Positioning, copy, design, and build in one engagement, with search foundations laid from day one.', href: '/services#website', emphasis: true },
   /* "Local Presence & Maps", not "& SEO". The service catalogue in
      app/layout.tsx renamed it; this card and the /services row were the two
      places still carrying the old name, so the site contradicted its own
      structured data. */
   { id: 'local', name: 'Local Presence & Maps', desc: 'Profile, citations, and reviews managed so nearby buyers find you first, not the business down the road.', href: '/services#local' },
-  { id: 'geo', name: 'Answer Engine Optimization (AEO)', desc: 'Get cited across leading AI platforms—Claude, ChatGPT, Perplexity, and Gemini—represented accurately and recommended when buyers search your category.', href: '/services#geo' },
+  { id: 'geo', name: 'Answer Engine Optimization (AEO)', desc: 'Get cited across leading AI platforms—Claude, ChatGPT, Perplexity, and Gemini—represented accurately and recommended when buyers search your category.', href: '/services#geo', emphasis: true },
   { id: 'leadgen', name: 'Lead Generation', desc: 'Prospects researched against your ideal customer, reached with outreach written for them, tracked from first touch onward.', href: '/services#leadgen' },
 ]
 
@@ -83,9 +99,10 @@ export default async function HomePage() {
           shot it replaced has moved down to How We Work, where the section is
           about the work rather than about the offer.
 
-          It keeps its Sample label. Unlike the portal screen, this is a
-          representative output of a thing we perform for a named client, and it
-          must never read as somebody's actual audit.
+          IT NO LONGER CARRIES A SAMPLE LABEL, and every row now prints its
+          percentage. See the notes in AuditPreview.tsx and Illustrative.tsx:
+          the disclaimer was answering a charge nobody makes of a hero
+          illustration, and it read as an apology for the graphic.
 
           THE CAPABILITY LIST IS GONE. "Built to be found in" over Google Search
           / Answer Engines / Local & Maps / Social Feeds sat where a visitor has
@@ -238,11 +255,20 @@ export default async function HomePage() {
             {SERVICES.map((s) => {
               const Icon = ServiceIcons[s.id]
               return (
-                <div key={s.id} className="service-card">
-                  <div className="service-icon">{Icon && <Icon />}</div>
-                  <h3 className="service-name">{s.name}</h3>
-                  <p className="service-desc">{s.desc}</p>
-                  <Link href={s.href} className="service-link">Learn more <Arrow className="arr" /></Link>
+                <div key={s.id} className={`service-card${s.emphasis ? ' emphasis' : ''}`}>
+                  {/* Two groups on every card, emphasised or not. On an ordinary
+                      cell they stack and the card looks exactly as it did; on a
+                      double-wide one the head takes the left column and the
+                      prose the right, which is what stops the wide card from
+                      being a normal card with a hole in it. */}
+                  <div className="sc-head">
+                    <div className="service-icon">{Icon && <Icon />}</div>
+                    <h3 className="service-name">{s.name}</h3>
+                  </div>
+                  <div className="sc-body">
+                    <p className="service-desc">{s.desc}</p>
+                    <Link href={s.href} className="service-link">Learn more <Arrow className="arr" /></Link>
+                  </div>
                 </div>
               )
             })}

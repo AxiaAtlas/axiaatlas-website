@@ -24,10 +24,10 @@ import { Arrow, Check, Plus } from '@/components/icons'
       the eight services and their descriptions from /services, the three tiers
       and their contents from /pricing, the audit-plan-build-grow sequence and
       the week-one output from the home page and /about, the two inboxes and
-      the 24-hour reply from this page, and `areaServed: "Worldwide"` from the
-      Organization node in app/layout.tsx. The local-intent question is answered
-      from that last one — we say how the work is done for a city, and we do NOT
-      claim an office in one, because the site claims no address anywhere.
+      the 24-hour reply from this page, and `areaServed` from the Organization
+      node in app/layout.tsx. The local-intent question is answered from that
+      last one — we say how the work is done for a city, and we do NOT claim an
+      office in one, because the site claims no address anywhere.
 
    ANSWERS ARE PLAIN STRINGS, with an optional trailing link, so that the
    visible copy and the FAQPage JSON-LD below are generated from ONE source and
@@ -129,12 +129,19 @@ const FAQ_SECTIONS: FaqSection[] = [
       {
         q: 'Are you a marketing agency in Miami?',
         /* THE LOCAL-INTENT ANSWER, AND WHAT IT DELIBERATELY DOES NOT SAY. We
-           hold no address, and the Organization node says areaServed
-           "Worldwide". So this answers the intent behind the query — can you do
-           this for my city — without claiming a Miami office, which would be a
-           new and false claim. If a real city is ever added to the brand, this
-           is the answer that has to change first. */
-        a: 'We work with businesses in Miami and anywhere else — Axia Atlas works remotely with clients worldwide rather than from a single city storefront. For a Miami business the local work is the same as anywhere: a Google Business Profile built out for your categories and service area, citations kept consistent across the directories that feed the map, a review programme, and service and location pages that rank for "service in Miami". Rankings and calls are tracked per location.',
+           hold no address, so this answers the intent behind the query — can you
+           do this for my city — without claiming a Miami office, which would be
+           a new and false claim. If a real city is ever added to the brand, this
+           is the answer that has to change first.
+
+           NATIONWIDE, NOT WORLDWIDE. Corrected on direction: the reach claim is
+           the United States, and "worldwide" was overstating it. The
+           Organization node's `areaServed` in app/layout.tsx and the Service
+           nodes on /services carried the same overstatement as structured data
+           and were corrected with it — a visible answer that says nationwide
+           over a machine-readable claim that says worldwide is exactly the
+           drift this file exists to prevent. */
+        a: 'We work with businesses in Miami and anywhere else in the country — Axia Atlas works remotely with clients nationwide rather than from a single city storefront. For a Miami business the local work is the same as anywhere: a Google Business Profile built out for your categories and service area, citations kept consistent across the directories that feed the map, a review programme, and service and location pages that rank for "service in Miami". Rankings and calls are tracked per location.',
         link: { href: '/services#local', label: 'How local presence work is done' },
       },
       {
@@ -306,17 +313,39 @@ export default function ContactPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
         />
         <div className="section-inner">
+          {/* "FREQUENTLY ASKED QUESTIONS", NOT "COMMON QUESTIONS". This block
+              exists to be matched, and the exact string is what gets typed into
+              a search box and what an extractor looks for above a FAQPage node.
+              "Common questions" is the better English and the worse heading.
+
+              THE SUBHEAD IS THE SECOND MATCHING SURFACE, so it carries the four
+              nouns a person actually appends to the query — services, pricing,
+              process, and working with us — in the order the sections below run.
+              Two alternatives, recorded so this is not re-argued: "Everything
+              people ask before they hire us" (warmer, carries no query term) and
+              "Answers about our digital marketing services, pricing, and
+              process" (denser in keywords, but it reads as a meta description
+              that escaped onto the page). The shipped line keeps the terms and
+              still sounds like a person wrote it. */}
           <div className="section-head centred">
             <div className="section-eyebrow">FAQ</div>
-            <h2 className="section-headline">Common questions</h2>
+            <h2 className="section-headline">Frequently Asked Questions</h2>
+            <p className="section-sub">Straight answers about our services, pricing, process, and what working with us actually looks like.</p>
           </div>
 
           {FAQ_SECTIONS.map((sec) => (
             <div key={sec.id} className="faq-group" id={`faq-${sec.id}`}>
               <h2 className="faq-group-title">{sec.title}</h2>
               <div className="faq-list">
-                {sec.items.map((f) => (
-                  <details key={f.q} className="faq-item">
+                {/* THE FIRST QUESTION IN EACH SECTION IS OPEN. A wall of four
+                    closed rows shows a reader the shape of an FAQ and none of
+                    its content, and it makes them click once to find out
+                    whether clicking is worth it. One answer visible per section
+                    proves the answers are real. It is `open` on the element
+                    rather than script, so it is open in the HTML — which is
+                    also what a crawler and an extractor read. */}
+                {sec.items.map((f, i) => (
+                  <details key={f.q} className="faq-item" open={i === 0}>
                     <summary className="faq-q">
                       <h3 className="faq-q-text">{f.q}</h3>
                       <Plus className="faq-ico" />

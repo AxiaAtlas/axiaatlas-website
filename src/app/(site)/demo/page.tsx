@@ -204,13 +204,29 @@ export default function DemoPage() {
           page's own term is the thing it uniquely offers, and it is already the
           page title in demo/layout.tsx, so the H1 now matches it rather than
           introducing a third wording. */}
-      <div className="demo-hero">
-        <div className="section-eyebrow">Book a Demo</div>
-        <h1 className="section-headline">Book a Demo and a Free Visibility Audit</h1>
-        <p className="section-sub">Before we meet, we audit how you show up across search, answer engines, local, and social — so we arrive with the gaps mapped and real solutions, not a pitch deck.</p>
-      </div>
+      {/* ONE SECTION, NOT TWO. The page was a centred hero and then, after a
+          full hero bottom padding plus a full body top padding, the card — so
+          the thing the page exists for started below the fold on a laptop and
+          the head it belonged to had already scrolled away. There is one block
+          now: the head on the left, the questionnaire on the right, and no seam
+          between them to pay for twice.
 
-      <div className="demo-body">
+          THE SUBTEXT MOVED AND SHRANK. It used to sit in the right-hand column
+          of the hero grid, level with the H1 — which is where the card is now,
+          and it was competing at lead size with the headline anyway. It runs
+          under the eyebrow and the free-audit headline, at body-small, as the
+          note it always was.
+
+          THE CARD AND EVERYTHING INSIDE IT IS UNTOUCHED — same markup, same
+          handlers, same endpoints, same mount point. This is the wrapper only. */}
+      <div className="demo-hero demo-lead">
+        <div className="demo-lead-copy">
+          <div className="section-eyebrow">Book a Demo</div>
+          <h1 className="section-headline">Book a Demo and a Free Visibility Audit</h1>
+          <p className="demo-lead-note">Before we meet, we audit how you show up across search, answer engines, local, and social — so we arrive with the gaps mapped and real solutions, not a pitch deck.</p>
+        </div>
+
+        <div className="demo-lead-form">
         <div className="demo-card">
           <>
               <p className="demo-steps-intro">Three quick steps to a call worth your time.</p>
@@ -494,6 +510,7 @@ export default function DemoPage() {
                 </div>
               )}
             </>
+        </div>
         </div>
       </div>
 
