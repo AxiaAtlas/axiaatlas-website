@@ -1,24 +1,16 @@
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase/client'
+import { getCaseStudies } from '@/lib/case-studies'
 import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
-import ResultsSlider, { type ResultSlide } from '@/components/ResultsSlider'
+import ResultsSlider from '@/components/ResultsSlider'
 import { Arrow, ServiceIcons } from '@/components/icons'
 import BrandMarquee from '@/components/BrandMarquee'
 
-async function getCaseStudies() {
-  try {
-    const { data } = await supabase
-      .from('case_studies')
-      .select('industry,result_headline,result_detail,service_used')
-      .eq('published', true)
-      .order('created_at', { ascending: false })
-      .limit(8)
-    return data || []
-  } catch {
-    return []
-  }
-}
+/* The results are read at render, so the page has to be allowed to re-render.
+   It was fully static because the RESULTS array made the read decorative; now
+   the read is the only source and a static page would freeze the slider at
+   whatever the table held on the last deploy. */
+export const revalidate = 3600
 
 /* A SELECTION, not the full list — six of the eight, so "View all 8 services"
    leads somewhere with more than this page already showed. Executive Personal
@@ -31,17 +23,6 @@ const SERVICES = [
   { id: 'local', name: 'Local Presence & SEO', desc: 'Profile, citations, and reviews managed so nearby buyers find you first, not the business down the road.', href: '/services#local' },
   { id: 'geo', name: 'Answer Engine Optimization (AEO)', desc: 'Get cited across leading AI platforms—Claude, ChatGPT, Perplexity, and Gemini—represented accurately and recommended when buyers search your category.', href: '/services#geo' },
   { id: 'leadgen', name: 'Lead Generation', desc: 'Prospects researched against your ideal customer, reached with outreach written for them, tracked from first touch onward.', href: '/services#leadgen' },
-]
-
-/* Curated results for the home slider. The Supabase library takes over once it
-   holds a real set (≥5 published rows) — the original seed rows predate the
-   current brand-copy rules. */
-const RESULTS: ResultSlide[] = [
-  { industry: 'Professional Services', result_headline: '340% organic growth in 90 days', result_detail: 'A B2B consulting firm went from near-zero to roughly 4,200 monthly organic sessions — with the first inbound leads landing by month three.', service_used: 'SEO + Founder Brand' },
-  { industry: 'E-commerce', result_headline: 'First page of Google for buyer-intent terms in under 4 months', result_detail: 'A DTC brand with no organic visibility targeted buyer-intent terms with a keyword and content strategy plus on-site conversion fixes — ranking page one within four months, all organic.', service_used: 'SEO + Conversion' },
-  { industry: 'E-commerce', result_headline: '7 points above the benchmark — zero ad spend', result_detail: 'A DTC brand recovered abandoned pre-orders across email, SMS, and content — landing 7 points above the 20–30% industry standard with no paid media.', service_used: 'Owned Channels + Content' },
-  { industry: 'Consumer Brand', result_headline: 'Audience growth far above average in 60 days', result_detail: 'A consumer brand fixed its voice, built content pillars, and held a steady multi-platform cadence — and its following grew well beyond the category norm.', service_used: 'Social Media + Brand Voice' },
-  { industry: 'Food & Hospitality', result_headline: 'The top recommended local result in answer engines', result_detail: 'A local restaurant surfaced first when prospects asked answer engines and maps for the best option nearby — ahead of competitors on reviews and presence.', service_used: 'Answer Engines + Local Presence' },
 ]
 
 /* Phrases for the strip under the hero — the moments buyers decide. */
@@ -59,8 +40,9 @@ const MARQUEE = [
 ]
 
 export default async function HomePage() {
-  const db = await getCaseStudies()
-  const slides: ResultSlide[] = db.length >= 5 ? (db as ResultSlide[]) : RESULTS
+  /* Eight at most, and no in-code set behind them: the slider shows what
+     case_studies publishes, in sort_order. See lib/case-studies.ts. */
+  const slides = await getCaseStudies(8)
 
   return (
     <div className="page">
@@ -207,7 +189,11 @@ export default async function HomePage() {
             <div className="section-eyebrow">Results</div>
             <h2 className="section-headline">Measured in customers,<br />not vanity metrics.</h2>
           </div>
-          <ResultsSlider slides={slides} />
+          {/* No slides means the read failed -- there is no array to fall back
+              to any more. The section keeps its heading so the page still
+              reads; only the slider, which would be an empty track with no
+              dots, goes. */}
+          {slides.length > 0 ? <ResultsSlider slides={slides} /> : null}
           <div style={{ textAlign: 'center', marginTop: 40 }}>
             <Link href="/case-studies" className="btn-dark">Read the case studies <Arrow className="arr" /></Link>
           </div>

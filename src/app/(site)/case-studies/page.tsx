@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { supabase } from '@/lib/supabase/client'
+import { getCaseStudies } from '@/lib/case-studies'
 import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 
@@ -10,87 +10,16 @@ export const metadata: Metadata = {
   alternates: { canonical: '/case-studies' },
 }
 
-async function getCaseStudies() {
-  try {
-    const { data } = await supabase
-      .from('case_studies')
-      .select('*')
-      .eq('published', true)
-      .order('created_at', { ascending: false })
-    return data || []
-  } catch {
-    return []
-  }
-}
-
-/* Curated library. The Supabase table takes over once it holds a real set
-   (≥5 published rows) — the original seed rows predate the brand-copy rules. */
-const PLACEHOLDERS = [
-  {
-    id: '1',
-    industry: 'Professional Services',
-    company_type: 'B2B Consulting',
-    stat: { value: '340%', label: 'organic growth in 90 days' },
-    callouts: ['~4,200 monthly organic sessions', 'First leads by month 3'],
-    challenge: 'No organic traffic and no social presence — every new client came through referrals, with nothing pulling in buyers on its own.',
-    approach: 'Built a sharper brand, grew a founder-voice presence on LinkedIn, and published buyer-keyword SEO articles aimed at the questions prospects actually search.',
-    result_headline: '340% organic growth in 90 days',
-    result_detail: 'Climbed to roughly 4,200 monthly organic sessions from a near-zero start, with the first inbound leads landing by month three.',
-    service_used: 'SEO + Founder Brand',
-  },
-  {
-    id: '2',
-    industry: 'E-commerce',
-    company_type: 'DTC Brand',
-    stat: { value: '5.3x', label: 'organic growth in under 4 months' },
-    callouts: ['Ranked top 3 on Google for buyer-intent terms', 'Traffic + conversions up month over month'],
-    challenge: 'No organic visibility — invisible for the searches that actually convert, with nothing pulling in buyers on its own.',
-    approach: 'Built a keyword and content strategy targeting buyer-intent terms, paired with on-site conversion fixes — no paid media.',
-    result_headline: '5.3x organic growth in under 4 months',
-    result_detail: 'Grew organic traffic 5.3x in under four months, ranking top three on Google for buyer-intent terms, with conversions climbing month over month — all organic.',
-    service_used: 'SEO + Conversion',
-  },
-  {
-    id: '3',
-    industry: 'E-commerce',
-    company_type: 'DTC Brand',
-    stat: { value: '+7 pts', label: 'above the cart-recovery benchmark — zero ad spend' },
-    callouts: ['7 pts above the 20–30% industry standard', 'Owned channels only — zero ad spend'],
-    challenge: 'High pre-order cart abandonment and a heavy reliance on paid media to recover the sales slipping away.',
-    approach: 'Built pre-order abandoned-cart recovery across owned channels — email, SMS, and content — with no paid media in the mix.',
-    result_headline: 'Beat the cart-recovery benchmark by 7 points — zero ad spend',
-    result_detail: 'Recovered abandoned pre-orders at a rate 7 points above the 20–30% industry standard, entirely through owned channels.',
-    service_used: 'Owned Channels + Content',
-  },
-  {
-    id: '4',
-    industry: 'Consumer Brand',
-    company_type: 'Lifestyle Brand',
-    stat: { value: '6x', label: 'follower growth in 60 days' },
-    callouts: ['Outpaced the category average', 'Engagement climbed alongside'],
-    challenge: 'Flat, inconsistent social that left audience growth stalled and the brand easy to scroll past.',
-    approach: 'Repositioned the voice, built content pillars, and held a consistent multi-platform posting cadence the audience could rely on.',
-    result_headline: '6x follower growth in 60 days',
-    result_detail: 'The following grew sixfold in two months — far beyond the typical rate for the category — with engagement climbing alongside it.',
-    service_used: 'Social Media + Brand Voice',
-  },
-  {
-    id: '5',
-    industry: 'Food & Hospitality',
-    company_type: 'Local Restaurant',
-    stat: { value: '#1', label: 'recommended local result in answer engines' },
-    callouts: ['Surfaced first for "near me" queries', 'Ahead on reviews, presence & citations'],
-    challenge: 'Invisible in answer-engine and map results while competitors owned every "near me" search nearby.',
-    approach: 'Ran an answer-engine optimization audit, added structured content, and tightened reviews and listing presence so the right details were everywhere they needed to be.',
-    result_headline: 'The top recommended local result in answer engines',
-    result_detail: 'Surfaced first when prospects asked answer engines and maps for the best option nearby — ahead of competitors on reviews, presence, and citations.',
-    service_used: 'Answer Engines + Local Presence',
-  },
-]
+/* Read at render rather than baked at build: the library is whatever
+   case_studies publishes, so the page has to be allowed to re-render. */
+export const revalidate = 3600
 
 export default async function CaseStudiesPage() {
-  const data = await getCaseStudies()
-  const cases = data.length >= 5 ? data : PLACEHOLDERS
+  /* The whole published set, in sort_order. The PLACEHOLDERS array that used
+     to stand in for it is in the table now (migration 004), word for word, and
+     the `>= 5` gate went with it: a threshold only exists to choose between
+     two sources. See lib/case-studies.ts. */
+  const cases = await getCaseStudies()
 
   return (
     <div className="page cs-page">
@@ -101,7 +30,7 @@ export default async function CaseStudiesPage() {
       </div>
 
       <div className="cs-grid">
-        {cases.map((c: any) => (
+        {cases.map((c) => (
           <div key={c.id} className="cs-card">
             <div className="cs-card-header">
               <h2 className="cs-industry">{c.industry} · {c.company_type}</h2>
