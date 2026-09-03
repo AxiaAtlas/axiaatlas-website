@@ -2439,6 +2439,68 @@ footer::before {
   color: var(--text-faint);
   pointer-events: none;
 }
+/* ── client dashboards — the interface, drawn as an interface ───────────── */
+/* Its own panel, because unlike every other artifact here this one is a screen
+   and needs a border to be one. The mark in the header is a flat tile in the
+   accent, standing in for the CLIENT's logo — see the note in
+   ChannelArtifacts.tsx about why it is not ours. */
+.ch-dash {
+  width: 100%; display: flex; flex-direction: column; gap: 9px;
+  padding: 11px 13px 12px;
+  border: 1px solid var(--border-strong); border-radius: 6px;
+  background: var(--surface);
+}
+.ch-dash-head { display: flex; align-items: center; gap: 8px; }
+.ch-dash-mark {
+  width: 15px; height: 15px; flex: none; border-radius: 3px;
+  background: var(--accent); opacity: 0.72;
+}
+.ch-dash-name {
+  flex: 1; min-width: 0;
+  font-family: var(--font-head); font-size: 0.75rem; font-weight: 700;
+  color: var(--text); letter-spacing: -0.01em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ch-dash-live {
+  display: inline-flex; align-items: center; gap: 4px; flex: none;
+  font-family: var(--font-head); font-size: 8px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint);
+}
+.ch-dash-dot { width: 5px; height: 5px; border-radius: 50%; background: #7fc4a0; flex: none; }
+/* Three figures across. `minmax(0, 1fr)` rather than `1fr`: at 390px the
+   longest label ("Orders today") would otherwise set the column width and push
+   the third stat out of the panel. */
+.ch-dash-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.ch-dash-stat {
+  display: flex; flex-direction: column; gap: 1px; min-width: 0;
+  padding: 7px 8px; border-radius: 4px;
+  background: rgba(200, 209, 197, 0.06);
+}
+.ch-dash-stat b {
+  font-family: var(--font-head); font-size: 0.8125rem; font-weight: 700;
+  color: var(--accent); line-height: 1.15; letter-spacing: -0.02em;
+}
+.ch-dash-stat i {
+  font-style: normal; font-size: 0.5625rem; color: var(--text-faint);
+  line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ch-dash-rows { display: flex; flex-direction: column; gap: 5px; }
+.ch-dash-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding-top: 5px; border-top: 1px solid var(--border);
+}
+.ch-dash-sku {
+  font-size: 0.6875rem; color: var(--text-muted); min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ch-dash-qty {
+  font-family: var(--font-head); font-size: 0.6875rem; font-weight: 700;
+  color: var(--text-faint); flex: none;
+}
+/* The one row that needs a decision. A dashboard whose every figure reads the
+   same is a report; the point of this product is that it tells you which line
+   to look at. */
+.ch-dash-qty.low { color: #d9b37c; }
 .ch-funnel { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .ch-funnel span { display: block; height: 9px; border-radius: 3px; background: var(--accent); }
 .ch-funnel .f1 { width: 86%; opacity: 0.28; }
@@ -2575,6 +2637,11 @@ footer::before {
    exchange — and 150px was cropping their breathing room, not their content. */
 .sd-art .ch-art { height: 176px; border-bottom: none; background: transparent; padding: 20px 24px; }
 /* lead — the core engagement. A wide artifact band above the row. */
+/* The dashboards figure is a panel with three stacked bands inside it, so it
+   needs more room than the single-object figures the 176px default was set
+   for. Scoped to the row rather than raised globally: every other artifact is
+   correctly sized and would only gain empty space. */
+#dashboards .sd-art .ch-art { height: 208px; }
 .sd-band .ch-art { height: 168px; border-bottom: none; background: transparent; padding: 26px clamp(26px, 5vw, 64px); }
 /* split-rev — the artifact leads, the copy follows. */
 .sd-split-rev .service-detail-inner { grid-template-columns: 1fr 1.2fr; }

@@ -288,13 +288,26 @@ export default async function HomePage() {
           its top-right corner, which on this ground read as a lens flare over
           the copy rather than as depth.
 
+          THE HEADING NAMES THE TWO THINGS A READER CAN VERIFY. "Measured in
+          customers, not vanity metrics" argued against a straw man; a rank and
+          a phone call are the two units the slides are actually denominated in,
+          and "tracked per location, never averaged" on /services says the same
+          thing in the same voice.
+
+          THE SUBHEAD DOES NOT MENTION THE DASHBOARD, and the reason is that it
+          would not be true. These five results predate the portal, so the
+          clients behind them cannot open anything, and a line inviting a reader
+          to imagine they could is a claim the site cannot honour. It says the
+          one thing that is true instead: the names are withheld, nothing else
+          is. Revisit it when a portal client has a result worth showing.
+
           `id="results"` is the redirect target for /case-studies. */}
       <section className="results-section g-spruce" id="results">
         <div className="section-inner">
           <div className="section-head">
             <div className="section-eyebrow">Results</div>
-            <h2 className="section-headline">Measured in customers,<br />not vanity metrics.</h2>
-            <p className="section-sub">We keep client names confidential. The numbers speak for themselves.</p>
+            <h2 className="section-headline">Rankings you can check.<br />Calls you can count.</h2>
+            <p className="section-sub">Names withheld at the client&apos;s request. Everything else is exactly as it happened.</p>
           </div>
           {/* No slides means the read failed -- there is no in-code set to fall
               back to any more. The section and its heading stay so that the

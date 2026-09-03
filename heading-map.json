@@ -3,6 +3,7 @@
   "site": "https://axiaatlas.com",
   "branch": "redesign/homepage-dark",
   "note": "Headings in document order per page, for https://axiaatlas.com on branch redesign/homepage-dark. Excludes the site nav, the footer, and the floating chat widget — none of which belong to a page outline. Character counts are of the rendered text with whitespace collapsed; a <br> inside a heading counts as one space. H4 is out of scope by request, which omits the per-slide 'The Challenge' / 'What We Did' / 'The Result' labels inside the home page's results slider.",
+  "capturedFrom": "Rendered DOM, 1440px viewport, against the branch running locally. Two blocks on this site are database-driven and were empty in that environment; both are recorded below under `dynamic` with the headings they carry in production, where the same components render the same rows.",
   "pages": [
     {
       "path": "/",
@@ -86,8 +87,8 @@
         },
         {
           "level": 2,
-          "text": "Measured in customers, not vanity metrics.",
-          "chars": 42
+          "text": "Rankings you can check. Calls you can count.",
+          "chars": 44
         },
         {
           "level": 2,
@@ -123,7 +124,7 @@
       "dynamic": [
         {
           "section": "Results (#results)",
-          "parentH2": "Measured in customers, not vanity metrics.",
+          "parentH2": "Rankings you can check. Calls you can count.",
           "source": "case_studies table, published rows in sort_order, up to 8",
           "shape": "One H3 per slide: the stat where a row has one, otherwise result_headline. Each slide also carries three H4 labels (The Challenge / What We Did / The Result) unless it renders a visual instead.",
           "liveHeadings": [
@@ -154,8 +155,7 @@
             }
           ]
         }
-      ],
-      "countsNote": "With the five published case studies the Results section adds 5 H3s, taking Home to H1 1 · H2 6 · H3 19."
+      ]
     },
     {
       "path": "/services",
@@ -163,7 +163,7 @@
       "h1Count": 1,
       "counts": {
         "h1": 1,
-        "h2": 9,
+        "h2": 10,
         "h3": 0
       },
       "headings": [
@@ -206,6 +206,11 @@
           "level": 2,
           "text": "Executive Personal Brand",
           "chars": 24
+        },
+        {
+          "level": 2,
+          "text": "Client Dashboards",
+          "chars": 17
         },
         {
           "level": 2,
@@ -526,8 +531,7 @@
           "text": "First, a little about you",
           "chars": 25
         }
-      ],
-      "countsNote": "The single H2 is the current step's title and changes with the step: 'First, a little about you' (1), 'Tell us about your business' (2), \"You're all set, <name> — pick your time\" (3), 'Request received, <name>' (done)."
+      ]
     },
     {
       "path": "/careers",
@@ -549,8 +553,7 @@
           "text": "First, a little about you",
           "chars": 25
         }
-      ],
-      "countsNote": "Same three-step card as /demo; the single H2 is the current step's title."
+      ]
     },
     {
       "path": "/privacy",
@@ -740,6 +743,5 @@
         }
       ]
     }
-  ],
-  "capturedFrom": "Rendered DOM, 1440px viewport, against the branch running locally. Two blocks on this site are database-driven and were empty in that environment; both are recorded below under `dynamic` with the headings they carry in production, where the same components render the same rows."
+  ]
 }

@@ -187,6 +187,66 @@ export const ArtStrategy = (_: A) =>
     </div>,
   )
 
+/* Client Dashboards — and this is the one figure on the site where the drawing
+   and the deliverable are the same object.
+
+   Every other artifact here is a sketch OF something: a calendar standing in
+   for a publishing cadence, a funnel standing in for outreach. Nothing on the
+   services page can show you the dashboard except a dashboard, because the
+   dashboard IS what is sold. So this is drawn as an interface and not as a
+   diagram of one: a header carrying the client's own name and mark, three
+   figures off their own operation, and a stock list with a row that needs
+   attention. The numbers are inventory, orders and demand, not sessions and
+   impressions — a marketing chart here would describe the wrong product.
+
+   IT CARRIES THE TAG, for the same reason ArtLocal and ArtGeo do: it mocks a
+   real surface with a business name inside it, and a crop of it could be
+   mistaken for somebody's records. Illustrative.tsx is the standing rule and
+   this is squarely inside it.
+
+   The mark beside the name is a plain square, not the Axia Atlas A. The whole
+   claim of this service is that the dashboard wears the CLIENT's branding, so
+   putting our logo in the header would draw the opposite of the product. */
+export const ArtDashboards = (_: A) =>
+  wrap(
+    <>
+      <div className="ch-dash">
+        <div className="ch-dash-head">
+          <span className="ch-dash-mark" aria-hidden="true" />
+          <span className="ch-dash-name">{MOCK_BUSINESS}</span>
+          <span className="ch-dash-live">
+            <span className="ch-dash-dot" aria-hidden="true" />Live
+          </span>
+        </div>
+        <div className="ch-dash-stats">
+          <span className="ch-dash-stat">
+            <b>1,284</b>
+            <i>On hand</i>
+          </span>
+          <span className="ch-dash-stat">
+            <b>37</b>
+            <i>Orders today</i>
+          </span>
+          <span className="ch-dash-stat">
+            <b>96</b>
+            <i>Waitlist</i>
+          </span>
+        </div>
+        <div className="ch-dash-rows">
+          <span className="ch-dash-row">
+            <span className="ch-dash-sku">Bracket, 40mm</span>
+            <span className="ch-dash-qty low">6 left</span>
+          </span>
+          <span className="ch-dash-row">
+            <span className="ch-dash-sku">Hose clamp, steel</span>
+            <span className="ch-dash-qty">212</span>
+          </span>
+        </div>
+      </div>
+      <span className="ch-art-tag">Not real data</span>
+    </>,
+  )
+
 /* Rank rows — used by the Local/SEO detail on the services page. */
 export const ArtRank = (_: A) =>
   wrap(
@@ -209,5 +269,6 @@ export const ChannelArt: Record<string, (p: A) => JSX.Element> = {
   leadgen: ArtLeadgen,
   executive: ArtExecutive,
   strategy: ArtStrategy,
+  dashboards: ArtDashboards,
   rank: ArtRank,
 }

@@ -82,6 +82,21 @@ export const Website = (p: IconProps) => (
   <svg {...base} {...p}><rect x="3.5" y="4.5" width="17" height="15" rx="2" /><path d="M3.5 9h17M7 6.7h.01M9.5 6.7h.01" /></svg>
 )
 
+/* Client Dashboards. Deliberately NOT the four-tile glyph the portal's own
+   sidebar uses for Overview: a client dashboard and the client portal are two
+   different products, and giving them one mark is the first step toward
+   describing them as one thing. No outer frame either, which is what keeps it
+   off Website's rect-with-a-chrome-bar. Four unequal tiles, nothing around
+   them: a layout, not a screen. */
+export const Dashboard = (p: IconProps) => (
+  <svg {...base} {...p}>
+    <rect x="3" y="3.5" width="8" height="7" rx="1.5" />
+    <rect x="13" y="3.5" width="8" height="4" rx="1.5" />
+    <rect x="3" y="13.5" width="8" height="7" rx="1.5" />
+    <rect x="13" y="10" width="8" height="10.5" rx="1.5" />
+  </svg>
+)
+
 export const Lead = (p: IconProps) => (
   <svg {...base} {...p}><rect x="3.5" y="5.5" width="17" height="13" rx="2" /><path d="M4.5 7l7.5 6 7.5-6" /></svg>
 )
@@ -141,4 +156,5 @@ export const ServiceIcons: Record<string, (p: IconProps) => JSX.Element> = {
   website: Website,
   leadgen: Lead,
   strategy: Compass,
+  dashboards: Dashboard,
 }

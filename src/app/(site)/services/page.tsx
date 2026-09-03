@@ -96,6 +96,32 @@ const SERVICES = [
     who: 'For founders, owners, and executives who are the face of the business, or intend to be.',
   },
   {
+    /* ── THE NINTH ROW, AND THE ONLY ONE THAT IS NOT A CHANNEL ─────────────
+       The other eight are ways a buyer finds you. This is software we build
+       for the business itself: it sits behind a login, it is indexed by
+       nobody, and it is bought by a company that already has an operation to
+       look at. The platform's own service table marks that difference with a
+       `channel: false` flag rather than leaving it to prose, which is why the
+       distinction is load-bearing here too and not a nicety.
+
+       IT IS NOT THE CLIENT PORTAL, and the paragraph says so in as many
+       words. Every client already gets the portal for their marketing work;
+       this is a separate build for their own operation, and the two being
+       confused in front of a buyer is the single failure this copy exists to
+       prevent.
+
+       NO PRICES, NO MODULE COUNTS, NO TIER NAMES. The build fee, the monthly,
+       what a module is and how many come with what all live in the platform's
+       SERVICES table, which is the source of truth and moves without this
+       repo. Anything numeric written here would be a second copy of a number,
+       and a second copy of a number is a number that will one day disagree. */
+    id: 'dashboards',
+    art: true,
+    headline: 'Client Dashboards',
+    desc: 'Most businesses run on systems that each answer half a question. Stock sits in one place, orders in another, the pipeline in a third, and somebody exports all three into a spreadsheet on Monday morning to work out how last week went. We build the thing that ends that: an operational dashboard for your business, not a template you are fitted into. The views are the ones you actually run on, defined with you. We do not replace your tools. We connect to them, keep the mapping right as those systems change underneath, and put the result behind your own login, in your branding, on your own subdomain. Your data sits in a database project of its own, separate from ours, with no route between your operation and our agency systems. This is not the client portal you already get for the marketing work. It is software built for the business itself.',
+    who: 'For businesses whose operating numbers are spread across a store admin, a CRM, and a spreadsheet, and who want one place that reads from all three and stays right as they change.',
+  },
+  {
     id: 'strategy',
     art: false,
     headline: 'Strategic Advisory & Embedded Thinking',
@@ -104,15 +130,24 @@ const SERVICES = [
   },
 ]
 
-/* Machine-readable mirror of the eight services above, so answer engines and
-   search engines read the same catalog a visitor does. Kept derived from
-   SERVICES — the count can never drift out of sync with the page. */
+/* Machine-readable mirror of the services above, so answer engines and search
+   engines read the same catalog a visitor does. Kept derived from SERVICES —
+   the count can never drift out of sync with the page.
+
+   THE NAME NO LONGER SAYS "WAYS TO GET FOUND". It was
+   `${SERVICES.length} ways to get found`, which was true while every member of
+   the list was a discovery channel. Client Dashboards is not one — it sits
+   behind a login and is indexed by nobody — so the moment it joined the array
+   that template started emitting "9 ways to get found" to the machines that
+   read this page, which is a claim about the ninth that is not true. The count
+   still derives; only the phrase that made it a claim is gone. `numberOfItems`
+   carries the number, which is all a parser needed from it. */
 const SITE_URL = 'https://axiaatlas.com'
 const SERVICES_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   '@id': `${SITE_URL}/services#catalog`,
-  name: `Axia Atlas services — ${SERVICES.length} ways to get found`,
+  name: 'Axia Atlas service catalog',
   numberOfItems: SERVICES.length,
   itemListOrder: 'https://schema.org/ItemListUnordered',
   itemListElement: SERVICES.map((s, i) => ({

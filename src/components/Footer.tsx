@@ -27,6 +27,7 @@ export default function Footer() {
               <li><Link href="/services#leadgen">Lead Generation</Link></li>
               <li><Link href="/services#executive">Executive Personal Brand</Link></li>
               <li><Link href="/services#strategy">Strategic Advisory</Link></li>
+              <li><Link href="/services#dashboards">Client Dashboards</Link></li>
             </ul>
           </div>
 
