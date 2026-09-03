@@ -45,7 +45,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['service', 'offer', 'what can you', 'help with', 'channels', 'what do you sell'],
     answer:
-      'We run eight services: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & Maps, Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, and Strategic Advisory & Embedded Thinking. Most clients combine three or four.',
+      'Our services: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & Maps, Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, Client Dashboards, and Strategic Advisory & Embedded Thinking. Most clients combine three or four.',
     links: [L.services, L.demo],
     followups: ['How does answer engine optimization work?', 'What are your tiers?'],
   },

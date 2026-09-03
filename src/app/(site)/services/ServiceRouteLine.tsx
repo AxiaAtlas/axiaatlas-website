@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-/* A single straight vertical spine down the services section, joining the eight
+/* A single straight vertical spine down the services section, joining the
    service-icon nodes. The spine DRAWS as you scroll: empty at the first icon,
    full at the last.
 
@@ -44,7 +44,7 @@ export default function ServiceRouteLine() {
   const ref = useRef<HTMLDivElement>(null)
   const lineRef = useRef<SVGLineElement>(null)
   const geoRef = useRef<Geo | null>(null)
-  // The eight nodes, looked up once after each render instead of once per
+  // The nodes, looked up once after each render instead of once per
   // frame. Filled by the effect below, which runs after React has actually put
   // the circles in the DOM — measure() runs before that and would find none.
   const nodesRef = useRef<SVGCircleElement[]>([])

@@ -52,8 +52,8 @@
         },
         {
           "level": 2,
-          "text": "Eight ways to get found.",
-          "chars": 24
+          "text": "Nine services. One system.",
+          "chars": 26
         },
         {
           "level": 3,
@@ -169,8 +169,8 @@
       "headings": [
         {
           "level": 1,
-          "text": "Eight Digital Marketing Services That Work as One Plan",
-          "chars": 54
+          "text": "Nine Services That Work as One Plan",
+          "chars": 35
         },
         {
           "level": 2,
@@ -230,7 +230,7 @@
       "h1Count": 1,
       "counts": {
         "h1": 1,
-        "h2": 3,
+        "h2": 4,
         "h3": 0
       },
       "headings": [
@@ -253,6 +253,11 @@
           "level": 2,
           "text": "Authority",
           "chars": 9
+        },
+        {
+          "level": 2,
+          "text": "Client Dashboards are priced on a different shape.",
+          "chars": 50
         }
       ]
     },

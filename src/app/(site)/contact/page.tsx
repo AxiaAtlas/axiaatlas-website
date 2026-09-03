@@ -21,7 +21,7 @@ import { Arrow, Check, Plus } from '@/components/icons'
       says anything.
 
    3. NOTHING HERE IS A NEW CLAIM. Every fact below already ships on this site:
-      the eight services and their descriptions from /services, the three tiers
+      the services and their descriptions from /services, the three tiers
       and their contents from /pricing, the audit-plan-build-grow sequence and
       the week-one output from the home page and /about, the two inboxes and
       the 24-hour reply from this page, and `areaServed` from the Organization
@@ -44,8 +44,8 @@ const FAQ_SECTIONS: FaqSection[] = [
     items: [
       {
         q: 'What services does Axia Atlas offer?',
-        a: 'Eight: website design and build, social media management, competitive intelligence, local presence and maps, answer engine optimization, lead generation, executive personal brand, and strategic advisory. Most clients combine three or four of them into one connected plan rather than buying a single channel. Which three depends on where your buyers already are and where you are currently missing.',
-        link: { href: '/services', label: 'See the full breakdown of all eight services' },
+        a: 'Website design and build, social media management, competitive intelligence, local presence and maps, answer engine optimization, lead generation, executive personal brand, client dashboards, and strategic advisory. Most clients combine three or four of them into one connected plan rather than buying a single channel. Which three depends on where your buyers already are and where you are currently missing.',
+        link: { href: '/services', label: 'See the full breakdown of every service' },
       },
       {
         q: 'What is answer engine optimization (AEO), and do I need it?',
@@ -88,7 +88,7 @@ const FAQ_SECTIONS: FaqSection[] = [
       },
       {
         q: 'Can I start with just one channel?',
-        a: 'Yes. Starter exists for exactly that: get momentum on one or two channels and prove the model before you scale. You do not need all eight services, and we would rather tell you which two or three will pay off fastest than sell you the full system on day one.',
+        a: 'Yes. Starter exists for exactly that: get momentum on one or two channels and prove the model before you scale. You do not need every service, and we would rather tell you which two or three will pay off fastest than sell you the full system on day one.',
         link: { href: '/pricing', label: 'What Starter includes' },
       },
     ],
@@ -108,7 +108,7 @@ const FAQ_SECTIONS: FaqSection[] = [
       },
       {
         q: 'How fast will I see results?',
-        a: 'Work starts in week one and you will see output immediately. Compounding channels like SEO and answer engine optimization build over 60 to 90 days; local and social can move faster. We set expectations channel by channel on your demo call rather than promising one timeline for all eight.',
+        a: 'Work starts in week one and you will see output immediately. Compounding channels like SEO and answer engine optimization build over 60 to 90 days; local and social can move faster. We set expectations channel by channel on your demo call rather than promising one timeline for all of them.',
       },
       {
         q: 'How do you report on results?',

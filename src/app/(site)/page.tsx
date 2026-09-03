@@ -16,10 +16,18 @@ import AuditPreview from '@/components/artifacts/AuditPreview'
    database-backed pages (/about, /blog). */
 export const revalidate = 3600
 
-/* SIX OF THE EIGHT, in the live site's order, because "View all 8 services"
-   has to lead somewhere that holds more than the page already showed.
-   Executive Personal Brand and Strategic Advisory & Embedded Thinking live on
-   /services (anchors #executive, #strategy) and in the footer.
+/* SIX OF THE NINE, in the live site's order, because "View all services" has
+   to lead somewhere that holds more than the page already showed. Executive
+   Personal Brand, Client Dashboards, and Strategic Advisory & Embedded
+   Thinking live on /services (anchors #executive, #dashboards, #strategy) and
+   in the footer.
+
+   NO NUMERAL ON THE BUTTON. It said "View all 8 services" and the catalogue
+   went to nine, which is the whole argument for not typing counts into copy:
+   the count lives in /services' SERVICES array and every sentence that merely
+   listed inventory has stopped repeating it. The H2 below keeps its numeral
+   because there it is doing work — it tells the reader six cards are not the
+   whole catalogue. See the note over that array for the full reasoning.
 
    TWO OF THE SIX ARE EMPHASISED, and no card carries an artifact. The previous
    pass flattened this block to a uniform 3x2 because the version before it was
@@ -244,12 +252,26 @@ export default async function HomePage() {
           button and stops three sections in a row from starting at the same
           x-position.
 
-          The qualifying line ("You don't need all eight...") is removed. */}
+          The qualifying line ("You don't need all eight...") is removed.
+
+          THE HEADING IS NO LONGER "EIGHT WAYS TO GET FOUND". It was the
+          strongest line on the page and it was a channel claim, which stopped
+          being true the moment Client Dashboards joined the catalogue: a
+          dashboard sits behind a login and is a way to run a business, not a
+          way to be found by one. Keeping it would have forced the site to hold
+          two counts that rot separately — services, and ways to get found —
+          and the second one has no array behind it to keep it honest.
+
+          "Nine services. One system." keeps the numeral where the numeral
+          earns its place (six cards are showing; the reader needs to know the
+          catalogue is bigger) and trades the channel claim for the claim the
+          section is actually making, which the eyebrow, the grid, and the
+          whole page already argue: these are bought together. */}
       <section className="channels-section g-raise">
         <div className="section-inner">
           <div className="section-head aligned-right">
             <div className="section-eyebrow">The Channels</div>
-            <h2 className="section-headline">Eight ways to get found.</h2>
+            <h2 className="section-headline">Nine services. One system.</h2>
           </div>
           <div className="services-grid">
             {SERVICES.map((s) => {
@@ -274,7 +296,7 @@ export default async function HomePage() {
             })}
           </div>
           <div className="channels-foot">
-            <Link href="/services" className="btn-outline">View all 8 services <Arrow className="arr" /></Link>
+            <Link href="/services" className="btn-outline">View all services <Arrow className="arr" /></Link>
           </div>
         </div>
       </section>

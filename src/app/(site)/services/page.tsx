@@ -5,36 +5,55 @@ import CtaBand from '@/components/CtaBand'
 import { Arrow, ServiceIcons } from '@/components/icons'
 import ServiceRouteLine from './ServiceRouteLine'
 import { ChannelArt as ServiceArt } from '@/components/artifacts/ChannelArtifacts'
+import InfraStrip from '@/components/artifacts/InfraStrip'
 import { pageTitle, social } from '@/lib/seo'
 
-const DESCRIPTION =
-  'Eight ways Axia Atlas gets you found and chosen: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & Maps, Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, and Strategic Advisory & Embedded Thinking.'
-
-export const metadata: Metadata = {
-  title: 'SEO, AEO & Social Media Marketing Services',
-  description: DESCRIPTION,
-  alternates: { canonical: '/services' },
-  ...social({ title: pageTitle('SEO, AEO & Social Media Marketing Services'), description: DESCRIPTION, path: '/services' }),
-}
-
 /* Website Design & Build leads: it is the core engagement and the one every
-   other channel points traffic at. The remaining seven follow the same order
-   as the home-page grid.
+   other channel points traffic at. The rest follow the order the home-page
+   grid uses for the six it shows.
+
+   ── WHERE THE COUNT LIVES, AND WHY IT LIVES IN ONE PLACE ──────────────────
+   This array. Nowhere else. `SERVICES.length` feeds the H1, the meta
+   description, and the ItemList's `numberOfItems`, and every other page that
+   used to type a numeral has stopped typing one.
+
+   THE LINE THAT WENT. "Eight ways to get found" was the strongest sentence on
+   the site, and it was a channel claim. Client Dashboards is not a channel —
+   it sits behind a login, it is indexed by nobody — so the moment it joined
+   this array the site was holding two counts that rot separately: the number
+   of services, and the number of ways a buyer can find you. Two counts in
+   prose is two counts that will one day disagree, and the disagreement is
+   invisible until a reader finds it.
+
+   SO THE NUMERAL SURVIVES IN EXACTLY TWO SENTENCES — this page's H1 and the
+   home page's channels H2 — where it is doing work: it tells a reader the
+   catalogue is bigger than the six cards in front of them. Everywhere else it
+   was inventory, not argument, and inventory is what the array is for. "View
+   all services", "you do not need every service", the FAQ answers, the chat
+   widget's catalogue line: all of them dropped it. This is the same discipline
+   the site already applies to prices, which live in the platform's SERVICES
+   table and are never restated here.
+
+   AND THE H1 NO LONGER SAYS "DIGITAL MARKETING SERVICES". It did, and that
+   filed a dashboard under digital marketing — the one row on the page that is
+   software built for the client's own operation. "Nine Services That Work as
+   One Plan" is shorter and it is true of all nine.
 
    WHAT THIS PASS TOOK OUT, and why the page is shorter than it was:
 
-   1. THE "IN PRACTICE" CHIPS. Every one of the eight rows carried four or five
+   1. THE "IN PRACTICE" CHIPS. Every row carried four or five
       pills restating, in two words each, things the paragraph above them had
       just said in full. Sixteen rows of chrome down the page, and the reader
       learns nothing from the second set that the first did not already teach
       them to skip.
 
-   2. FIVE OF THE EIGHT ARTIFACTS. A structural sketch beside a service is
+   2. MOST OF THE ARTIFACTS. A structural sketch beside a service is
       worth having when the sketch shows a shape the prose cannot — a map pack
       with one pin lit, a citation line under an answer, the wireframe of a
       page. It is not worth having when it is three grey bars standing in for
-      "we do this too", which is what the other five were. Three artifacts
-      survive, on the three services whose shape is genuinely visual.
+      "we do this too", which is what most of them were. The survivors sit on
+      the services whose shape is genuinely visual, and `art: true` is the flag
+      that says so.
 
    The prose itself is untouched. "Too much text" was the note, but the
    descriptions are the substance of the page — the length came from the
@@ -118,7 +137,7 @@ const SERVICES = [
     id: 'dashboards',
     art: true,
     headline: 'Client Dashboards',
-    desc: 'Most businesses run on systems that each answer half a question. Stock sits in one place, orders in another, the pipeline in a third, and somebody exports all three into a spreadsheet on Monday morning to work out how last week went. We build the thing that ends that: an operational dashboard for your business, not a template you are fitted into. The views are the ones you actually run on, defined with you. We do not replace your tools. We connect to them, keep the mapping right as those systems change underneath, and put the result behind your own login, in your branding, on your own subdomain. Your data sits in a database project of its own, separate from ours, with no route between your operation and our agency systems. This is not the client portal you already get for the marketing work. It is software built for the business itself.',
+    desc: 'Most businesses run on decentralized systems that each answer half a question. Stock sits in one place, orders in another, the pipeline in a third, and somebody exports all three into a spreadsheet on Monday morning to work out how last week went. We build the thing that ends that: an operational dashboard for your business, not a template you are fitted into. The views are the ones you actually run on, defined with you. We do not replace your tools. We connect to them, keep the mapping right as those systems change underneath, and put the result behind your own login, in your branding, on your own subdomain. Your data sits in a database project of its own, separate from ours, with no route between your operation and our agency systems. This is not the client portal you already get for the marketing work. It is software built for the business itself.',
     who: 'For businesses whose operating numbers are spread across a store admin, a CRM, and a spreadsheet, and who want one place that reads from all three and stays right as they change.',
   },
   {
@@ -129,6 +148,20 @@ const SERVICES = [
     who: 'For owners and teams who want a thinking partner across the whole business, not a vendor for one channel.',
   },
 ]
+
+/* Derived, not typed. The list a machine reads in the ItemList below and the
+   list a search result shows are the same nine names in the same order, and
+   adding a service updates both without anyone remembering to. The old string
+   was hand-written, said "Eight", and had already fallen a service behind. */
+const DESCRIPTION =
+  `The Axia Atlas service catalog — ${SERVICES.map((s) => s.headline).join(', ')}.`
+
+export const metadata: Metadata = {
+  title: 'SEO, AEO & Social Media Marketing Services',
+  description: DESCRIPTION,
+  alternates: { canonical: '/services' },
+  ...social({ title: pageTitle('SEO, AEO & Social Media Marketing Services'), description: DESCRIPTION, path: '/services' }),
+}
 
 /* Machine-readable mirror of the services above, so answer engines and search
    engines read the same catalog a visitor does. Kept derived from SERVICES —
@@ -182,7 +215,7 @@ export default function ServicesPage() {
       />
       <div className="services-hero">
         <div className="section-eyebrow">Services</div>
-        <h1 className="section-headline">Eight Digital Marketing Services<br />That Work as One Plan</h1>
+        <h1 className="section-headline">Nine Services That Work as One Plan</h1>
         <p className="section-sub">Start with one channel or build the full system. Either way, it begins with strategy — never random tactics.</p>
       </div>
 
@@ -219,10 +252,31 @@ export default function ServicesPage() {
                         <span className="service-icon">{Icon && <Icon />}</span>
                       </div>
                       <h2 className="service-detail-headline">{s.headline}</h2>
+                      {/* THE AUDIENCE LINE RIDES WITH THE HEADLINE ON A ROW WITH
+                          NO FIGURE, and it is the fix for a real defect rather
+                          than a preference. A text-only row splits `.sd-copy`
+                          into a narrow head column and a wide prose column. The
+                          head held two things — a 44px mark and a one-line
+                          headline — so on every one of these rows the left
+                          column ran about 120px of content against 400px of
+                          paragraph beside it, and the remaining 300-odd px was
+                          a hole. Executive Personal Brand is where it reads
+                          worst (shortest headline, and it sits directly above
+                          the tallest figure row on the page), but social,
+                          intel, leadgen, and strategy all had it.
+
+                          "Who this is for" is the one sentence that belongs
+                          with the NAME of a service rather than appended to the
+                          argument for it, so moving it is not padding — it puts
+                          the line where it reads better and closes the hole
+                          with content the row already owned. Rows WITH a figure
+                          are untouched: their head column is the full measure
+                          and has no hole to close. */}
+                      {!Art && <p className="service-who">{s.who}</p>}
                     </div>
                     <div className="sd-prose">
                       <p className="service-detail-desc">{s.desc}</p>
-                      <p className="service-who">{s.who}</p>
+                      {Art && <p className="service-who">{s.who}</p>}
                       <div>
                         <Link href="/demo" className="btn-primary">Get Started <Arrow className="arr" /></Link>
                       </div>
@@ -232,6 +286,10 @@ export default function ServicesPage() {
                   {Art && (
                     <div className="sd-aside">
                       <div className="sd-art"><Art /></div>
+                      {/* One row only, and it is the row that sells software.
+                          See the note in InfraStrip for why it does not travel
+                          and why it is not repeated on the home page. */}
+                      {s.id === 'dashboards' && <InfraStrip />}
                     </div>
                   )}
                 </div>

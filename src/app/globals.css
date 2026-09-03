@@ -2657,6 +2657,34 @@ footer::before {
 .sd-split-rev .sd-copy { order: 1; }
 .sd-split-rev .sd-aside { order: 2; }
 .sd-rail .service-detail-inner { grid-template-columns: 1fr; }}
+/* ── THE INFRASTRUCTURE STRIP — Client Dashboards only ───────────────────
+   Sits in `.sd-aside` under the artifact, so it inherits the 26px column gap
+   and needs no top margin of its own. Faint by design: it is a footnote to the
+   figure above it, not a second claim beside it. Nothing here animates. */
+.infra-strip { display: flex; flex-direction: column; gap: 14px; }
+.infra-cap {
+  font-family: var(--font-head);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.infra-marks { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+.infra-mark { display: inline-flex; color: var(--text-muted); }
+.infra-mark svg { width: 19px; height: 19px; display: block; }
+/* The four marks are drawn at wildly different optical weights — Vercel is a
+   solid triangle, GitHub a dense disc, Resend a heavy letterform, Supabase a
+   thin bolt — so a single size makes the bolt vanish next to the disc. Trimmed
+   individually rather than letting the busiest mark set the run. */
+.infra-mark:nth-child(1) svg { width: 18px; height: 18px; }
+.infra-mark:nth-child(2) svg { width: 17px; height: 17px; }
+.infra-mark:nth-child(4) svg { width: 18px; height: 18px; }
+@media (max-width: 900px) {
+  .infra-strip { margin-top: 4px; }
+  .infra-marks { gap: 22px; }
+}
+
 /* ── PRICING — the portal's card, not a second card system ────────────────
    The tiers were bespoke panels with their own border weight and elevation.
    They are the portal's card now (6px radius, 1px hairline, the flat 1px
@@ -3446,22 +3474,42 @@ footer { background: #050906; }
 /* A row with no figure is not a paragraph floating in half a page. The mark
    and the headline take a narrow left column and the prose runs beside them —
    an editorial split that uses the full width, keeps the measure readable, and
-   reads differently from the figure rows without needing a graphic to do it. */
+   reads differently from the figure rows without needing a graphic to do it.
+
+   THE LEFT COLUMN WAS EMPTY, and that was the defect. A mark and a one-line
+   headline are about 120px of content in a column the paragraph beside them
+   stretches to 400px, so every text-only row carried 300px of nothing where a
+   figure row carries a figure. The audience line moved up into the head (see
+   the markup note on /services) and the column now holds three things.
+
+   AND THE MEASURE IS CAPPED. The prose column ran the full remaining width —
+   about 95 characters at 1440px, well past the 68 this comment claimed to be
+   keeping. It is capped now, which is the second half of the same fix: a
+   column that stops at a readable measure is what makes the width left over
+   for the head column worth giving it. */
 .service-detail.text-only .service-detail-inner { display: block; }
 .service-detail.text-only .sd-copy {
   display: grid;
-  grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr);
-  gap: clamp(32px, 5vw, 80px);
+  grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px);
   align-items: start;
 }
 .service-detail.text-only .service-detail-headline {
   font-size: clamp(1.35rem, 1.05rem + 1.1vw, 1.75rem);
   margin-bottom: 0;
 }
+.service-detail.text-only .sd-prose { max-width: 72ch; }
 .service-detail.text-only .service-detail-desc,
 .service-detail.text-only .service-who { max-width: none; }
+/* Under the headline, not under the paragraph: the gap is the headline's own
+   bottom margin, which the rule above zeroes out. */
+.service-detail.text-only .sd-head .service-who { margin-top: 26px; }
 @media (max-width: 900px) {
   .service-detail.text-only .sd-copy { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .service-detail.text-only .sd-prose { max-width: none; }
+  /* Stacked, the audience line lands between the headline and the paragraph
+     and reads as a standfirst, which is the right place for it on a phone. */
+  .service-detail.text-only .sd-head .service-who { margin-top: 20px; }
 }
 
 /* ── PRICING — three tiers, one loud button ──────────────────────────────
@@ -3470,6 +3518,69 @@ footer { background: #050906; }
 .pricing-card .btn-outline { border-color: var(--border-strong); }
 .pricing-card .btn-outline:hover { border-color: var(--accent); }
 .pricing-note { margin-bottom: clamp(64px, 8vw, 104px); }
+/* ── PRICING — THE CLIENT DASHBOARDS BAND ────────────────────────────────
+   Deliberately NOT `.pricing-card`. The three tiers are a card system and a
+   fourth surface in that language would be read as a fourth tier no matter
+   what the copy said, so this is a horizontal panel with a hairline top rule,
+   no flag, no tick list, and no per-item amount — none of the four things that
+   make a pricing card look like a rung on a ladder. */
+.pricing-band {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  /* The centred `.pricing-note` follows immediately and only has an 8px top
+     margin of its own, so the separation between the two has to come from
+     here or the note reads as a caption on this band rather than on the page. */
+  padding: clamp(28px, 4vw, 40px) var(--gutter) clamp(36px, 5vw, 56px);
+}
+.pricing-band-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 64px);
+  align-items: start;
+  padding: clamp(28px, 4vw, 40px) 0 0;
+  border-top: 1px solid var(--border);
+}
+.pb-head {
+  font-family: var(--font-head);
+  font-size: clamp(1.3rem, 1.05rem + 0.95vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 14px;
+  max-width: 20ch;
+}
+.pb-lede {
+  font-size: var(--t-sm);
+  line-height: 1.75;
+  color: var(--text-muted);
+  max-width: 52ch;
+  margin-bottom: 26px;
+}
+.pb-links { display: flex; flex-wrap: wrap; gap: 12px; }
+/* The terms are a definition list because that is what they are: three named
+   parts of one price. A row each, ruled between, so the shape of the quote is
+   legible at a glance without a single number being printed. */
+.pb-terms { display: flex; flex-direction: column; }
+.pb-term { padding: 16px 0; border-bottom: 1px solid var(--border); }
+.pb-term:first-child { padding-top: 0; }
+.pb-term:last-child { border-bottom: none; padding-bottom: 0; }
+.pb-term dt {
+  font-family: var(--font-head);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 7px;
+}
+.pb-term dd { font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); margin: 0; }
+@media (max-width: 900px) {
+  .pricing-band-inner { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .pb-head, .pb-lede { max-width: none; }
+  .pb-links .btn-outline, .pb-links .btn-primary { flex: 1 1 auto; justify-content: center; }
+}
+
 /* ── ABOUT — the hero is type now ────────────────────────────────────────
    The cartographic figure (rotating dials, a route plotting itself, a
    coordinate label) was the largest object on the page and said nothing the
