@@ -14,7 +14,8 @@
    than resolved from one table.
 
    So: names are DERIVED here, never typed at a call site. A page that wants to
-   print a service name calls `serviceName(id)`.
+   print a service name calls `serviceName(id)`, or `serviceShort(id)` where the
+   slot is too narrow for the full one.
 
    ── THE ID IS THE ANCHOR, THE KEY IS THE PLATFORM'S ─────────────────────────
    `id` is this site's URL fragment (/services#geo) and has been stable since
@@ -23,6 +24,28 @@
    recorded so the two tables can be diffed by hand without guessing which row
    is which. They differ deliberately in three places (geo/aeo_seo,
    leadgen/lead_gen, dashboards/client_dashboards) and neither side is wrong.
+
+   ── THE SHORT NAME IS THE PLATFORM'S, VERBATIM ──────────────────────────────
+   `short` mirrors the platform's `short` the same way `name` mirrors its
+   `label`, and it is copied rather than invented for the same reason `key` is
+   recorded: the two tables have to be diffable by hand. A short name edited to
+   read better here is a row that no longer matches the row it mirrors, and the
+   next person diffing the two cannot tell an improvement from a drift.
+
+   It exists because the full catalogue names do not fit every slot. The footer
+   column is the first: "Strategic Advisory & Embedded Thinking" and "SEO &
+   Answer Engine Optimization (AEO)" wrap to three lines in a footer column at
+   390px, and the footer's answer to that used to be a hand-shortened copy of
+   the name — which is precisely how it ended up printing "Strategic Advisory"
+   and "SEO & Answer Engine Optimization" after the catalogue had renamed both.
+   Two drifts, from one typed list. A narrow slot now asks for `short`.
+
+   NOTE, on the two that read as internal shorthand: "Comp Intel" and "Exec
+   Brand" are the platform's, and the platform is a logged-in board where that
+   register is right. On a public footer they are jargon. They are still copied
+   verbatim, because the mirror is worth more than the wording — if the outward
+   copy should differ from the platform's, that is a separate field, authored
+   here on purpose, not an edit to this one.
 
    ── THE ORDER IS PRICE, HIGHEST FIRST ───────────────────────────────────────
    /services renders this array in this order, and it is ranked by what the
@@ -56,19 +79,22 @@ export type ServiceEntry = {
   key: string
   /** The display name. Mirrors `label` in the platform's SERVICES table. */
   name: string
+  /** The compact name. Mirrors `short` in the platform's SERVICES table,
+      VERBATIM — see the note on short names above. */
+  short: string
 }
 
 /* In price order, highest first. See the note above. */
 export const SERVICES: ServiceEntry[] = [
-  { id: 'dashboards', key: 'client_dashboards',  name: 'Portals & Dashboards' },
-  { id: 'website',    key: 'website',            name: 'Website Design & Build' },
-  { id: 'geo',        key: 'aeo_seo',            name: 'SEO & Answer Engine Optimization (AEO)' },
-  { id: 'social',     key: 'social',             name: 'Social Media Management' },
-  { id: 'leadgen',    key: 'lead_gen',           name: 'Lead Generation' },
-  { id: 'executive',  key: 'executive',          name: 'Executive Personal Brand' },
-  { id: 'strategy',   key: 'advisory',           name: 'Strategic Advisory & Embedded Thinking' },
-  { id: 'intel',      key: 'competitive_intel',  name: 'Competitive Intelligence' },
-  { id: 'local',      key: 'local',              name: 'Local Presence & Maps' },
+  { id: 'dashboards', key: 'client_dashboards',  name: 'Portals & Dashboards',                     short: 'Dashboards' },
+  { id: 'website',    key: 'website',            name: 'Website Design & Build',                   short: 'Website' },
+  { id: 'geo',        key: 'aeo_seo',            name: 'SEO & Answer Engine Optimization (AEO)',   short: 'SEO & AEO' },
+  { id: 'social',     key: 'social',             name: 'Social Media Management',                  short: 'Social' },
+  { id: 'leadgen',    key: 'lead_gen',           name: 'Lead Generation',                          short: 'Lead Gen' },
+  { id: 'executive',  key: 'executive',          name: 'Executive Personal Brand',                 short: 'Exec Brand' },
+  { id: 'strategy',   key: 'advisory',           name: 'Strategic Advisory & Embedded Thinking',   short: 'Advisory' },
+  { id: 'intel',      key: 'competitive_intel',  name: 'Competitive Intelligence',                 short: 'Comp Intel' },
+  { id: 'local',      key: 'local',              name: 'Local Presence & Maps',                    short: 'Local' },
 ]
 
 const BY_ID = new Map(SERVICES.map((s) => [s.id, s]))
@@ -85,6 +111,15 @@ export function serviceName(id: ServiceId): string {
     app/layout.tsx and by /services' ItemList, so the machine-readable catalog
     and the page a visitor reads can never list different names. */
 export const SERVICE_NAMES: string[] = SERVICES.map((s) => s.name)
+
+/** The one way to print a service's COMPACT name — a footer column, a chip, any
+    slot too narrow for the full catalogue name. Throws on a bad id for the same
+    reason serviceName() does. */
+export function serviceShort(id: ServiceId): string {
+  const svc = BY_ID.get(id)
+  if (!svc) throw new Error(`Unknown service id: ${id}`)
+  return svc.short
+}
 
 /** How many services there are. The only place the site's count comes from. */
 export const SERVICE_COUNT = SERVICES.length

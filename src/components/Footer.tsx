@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { AMark, WordmarkText } from './Logo'
+import { SERVICES } from '@/lib/services'
 
 const PORTAL_URL = 'https://app.axiaatlas.com'
 
@@ -18,16 +19,30 @@ export default function Footer() {
 
           <div>
             <div className="footer-col-title">Services</div>
+            {/* DERIVED, AND BOTH HALVES OF EVERY ROW ARE.
+                The nine names and the nine hrefs were typed here, and a typed
+                copy of a name is a copy that stops matching the catalogue
+                silently. It already had, twice: this column printed "Strategic
+                Advisory" against a catalogue reading "Strategic Advisory &
+                Embedded Thinking", and "SEO & Answer Engine Optimization"
+                against one reading "SEO & Answer Engine Optimization (AEO)".
+                Neither was a decision — both were hand-shortenings left behind
+                by a rename, and nothing could catch them because nothing else
+                read this list.
+
+                `short` is the fix rather than `name`, because the full names
+                are what forced the hand-shortening in the first place — see the
+                note in lib/services. The ORDER is the catalogue's too (price,
+                highest first), which is why Portals & Dashboards now leads this
+                column where Website Design & Build used to: one order in the
+                repo, the same one /services renders and both #catalog nodes
+                emit. */}
             <ul className="footer-links">
-              <li><Link href="/services#website">Website Design &amp; Build</Link></li>
-              <li><Link href="/services#social">Social Media Management</Link></li>
-              <li><Link href="/services#intel">Competitive Intelligence</Link></li>
-              <li><Link href="/services#local">Local Presence &amp; Maps</Link></li>
-              <li><Link href="/services#geo">SEO &amp; Answer Engine Optimization</Link></li>
-              <li><Link href="/services#leadgen">Lead Generation</Link></li>
-              <li><Link href="/services#executive">Executive Personal Brand</Link></li>
-              <li><Link href="/services#strategy">Strategic Advisory</Link></li>
-              <li><Link href="/services#dashboards">Portals &amp; Dashboards</Link></li>
+              {SERVICES.map((s) => (
+                <li key={s.id}>
+                  <Link href={`/services#${s.id}`}>{s.short}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 
