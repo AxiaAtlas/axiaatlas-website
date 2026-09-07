@@ -50,6 +50,25 @@ export function readingTime(content: string | null): number | null {
   return Math.max(1, Math.round(words / 225))
 }
 
+// A read failure and an empty table are the SAME rendered page — the "Nothing
+// published yet" empty state — and that cost the blog several weeks of being
+// silently dark. Migration 086 in the platform repo swept anon's grant off every
+// public table whose name was not on its read allowlist; blog_posts was not on
+// it, so every one of these queries came back 42501 while the site cheerfully
+// reported that there was nothing to show.
+//
+// So the error is LOGGED before it is absorbed. These run in server components,
+// so the message lands in the build/function output where it can be found. The
+// empty return stays: a public marketing page should degrade to an empty
+// section rather than 500, and the caller already renders that state well. What
+// is no longer acceptable is the failure leaving no trace at all.
+function logReadFailure(op: string, error: unknown): void {
+  const e = error as { message?: string; code?: string } | null
+  console.error(
+    `blog: ${op} failed${e?.code ? ` (${e.code})` : ''}: ${e?.message || String(error)}`,
+  )
+}
+
 export async function getPosts(): Promise<BlogPost[]> {
   try {
     const { data, error } = await supabase
@@ -57,9 +76,13 @@ export async function getPosts(): Promise<BlogPost[]> {
       .select('*')
       .eq('published', true)
       .order('published_at', { ascending: false })
-    if (error) return []
+    if (error) {
+      logReadFailure('getPosts', error)
+      return []
+    }
     return (data as BlogPost[]) || []
-  } catch {
+  } catch (e) {
+    logReadFailure('getPosts', e)
     return []
   }
 }
@@ -72,9 +95,13 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
       .eq('slug', slug)
       .eq('published', true)
       .maybeSingle()
-    if (error) return null
+    if (error) {
+      logReadFailure(`getPost(${slug})`, error)
+      return null
+    }
     return (data as BlogPost) || null
-  } catch {
+  } catch (e) {
+    logReadFailure(`getPost(${slug})`, e)
     return null
   }
 }
