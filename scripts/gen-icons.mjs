@@ -11,7 +11,7 @@
 // THE FRAMING. TWO RATIOS, ONE PER CONSUMER.
 //
 //   MARK_RATIO_OPAQUE = 0.39   favicon.ico + the opaque PNGs   -> Google
-//   MARK_RATIO_TAB    = 0.62   icon-light.svg / icon-dark.svg  -> browser tabs
+//   MARK_RATIO_TAB    = 0.80   icon-light.svg / icon-dark.svg  -> browser tabs
 //
 // Both crops are computed from the geometry rather than eyeballed: the mark's
 // own bounding box, centered, scaled to its ratio of the canvas. Only the ratio
@@ -19,9 +19,11 @@
 //
 // 0.39 is the brand asset's own 400/1024 framing, so the icon Google reads is
 // the logo rather than a tighter crop of it, and it sits well inside the ~80%
-// safe circle Android crops a maskable icon to. 0.62 is a legibility crop for
-// the tab strip, which is the only thing that reads the transparent pair. See
-// MARK_RATIO_OPAQUE / MARK_RATIO_TAB below for the measurements behind both.
+// safe circle Android crops a maskable icon to. 0.80 is a legibility crop for
+// the tab strip, which is the only thing that reads the transparent pair, and it
+// carries no brand-framing obligation because the consumer that would impose one
+// never fetches those files. See MARK_RATIO_OPAQUE / MARK_RATIO_TAB below for
+// the measurements behind both.
 //
 // WHY EVERYTHING IS OPAQUE. Google composites a transparent favicon against its
 // own result-row background, which is why a transparent icon looks correct in
@@ -58,16 +60,19 @@
 //   BRIGHTER than the flanks above it, so the halves fuse into one wedge. That
 //   is accepted rather than fixed: Google renders the 48, not the 16.
 //
-//   THE TAB SVG, at 0.62, does not close. The same slot is 0.83 of a device
-//   pixel and the two centre pixels come out at 58% ink against 100% flanks
-//   across four rows, which reads as a channel. Measured at 16px on the shipped
-//   icon-light.svg.
+//   THE TAB SVG, at 0.80, does not close. The same slot is 1.07 device pixels
+//   and the two centre pixels come out at 47% ink against 100% flanks across
+//   seven contiguous rows, then open to 8% and 0% at the base, which reads as a
+//   channel. Measured at 16px on the shipped icon-light.svg. The predecessor
+//   ratio 0.62 gave 0.83 of a pixel and a 58% channel over four rows — open,
+//   but the narrowest version of open.
 //
 // The slot never opens to the ground at 16px at ANY ratio: it is centred on the
 // mark's centre, which at an even pixel size is a pixel BOUNDARY, so the gap is
 // split across two pixels and each keeps half. 33% ink is the floor and only by
-// filling the whole frame. 0.62 buys the separation, not a see-through gap; on a
-// 2x tab strip (32 device px) it renders at 17% ink, fully open.
+// filling the whole frame, and 0.80 lands within 14 points of that floor. 0.80
+// buys the separation, not a see-through gap at 1x; on a 2x tab strip (32 device
+// px) it renders at 0% ink — an actual gap, where 0.62 still carried 17%.
 //
 // The 16 and 32 live only in the .ico, where a browser can pick the exact frame;
 // the linked PNGs stay on Google's multiple-of-48 rule.
@@ -105,12 +110,20 @@ const CY = (BOX.y0 + BOX.y1) / 2
 // PNGs — and it governs them alone. Do not raise this number to "fix" 16px.
 const MARK_RATIO_OPAQUE = 0.39
 //
-// 0.62 IS TAB LEGIBILITY. The transparent pair is tab-only: layout.tsx declares
+// 0.80 IS TAB LEGIBILITY. The transparent pair is tab-only: layout.tsx declares
 // no .ico, and Google reads /favicon.ico, so it never fetches these two files.
-// Nothing about a result row constrains them and they are framed for the one job
-// they have. At 0.39 their slot closes solid at 16px; at 0.62 it renders as a
-// 58%-ink channel against 100% flanks. Measured, on the shipped files.
-const MARK_RATIO_TAB = 0.62
+// Nothing about a result row constrains them, they carry no brand-framing
+// obligation at all, and they are framed for the one job they have. At 0.39
+// their slot closes solid at 16px; at 0.80 it renders as a 47%-ink channel
+// against 100% flanks and opens fully to 0% on a 2x strip. Measured, on the
+// shipped files.
+//
+// 0.80 REPLACED 0.62, WHICH WAS A GUESS. 0.62 held the slot open but had never
+// been measured against the alternatives. It has been now — 0.39 / 0.62 / 0.70 /
+// 0.75 / 0.80 / 0.85 / 0.90 / 1.00, rendered at 16px from this same geometry —
+// and 0.80 wins on every count: 47% centre ink against 58%, seven full-flank
+// rows against four, and a base that reaches 0% instead of 30%.
+const MARK_RATIO_TAB = 0.80
 //
 // KEEP IN SYNC with axiaatlas-platform/scripts/gen-icons.mjs — as a PAIR. The
 // two ratios are not a duplicate to be tidied away: they are deliberate and they
