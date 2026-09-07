@@ -5,7 +5,7 @@
    Each of these shows the SHAPE of the work instead: a local listing looks
    nothing like an assistant answering a question, which looks nothing like a
    posting calendar, and that difference is the point — it is what tells a
-   reader that "Local Presence" and "Answer Engine Optimization" are not the
+   reader that "Local Presence" and "SEO & Answer Engine Optimization" are not the
    same service with two names.
 
    THIRD PASS: THREE OF THEM STOPPED BEING ABSTRACT.
@@ -187,7 +187,7 @@ export const ArtStrategy = (_: A) =>
     </div>,
   )
 
-/* Client Dashboards — and this is the one figure on the site where the drawing
+/* Portals & Dashboards — and this is the one figure on the site where the drawing
    and the deliverable are the same object.
 
    Every other artifact here is a sketch OF something: a calendar standing in

@@ -35,7 +35,7 @@ const TIERS = [
     features: [
       'Three to four channels working together',
       'Everything in Starter',
-      'Answer Engine Optimization (AEO) included',
+      'SEO & Answer Engine Optimization (AEO) included',
       'Website or landing-page work',
       'Monthly strategy call',
       'Live dashboard and priority support',
@@ -130,7 +130,7 @@ export default function PricingPage() {
         <div className="pricing-band-inner">
           <div className="pb-copy">
             <div className="section-eyebrow">Outside the tiers</div>
-            <h2 className="pb-head" id="pricing-band-head">Client Dashboards are priced on a different shape.</h2>
+            <h2 className="pb-head" id="pricing-band-head">Portals & Dashboards are priced on a different shape.</h2>
             <p className="pb-lede">
               The three plans above buy channels, month to month. A client dashboard is software
               built for your own operation — it sits behind your login and is indexed by nobody —

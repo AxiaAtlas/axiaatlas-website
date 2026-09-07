@@ -82,7 +82,7 @@ export const Website = (p: IconProps) => (
   <svg {...base} {...p}><rect x="3.5" y="4.5" width="17" height="15" rx="2" /><path d="M3.5 9h17M7 6.7h.01M9.5 6.7h.01" /></svg>
 )
 
-/* Client Dashboards. Deliberately NOT the four-tile glyph the portal's own
+/* Portals & Dashboards. Deliberately NOT the four-tile glyph the portal's own
    sidebar uses for Overview: a client dashboard and the client portal are two
    different products, and giving them one mark is the first step toward
    describing them as one thing. No outer frame either, which is what keeps it

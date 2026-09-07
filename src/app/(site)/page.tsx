@@ -18,7 +18,7 @@ export const revalidate = 3600
 
 /* SIX OF THE NINE, in the live site's order, because "View all services" has
    to lead somewhere that holds more than the page already showed. Executive
-   Personal Brand, Client Dashboards, and Strategic Advisory & Embedded
+   Personal Brand, Portals & Dashboards, and Strategic Advisory & Embedded
    Thinking live on /services (anchors #executive, #dashboards, #strategy) and
    in the footer.
 
@@ -41,7 +41,7 @@ export const revalidate = 3600
    WHICH TWO, AND WHY THOSE. Website Design & Build, because /services already
    calls it "the core engagement and the one every other channel points traffic
    at" — the page should not rank it level with the rest while the services page
-   ranks it first. And Answer Engine Optimization, which is the service the
+   ranks it first. And SEO & Answer Engine Optimization, which is the service the
    brand is built around: the hero names answer engines, the ticker names four
    of them, the System card runs a whole marquee of their logos, and the audit
    card's second row is Answer Engines. Local Presence & Maps holds an ordinary
@@ -56,7 +56,7 @@ const SERVICES = [
      places still carrying the old name, so the site contradicted its own
      structured data. */
   { id: 'local', name: 'Local Presence & Maps', desc: 'Profile, citations, and reviews managed so nearby buyers find you first, not the business down the road.', href: '/services#local' },
-  { id: 'geo', name: 'Answer Engine Optimization (AEO)', desc: 'Get cited across leading AI platforms—Claude, ChatGPT, Perplexity, and Gemini—represented accurately and recommended when buyers search your category.', href: '/services#geo', emphasis: true },
+  { id: 'geo', name: 'SEO & Answer Engine Optimization (AEO)', desc: 'Rank in Google and get named by the assistants buyers now ask. One content pipeline: keyword-led long-form articles, the schema and entity work behind them, and monthly proof of where you are cited across Claude, ChatGPT, Perplexity, and Gemini.', href: '/services#geo', emphasis: true },
   { id: 'leadgen', name: 'Lead Generation', desc: 'Prospects researched against your ideal customer, reached with outreach written for them, tracked from first touch onward.', href: '/services#leadgen' },
 ]
 
@@ -277,7 +277,7 @@ export default async function HomePage() {
 
           THE HEADING IS NO LONGER "EIGHT WAYS TO GET FOUND". It was the
           strongest line on the page and it was a channel claim, which stopped
-          being true the moment Client Dashboards joined the catalogue: a
+          being true the moment Portals & Dashboards joined the catalogue: a
           dashboard sits behind a login and is a way to run a business, not a
           way to be found by one. Keeping it would have forced the site to hold
           two counts that rot separately — services, and ways to get found —

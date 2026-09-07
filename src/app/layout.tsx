@@ -155,10 +155,10 @@ const SERVICE_CATALOG = [
   'Social Media Management',
   'Competitive Intelligence',
   'Local Presence & Maps',
-  'Answer Engine Optimization (AEO)',
+  'SEO & Answer Engine Optimization (AEO)',
   'Lead Generation',
   'Executive Personal Brand',
-  'Client Dashboards',
+  'Portals & Dashboards',
   'Strategic Advisory & Embedded Thinking',
 ]
 
@@ -248,7 +248,7 @@ const ORG_NODE = {
     '@type': 'OfferCatalog',
     '@id': `${SITE_URL}/services#catalog`,
     // Not "N ways to get found" any more, and for the reason given on the
-    // /services ItemList this mirrors: Client Dashboards is not a way to get
+    // /services ItemList this mirrors: Portals & Dashboards is not a way to get
     // found. It is behind a login and indexed by nobody, so a catalogue name
     // that calls every member a discovery channel is making a claim about it
     // that is false. `numberOfItems` still carries the count.

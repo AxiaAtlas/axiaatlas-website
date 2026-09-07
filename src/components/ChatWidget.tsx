@@ -26,7 +26,7 @@ const L = {
   careers: { label: 'See open roles', href: '/careers' },
   social: { label: 'Social Media details', href: '/services#social' },
   intel: { label: 'Competitive Intelligence details', href: '/services#intel' },
-  geo: { label: 'AEO details', href: '/services#geo' },
+  geo: { label: 'SEO & AEO details', href: '/services#geo' },
   local: { label: 'Local Presence & Maps details', href: '/services#local' },
   executive: { label: 'Executive brand details', href: '/services#executive' },
   website: { label: 'Website details', href: '/services#website' },
@@ -45,14 +45,14 @@ const QA_SET: QA[] = [
   {
     keywords: ['service', 'offer', 'what can you', 'help with', 'channels', 'what do you sell'],
     answer:
-      'Our services: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & Maps, Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, Client Dashboards, and Strategic Advisory & Embedded Thinking. Most clients combine three or four.',
+      'Our services: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & Maps, SEO & Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, Portals & Dashboards, and Strategic Advisory & Embedded Thinking. Most clients combine three or four.',
     links: [L.services, L.demo],
     followups: ['How does answer engine optimization work?', 'What are your tiers?'],
   },
   {
     keywords: ['answer engine', 'answer-engine', 'claude', 'chatgpt', 'perplexity', 'gemini', 'geo', 'aeo', 'cited', 'citation', 'generative', 'ai platform', 'ai search', 'llm'],
     answer:
-      "Answer Engine Optimization (AEO) gets you cited across the four platforms buyers actually ask — Claude, ChatGPT, Perplexity, and Gemini. We baseline the exact prompts a buyer would type and record who gets named today, fix the entity data, schema, and quotable source pages those systems rely on, build presence on the third-party sources they fall back on, then re-run the same prompts monthly so you can see where you're cited and where you're still left out.",
+      "SEO & Answer Engine Optimization is one service, because ranking in Google and getting named by an assistant run on the same work. Long-form articles built on real keyword research, the schema and entity data behind them, and source pages written to be quoted whole. On the answer-engine side we baseline the exact prompts a buyer would type across Claude, ChatGPT, Perplexity, and Gemini, record who gets named today, build presence on the third-party sources those systems fall back on, then re-run the same prompts monthly so you can see where you're cited and where you're still left out.",
     links: [L.geo, L.demo],
     topic: true,
     followups: ['How long until I see results?', 'How much does it cost?'],
@@ -84,8 +84,8 @@ const QA_SET: QA[] = [
   {
     keywords: ['seo', 'search engine optimization', 'ranking', 'rank', 'keyword', 'organic', 'blog', 'article'],
     answer:
-      "SEO isn't a separate line item — search foundations are built into the website engagement from day one, and the ongoing ranking work lives inside Local Presence & Maps: service and location pages, internal linking, technical fixes, and rank tracking you can check.",
-    links: [L.local, L.website],
+      "SEO is sold as SEO & Answer Engine Optimization, because organic search and the assistants buyers now ask run on one content pipeline: keyword research, long-form articles written to rank and to be cited, and the schema and entity work underneath them. Search foundations are laid during the website build, and the proximity side (service and location pages, the map pack, citations) sits in Local Presence & Maps.",
+    links: [L.geo, L.website],
     topic: true,
     followups: ['How does answer engine optimization work?', 'How long until I see results?'],
   },

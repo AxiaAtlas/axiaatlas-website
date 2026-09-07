@@ -18,7 +18,7 @@ import { pageTitle, social } from '@/lib/seo'
    used to type a numeral has stopped typing one.
 
    THE LINE THAT WENT. "Eight ways to get found" was the strongest sentence on
-   the site, and it was a channel claim. Client Dashboards is not a channel —
+   the site, and it was a channel claim. Portals & Dashboards is not a channel —
    it sits behind a login, it is indexed by nobody — so the moment it joined
    this array the site was holding two counts that rot separately: the number
    of services, and the number of ways a buyer can find you. Two counts in
@@ -96,7 +96,7 @@ const SERVICES = [
   {
     id: 'geo',
     art: true,
-    headline: 'Answer Engine Optimization (AEO)',
+    headline: 'SEO & Answer Engine Optimization (AEO)',
     desc: 'Buyers now ask Claude, ChatGPT, Perplexity, and Gemini which company to use, and they largely take the answer at face value. We start by measuring it: the exact prompts a buyer in your category would type, run across all four platforms, recorded so you can see who gets named today and what is said about you when you are. Then we fix what those systems read. Entity data and schema so the models know what you are and what you do. Source pages written to be quoted whole — a clear claim, the evidence under it, and a date — rather than skimmed. Presence on the third-party pages, directories, and communities the models fall back on when they will not take your own site at its word. We re-run the same prompt set every month, so you can see the point at which you start getting cited and exactly where you are still being left out.',
     who: 'For any business whose buyers ask an assistant before they ask a person — and for categories where going unnamed means going unconsidered.',
   },
@@ -136,7 +136,7 @@ const SERVICES = [
        and a second copy of a number is a number that will one day disagree. */
     id: 'dashboards',
     art: true,
-    headline: 'Client Dashboards',
+    headline: 'Portals & Dashboards',
     desc: 'Most businesses run on decentralized systems that each answer half a question. Stock sits in one place, orders in another, the pipeline in a third, and somebody exports all three into a spreadsheet on Monday morning to work out how last week went. We build the thing that ends that: an operational dashboard for your business, not a template you are fitted into. The views are the ones you actually run on, defined with you. We do not replace your tools. We connect to them, keep the mapping right as those systems change underneath, and put the result behind your own login, in your branding, on your own subdomain. Your data sits in a database project of its own, separate from ours, with no route between your operation and our agency systems. This is not the client portal you already get for the marketing work. It is software built for the business itself.',
     who: 'For businesses whose operating numbers are spread across a store admin, a CRM, and a spreadsheet, and who want one place that reads from all three and stays right as they change.',
   },
@@ -169,7 +169,7 @@ export const metadata: Metadata = {
 
    THE NAME NO LONGER SAYS "WAYS TO GET FOUND". It was
    `${SERVICES.length} ways to get found`, which was true while every member of
-   the list was a discovery channel. Client Dashboards is not one — it sits
+   the list was a discovery channel. Portals & Dashboards is not one — it sits
    behind a login and is indexed by nobody — so the moment it joined the array
    that template started emitting "9 ways to get found" to the machines that
    read this page, which is a claim about the ninth that is not true. The count

@@ -23,11 +23,11 @@ export default function Footer() {
               <li><Link href="/services#social">Social Media Management</Link></li>
               <li><Link href="/services#intel">Competitive Intelligence</Link></li>
               <li><Link href="/services#local">Local Presence &amp; Maps</Link></li>
-              <li><Link href="/services#geo">Answer Engine Optimization</Link></li>
+              <li><Link href="/services#geo">SEO &amp; Answer Engine Optimization</Link></li>
               <li><Link href="/services#leadgen">Lead Generation</Link></li>
               <li><Link href="/services#executive">Executive Personal Brand</Link></li>
               <li><Link href="/services#strategy">Strategic Advisory</Link></li>
-              <li><Link href="/services#dashboards">Client Dashboards</Link></li>
+              <li><Link href="/services#dashboards">Portals &amp; Dashboards</Link></li>
             </ul>
           </div>
 

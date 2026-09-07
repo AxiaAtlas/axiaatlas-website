@@ -2668,7 +2668,7 @@ footer::before {
 .sd-split-rev .sd-copy { order: 1; }
 .sd-split-rev .sd-aside { order: 2; }
 .sd-rail .service-detail-inner { grid-template-columns: 1fr; }}
-/* ── THE INFRASTRUCTURE STRIP — Client Dashboards only ───────────────────
+/* ── THE INFRASTRUCTURE STRIP — Portals & Dashboards only ────────────────
    Sits in `.sd-aside` under the artifact, so it inherits the 26px column gap
    and needs no top margin of its own. Faint by design: it is a footnote to the
    figure above it, not a second claim beside it. Nothing here animates. */
