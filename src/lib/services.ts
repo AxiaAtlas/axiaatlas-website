@@ -25,27 +25,93 @@
    is which. They differ deliberately in three places (geo/aeo_seo,
    leadgen/lead_gen, dashboards/client_dashboards) and neither side is wrong.
 
-   ── THE SHORT NAME IS THE PLATFORM'S, VERBATIM ──────────────────────────────
-   `short` mirrors the platform's `short` the same way `name` mirrors its
-   `label`, and it is copied rather than invented for the same reason `key` is
-   recorded: the two tables have to be diffable by hand. A short name edited to
-   read better here is a row that no longer matches the row it mirrors, and the
-   next person diffing the two cannot tell an improvement from a drift.
+   ── TWO SHORT NAMES: ONE OUTWARD, ONE FOR DIFFING ───────────────────────────
+   `short` is THIS SITE'S compact name, authored here for a stranger to read.
+   `platformShort` is the platform's, recorded verbatim and printed nowhere.
 
-   It exists because the full catalogue names do not fit every slot. The footer
-   column is the first: "Strategic Advisory & Embedded Thinking" and "SEO &
-   Answer Engine Optimization (AEO)" wrap to three lines in a footer column at
-   390px, and the footer's answer to that used to be a hand-shortened copy of
-   the name — which is precisely how it ended up printing "Strategic Advisory"
-   and "SEO & Answer Engine Optimization" after the catalogue had renamed both.
-   Two drifts, from one typed list. A narrow slot now asks for `short`.
+   They used to be one field holding the platform's copy, and that was the
+   right instinct for a first pass — the reason `key` is recorded is that the
+   two tables have to be diffable by hand, and a short name edited to read
+   better breaks the diff. But the field is not an internal note; it is the
+   text on a public footer, and the platform is a logged-in board whose
+   register is not a stranger's. "Comp Intel" and "Advisory" are correct on a
+   CSM screen and jargon under a marketing site. Splitting the field keeps both
+   properties: the mirror still diffs, and the site says its own words.
 
-   NOTE, on the two that read as internal shorthand: "Comp Intel" and "Exec
-   Brand" are the platform's, and the platform is a logged-in board where that
-   register is right. On a public footer they are jargon. They are still copied
-   verbatim, because the mirror is worth more than the wording — if the outward
-   copy should differ from the platform's, that is a separate field, authored
-   here on purpose, not an edit to this one.
+   `platformShort` is the one field here that no call site may print. Nothing
+   resolves it, there is no accessor for it, and that is deliberate.
+
+   ── HOW THE OUTWARD SHORT NAMES WERE CHOSEN ─────────────────────────────────
+   The rule, in order: print the catalogue name where it fits; where it does
+   not, drop words from it; where dropping words leaves jargon or nonsense,
+   reword into the plainest English that names the same service. No
+   abbreviations and no initialisms a first-time reader cannot expand — SEO is
+   the single exception, and it is deliberate: the catalogue says SEO out loud
+   because that is the word buyers search for.
+
+   The slot that sets the budget is the footer's Services column, 158.45px wide
+   at a 1024px viewport — 1fr of a `2fr 1fr 1fr 1.2fr` grid in a 1180px-capped
+   container with 40px gutters and 40px gaps: (1024 - 80 - 120) / 5.2. The
+   links render in MONTSERRAT 14px/500, not the Arial that `--font-body`
+   declares at the top of globals.css: the dark theme's `:root` block further
+   down redeclares --font-body to Montserrat ("Montserrat for ALL text"), and
+   Montserrat sets appreciably wider than Arial at the same size. Measuring the
+   wrong stack is not a rounding error — it moves the answer. These widths were
+   taken in a browser, on a clone of a real footer link, so every inherited
+   property is the live one.
+
+   MEASURED, seven of the nine catalogue names overflow the column:
+
+     SEO & Answer Engine Optimization (AEO)   296.64px   overflows
+     Strategic Advisory & Embedded Thinking   291.59px   overflows
+     Social Media Management                  189.52px   overflows
+     Executive Personal Brand                 181.28px   overflows
+     Competitive Intelligence                 174.69px   overflows
+     Website Design & Build                   166.67px   overflows
+     Local Presence & Maps                    162.14px   overflows by 3.7px
+     Portals & Dashboards                     152.06px   fits
+     Lead Generation                          117.38px   fits
+
+   So two rows print the catalogue name and seven are authored:
+
+     dashboards  Portals & Dashboards  152.06  the catalogue name. 6.4px of
+                                               headroom, the tightest row here.
+     website     Website Design        112.11  "& Build" is the part of the
+                                               engagement a buyer learns on
+                                               /services, not in a footer.
+     geo         SEO & AI Search       113.75  "(AEO)" is an initialism nobody
+                                               outside this industry expands,
+                                               and "SEO & Answer Engines" —
+                                               the site's own prose phrase —
+                                               measures 161.64px, over by 3.2.
+                                               "AI Search" is what a stranger
+                                               already calls this.
+     social      Social Media           89.20  "Management" is how it is sold,
+                                               not what it is.
+     leadgen     Lead Generation       117.38  the catalogue name.
+     executive   Executive Brand       115.58  "Personal" is the word carrying
+                                               least, and the one in the way.
+     strategy    Strategic Advisory    128.31  the head of the name. "Embedded
+                                               Thinking" needs the /services
+                                               copy to mean anything at all.
+     intel       Competitor Research   150.59  "Competitive Intelligence" is a
+                                               category term a buyer inside the
+                                               category knows. This says the
+                                               same thing to everyone else.
+     local       Local Search & Maps   145.02  the catalogue name misses by
+                                               3.7px. "Local Presence" would
+                                               fit by dropping a word but loses
+                                               Maps, which is the concrete half
+                                               and the half the 2026-09-01
+                                               rename went out of its way to
+                                               put in.
+
+   Widest row 152.06px against 158.45px. `short` is also the chat widget's link
+   label ("<short> details"), so each of these has to survive that sentence
+   too — which is the second reason `website` is not the full catalogue name.
+
+   IF A NAME CHANGES, RE-MEASURE. The budget is a number, not a style rule, and
+   the column is the narrowest slot either name appears in.
 
    ── THE ORDER IS PRICE, HIGHEST FIRST ───────────────────────────────────────
    /services renders this array in this order, and it is ranked by what the
@@ -79,22 +145,26 @@ export type ServiceEntry = {
   key: string
   /** The display name. Mirrors `label` in the platform's SERVICES table. */
   name: string
-  /** The compact name. Mirrors `short` in the platform's SERVICES table,
-      VERBATIM — see the note on short names above. */
+  /** THIS SITE'S compact name, for a slot too narrow for `name`. Authored
+      here for a public reader, measured against the footer column — see the
+      note on short names above. */
   short: string
+  /** The platform's own compact name, recorded so the two tables stay
+      diffable by hand. NEVER PRINTED: there is no accessor for it. */
+  platformShort: string
 }
 
 /* In price order, highest first. See the note above. */
 export const SERVICES: ServiceEntry[] = [
-  { id: 'dashboards', key: 'client_dashboards',  name: 'Portals & Dashboards',                     short: 'Dashboards' },
-  { id: 'website',    key: 'website',            name: 'Website Design & Build',                   short: 'Website' },
-  { id: 'geo',        key: 'aeo_seo',            name: 'SEO & Answer Engine Optimization (AEO)',   short: 'SEO & AEO' },
-  { id: 'social',     key: 'social',             name: 'Social Media Management',                  short: 'Social' },
-  { id: 'leadgen',    key: 'lead_gen',           name: 'Lead Generation',                          short: 'Lead Gen' },
-  { id: 'executive',  key: 'executive',          name: 'Executive Personal Brand',                 short: 'Exec Brand' },
-  { id: 'strategy',   key: 'advisory',           name: 'Strategic Advisory & Embedded Thinking',   short: 'Advisory' },
-  { id: 'intel',      key: 'competitive_intel',  name: 'Competitive Intelligence',                 short: 'Comp Intel' },
-  { id: 'local',      key: 'local',              name: 'Local Presence & Maps',                    short: 'Local' },
+  { id: 'dashboards', key: 'client_dashboards', name: 'Portals & Dashboards',                   short: 'Portals & Dashboards', platformShort: 'Dashboards' },
+  { id: 'website',    key: 'website',           name: 'Website Design & Build',                 short: 'Website Design',       platformShort: 'Website' },
+  { id: 'geo',        key: 'aeo_seo',           name: 'SEO & Answer Engine Optimization (AEO)', short: 'SEO & AI Search',      platformShort: 'SEO & AEO' },
+  { id: 'social',     key: 'social',            name: 'Social Media Management',                short: 'Social Media',         platformShort: 'Social' },
+  { id: 'leadgen',    key: 'lead_gen',          name: 'Lead Generation',                        short: 'Lead Generation',      platformShort: 'Lead Gen' },
+  { id: 'executive',  key: 'executive',         name: 'Executive Personal Brand',               short: 'Executive Brand',      platformShort: 'Exec Brand' },
+  { id: 'strategy',   key: 'advisory',          name: 'Strategic Advisory & Embedded Thinking', short: 'Strategic Advisory',   platformShort: 'Advisory' },
+  { id: 'intel',      key: 'competitive_intel', name: 'Competitive Intelligence',               short: 'Competitor Research',  platformShort: 'Comp Intel' },
+  { id: 'local',      key: 'local',             name: 'Local Presence & Maps',                  short: 'Local Search & Maps',  platformShort: 'Local' },
 ]
 
 const BY_ID = new Map(SERVICES.map((s) => [s.id, s]))
@@ -112,9 +182,10 @@ export function serviceName(id: ServiceId): string {
     and the page a visitor reads can never list different names. */
 export const SERVICE_NAMES: string[] = SERVICES.map((s) => s.name)
 
-/** The one way to print a service's COMPACT name — a footer column, a chip, any
-    slot too narrow for the full catalogue name. Throws on a bad id for the same
-    reason serviceName() does. */
+/** The one way to print a service's COMPACT name — a footer column, a chat
+    link label, any slot too narrow for the full catalogue name. Returns this
+    site's authored `short`, never `platformShort`. Throws on a bad id for the
+    same reason serviceName() does. */
 export function serviceShort(id: ServiceId): string {
   const svc = BY_ID.get(id)
   if (!svc) throw new Error(`Unknown service id: ${id}`)

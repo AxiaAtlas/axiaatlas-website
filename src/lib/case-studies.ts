@@ -60,7 +60,11 @@ function toCaseStudy(r: Row): CaseStudy {
   }
 }
 
-/* `limit` caps the home slider; /case-studies passes nothing and takes the set.
+/* `limit` caps the home slider, which is the only caller left: /case-studies
+   was the other one, and this branch deletes that page and 308s the URL to
+   /#results. The parameter stays optional because the cap is the caller's
+   business, not this module's, and an uncapped read is still the correct
+   answer for anything that wants the whole published set.
    A published row with no sort_order sorts last rather than disappearing. */
 export async function getCaseStudies(limit?: number): Promise<CaseStudy[]> {
   let query = supabase

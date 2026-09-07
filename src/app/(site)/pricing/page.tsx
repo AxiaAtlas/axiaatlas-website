@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Footer from '@/components/Footer'
 import { Arrow, Check } from '@/components/icons'
 import { pageTitle, social } from '@/lib/seo'
+import { serviceName, serviceShort } from '@/lib/services'
 
 const DESCRIPTION =
   'Three Axia Atlas tiers — Starter, Growth, and Command — scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.'
@@ -19,7 +20,7 @@ const TIERS = [
     name: 'Starter',
     blurb: 'Get momentum on one or two channels and prove the model before you scale.',
     features: [
-      'One or two channels (e.g. Local Presence & Maps, or Social)',
+      `One or two channels (e.g. ${serviceName('local')}, or ${serviceShort('social')})`,
       'Strategy and 90-day plan',
       'Monthly content and execution',
       'Core setup: profile, on-page, tracking',
@@ -35,7 +36,7 @@ const TIERS = [
     features: [
       'Three to four channels working together',
       'Everything in Starter',
-      'SEO & Answer Engine Optimization (AEO) included',
+      `${serviceName('geo')} included`,
       'Website or landing-page work',
       'Monthly strategy call',
       'Live dashboard and priority support',

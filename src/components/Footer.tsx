@@ -31,12 +31,18 @@ export default function Footer() {
                 read this list.
 
                 `short` is the fix rather than `name`, because the full names
-                are what forced the hand-shortening in the first place — see the
-                note in lib/services. The ORDER is the catalogue's too (price,
-                highest first), which is why Portals & Dashboards now leads this
-                column where Website Design & Build used to: one order in the
-                repo, the same one /services renders and both #catalog nodes
-                emit. */}
+                are what forced the hand-shortening in the first place. It is
+                the site's OWN short name now, not the platform's: this column
+                printed "Comp Intel" and "Advisory" for one deploy, which is
+                CSM-board shorthand — right on a logged-in screen, jargon to the
+                stranger this footer is for. lib/services carries both, and only
+                the authored one has an accessor. The nine were measured against
+                this column's real width; the note there has the table.
+
+                The ORDER is the catalogue's too (price, highest first), which
+                is why Portals & Dashboards now leads this column where Website
+                Design & Build used to: one order in the repo, the same one
+                /services renders and both #catalog nodes emit. */}
             <ul className="footer-links">
               {SERVICES.map((s) => (
                 <li key={s.id}>

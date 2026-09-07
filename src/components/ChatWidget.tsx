@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { AMark } from './Logo'
 import { Send, Arrow } from './icons'
+import { SERVICE_NAMES, serviceShort, type ServiceId } from '@/lib/services'
 
 type ChatLink = { label: string; href: string }
 type Message = { role: 'user' | 'assistant'; content: string; at?: string; links?: ChatLink[]; followups?: string[] }
@@ -17,6 +18,23 @@ const WELCOME =
 // overview entries so a topic question always links the right page.
 type QA = { keywords: string[]; answer: string; links?: ChatLink[]; followups: string[]; topic?: boolean }
 
+/* A deep link into one service section. BOTH HALVES ARE DERIVED: the label
+   from lib/services, the href from the same id that produced it, so a link
+   cannot come to name one service and point at another.
+
+   The eight labels below were typed, and eight hand-typed labels disagreed
+   with each other about what register they were in — "Competitive
+   Intelligence details" and "Local Presence & Maps details" carried the full
+   catalogue name, "Social Media details" and "Website details" carried a
+   shortening, and "Executive brand details" and "Lead gen details" were the
+   short name with the capital dropped. Three conventions in one table of
+   eight, none of them chosen. `short` is the convention now, because these
+   sit inline in a chat bubble, which is a narrow slot. */
+const svcLink = (id: ServiceId): ChatLink => ({
+  label: `${serviceShort(id)} details`,
+  href: `/services#${id}`,
+})
+
 const L = {
   demo: { label: 'Book a demo', href: '/demo' },
   services: { label: 'See all services', href: '/services' },
@@ -24,15 +42,21 @@ const L = {
   cases: { label: 'See results', href: '/case-studies' },
   contact: { label: 'Contact us', href: '/contact' },
   careers: { label: 'See open roles', href: '/careers' },
-  social: { label: 'Social Media details', href: '/services#social' },
-  intel: { label: 'Competitive Intelligence details', href: '/services#intel' },
-  geo: { label: 'SEO & AEO details', href: '/services#geo' },
-  local: { label: 'Local Presence & Maps details', href: '/services#local' },
-  executive: { label: 'Executive brand details', href: '/services#executive' },
-  website: { label: 'Website details', href: '/services#website' },
-  leadgen: { label: 'Lead gen details', href: '/services#leadgen' },
-  strategy: { label: 'Strategic Advisory details', href: '/services#strategy' },
+  social: svcLink('social'),
+  intel: svcLink('intel'),
+  geo: svcLink('geo'),
+  local: svcLink('local'),
+  executive: svcLink('executive'),
+  website: svcLink('website'),
+  leadgen: svcLink('leadgen'),
+  strategy: svcLink('strategy'),
 } satisfies Record<string, ChatLink>
+
+/* The nine names as an English list, in catalogue order — the same order
+   /services renders and the footer column now runs in. It was typed out here
+   in a tenth order of its own, which is how this sentence came to be the last
+   copy of the catalogue on the site. */
+const SERVICE_SENTENCE = `${SERVICE_NAMES.slice(0, -1).join(', ')}, and ${SERVICE_NAMES[SERVICE_NAMES.length - 1]}`
 
 const QA_SET: QA[] = [
   {
@@ -45,7 +69,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['service', 'offer', 'what can you', 'help with', 'channels', 'what do you sell'],
     answer:
-      'Our services: Website Design & Build, Social Media Management, Competitive Intelligence, Local Presence & Maps, SEO & Answer Engine Optimization (AEO), Lead Generation, Executive Personal Brand, Portals & Dashboards, and Strategic Advisory & Embedded Thinking. Most clients combine three or four.',
+      `Our services: ${SERVICE_SENTENCE}. Most clients combine three or four.`,
     links: [L.services, L.demo],
     followups: ['How does answer engine optimization work?', 'What are your tiers?'],
   },

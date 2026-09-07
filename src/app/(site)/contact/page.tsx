@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
 import { Arrow, Check, Plus } from '@/components/icons'
+import { serviceName } from '@/lib/services'
 
 /* ────────────────────────────────────────────────────────────────────────────
    THE FAQ IS AN ANSWER-ENGINE SURFACE, SO IT IS BUILT LIKE ONE.
@@ -55,7 +56,7 @@ const FAQ_SECTIONS: FaqSection[] = [
       {
         q: 'Do you do local SEO and Google Business Profile management?',
         a: 'Yes. Two results decide whether a nearby buyer finds you — the map pack and the organic listings under it — and we work both. That means a Google Business Profile built out properly with categories, services, hours, photos and Q&A; citations kept consistent across the directories that feed the map; a review programme; and the service and location pages that rank for "service in city". Rankings and calls are tracked per location.',
-        link: { href: '/services#local', label: 'Local Presence & Maps in detail' },
+        link: { href: '/services#local', label: `${serviceName('local')} in detail` },
       },
       {
         q: 'Can you build or rebuild my website?',
