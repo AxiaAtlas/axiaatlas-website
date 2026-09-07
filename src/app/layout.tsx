@@ -3,6 +3,7 @@ import { Montserrat } from 'next/font/google'
 import './globals.css'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { SITE_URL, HOME_TITLE, BRAND_TAIL, OG_IMAGE } from '@/lib/seo'
+import { SERVICE_NAMES } from '@/lib/services'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -148,8 +149,8 @@ export const metadata: Metadata = {
   },
 }
 
-// The services, in the same order as /services. Kept here so the Organization
-// node advertises the full catalog on every page.
+// The services, in the same order as /services — price order, highest first.
+// Kept here so the Organization node advertises the full catalog on every page.
 //
 // IT MUST MATCH /services, AND NOT LOOSELY. This array and the ItemList that
 // page builds from its own SERVICES both publish under the SAME @id
@@ -157,19 +158,13 @@ export const metadata: Metadata = {
 // as long as both said the same eight that was harmless. The moment they
 // disagreed — one node claiming eight offers, the other listing nine — the
 // merge stopped being a no-op and started being a coin toss over which count
-// the entity is described by. Anything added to /services belongs here in the
-// same pass.
-const SERVICE_CATALOG = [
-  'Website Design & Build',
-  'Social Media Management',
-  'Competitive Intelligence',
-  'Local Presence & Maps',
-  'SEO & Answer Engine Optimization (AEO)',
-  'Lead Generation',
-  'Executive Personal Brand',
-  'Portals & Dashboards',
-  'Strategic Advisory & Embedded Thinking',
-]
+// the entity is described by.
+// It is DERIVED now, not typed. Nine names hand-copied here was exactly the
+// failure this comment describes waiting to happen a second time: lib/services
+// mirrors the platform's SERVICES table once, and both this node and the
+// /services ItemList read that mirror, so the two can no longer disagree about
+// a name OR about an order.
+const SERVICE_CATALOG = SERVICE_NAMES
 
 // ── The canonical Organization node ─────────────────────────────────────────
 // KEEP IN SYNC with axiaatlas-platform/src/lib/brand/organization-schema.ts,

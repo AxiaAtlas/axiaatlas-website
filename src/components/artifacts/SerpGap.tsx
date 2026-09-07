@@ -9,14 +9,34 @@ import { Illustrative } from './Illustrative'
    businesses are present and the fifth slot — the one the reader is standing in
    — is empty.
 
+   THE QUERY IS A SEARCH, NOT A SLOT. It read "what you sell, near me", which is
+   a placeholder wearing a mock's clothes: every other element in this frame had
+   been made concrete and the one line a reader's eye lands on first was still
+   the instruction for filling it in. A visitor does not type "what you sell" —
+   they type a category and a place, and the whole argument of the graphic
+   depends on the reader believing they are looking at a real result page.
+
+   IT IS ONE CATEGORY, AND ANY ONE CATEGORY IS ARBITRARY. Insurance broking is
+   chosen because it is the query the four names below already fit: a firm
+   ("Bellrock & Partners"), a services company, a group, and a directory are
+   exactly who ranks for a considered local search in a category like it. The
+   mock argues about SHOWING UP, not about an industry, and the "Not a real
+   search" tag says as much.
+
+   AND IT IS SHORT ENOUGH TO RENDER WHOLE AT 390px. `.sg-query` is a single
+   nowrap line with `text-overflow: ellipsis`, and the field it sits in gives a
+   phone about 260px of it. "commercial insurance broker near me" was the first
+   choice and it clipped to "commercial in…" — a truncated query in a mock of a
+   search is the same defect as a placeholder, wearing an ellipsis. Any
+   replacement has to be checked at 390px, not just read.
+
    THE ROWS ARE INVENTED BUSINESSES, NOT PLACEHOLDER LABELS. They used to read
    "A competitor / competitor-one.example" and "Another provider", which is a
    description of a mock rather than a mock: a reader sees an unfinished
    component, not a search result they lose. The names below are made up out of
-   generic English compounds, deliberately category-neutral (nothing here says
-   what the business sells, because the query above does not either), and every
-   host sits on `.example` — the TLD RFC 2606 reserves so it can never resolve
-   to anybody's site.
+   generic English compounds — none names an industry, so the query above can be
+   re-pointed without them going stale — and every host sits on `.example`, the
+   TLD RFC 2606 reserves so it can never resolve to anybody's site.
 
    NO REAL COMPETITOR NAMES, EVER, and nothing shaped like a real company.
    Putting a real business's name in a mock of them WINNING is an endorsement we
@@ -51,7 +71,7 @@ export default function SerpGap() {
       <div className="sg-bar">
         <span className="sg-field" aria-hidden="true">
           <Magnifier />
-          <span className="sg-query">what you sell, near me</span>
+          <span className="sg-query">insurance broker near me</span>
           <span className="sg-caret" />
         </span>
         <Illustrative />

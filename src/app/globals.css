@@ -651,16 +651,21 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 /* Feature cell: full-width depth panel. Mirrors the old SystemMap layout —
    heading/copy fills the top two-thirds, the brand marquee is constrained to
    the bottom third. The 01/02/03 cards sit in ONE row beneath it. */
+/* TWO COLUMNS, NOT TWO ROWS. The copy takes the left, the icon field takes the
+   right, and the field is stretched floor to ceiling — see the long note over
+   `.brand-marquee` for why the axis turned. It was `grid-template-rows: 2fr 1fr`
+   with one full-width column, which put a short wide band of eleven marks in a
+   card over 1000px wide and left dead area on two sides of it.
+
+   Both tracks are minmax(0, …) rather than the implicit `auto`: an auto track
+   sizes to the marquee track's max-content and would lay the heading out wider
+   than the card, which overflow:hidden then crops. */
 .bento-card.feature {
   grid-column: 1 / -1;
   display: grid;
-  /* minmax(0, 1fr), NOT the implicit `auto` column: the brand marquee's track is
-     width:max-content, and an auto track sizes to that max-content (~670px) even
-     when the card is narrower — which laid the heading and copy out at 670px and
-     let overflow:hidden crop them on phones. An fr track is capped by the card. */
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 2fr 1fr;
-  align-items: stretch; gap: clamp(18px, 3vw, 34px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.5fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch; gap: clamp(24px, 3.5vw, 52px);
   min-height: 340px;
   background: var(--inverse-bg); border-color: var(--inverse-border); color: var(--inverse-text);
 }
@@ -672,28 +677,18 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 .bento-card.feature .bento-title { color: var(--inverse-text); font-size: var(--t-h3); margin-bottom: 14px; }
 .bento-card.feature .bento-desc { color: var(--inverse-muted); font-size: var(--t-body); }
 .bento-card.feature .bento-num { color: var(--inverse-accent); }
-.feature-copy { position: relative; z-index: 1; align-self: start; }
-/* Brand-mark marquees — two faint rows of locally-bundled brand icons that
-   auto-scroll in opposite directions, reading as subtle texture (not a focal
-   element) inside the feature card. Row 1 = platforms we publish to (scrolls
-   left); row 2 = the answer engines we optimize for (scrolls right). */
+.feature-copy { position: relative; z-index: 1; align-self: center; }
+/* Brand-mark marquees — two captioned columns of locally-bundled brand icons
+   that auto-scroll in opposite directions down the feature card's right-hand
+   column. Column 1 = the platforms we publish to (scrolls up); column 2 = the
+   answer engines we optimize for (scrolls down). The layout, the axis and the
+   no-duplicates invariant are all set in the override block near the end of
+   this file — the rules here are only what survives it. */
 .brand-marquee {
   position: relative; z-index: 1;
-  /* centred in the bottom third rather than pinned to its floor, so the pair of
-     rows sits as one balanced block under the copy */
-  align-self: center;
-  display: flex; flex-direction: column; justify-content: center;
-  gap: clamp(14px, 2vw, 24px);
   width: 100%; min-height: 0;
-  /* fade both ends so the icons dissolve into the panel like a texture */
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
 }
-/* The track is centred in its row, not left-flush: with four copies it always
-   overflows, so it fills the row evenly on both sides instead of running out on
-   the right at the end of a cycle (and it stays centred under reduced motion,
-   where the animation is off entirely). */
-.bm-row { overflow: hidden; display: flex; justify-content: center; }
+.bm-row { overflow: hidden; }
 /* No will-change in the base rule. These two rows were promoted for the whole
    life of the page even while the card holding them sat far off screen, and a
    promoted layer that is also animating keeps the compositor busy and keeps
@@ -702,29 +697,20 @@ section { padding: var(--section-y) var(--gutter); position: relative; }
 .bm-track { display: flex; flex: none; width: max-content; }
 .bm-track.running { will-change: transform; }
 .bm-track.paused { animation-play-state: paused; will-change: auto; }
-.bm-group {
-  display: flex; align-items: center; flex: none;
-  gap: clamp(30px, 5vw, 58px);
-  padding-right: clamp(30px, 5vw, 58px);
-}
+.bm-group { display: flex; flex: none; }
 .bm-icon {
   flex: none;
   display: inline-flex; align-items: center; justify-content: center;
-  width: clamp(26px, 3.4vw, 34px); height: clamp(26px, 3.4vw, 34px);
-  color: var(--sage);
-  opacity: 0.18; /* subtle texture, not a focal element (~15–22%) */
 }
 .bm-icon svg { width: 100%; height: 100%; display: block; }
 /* FOUR copies per track → translating 25% is exactly one copy, so the loop is
-   seamless AND the three remaining copies still span the row at the end of the
-   cycle. (Two copies left the row short at desktop widths: one group of icons is
-   ~552px against a ~1120px card, so the tail ran out and the row emptied on the
-   right.) One group per cycle either way, so duration still reads as speed. */
-.bm-left  .bm-track { animation: bmLeft  70s linear infinite; }
-.bm-right .bm-track { animation: bmRight 79s linear infinite; }
+   seamless AND the three remaining copies still span the viewport at the end of
+   the cycle. The horizontal keyframes are kept here because the field goes back
+   to rows below 900px; the vertical pair it uses on desktop is defined with the
+   rest of the column layout near the end of this file. */
 @keyframes bmLeft  { from { transform: translateX(0);     } to { transform: translateX(-25%); } }
 @keyframes bmRight { from { transform: translateX(-25%);  } to { transform: translateX(0);    } }
-@media (prefers-reduced-motion: reduce) {.bm-left .bm-track, .bm-right .bm-track { animation: none; }}
+@media (prefers-reduced-motion: reduce) {.bm-left .bm-track, .bm-right .bm-track { animation: none !important; }}
 .bento-num { font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 14px; position: relative; z-index: 1; }
 .bento-title { font-family: var(--font-head); font-size: 1.1875rem; font-weight: 600; color: var(--text); margin-bottom: 10px; letter-spacing: -0.01em; position: relative; z-index: 1; }
 .bento-desc { font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); position: relative; z-index: 1; }
@@ -1364,16 +1350,21 @@ footer::before {
 .problem-grid { grid-template-columns: 1fr; gap: 36px; }
 .services-grid { grid-template-columns: 1fr 1fr; }
 .bento { grid-template-columns: 1fr 1fr; }
-/* Below tablet the copy is too tall for a fixed 2fr row, and the card's
-     overflow:hidden (needed for the marquee mask) was clipping the tail of
-     "The approach". Content sizes both rows here, so the card grows to fit at
-     every width instead of cropping. */
+/* Below tablet the split folds back to a stack: the copy is too tall for a
+     fixed row here, and a 0.72fr column at this width is too narrow for a
+     legible mark. `grid-template-columns` has to be undone explicitly — the
+     desktop rule sets two tracks, and a rows-only override leaves them. The
+     card's overflow:hidden (needed for the marquee mask) was clipping the tail
+     of "The approach" when the rows were fixed; content sizes them here, so the
+     card grows to fit at every width instead of cropping. */
 .bento-card.feature {
     grid-column: span 2;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto;
     min-height: 0;
     row-gap: 26px;
   }
+.feature-copy { align-self: start; }
 .rs-slide { grid-template-columns: 1fr; gap: 22px; }
 .process-steps { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
 .process-steps::before { display: none; }
@@ -2287,6 +2278,21 @@ footer::before {
   color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .sg-caret { width: 1px; height: 14px; background: var(--accent); flex: none; animation: qBlink 1.15s steps(2, start) infinite; }
+/* THE FIELD TAKES ITS OWN ROW ON A PHONE, AND THIS IS NOT COSMETIC.
+   `.sg-bar` is one flex row: the field, then the "Not a real search" tag. The
+   tag is ~150px and does not shrink, so inside a 350px card the field was left
+   with about 114px of text — every query longer than fourteen characters
+   clipped to an ellipsis. A mock of a search whose SEARCH is cut off is the
+   same defect as a placeholder query, and it was there before the query was
+   made concrete; nobody had measured it. Wrapping gives the field the full row
+   and about 260px of text, and the tag keeps its place inside the frame — it
+   simply sits above the field rather than beside it, which is also the order a
+   reader wants: the caveat, then the thing it qualifies. */
+@media (max-width: 640px) {
+  .sg-bar { flex-wrap: wrap; }
+  .sg-field { flex: 1 1 100%; order: 2; }
+  .sg-bar .artifact-tag { order: 1; }
+}
 .sg-list { list-style: none; margin: 0; padding: 8px; display: flex; flex-direction: column; gap: 2px; }
 .sg-row {
   display: flex; align-items: center; gap: 14px;
@@ -2574,6 +2580,27 @@ footer::before {
 .rail-node { left: -52px; top: 0; }}
 /* ── RESULTS — the claim and its shape ── */
 .results-section { background: var(--bg-alt); }
+/* THE CONFIDENTIALITY LINE, AT SUBTITLE WEIGHT.
+
+   It ran at `.section-sub` (var(--t-lead) — 21px at desktop, 17px at the floor)
+   directly under the h2, which is subhead weight: a disclaimer arguing with the
+   heading for the reader's first look. It is a footnote that has to be visible,
+   not a claim, so it drops to a flat 14px against an h2 that clamps 31→52px,
+   takes --text-faint rather than --text-muted, and sits 10px under the heading
+   so the two read as one block rather than as two statements.
+
+   NOT A CALLOUT BOX ON THIS PAGE. A bordered panel would be a third weight in a
+   section that already carries a heading and a slider, and it would give the
+   disclaimer more presence than the results it qualifies. */
+.results-head .section-headline { margin-bottom: 10px; }
+.results-note {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-faint);
+  max-width: 58ch;
+  margin: 0 0 clamp(36px, 4vw, 52px);
+  text-wrap: pretty;
+}
 .rs-slide { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
 .rs-detail { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
 .result-shape .card { margin-bottom: 0; }
@@ -3150,10 +3177,12 @@ section.g-lift, .cta-band.g-lift { background-color: #47614f; }
 .system-section .bento-card:hover { border-color: var(--border-strong); }
 /* ── THE CHANNELS ────────────────────────────────────────────────────────
    Six cards on four columns: two of them double-wide, four ordinary. 2x2 + 4x1
-   is eight column-units, so the block is still exactly two full rows with no
-   ragged tail, and the two wide cells fall in opposite halves of the grid
-   (row 1 ends on Website, row 2 opens on the pair Local + AEO) rather than
-   stacking down one side.
+   is eight column-units, so the block is exactly two full rows with no ragged
+   tail — and since the two wide cells are now the first two in the array
+   (Website Design & Build, Portals & Dashboards), the block reads as one row
+   of two large cells over one row of four small ones. That is a cleaner shape
+   than the version where the wide cells sat in opposite halves: the emphasis
+   is a band across the top rather than two bumps the eye has to connect.
 
    The emphasis is SCALE ONLY. The version of this block that carried a small
    drawing in every cell was the busiest thing on the page; a wide cell with
@@ -3633,65 +3662,143 @@ footer { background: #050906; }
   margin: 0 0 18px;
 }
 /* ════════════════════════════════════════════════════════════════════════
-   THE BRAND MARQUEE — TWO TIKTOKS AND TWO OPENAI MARKS, AND WHY
+   THE BRAND MARQUEE — WHY IT RUNS DOWN THE CARD, NOT ACROSS IT
    ════════════════════════════════════════════════════════════════════════
 
-   The track held four copies of a group and translated 25% of the track, which
-   is exactly one copy, so the loop was seamless. The bug was that a GROUP was
-   narrower than the ROW: six icons at ~34px with a ~58px gap is about 550px
-   against a card over 1000px wide, so two whole copies fit on screen at once
-   and the row showed TikTok twice and the OpenAI mark twice, side by side.
+   ── THE INVARIANT, FIRST, BECAUSE IT SURVIVED THE ROTATION ───────────────
+   The track holds four copies of a group and translates 25% of the track,
+   which is exactly one copy, so the loop is seamless. The bug that fixed was a
+   GROUP being smaller than the VIEWPORT it runs through: six marks with fixed
+   gaps came to ~550px against a card over 1000px wide, so two whole copies fit
+   on screen at once and the row showed TikTok twice and the OpenAI mark twice,
+   side by side.
 
-   The fix is geometric rather than a matter of picking gap values that happen
-   to work at one width: the track is 400% of the row and each group is 25% of
-   the track, so ONE GROUP IS ALWAYS EXACTLY THE ROW'S WIDTH, at every viewport,
-   and the icons distribute inside it. The 25% translation still lands group 2
-   precisely where group 1 began, so the loop is unchanged — and no mark can
-   ever appear twice on screen, because there is never more than one full group
-   plus the head of the next.
+   The fix was geometric rather than a matter of picking gaps that happen to
+   work at one width: the track is 400% of the viewport and each group is 25%
+   of the track, so ONE GROUP IS ALWAYS EXACTLY THE VIEWPORT, at every size,
+   and the marks distribute inside it. That still holds below — it has simply
+   been rotated onto the Y axis. Do not replace `height: 400%` / `height: 25%`
+   with pixel values; that is the same mistake in a new axis.
 
-   THE ICONS ALSO NOW READ. They were at opacity 0.18 as "subtle texture", which
-   on this panel meant a row of grey smudges that a visitor could not identify
-   — and a marquee of platform logos nobody can recognise is worse than no
-   marquee, because it costs the frames and delivers none of the recognition it
-   exists for. 0.5, with the active row a little stronger still.
+   The marks also stay at opacity 0.5. At the 0.18 they shipped with they were
+   grey smudges nobody could identify, and a marquee of platform logos nobody
+   can recognise is worse than no marquee.
+
+   ── WHY THE AXIS TURNED ──────────────────────────────────────────────────
+   The field was two horizontal rows pinned under the copy in a full-width
+   card: a band about 100px tall inside a 340px card over 1000px wide, capped
+   to 600px and centred so the marks would not sit in different postcodes. Dead
+   area to the right of it and dead area below it, and no arrangement of ELEVEN
+   marks fixes that, because the region was the wrong shape. Scaling them up
+   only trades one kind of sparse for another — six enormous logos in a row.
+
+   So the REGION changed rather than the marks. The feature card is now a
+   two-column split (see `.bento-card.feature` above): the copy takes the left
+   column, and the icon field takes the right one, floor to ceiling. A tall
+   narrow region is the shape eleven marks can actually fill, and the scroll
+   axis follows the long dimension — up on the left column, down on the right,
+   the same opposed pair as before, turned ninety degrees.
+
+   ── THE TWO COLUMNS ARE NOT THE SAME LENGTH OF CONTENT, AND THAT IS FINE ──
+   Six publish marks against five answer engines, distributed `space-evenly`
+   over equal heights, puts the engines ~20% further apart. In the old
+   side-by-side rows that read as two different rhythms and had to be corrected
+   by narrowing the second row to 88%. Vertically it does not: the columns are
+   separated horizontally, carry different captions, and travel in opposite
+   directions, so nothing invites the eye to compare their spacing. No
+   correction, and the two columns stay the same height as each other.
    ──────────────────────────────────────────────────────────────────────── */
-.bm-row { display: block; width: 100%; }
-.bm-track { width: 400%; display: flex; }
+.brand-marquee {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 1.6vw, 22px);
+  /* Centred in the card's right column. The field sets the card's height here
+     rather than being fitted into it — see the note on `.bm-row`. */
+  align-self: center;
+  max-width: none; margin-inline: 0;
+  /* The mask moves to the row, not the wrapper: at this level it would fade
+     the captions out along with the marks. */
+  -webkit-mask-image: none; mask-image: none;
+}
+.bm-col { display: grid; grid-template-rows: auto auto; min-height: 0; gap: 12px; }
+/* The caption is what turns the field from texture into a claim. Same family
+   and tracking as a section eyebrow, two steps quieter — it labels the column,
+   it does not compete with the h3 beside it. */
+.bm-cap {
+  font-family: var(--font-head);
+  font-size: 0.625rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent); opacity: 0.75;
+  text-align: center;
+}
+/* THE COLUMN'S HEIGHT IS A NUMBER, AND IT HAS TO BE.
+   `height: 100%` here does not work and is not a near miss: the track is 400%
+   of the row and each group 25% of the track, so a percentage row height makes
+   the whole chain resolve against a card whose own height is auto. Every
+   percentage then falls back to content, four copies stack end to end, and the
+   card grows to about 1,200px — the field eats the section instead of filling
+   it. A definite height is what makes 400%/25% mean anything. */
+/* EACH COLUMN IS A LANE, and the recess is doing work rather than decorating.
+   Two 40px marks travelling down an unmarked right half read as two threads
+   floating in empty card — the same "does not fill its space" note in a new
+   arrangement. A faint recess behind each column turns the gap between them
+   into structure: the field becomes two shafts the marks run down, so the
+   space between them is part of the object instead of the absence of one. It
+   is 3.5% alabaster and no border — one step down from the card, which is the
+   same move the ground system makes everywhere else on this page. */
+.bm-row {
+  display: block; width: 100%; overflow: hidden;
+  height: clamp(230px, 24vw, 320px);
+  background: rgba(241, 240, 234, 0.035);
+  border-radius: var(--r-sm);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 13%, #000 87%, transparent);
+          mask-image: linear-gradient(180deg, transparent, #000 13%, #000 87%, transparent);
+}
+.bm-track { display: flex; flex-direction: column; width: 100%; height: 400%; }
 .bm-group {
-  width: 25%; flex: none;
-  display: flex; align-items: center; justify-content: space-evenly;
+  height: 25%; width: 100%; flex: none;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-evenly;
   gap: 0; padding-right: 0;
 }
 .bm-icon {
-  width: clamp(26px, 3vw, 34px); height: clamp(26px, 3vw, 34px);
+  width: clamp(30px, 2.7vw, 40px); height: clamp(30px, 2.7vw, 40px);
   opacity: 0.5;
   color: var(--accent);
 }
-/* THIRD PASS — THE ROWS WERE TOO WIDE, WHICH IS WHY THEY READ AS TOO LOOSE.
-
-   The no-duplicates fix above says a GROUP must be exactly as wide as its ROW,
-   and it has to stay that way: the moment a group is narrower, two copies fit
-   on screen and TikTok appears twice. But the row inherited the feature card's
-   full width — over 1000px — and six marks distributed across 1000px sit ~140px
-   apart. That is not texture, it is six logos in different postcodes.
-
-   So the ROW gets narrower rather than the group: the marquee is capped and
-   centred under the copy, and the group follows it down. Six marks across
-   ~600px land about 58px apart, which is the density the live site had and the
-   one Amit asked for — with the invariant untouched, because the group is still
-   one row wide whatever that row measures.
-
-   The answer-engine row is capped tighter again. It carries five marks to the
-   first row's six, so at equal width its gaps come out a fifth larger and the
-   pair reads as two different rhythms; 88% brings the two densities level. */
-.brand-marquee {
-  max-width: 600px; margin-inline: auto;
-  gap: clamp(10px, 1.4vw, 16px);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+/* Up on the left, down on the right — the opposed pair the horizontal version
+   had, rotated. One group per cycle either way, so the durations still read as
+   speed rather than as distance. */
+.bm-left  .bm-track { animation: bmUp   64s linear infinite; }
+.bm-right .bm-track { animation: bmDown 72s linear infinite; }
+@keyframes bmUp   { from { transform: translateY(0);    } to { transform: translateY(-25%); } }
+@keyframes bmDown { from { transform: translateY(-25%); } to { transform: translateY(0);    } }
+/* ── BELOW THE SPLIT: BACK TO ROWS ───────────────────────────────────────
+   At <= 900px the feature card stacks (see the responsive block above), so the
+   icon field is a wide short region again and a tall column is exactly the
+   wrong shape for it. The axis goes back to horizontal, and with it the
+   original horizontal invariant: track 400% WIDE, group 25% of the track =
+   one row wide, translate X. */
+@media (max-width: 900px) {
+  .brand-marquee {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    max-width: 560px; margin-inline: auto;
+  }
+  .bm-col { grid-template-rows: auto auto; gap: 8px; }
+  .bm-row {
+    height: auto;
+    background: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  /* Rows again: the track is 400% WIDE against an auto height, so the group's
+     25% is a width and nothing depends on a definite height. */
+  .bm-track { flex-direction: row; width: 400%; height: auto; }
+  .bm-group { width: 25%; height: auto; flex-direction: row; justify-content: space-evenly; }
+  .bm-icon { width: clamp(26px, 6vw, 32px); height: clamp(26px, 6vw, 32px); }
+  .bm-left  .bm-track { animation: bmLeft  70s linear infinite; }
+  .bm-right .bm-track { animation: bmRight 79s linear infinite; }
 }
-.bm-row.bm-right { width: 88%; margin-inline: auto; }
 /* ════════════════════════════════════════════════════════════════════════
    THE PORTAL SHOT, IN ITS NEW HOME
    ════════════════════════════════════════════════════════════════════════

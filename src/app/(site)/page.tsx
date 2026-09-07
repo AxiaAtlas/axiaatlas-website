@@ -8,6 +8,7 @@ import BrandMarquee from '@/components/BrandMarquee'
 import PortalShot from '@/components/PortalShot'
 import SerpGap from '@/components/artifacts/SerpGap'
 import AuditPreview from '@/components/artifacts/AuditPreview'
+import { serviceName, type ServiceId } from '@/lib/services'
 
 /* The results are read at render, so the page has to be allowed to re-render.
    It was fully static because the CASES array made the read decorative; now
@@ -16,18 +17,36 @@ import AuditPreview from '@/components/artifacts/AuditPreview'
    database-backed pages (/about, /blog). */
 export const revalidate = 3600
 
-/* SIX OF THE NINE, in the live site's order, because "View all services" has
-   to lead somewhere that holds more than the page already showed. Executive
-   Personal Brand, Portals & Dashboards, and Strategic Advisory & Embedded
-   Thinking live on /services (anchors #executive, #dashboards, #strategy) and
-   in the footer.
+/* SIX OF THE NINE, and the six are chosen and ordered by what they cost.
+   lib/services ranks the whole catalogue by top-tier price and /services
+   renders it in that order; this grid shows the top of that ranking with two
+   deliberate exceptions, and both are about what a home page is for.
+
+   THE ORDER HERE IS NOT THE /services ORDER, and that is on purpose. Website
+   Design & Build leads rather than Portals & Dashboards, because a website is
+   the engagement almost every visitor arrives already knowing they might need,
+   and a dashboard is the one that has to be explained. The most expensive
+   thing we sell is not the right first word to a stranger; it is the right
+   SECOND one, so it takes the cell beside it. Competitive Intelligence and
+   Local Presence & Maps sit at the foot of the price ranking and still make
+   this six, over Lead Generation, Executive Personal Brand and Strategic
+   Advisory, because they are the two that pull the most search traffic — the
+   grid is a home page's summary of the catalogue, not a rate card.
+
+   Executive Personal Brand, Lead Generation and Strategic Advisory & Embedded
+   Thinking live on /services (anchors #executive, #leadgen, #strategy) and in
+   the footer.
 
    NO NUMERAL ON THE BUTTON. It said "View all 8 services" and the catalogue
    went to nine, which is the whole argument for not typing counts into copy:
-   the count lives in /services' SERVICES array and every sentence that merely
-   listed inventory has stopped repeating it. The H2 below keeps its numeral
-   because there it is doing work — it tells the reader six cards are not the
-   whole catalogue. See the note over that array for the full reasoning.
+   the count lives in lib/services and every sentence that merely listed
+   inventory has stopped repeating it. The H2 below keeps its numeral because
+   there it is doing work: it tells the reader six cards are not the whole
+   catalogue. See the note over that heading for the full reasoning.
+
+   NAMES ARE NOT TYPED HERE. They resolve from lib/services, which mirrors the
+   platform's SERVICES table — so the two properties cannot disagree about what
+   a service is called, and a rename is one edit rather than five.
 
    TWO OF THE SIX ARE EMPHASISED, and no card carries an artifact. The previous
    pass flattened this block to a uniform 3x2 because the version before it was
@@ -38,27 +57,47 @@ export const revalidate = 3600
    columns and lay their copy out beside the mark instead of under it; 2x2 + 4x1
    is exactly two rows of four, so the grid still tiles.
 
-   WHICH TWO, AND WHY THOSE. Website Design & Build, because /services already
-   calls it "the core engagement and the one every other channel points traffic
-   at" — the page should not rank it level with the rest while the services page
-   ranks it first. And SEO & Answer Engine Optimization, which is the service the
-   brand is built around: the hero names answer engines, the ticker names four
-   of them, the System card runs a whole marquee of their logos, and the audit
-   card's second row is Answer Engines. Local Presence & Maps holds an ordinary
-   cell — it is a strong service, but it is not one of the two the rest of the
-   page is already arguing for. */
-const SERVICES = [
-  { id: 'social', name: 'Social Media Management', desc: 'Content built for each platform, managed end to end, designed to grow an audience that actually buys.', href: '/services#social' },
-  { id: 'intel', name: 'Competitive Intelligence', desc: "Every competitor's positioning, cadence, and visibility tracked and sourced, so you decide on facts rather than hunches.", href: '/services#intel' },
-  { id: 'website', name: 'Website Design & Build', desc: 'Positioning, copy, design, and build in one engagement, with search foundations laid from day one.', href: '/services#website', emphasis: true },
-  /* "Local Presence & Maps", not "& SEO". The service catalogue in
-     app/layout.tsx renamed it; this card and the /services row were the two
-     places still carrying the old name, so the site contradicted its own
-     structured data. */
-  { id: 'local', name: 'Local Presence & Maps', desc: 'Profile, citations, and reviews managed so nearby buyers find you first, not the business down the road.', href: '/services#local' },
-  { id: 'geo', name: 'SEO & Answer Engine Optimization (AEO)', desc: 'Rank in Google and get named by the assistants buyers now ask. One content pipeline: keyword-led long-form articles, the schema and entity work behind them, and monthly proof of where you are cited across Claude, ChatGPT, Perplexity, and Gemini.', href: '/services#geo', emphasis: true },
-  { id: 'leadgen', name: 'Lead Generation', desc: 'Prospects researched against your ideal customer, reached with outreach written for them, tracked from first touch onward.', href: '/services#leadgen' },
-]
+   WHICH TWO, AND WHY THEY CHANGED. They are now the two most expensive things
+   in the catalogue — Website Design & Build and Portals & Dashboards — and
+   they are also the two that are SOFTWARE WE BUILD rather than a channel we
+   work. That is a sharper argument than the one it replaces. SEO & Answer
+   Engine Optimization held the second wide cell before, and it did not need
+   it: the hero eyebrow names SEO first, the ticker names four answer engines,
+   the System card runs a marquee of their marks, and the audit card's second
+   row is Answer Engines. The page argues for it four times over without
+   spending a double-wide cell on it. Portals & Dashboards is argued for
+   nowhere else on this page and is the largest engagement we sell, so the cell
+   goes where it does work. */
+const HOME_IDS: ServiceId[] = ['website', 'dashboards', 'social', 'geo', 'intel', 'local']
+const EMPHASISED: ServiceId[] = ['website', 'dashboards']
+
+/* ONE OR TWO SENTENCES EACH, AND THEY HAVE TO STAY THAT WAY. Four of these
+   share a row on a four-column grid and the row is as tall as its longest
+   card, so a paragraph twice the length of its neighbours does not read as
+   more detail — it reads as three cards with holes in them. SEO & Answer
+   Engine Optimization carried the full pipeline description here while it held
+   a double-wide cell that could absorb it; in an ordinary cell it ran eight
+   lines against its neighbours' three. The long version is on /services, which
+   is where a reader who wants it is going. */
+const BLURB: Record<ServiceId, string> = {
+  website: 'Positioning, copy, design, and build in one engagement, with search foundations laid from day one.',
+  dashboards: 'One operational dashboard for your own business — stock, orders, pipeline — read from the systems you already run on, behind your login and your branding.',
+  social: 'Content built for each platform, managed end to end, designed to grow an audience that actually buys.',
+  geo: 'Rank in Google and get named by the assistants buyers now ask — one content pipeline, with monthly proof of where you are cited and where you are not.',
+  intel: "Every competitor's positioning, cadence, and visibility tracked and sourced, so you decide on facts rather than hunches.",
+  local: 'Profile, citations, and reviews managed so nearby buyers find you first, not the business down the road.',
+  leadgen: 'Prospects researched against your ideal customer, reached with outreach written for them, tracked from first touch onward.',
+  executive: "A founder's voice built separately from the company's, published on a cadence, with the audience and the archive staying theirs.",
+  strategy: 'Standing access to a strategist who already knows your business, for the decisions that do not belong to any one channel.',
+}
+
+const SERVICES = HOME_IDS.map((id) => ({
+  id,
+  name: serviceName(id),
+  desc: BLURB[id],
+  href: `/services#${id}`,
+  emphasis: EMPHASISED.includes(id),
+}))
 
 /* THE TICKER, BACK TO ONE LINE. It was two rows of search-field chips travelling
    in opposite directions, each with a magnifier and a blinking caret — three
@@ -342,26 +381,54 @@ export default async function HomePage() {
           its top-right corner, which on this ground read as a lens flare over
           the copy rather than as depth.
 
-          THE HEADING NAMES THE TWO THINGS A READER CAN VERIFY. "Measured in
-          customers, not vanity metrics" argued against a straw man; a rank and
-          a phone call are the two units the slides are actually denominated in,
-          and "tracked per location, never averaged" on /services says the same
-          thing in the same voice.
+          THE EYEBROW IS A TERM PEOPLE SEARCH. "Results" is a word, not a
+          query — nobody types it, and it told a reader nothing the heading
+          under it did not. "Case Studies" is what this section IS, it is what
+          a buyer comparing agencies actually looks for, and it is the term the
+          URL already used: /case-studies was a page, and it now 308s to this
+          anchor, so the label and the path finally agree.
 
-          THE SUBHEAD DOES NOT MENTION THE DASHBOARD, and the reason is that it
+          Considered and not shipped: "Marketing Case Studies", which carries
+          more of the category keyword but breaks the register every other
+          eyebrow on this page keeps (The Problem, The System, The Services,
+          How We Work — two or three plain words, no stuffing); and "Client
+          Results", which is closer to a query than "Results" was but still
+          loses to the term buyers use for the artefact itself.
+
+          THE HEADING SAYS WHOSE RESULTS THEY ARE. "Rankings you can check.
+          Calls you can count." named the two units the slides are denominated
+          in, which was true and was also an argument — it spent a heading
+          defending the evidence before the reader had seen any. The slides
+          make that case themselves. What a reader needs from the heading is
+          the plainer fact: these are clients, these are their numbers, and
+          there are more of them than fit here.
+
+          Considered and not shipped: "A few of our clients, and what changed."
+          (narrative, and it promises a story each slide has to then tell) and
+          "What we did, and what it moved." (drops the client entirely, which
+          is the one word doing the work).
+
+          THE CONFIDENTIALITY LINE IS A SUBTITLE NOW, not a lead. It used to
+          run at `.section-sub` — 21px on desktop, the same weight as a real
+          subhead — so the first thing under the heading was a disclaimer
+          competing with it. It is a footnote that has to be visible, not a
+          claim, so it sits at 14px directly beneath the heading and tied to
+          it. It is not a callout box: this section already carries a slider,
+          and a bordered panel would be a third weight in one block.
+
+          IT STILL DOES NOT MENTION THE DASHBOARD, and the reason is that it
           would not be true. These five results predate the portal, so the
-          clients behind them cannot open anything, and a line inviting a reader
-          to imagine they could is a claim the site cannot honour. It says the
-          one thing that is true instead: the names are withheld, nothing else
-          is. Revisit it when a portal client has a result worth showing.
+          clients behind them cannot open anything, and a line inviting a
+          reader to imagine they could is a claim the site cannot honour.
 
           `id="results"` is the redirect target for /case-studies. */}
       <section className="results-section g-spruce" id="results">
         <div className="section-inner">
-          <div className="section-head">
-            <div className="section-eyebrow">Results</div>
-            <h2 className="section-headline">Rankings you can check.<br />Calls you can count.</h2>
-            <p className="section-sub">Names withheld at the client&apos;s request. Everything else is exactly as it happened.</p>
+          <div className="section-head results-head">
+            <div className="section-eyebrow">Case Studies</div>
+            <h2 className="section-headline">Some of our clients&apos; results.</h2>
+            {/* SUBTITLE, NOT A CALLOUT. See the note over `.results-note`. */}
+            <p className="results-note">Company identity anonymized per client agreement. All metrics and outcomes reflect unedited performance data.</p>
           </div>
           {/* No slides means the read failed -- there is no in-code set to fall
               back to any more. The section and its heading stay so that the

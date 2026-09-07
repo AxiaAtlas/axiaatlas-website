@@ -121,7 +121,9 @@ Body: `line-height 1.6–1.85`, `text-wrap: pretty`.
 - **Gutter:** `--gutter` 40 → 20px responsive.
 - **Section rhythm:** `--section-y` `clamp(72px, 9vw, 132px)`.
 - **Containers:** `--maxw: 1180px`; `--maxw-narrow: 760px` for prose (about, blog post).
-- **Grids:** 3-col services/blog/case/pricing; 2-col problem; bento uses a 3-col grid with a 2×2 `feature` cell.
+- **Grids:** 3-col blog/case/pricing; 2-col problem; bento uses a 3-col grid with a
+  full-width `feature` cell. The home channels grid is 4-col with two double-wide
+  emphasis cells (2+2 over 1+1+1+1); /services is a single column of rows.
 
 ---
 
@@ -141,8 +143,15 @@ Body: `line-height 1.6–1.85`, `text-wrap: pretty`.
   expanding ripples, floating pin, "You are here") shown ≥1200px only.
 - **Marquee:** the strip under the hero (`.hero-marquee`) loops the moments buyers
   decide ("Searched on Google · Asked on ChatGPT · …"); pauses on hover; edge-masked.
-- **System map:** the full-width bento feature cell draws a looping route
-  (Find → Convert → Compound) with waypoints popping in sequence (`smRoute`/`smPop*`).
+- **Brand field:** the full-width bento feature cell ("The System") splits copy left,
+  icon field right. The field is two captioned columns — *Published to* (the social
+  platforms, scrolling up) and *Cited by* (the answer engines, scrolling down) — each
+  a faint recess the marks travel down, floor to ceiling. It replaced a short
+  horizontal band capped at 600px in a card over 1000px wide, which left dead area on
+  two sides; eleven marks fill a tall narrow region and cannot fill a wide short one.
+  The no-duplicates geometry is load-bearing: the track is 400% of the column and each
+  group 25% of the track, so one group is always exactly one column, at every size.
+  Below 900px the card stacks and the field goes back to two horizontal rows.
 - **Results slider:** auto-advancing carousel (5.2s), pauses on hover/focus, no
   autoplay under reduced motion (`ResultsSlider.tsx`). **Autoplay starts on
   scroll into view, not on mount** — the slider sits four sections down, and a
@@ -165,8 +174,8 @@ Body: `line-height 1.6–1.85`, `text-wrap: pretty`.
 - **Eyebrow:** `.section-eyebrow` / `.hero-eyebrow` — uppercase, leading rule, accent color.
 - **Cards:** `--surface` bg, `--border`, `--r`, lift + spotlight on hover.
 - **Bento:** `.bento` grid; `.bento-card.feature` is the single full-width spruce
-  accent cell (copy left, animated system map right); the 01/02/03 cards sit in one
-  row beneath it.
+  accent cell — two columns, copy left and the brand icon field right (see *Brand
+  field* under Motion); the 01/02/03 cards sit in one row beneath it.
 - **Process:** numbered nodes on a dashed connector (cartographic route line).
 - **Results:** `ResultsSlider` — one slide per result (tag + big spruce number +
   detail), dot + arrow controls under the viewport.

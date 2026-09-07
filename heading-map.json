@@ -1,9 +1,9 @@
 {
-  "generated": "2026-09-03",
+  "generated": "2026-09-06",
   "site": "https://axiaatlas.com",
   "branch": "redesign/homepage-dark",
   "note": "Headings in document order per page, for https://axiaatlas.com on branch redesign/homepage-dark. Excludes the site nav, the footer, and the floating chat widget — none of which belong to a page outline. Character counts are of the rendered text with whitespace collapsed; a <br> inside a heading counts as one space. H4 is out of scope by request, which omits the per-slide 'The Challenge' / 'What We Did' / 'The Result' labels inside the home page's results slider.",
-  "capturedFrom": "Rendered DOM, 1440px viewport, against the branch running locally. Two blocks on this site are database-driven and were empty in that environment; both are recorded below under `dynamic` with the headings they carry in production, where the same components render the same rows.",
+  "capturedFrom": "Rendered DOM, 1440px viewport, against the branch running locally (next build + next start). Two blocks on this site are database-driven and were empty in that environment; both are recorded below under `dynamic` with the headings they carry in production, where the same components render the same rows.",
   "pages": [
     {
       "path": "/",
@@ -57,23 +57,18 @@
         },
         {
           "level": 3,
-          "text": "Social Media Management",
-          "chars": 23
-        },
-        {
-          "level": 3,
-          "text": "Competitive Intelligence",
-          "chars": 24
-        },
-        {
-          "level": 3,
           "text": "Website Design & Build",
           "chars": 22
         },
         {
           "level": 3,
-          "text": "Local Presence & Maps",
-          "chars": 21
+          "text": "Portals & Dashboards",
+          "chars": 20
+        },
+        {
+          "level": 3,
+          "text": "Social Media Management",
+          "chars": 23
         },
         {
           "level": 3,
@@ -82,13 +77,18 @@
         },
         {
           "level": 3,
-          "text": "Lead Generation",
-          "chars": 15
+          "text": "Competitive Intelligence",
+          "chars": 24
+        },
+        {
+          "level": 3,
+          "text": "Local Presence & Maps",
+          "chars": 21
         },
         {
           "level": 2,
-          "text": "Rankings you can check. Calls you can count.",
-          "chars": 44
+          "text": "Some of our clients' results.",
+          "chars": 29
         },
         {
           "level": 2,
@@ -124,7 +124,7 @@
       "dynamic": [
         {
           "section": "Results (#results)",
-          "parentH2": "Rankings you can check. Calls you can count.",
+          "parentH2": "Some of our clients' results.",
           "source": "case_studies table, published rows in sort_order, up to 8",
           "shape": "One H3 per slide: the stat where a row has one, otherwise result_headline. Each slide also carries three H4 labels (The Challenge / What We Did / The Result) unless it renders a visual instead.",
           "liveHeadings": [
@@ -174,28 +174,23 @@
         },
         {
           "level": 2,
+          "text": "Portals & Dashboards",
+          "chars": 20
+        },
+        {
+          "level": 2,
           "text": "Website Design & Build",
           "chars": 22
         },
         {
           "level": 2,
-          "text": "Social Media Management",
-          "chars": 23
-        },
-        {
-          "level": 2,
-          "text": "Competitive Intelligence",
-          "chars": 24
-        },
-        {
-          "level": 2,
-          "text": "Local Presence & Maps",
-          "chars": 21
-        },
-        {
-          "level": 2,
           "text": "SEO & Answer Engine Optimization (AEO)",
           "chars": 38
+        },
+        {
+          "level": 2,
+          "text": "Social Media Management",
+          "chars": 23
         },
         {
           "level": 2,
@@ -209,13 +204,18 @@
         },
         {
           "level": 2,
-          "text": "Portals & Dashboards",
-          "chars": 20
+          "text": "Strategic Advisory & Embedded Thinking",
+          "chars": 38
         },
         {
           "level": 2,
-          "text": "Strategic Advisory & Embedded Thinking",
-          "chars": 38
+          "text": "Competitive Intelligence",
+          "chars": 24
+        },
+        {
+          "level": 2,
+          "text": "Local Presence & Maps",
+          "chars": 21
         },
         {
           "level": 2,

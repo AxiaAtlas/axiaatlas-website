@@ -7,15 +7,32 @@ import ServiceRouteLine from './ServiceRouteLine'
 import { ChannelArt as ServiceArt } from '@/components/artifacts/ChannelArtifacts'
 import InfraStrip from '@/components/artifacts/InfraStrip'
 import { pageTitle, social } from '@/lib/seo'
+import { SERVICES as CATALOGUE, type ServiceId } from '@/lib/services'
 
-/* Website Design & Build leads: it is the core engagement and the one every
-   other channel points traffic at. The rest follow the order the home-page
-   grid uses for the six it shows.
+/* ── THE ORDER IS PRICE, HIGHEST FIRST, AND IT LIVES IN lib/services ──────
+   Portals & Dashboards leads because it is the largest engagement we sell,
+   Website Design & Build follows, and the remaining seven descend from there.
+   The ranking is taken off the platform's own SERVICES table and recorded, with
+   the figures behind it, in lib/services — not here, and not twice.
+
+   NO PRICES ARE PRINTED ON THIS PAGE and none should be added. The order is
+   the ranking a reader gets; the numbers stay in the platform, where they move
+   without this repo.
+
+   WHY IT IS NOT THE OLD ORDER. Website Design & Build used to lead on the
+   argument that it is "the core engagement every other channel points traffic
+   at", with the rest following the home page's grid. That was a judgement this
+   file held alone, and it had already drifted from the home page it claimed to
+   mirror. A price ranking is a fact the business already maintains elsewhere,
+   so it cannot drift — and the home page is now free to order its six by what
+   a home page is for, which is a different question. See the note over that
+   grid.
 
    ── WHERE THE COUNT LIVES, AND WHY IT LIVES IN ONE PLACE ──────────────────
-   This array. Nowhere else. `SERVICES.length` feeds the H1, the meta
-   description, and the ItemList's `numberOfItems`, and every other page that
-   used to type a numeral has stopped typing one.
+   lib/services. Its length feeds the meta description and the ItemList's
+   `numberOfItems`, and every page that used to type a numeral has stopped
+   typing one. (The H1 still spells "Nine" — see the note below on the two
+   sentences where a numeral is doing work rather than listing inventory.)
 
    THE LINE THAT WENT. "Eight ways to get found" was the strongest sentence on
    the site, and it was a channel claim. Portals & Dashboards is not a channel —
@@ -62,25 +79,29 @@ import { pageTitle, social } from '@/lib/seo'
    `art: true` marks a row that earns a figure. Rows alternate which side the
    copy takes, so no two consecutive rows read alike; rows without a figure run
    as a single measured column. */
-const SERVICES = [
+/* PROSE ONLY. The name and the position of every row below come from
+   lib/services — see the header there. This array carries the two things that
+   are genuinely this page's: the argument for each service, and who it is for.
+
+   It is deliberately still in the old hand-written order. Sorting it would put
+   two orders in the repo that have to agree; leaving it means the ORDER lives
+   in exactly one file and this one cannot drift out of step with it. */
+const DETAIL: { id: ServiceId; art: boolean; desc: string; who: string }[] = [
   {
     id: 'website',
     art: true,
-    headline: 'Website Design & Build',
     desc: "This is the core engagement, and it is not a design job. It starts with positioning — what you actually sell, who it is for, and why a buyer should pick you over the two alternatives they are also looking at. That decision drives the copy, and the copy drives the layout, so the pages argue a case instead of decorating one. Search foundations go in during the build rather than after it: an information architecture that matches how people search, titles and headings written for real queries, schema markup, clean internal linking, fast Core Web Vitals on a real phone, and a sitemap that gets indexed. We build it too — you get a working site, not a mockup handed to someone else to interpret.",
     who: 'For businesses whose site is the front door: a first build, a rebuild, or a site that photographs well and still does not sell.',
   },
   {
     id: 'social',
     art: false,
-    headline: 'Social Media Management',
     desc: 'Each platform rewards something different — a hook inside the first second on TikTok, a defensible opinion on LinkedIn, a look you can recognise at thumbnail size on Instagram. We pick the two or three platforms worth your time and ignore the rest, set a handful of recurring content pillars so the account says one thing consistently instead of a new thing weekly, then produce, schedule, and publish it natively for each platform. We work the comments as well: answering the buying questions in public, and handling complaints so the thread ends up reading as evidence you are good to deal with.',
     who: 'For brands and businesses treating social as a growth channel rather than an obligation — B2B or B2C.',
   },
   {
     id: 'intel',
     art: false,
-    headline: 'Competitive Intelligence',
     desc: 'You pick the competitors — usually five to ten who genuinely take deals off you. We watch what they do and report it with the receipts: pricing and packaging changes, the queries and pages they rank for that you do not, publishing cadence and which posts actually earned engagement, the roles they are hiring for, review volume and what the complaints are really about, and whether the answer engines name them in the moments they do not name you. Every claim is sourced and dated so you can check it yourself. The deliverable is not a dashboard nobody opens — it is arriving at each decision about price, positioning, or where to publish next already knowing what your buyer sees when they look at the alternatives.',
     who: 'For teams making positioning, pricing, or channel bets in a crowded category who are tired of guessing what the other side is doing.',
   },
@@ -89,28 +110,24 @@ const SERVICES = [
     art: true,
     /* Renamed from "Local Presence & SEO" to match the service catalogue. See
        the note on the home page's channel card. */
-    headline: 'Local Presence & Maps',
     desc: 'Two results decide whether a nearby buyer finds you: the map pack, and the organic listings underneath it. We work both, because winning one and losing the other cedes half the page. On the local side that means a Google Business Profile built out properly — categories, services, hours, photos, Q&A — citations kept consistent across the directories that feed the map, a review programme that produces a steady flow rather than a spike, and public replies to the hard ones that show a prospect how you handle a problem. On the search side it is the service and location pages that rank for "service in city", the internal linking between them, and the technical fixes that stop good pages from being ignored. Rankings and calls are tracked per location, never averaged into one flattering number.',
     who: 'For clinics, trades, shops, restaurants, practices, and multi-location businesses that sell inside a radius.',
   },
   {
     id: 'geo',
     art: true,
-    headline: 'SEO & Answer Engine Optimization (AEO)',
     desc: 'Buyers now ask Claude, ChatGPT, Perplexity, and Gemini which company to use, and they largely take the answer at face value. We start by measuring it: the exact prompts a buyer in your category would type, run across all four platforms, recorded so you can see who gets named today and what is said about you when you are. Then we fix what those systems read. Entity data and schema so the models know what you are and what you do. Source pages written to be quoted whole — a clear claim, the evidence under it, and a date — rather than skimmed. Presence on the third-party pages, directories, and communities the models fall back on when they will not take your own site at its word. We re-run the same prompt set every month, so you can see the point at which you start getting cited and exactly where you are still being left out.',
     who: 'For any business whose buyers ask an assistant before they ask a person — and for categories where going unnamed means going unconsidered.',
   },
   {
     id: 'leadgen',
     art: false,
-    headline: 'Lead Generation',
     desc: 'Search and content compound; outbound produces conversations this quarter. We define the ideal customer tightly enough that it disqualifies — industry, size, the role that signs, and a trigger that makes contact worth making now — then build the list by hand instead of buying one, verify every address, and write sequences that reference something specific and true about the company rather than dropping a name into a template. Email and LinkedIn run together so the same person meets you twice. You see every prospect, every touch, and every reply, so the targeting and the message sharpen each cycle instead of being thrown out and restarted.',
     who: 'For B2B and service businesses that know who their best customers are and want conversations booked now.',
   },
   {
     id: 'executive',
     art: false,
-    headline: 'Executive Personal Brand',
     desc: 'A company account gets read the way an ad gets read. A person gets read differently. We build the founder or executive a voice that stands on its own: a small set of positions they are genuinely willing to defend in public, drawn out of them in interviews rather than invented in a strategy doc, then written up as posts, longer essays, and talking points that sound like the person and not like a marketing department. Comments and DMs are triaged so the buyers hiding among them get a real reply from a real person. The account stays theirs — the archive, the audience, and the reputation belong to the individual and carry back into the company.',
     who: 'For founders, owners, and executives who are the face of the business, or intend to be.',
   },
@@ -136,18 +153,30 @@ const SERVICES = [
        and a second copy of a number is a number that will one day disagree. */
     id: 'dashboards',
     art: true,
-    headline: 'Portals & Dashboards',
     desc: 'Most businesses run on decentralized systems that each answer half a question. Stock sits in one place, orders in another, the pipeline in a third, and somebody exports all three into a spreadsheet on Monday morning to work out how last week went. We build the thing that ends that: an operational dashboard for your business, not a template you are fitted into. The views are the ones you actually run on, defined with you. We do not replace your tools. We connect to them, keep the mapping right as those systems change underneath, and put the result behind your own login, in your branding, on your own subdomain. Your data sits in a database project of its own, separate from ours, with no route between your operation and our agency systems. This is not the client portal you already get for the marketing work. It is software built for the business itself.',
     who: 'For businesses whose operating numbers are spread across a store admin, a CRM, and a spreadsheet, and who want one place that reads from all three and stays right as they change.',
   },
   {
     id: 'strategy',
     art: false,
-    headline: 'Strategic Advisory & Embedded Thinking',
     desc: 'Sometimes what is missing is not another deliverable. This is standing access to a strategist who already knows your business: recurring working sessions on the decisions that do not belong to any one channel — what to charge and how to package it, which segment to go after next, whether to build a capability or partner for it, what to say when a competitor undercuts you by thirty percent. We sit in on the calls where it actually gets decided, write up the decision and the reasoning behind it so it survives the week, and open the next session by checking what happened. No deck nobody reads.',
     who: 'For owners and teams who want a thinking partner across the whole business, not a vendor for one channel.',
   },
 ]
+
+/* THE ORDER IS PRICE, HIGHEST FIRST, and it is not this file's decision.
+   lib/services ranks the nine by what they cost at their top tier — Portals &
+   Dashboards, then Website Design & Build, then the rest descending — and this
+   page renders them in that order. No price is printed: the order carries it.
+
+   `headline` is resolved from the same place, so a rename in the platform
+   reaches this page, the ItemList below, the home grid, and the Organization
+   catalog in app/layout.tsx in one edit instead of five. */
+const SERVICES = CATALOGUE.map((svc) => {
+  const d = DETAIL.find((x) => x.id === svc.id)
+  if (!d) throw new Error(`No /services copy written for: ${svc.id}`)
+  return { id: svc.id, headline: svc.name, art: d.art, desc: d.desc, who: d.who }
+})
 
 /* Derived, not typed. The list a machine reads in the ItemList below and the
    list a search result shows are the same nine names in the same order, and
