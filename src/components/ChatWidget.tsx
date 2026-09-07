@@ -39,7 +39,14 @@ const L = {
   demo: { label: 'Book a demo', href: '/demo' },
   services: { label: 'See all services', href: '/services' },
   pricing: { label: 'View pricing', href: '/pricing' },
-  cases: { label: 'See results', href: '/case-studies' },
+  /* '/#results', not '/case-studies'. The page was deleted and its five results
+     ARE the home section now; next.config.mjs 308s the old URL to this exact
+     anchor. Pointing here sent every "See results" click through that redirect —
+     an extra round trip on the one link in this widget that exists to show proof,
+     and the last internal link on the site still taking the hop (/blog already
+     links straight to /#results). The 308 stays for inbound links from off-site;
+     it is not a route we should be using on our own pages. */
+  cases: { label: 'See results', href: '/#results' },
   contact: { label: 'Contact us', href: '/contact' },
   careers: { label: 'See open roles', href: '/careers' },
   social: svcLink('social'),

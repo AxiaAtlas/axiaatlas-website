@@ -41,6 +41,11 @@
    `platformShort` is the one field here that no call site may print. Nothing
    resolves it, there is no accessor for it, and that is deliberate.
 
+   As of 2026-09-07 `geo`'s two shorts happen to hold the same string. That is a
+   coincidence of one rename, not a sign the fields collapsed: they are still
+   answering different questions, and the next platform-side shortening will pull
+   them apart again. Do not merge them.
+
    ── HOW THE OUTWARD SHORT NAMES WERE CHOSEN ─────────────────────────────────
    The rule, in order: print the catalogue name where it fits; where it does
    not, drop words from it; where dropping words leaves jargon or nonsense,
@@ -62,7 +67,7 @@
 
    MEASURED, seven of the nine catalogue names overflow the column:
 
-     SEO & Answer Engine Optimization (AEO)   296.64px   overflows
+     Search & Answer Eng. Optimization (SEO, AEO)  352.73px  overflows
      Strategic Advisory & Embedded Thinking   291.59px   overflows
      Social Media Management                  189.52px   overflows
      Executive Personal Brand                 181.28px   overflows
@@ -79,13 +84,38 @@
      website     Website Design        112.11  "& Build" is the part of the
                                                engagement a buyer learns on
                                                /services, not in a footer.
-     geo         SEO & AI Search       113.75  "(AEO)" is an initialism nobody
-                                               outside this industry expands,
-                                               and "SEO & Answer Engines" —
-                                               the site's own prose phrase —
-                                               measures 161.64px, over by 3.2.
-                                               "AI Search" is what a stranger
-                                               already calls this.
+     geo         SEO & AEO              78.36  the catalogue's own acronyms,
+                                               in the catalogue's own order.
+                                               This row said "SEO & AI Search"
+                                               while the catalogue name was
+                                               "SEO & Answer Engine
+                                               Optimization (AEO)": "(AEO)" was
+                                               an initialism the name mentioned
+                                               once and explained nowhere, so
+                                               the footer reworded it into
+                                               "AI Search", which is what a
+                                               stranger already called it.
+                                               The 2026-09-07 rename removed
+                                               the reason. The name now spells
+                                               BOTH halves out in plain words
+                                               and carries both acronyms in its
+                                               parenthetical, so a reader meets
+                                               "AEO" expanded on /services and
+                                               in the chat widget before this
+                                               column ever abbreviates it. That
+                                               is the condition the no-
+                                               initialisms rule was protecting,
+                                               and it is now met — which is why
+                                               this is the one row that prints
+                                               acronyms rather than words.
+                                               It is also the reason to stop
+                                               saying "AI Search" here: the
+                                               catalogue names the ANSWER
+                                               ENGINES as the subject of the
+                                               work, and "AI Search" reads as a
+                                               claim about how the work is
+                                               done. 80px of headroom, the
+                                               loosest row in the column.
      social      Social Media           89.20  "Management" is how it is sold,
                                                not what it is.
      leadgen     Lead Generation       117.38  the catalogue name.
@@ -112,6 +142,14 @@
 
    IF A NAME CHANGES, RE-MEASURE. The budget is a number, not a style rule, and
    the column is the narrowest slot either name appears in.
+
+   The two figures added on 2026-09-07 (the new catalogue name at 352.73px and
+   `geo`'s new short at 78.36px) were computed from the Montserrat Medium advance
+   widths at 14px rather than read off a browser, and are cross-checked against
+   every one of the nine browser figures above: the method reads high by 0.2px to
+   1.2px, never low, on all nine. Both new numbers are far enough from the 158.45
+   budget that a 1.2px bias cannot change the answer. A row landing within ~3px of
+   the budget still needs a real browser.
 
    ── THE ORDER IS PRICE, HIGHEST FIRST ───────────────────────────────────────
    /services renders this array in this order, and it is ranked by what the
@@ -158,7 +196,7 @@ export type ServiceEntry = {
 export const SERVICES: ServiceEntry[] = [
   { id: 'dashboards', key: 'client_dashboards', name: 'Portals & Dashboards',                   short: 'Portals & Dashboards', platformShort: 'Dashboards' },
   { id: 'website',    key: 'website',           name: 'Website Design & Build',                 short: 'Website Design',       platformShort: 'Website' },
-  { id: 'geo',        key: 'aeo_seo',           name: 'SEO & Answer Engine Optimization (AEO)', short: 'SEO & AI Search',      platformShort: 'SEO & AEO' },
+  { id: 'geo',        key: 'aeo_seo',           name: 'Search & Answer Engine Optimization (SEO, AEO)', short: 'SEO & AEO',            platformShort: 'SEO & AEO' },
   { id: 'social',     key: 'social',            name: 'Social Media Management',                short: 'Social Media',         platformShort: 'Social' },
   { id: 'leadgen',    key: 'lead_gen',          name: 'Lead Generation',                        short: 'Lead Generation',      platformShort: 'Lead Gen' },
   { id: 'executive',  key: 'executive',         name: 'Executive Personal Brand',               short: 'Executive Brand',      platformShort: 'Exec Brand' },
