@@ -63,7 +63,19 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     images: [OG_IMAGE],
   },
-  alternates: { canonical: SITE_URL },
+  // ── NO CANONICAL HERE, DELIBERATELY ──────────────────────────────────────
+  // This block used to carry `alternates: { canonical: SITE_URL }`, and every
+  // page that did not set its own inherited it — which means the failure mode
+  // of forgetting a canonical was not "no canonical" but "this page IS the home
+  // page". That is the exact shape of the duplicate-without-user-selected-
+  // canonical report: two addresses, one of them claiming to be the other.
+  //
+  // Every indexable route sets its own self-referencing canonical (the home
+  // page does it in (site)/page.tsx, which is the only page SITE_URL was ever
+  // the right answer for). A new page that forgets now emits NO canonical and
+  // Google self-canonicalises it, which is recoverable. Do not put a canonical
+  // back on this layout.
+
   // ── ICONS ────────────────────────────────────────────────────────────────
   // TWO ASSETS, TWO JOBS, AND ONE OF THEM IS DELIBERATELY NOT DECLARED.
   //

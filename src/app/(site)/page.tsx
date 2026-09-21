@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getCaseStudies } from '@/lib/case-studies'
 import Footer from '@/components/Footer'
@@ -9,6 +10,7 @@ import PortalShot from '@/components/PortalShot'
 import SerpGap from '@/components/artifacts/SerpGap'
 import AuditPreview from '@/components/artifacts/AuditPreview'
 import { serviceName, type ServiceId } from '@/lib/services'
+import { SITE_URL } from '@/lib/seo'
 
 /* The results are read at render, so the page has to be allowed to re-render.
    It was fully static because the CASES array made the read decorative; now
@@ -16,6 +18,22 @@ import { serviceName, type ServiceId } from '@/lib/services'
    whatever the table held on the last deploy. Same hour as the other
    database-backed pages (/about, /blog). */
 export const revalidate = 3600
+
+/* THE HOME PAGE'S OWN CANONICAL.
+   It used to arrive by inheritance: app/layout.tsx declared
+   `alternates: { canonical: SITE_URL }`, which was correct here and wrong on
+   every other page that forgot to override it. The declaration moved to the one
+   page it describes.
+
+   SITE_URL AND NOT '/'. A relative '/' resolves against metadataBase to
+   "https://axiaatlas.com/" WITH a trailing slash, and the sitemap, the
+   Organization node, the WebSite node and og:url all say "https://axiaatlas.com"
+   without one. A canonical that disagrees with the sitemap about a trailing
+   slash is a second address for this page, which is the thing all of this is
+   for. */
+export const metadata: Metadata = {
+  alternates: { canonical: SITE_URL },
+}
 
 /* SIX OF THE NINE, and the six are chosen and ordered by what they cost.
    lib/services ranks the whole catalogue by top-tier price and /services
