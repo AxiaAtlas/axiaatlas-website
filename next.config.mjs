@@ -14,10 +14,20 @@
 // ============================================================================
 
 const APEX = 'https://axiaatlas.com'
+const PORTAL = 'https://app.axiaatlas.com'
 
 const nextConfig = {
   async redirects() {
     return [
+      // ── /login lives on the portal ───────────────────────────────────────
+      // There is no sign-in on this site; the client portal owns it. People
+      // still type axiaatlas.com/login, so it goes straight there instead of
+      // 404ing. It sits ABOVE the www rule and has no host condition, so on
+      // either host it is one hop to the portal, not www -> apex -> portal.
+      // (While the platform-level www redirect exists it answers first, so
+      // www/login is two hops anyway; this keeps it one if that goes away.)
+      { source: '/login', destination: `${PORTAL}/login`, statusCode: 301 },
+
       // ── www -> apex ──────────────────────────────────────────────────────
       // This is ALSO configured at the platform level: www.axiaatlas.com is
       // attached to this project as a redirect to the apex, which is where the
