@@ -290,11 +290,14 @@ Insights, About and Contact is removed outright rather than retuned.
 - `app/sitemap.ts` → `/sitemap.xml` (static routes + published posts);
   `app/robots.ts` → `/robots.txt` (allows all, disallows `/api/`, points to sitemap).
 - **Favicons — one mark, two jobs, at parity with the portal.** The opaque set is
-  written by `scripts/gen-icons.mjs` from the portal's canonical mark geometry: a
-  full-bleed Deep-Spruce square with the Bone mark, no alpha channel, no
-  rounding. `/favicon.ico` (16/32/48/96, each rasterized from the vector at its
-  own size rather than shrunk), `public/icon-{48,96,192,512}.png`, and
-  `public/apple-icon.png`. Do not hand-edit anything in `public/`; change the
+  written by `scripts/gen-icons.mjs` from the accent-color brand file,
+  `public/brand/Axia Atlas_Vector Logo_Accent Color_1024x1024.png`, resized
+  whole: nothing redrawn, no alpha channel, no rounding. `/favicon.ico`
+  (16/32/48/96), `public/icon-{48,96,192,512}.<hash>.png`,
+  `public/icon-512-maskable.<hash>.png` and `public/apple-icon.<hash>.png`,
+  where `<hash>` is the first 8 hex of the source's sha256. The URLs live in the
+  generated `src/lib/brand/app-icons.ts`, which `layout.tsx` and `manifest.ts`
+  read. Do not hand-edit anything in `public/`; change the
   script and re-run `npm run icons`. The generator is kept in sync with
   `axiaatlas-platform/scripts/gen-icons.mjs` and every emitted asset is checked
   against the portal's pixel-for-pixel.

@@ -4,6 +4,7 @@ import './globals.css'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { SITE_URL, HOME_TITLE, BRAND_TAIL, OG_IMAGE } from '@/lib/seo'
 import { SERVICE_NAMES } from '@/lib/services'
+import { APP_ICONS } from '@/lib/brand/app-icons'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -120,8 +121,10 @@ export const metadata: Metadata = {
   // og-card. A home-screen tile and a search row composite an icon against
   // their own background, so transparency there is not adaptive, it is
   // undefined. All of them are full-bleed squares written by
-  // scripts/gen-icons.mjs from the portal's canonical mark geometry, so the
-  // marketing site and the portal are one icon.
+  // scripts/gen-icons.mjs from the accent-color brand file in public/brand/,
+  // resized whole, at versioned URLs (src/lib/brand/app-icons.ts) so an
+  // installed device cannot keep a cached old mark. The portal does the same
+  // from the same file, so the marketing site and the portal are one icon.
   //
   // THE FRAMING TRADE, ACCEPTED AND CLOSED -- AND IT APPLIES TO GOOGLE'S FILES
   // ONLY. gen-icons.mjs draws the opaque assets at the brand's own framing --
@@ -157,7 +160,7 @@ export const metadata: Metadata = {
       { url: '/icon-light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
       { url: '/icon-dark.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: dark)' },
     ],
-    apple: [{ url: '/apple-icon.png', type: 'image/png', sizes: '192x192' }],
+    apple: [{ url: APP_ICONS.apple, type: 'image/png', sizes: '192x192' }],
   },
 }
 

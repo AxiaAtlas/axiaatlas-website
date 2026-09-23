@@ -28,8 +28,8 @@
 // WHY EVERYTHING IS OPAQUE. Google composites a transparent favicon against its
 // own result-row background, which is why a transparent icon looks correct in
 // the tab and wrong in search even when it is the same file. Every asset this
-// script writes is filled edge to edge with Deep Spruce and carries no alpha
-// channel at all. They are also full-bleed squares, not pre-rounded tiles: iOS
+// script writes is the accent-color brand file, whose own ground runs edge to
+// edge, with the alpha channel dropped. They are also full-bleed squares, not pre-rounded tiles: iOS
 // and Android apply their own mask, and a pre-rounded tile leaves transparent
 // corners for Google to fill.
 //
@@ -47,12 +47,11 @@
 // SIZES. Google wants a square favicon whose side is a multiple of 48px, so
 // every linked icon is 48, 96, or 192. 512 exists only for the PWA manifest.
 //
-// SMALL SIZES ARE RENDERED, NOT SHRUNK. The .ico also carries purpose-made 16
-// and 32 frames drawn straight from the vector. Before, the smallest asset on
-// the site was 48px, so every 16px rendering was a browser downscaling a raster
-// that had already been downscaled once. Rendering from the geometry is the most
-// the pipeline can do; what it buys depends on the ratio, and the two ratios
-// land in different places at 16px:
+// SMALL SIZES. The tab SVGs are vectors and render at size. The opaque set is
+// now a raster source and is SHRUNK (see THE OPAQUE SET below); the 16px .ico
+// numbers that follow were measured on the vector frames that preceded it and
+// describe the same geometry at the same framing. What that buys depends on the
+// ratio, and the two ratios land in different places at 16px:
 //
 //   THE .ICO's 16px FRAME, at 0.39, closes. The 33.444-unit slot between the
 //   mark's two halves is 0.52 of a device pixel; measured on the shipped frame,
@@ -79,7 +78,8 @@
 //
 //   npm run icons
 import sharp from 'sharp'
-import { writeFileSync } from 'fs'
+import { createHash } from 'crypto'
+import { readFileSync, readdirSync, unlinkSync, writeFileSync } from 'fs'
 
 const SPRUCE = '#354940'
 const BONE = '#F1F0EA'
@@ -141,24 +141,59 @@ const frame = (ratio) => {
   const Y0 = r(CY - SIDE / 2)
   return { SIDE, X0, Y0, viewBox: `${X0} ${Y0} ${SIDE} ${SIDE}` }
 }
-const OPAQUE = frame(MARK_RATIO_OPAQUE)
 const TAB = frame(MARK_RATIO_TAB)
 
 const paths = (fill) => MARK_PATHS.map((d) => `<path d="${d}" fill="${fill}"/>`).join('')
 
-// The raster source: bone mark, full-bleed Deep Spruce ground, no rounding.
-// width/height are the TARGET size, so the rasterizer draws the vector at the
-// size being written instead of shrinking a bigger bitmap.
-const svgAt = (size) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${OPAQUE.viewBox}" width="${size}" height="${size}">
-  <rect x="${OPAQUE.X0}" y="${OPAQUE.Y0}" width="${OPAQUE.SIDE}" height="${OPAQUE.SIDE}" fill="${SPRUCE}"/>
-  ${paths(BONE)}
-</svg>`
+// ── THE OPAQUE SET: RASTERIZED FROM THE ACCENT-COLOR BRAND FILE ──────────
+// favicon.ico, the favicon PNGs, apple-icon and every manifest icon are the
+// brand owner's accent-color mark, public/brand/Axia Atlas_Vector Logo_Accent
+// Color_1024x1024.png, taken WHOLE and resized. Nothing is redrawn, recolored or
+// re-cropped. Until 2026-09-22 these were drawn here from MARK_PATHS on a flat
+// Deep Spruce square, which is not the mark the brand owner delivered: the
+// delivered file carries its own spruce-to-black ground. The extension toolbar
+// already wore that file; now every installed icon does.
+//
+// THE FRAMING IS STILL 0.39. The file's ink spans 314-710 of its 1024 rows,
+// which is the brand framing MARK_RATIO_OPAQUE names, so taking the whole file
+// keeps the trade recorded in src/app/layout.tsx exactly as it was.
+//
+// MASKABLE. Android crops a maskable icon to a circle of radius 0.40 of the
+// side. The mark's farthest corner sits 0.272 of the side from centre
+// (measured on the file below and asserted at run time), and the ground runs
+// edge to edge, so the whole file already IS a correctly padded maskable icon.
+// Padding it further would mean inventing ground the file does not have.
+//
+// SHRUNK, NOT RENDERED. A raster source cannot be drawn at size, so every frame
+// is a Lanczos downsample of the 1024 original. The file is fully opaque; the
+// alpha channel is dropped so no consumer can find a transparent corner.
+//
+// VERSIONED FILENAMES. An installed PWA, an iOS home-screen tile and a
+// service-worker cache all key on the icon URL, so a new mark at an old URL is
+// served stale indefinitely. Every file below except /favicon.ico is named with
+// a hash of the source bytes, so a new source means new URLs. /favicon.ico
+// cannot move: it is the path Google probes by convention. The names are
+// written to src/lib/brand/app-icons.ts, which src/app/layout.tsx and
+// src/app/manifest.ts read. Never type one by hand.
+const ICON_SOURCE = 'public/brand/Axia Atlas_Vector Logo_Accent Color_1024x1024.png'
+const sourceBytes = readFileSync(ICON_SOURCE)
+const ICON_VERSION = createHash('sha256').update(sourceBytes).digest('hex').slice(0, 8)
 
-// flatten() drops the alpha channel outright, so the file cannot carry
-// transparency even in its corners.
+{
+  const { data, info } = await sharp(sourceBytes).removeAlpha().greyscale().raw().toBuffer({ resolveWithObject: true })
+  let far = 0
+  for (let y = 0; y < info.height; y++)
+    for (let x = 0; x < info.width; x++)
+      if (data[y * info.width + x] > 128) far = Math.max(far, Math.hypot(x + 0.5 - info.width / 2, y + 0.5 - info.height / 2))
+  const reach = far / info.width
+  if (reach > 0.4) throw new Error(`mark reaches ${reach.toFixed(3)} of the side from centre; outside the 0.40 maskable safe circle`)
+  console.log(`maskable safe-zone check: mark reaches ${reach.toFixed(3)} of the side (limit 0.40)`)
+}
+
 const png = (size) =>
-  sharp(Buffer.from(svgAt(size)))
-    .flatten({ background: SPRUCE })
+  sharp(sourceBytes)
+    .resize(size, size, { kernel: 'lanczos3' })
+    .removeAlpha()
     .png({ compressionLevel: 9 })
     .toBuffer()
 
@@ -190,25 +225,39 @@ const ico = (images) => {
   return Buffer.concat([head, ...dir, ...images.map((i) => i.data)])
 }
 
-// 48 and 192 are what app/layout.tsx links; 96 and 512 are manifest-only.
-const rasters = {}
-for (const size of [48, 96, 192, 512]) {
-  rasters[size] = await png(size)
-  writeFileSync(`public/icon-${size}.png`, rasters[size])
+// Drop every previous icon file, versioned or not, so no old mark stays
+// reachable at a URL an installed device might still hold.
+for (const f of readdirSync('public'))
+  if (/^(icon-(48|96|192|512)(-maskable)?|apple-icon)(\.[0-9a-f]{8})?\.png$/.test(f)) unlinkSync(`public/${f}`)
+
+const v = (name) => `/${name}.${ICON_VERSION}.png`
+const APP_ICONS = {
+  version: ICON_VERSION,
+  icon48: v('icon-48'),
+  icon96: v('icon-96'),
+  icon192: v('icon-192'),
+  icon512: v('icon-512'),
+  icon512Maskable: v('icon-512-maskable'),
+  apple: v('apple-icon'),
 }
 
-// 16 and 32 go into the .ico only. They are not written to public/ because a
-// linked icon below 48px is one Google will not use, and an undeclared file is
-// just another icon source to drift.
-for (const size of [16, 32]) rasters[size] = await png(size)
-// iOS masks this itself, so it is the same full-bleed square. 192 keeps every
-// linked icon on Google's multiple-of-48 rule.
-writeFileSync('public/apple-icon.png', rasters[192])
+const rasters = {}
+for (const size of [16, 32, 48, 96, 192, 512]) rasters[size] = await png(size)
+writeFileSync(`public${APP_ICONS.icon48}`, rasters[48])
+writeFileSync(`public${APP_ICONS.icon96}`, rasters[96])
+writeFileSync(`public${APP_ICONS.icon192}`, rasters[192])
+writeFileSync(`public${APP_ICONS.icon512}`, rasters[512])
+// Same bytes as the 512: see MASKABLE above. A separate URL so the manifest can
+// declare the two purposes separately, which is what Chrome's installability
+// check and every launcher expect.
+writeFileSync(`public${APP_ICONS.icon512Maskable}`, rasters[512])
+// iOS masks this itself. 192 keeps every linked icon on Google's
+// multiple-of-48 rule.
+writeFileSync(`public${APP_ICONS.apple}`, rasters[192])
 
 // /favicon.ico is the one favicon URL that never moves: it is what Google
-// probes when it wants a site icon, and it 404'd on this domain until now.
-// Frames ascending, so a browser at 16px takes the 16px drawing and Google,
-// which wants the one nearest 48, takes the 48.
+// probes when it wants a site icon. Frames ascending, so a browser at 16px
+// takes the 16px frame and Google, which wants the one nearest 48, takes the 48.
 writeFileSync('public/favicon.ico', ico([
   { size: 16, data: rasters[16] },
   { size: 32, data: rasters[32] },
@@ -216,7 +265,16 @@ writeFileSync('public/favicon.ico', ico([
   { size: 96, data: rasters[96] },
 ]))
 
-console.log(`opaque icons written from canonical mark at ${MARK_RATIO_OPAQUE}, viewBox "${OPAQUE.viewBox}"`)
+writeFileSync('src/lib/brand/app-icons.ts', `// GENERATED by scripts/gen-icons.mjs -- do not edit. Re-run the script.
+//
+// The versioned URLs of the opaque app icons, rasterized from
+// ${ICON_SOURCE}.
+// The version is a hash of that file, so a new mark gets new URLs and no
+// installed device or service-worker cache can keep serving the old one.
+export const APP_ICONS = ${JSON.stringify(APP_ICONS, null, 2)} as const
+`)
+
+console.log(`opaque icons v${ICON_VERSION} written from ${ICON_SOURCE}: favicon.ico, ${Object.values(APP_ICONS).slice(1).join(', ')}`)
 
 // ── THE ADAPTIVE TAB PAIR ────────────────────────────────────────────────
 // Two transparent files, one per OS theme, and the ONLY icons that
