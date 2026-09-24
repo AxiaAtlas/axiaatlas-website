@@ -341,7 +341,7 @@ Temporarily, yes. A rebrand resets accumulated evidence, and the old name often 
 
 Partly. Naming consistency across external properties and building corroboration both happen off your site. But structured data lives on your site, and without it the engine is inferring your identity from prose rather than reading a declaration. You will get further with it than without.
 
-### Why does one answer engine know my company and another does not?
+### Why does one answer engine know my company and another not?
 
 They do not share an index or a knowledge graph, and they crawl and update on different schedules. Recognition in one is a good sign the underlying facts are in order, but it does not transfer. The same work serves all of them; the timing just varies.
 
@@ -458,7 +458,7 @@ Minor errors are usually ignored. Markup that misrepresents the page, such as cl
 
 Organization and LocalBusiness belong on the site, typically once, in a way that applies site-wide. Article markup belongs on articles. FAQPage belongs on pages that genuinely contain questions and answers. Beyond that, adding markup to a page that has nothing to declare adds nothing.
 
-### How do answer engines use this differently from search engines?
+### How do answer engines use this differently from search?
 
 Search engines have long used structured data mainly for presentation, deciding which pages qualify for enhanced results. Answer engines use it earlier in the process, to establish what an entity is before deciding whether to recommend it. That shift is why Organization markup has become more important relative to the presentation-focused types.
 
@@ -906,7 +906,7 @@ See how measurement is built into the work at [axiaatlas.com/services](https://a
 
 No. They still matter for queries where no summary appears, which is roughly half of them, and they remain a reasonable diagnostic for technical and relevance problems. What has changed is that they are no longer a sufficient proxy for visibility. Track them as one input rather than as the headline.
 
-### My impressions and clicks are still rising together. Do I need to change anything?
+### My clicks still rise with impressions. Do I need to change?
 
 Not urgently. That pattern means the relationship is holding for your query mix, which is genuinely the case in some categories. Re-run the diagnostic quarterly, because summary coverage has expanded steadily and category by category. The pattern holding today is not a guarantee it holds next year.
 
@@ -1070,7 +1070,7 @@ The fix is not learning marketing. It is asking questions where the quality of t
 
 Use them in order. The first three will end most conversations.
 
-## One: What Will You Do In the First Thirty Days, Specifically?
+## One: What Exactly Will You Do In the First Thirty Days?
 
 **Weak answer:** onboarding, discovery, an audit, a strategy document, a content calendar.
 
@@ -1092,7 +1092,7 @@ An agency that cannot name a disqualifying condition either does not understand 
 
 This is also the fastest read on honesty, because the honest answer costs the person answering it something in the moment.
 
-## Three: How Will We Know In Ninety Days Whether This Is Working?
+## Three: In Ninety Days, How Will We Know This Is Working?
 
 **Weak answer:** traffic, impressions, rankings, engagement, reach.
 
