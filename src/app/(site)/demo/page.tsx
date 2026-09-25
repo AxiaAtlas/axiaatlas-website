@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import Footer from '@/components/Footer'
 import { Arrow } from '@/components/icons'
+import { aaTrack } from '@/lib/aa-track'
 
 const GROWTH_AREAS = [
   'Get found in search (SEO)',
@@ -169,6 +170,7 @@ export default function DemoPage() {
     if (!form.firstName.trim()) { setError('Please add your first name.'); return }
     if (!form.email.trim()) { setError('Please add your email.'); return }
     setStep(2)
+    aaTrack('formSubmit', 'demo-details')
   }
 
   // Step 2 → 3: validate, save the survey, then show the calendar
@@ -186,7 +188,7 @@ export default function DemoPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
-      if (res.ok) setStep(3)
+      if (res.ok) { setStep(3); aaTrack('formSubmit', 'demo-survey') }
       else setError('Something went wrong. Please email partner@axiaatlas.com directly.')
     } catch {
       setError('Network error. Please email partner@axiaatlas.com directly.')
@@ -245,7 +247,7 @@ export default function DemoPage() {
               </div>
 
               {step === 1 && (
-                <form onSubmit={nextFromPerson}>
+                <form data-aa-form="demo-details" data-aa-submit="manual" onSubmit={nextFromPerson}>
                   <h2 className="demo-step-title">First, a little about you</h2>
                   <div className="demo-step-sub">So we know who we&apos;re talking to and how to reach you.</div>
 
@@ -281,7 +283,7 @@ export default function DemoPage() {
               )}
 
               {step === 2 && (
-                <form onSubmit={submitSurvey}>
+                <form data-aa-form="demo-survey" data-aa-submit="manual" onSubmit={submitSurvey}>
                   <h2 className="demo-step-title">Tell us about your business</h2>
                   <div className="demo-step-sub">Just the basics so we can take a look before we talk. Add the links you have — skip the ones you don&apos;t.</div>
 

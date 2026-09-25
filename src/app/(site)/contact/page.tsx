@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Footer from '@/components/Footer'
 import { Arrow, Check, Plus } from '@/components/icons'
 import { serviceName } from '@/lib/services'
+import { aaTrack } from '@/lib/aa-track'
 
 /* ────────────────────────────────────────────────────────────────────────────
    THE FAQ IS AN ANSWER-ENGINE SURFACE, SO IT IS BUILT LIKE ONE.
@@ -205,7 +206,7 @@ export default function ContactPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, service: 'General inquiry' }),
       })
-      if (res.ok) setSent(true)
+      if (res.ok) { setSent(true); aaTrack('formSubmit', 'contact') }
       else setError('Something went wrong. Please email partner@axiaatlas.com directly.')
     } catch {
       setError('Network error. Please email partner@axiaatlas.com directly.')
@@ -273,7 +274,7 @@ export default function ContactPage() {
               </div>
             </div>
           ) : (
-            <form className="contact-form" onSubmit={submit}>
+            <form className="contact-form" data-aa-form="contact" data-aa-submit="manual" onSubmit={submit}>
               <h2 className="form-title">Send us a message</h2>
               <p className="form-intro">Not ready for a demo yet? Ask us anything — we&apos;re happy to help.</p>
 

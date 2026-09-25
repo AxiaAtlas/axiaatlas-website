@@ -2,6 +2,7 @@
 import { useRef, useState } from 'react'
 import Footer from '@/components/Footer'
 import { Arrow, Check, Doc } from '@/components/icons'
+import { aaTrack } from '@/lib/aa-track'
 
 const ROLES = [
   'SEO & Content Strategist',
@@ -97,6 +98,7 @@ export default function CareersPage() {
     if (!form.linkedin.trim()) { setError('Please add your LinkedIn profile.'); return }
     if (!LINKEDIN_RE.test(form.linkedin.trim())) { setError('Please enter a valid LinkedIn URL (linkedin.com/in/…).'); return }
     setStep(2)
+    aaTrack('formSubmit', 'careers-details')
   }
 
   // Step 2 → 3: all seven screening questions are required
@@ -112,6 +114,7 @@ export default function CareersPage() {
     if (!form.workCountry) { setError('Please select your country.'); return }
     if (!form.workAuthorized) { setError('Please confirm your work authorization.'); return }
     setStep(3)
+    aaTrack('formSubmit', 'careers-experience')
   }
 
   // Step 3 → submit: require resume, send everything as multipart form data
@@ -127,6 +130,7 @@ export default function CareersPage() {
       const res = await fetch('/api/careers', { method: 'POST', body: fd })
       if (res.ok) {
         setSent(true)
+        aaTrack('formSubmit', 'careers-application')
       } else {
         const data = await res.json().catch(() => ({}))
         setError(data.error || 'Something went wrong. Please email partner@axiaatlas.com directly.')
@@ -176,7 +180,7 @@ export default function CareersPage() {
               </div>
 
               {step === 1 && (
-                <form onSubmit={nextFromPerson}>
+                <form data-aa-form="careers-details" data-aa-submit="manual" onSubmit={nextFromPerson}>
                   <h2 className="demo-step-title">First, a little about you</h2>
                   <div className="demo-step-sub">So we know who you are and how to reach you.</div>
 
@@ -211,7 +215,7 @@ export default function CareersPage() {
               )}
 
               {step === 2 && (
-                <form onSubmit={nextFromExperience}>
+                <form data-aa-form="careers-experience" data-aa-submit="manual" onSubmit={nextFromExperience}>
                   <h2 className="demo-step-title">Your experience</h2>
                   <div className="demo-step-sub">Tell us what you&apos;d be doing and what you&apos;ve done.</div>
 
@@ -280,7 +284,7 @@ export default function CareersPage() {
               )}
 
               {step === 3 && (
-                <form onSubmit={submitApplication}>
+                <form data-aa-form="careers-application" data-aa-submit="manual" onSubmit={submitApplication}>
                   <h2 className="demo-step-title">Attach your resume</h2>
                   <div className="demo-step-sub">PDF or Word document, up to 4MB. This is the last step.</div>
 

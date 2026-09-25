@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+import SiteBehavior from '@/components/SiteBehavior'
 import { SITE_URL, HOME_TITLE, BRAND_TAIL, OG_IMAGE } from '@/lib/seo'
 import { SERVICE_NAMES } from '@/lib/services'
 import { APP_ICONS } from '@/lib/brand/app-icons'
@@ -329,6 +330,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <GoogleAnalytics />
+        <SiteBehavior />
       </body>
     </html>
   )

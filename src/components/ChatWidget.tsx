@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { AMark } from './Logo'
 import { Send, Arrow } from './icons'
 import { SERVICE_NAMES, serviceShort, type ServiceId } from '@/lib/services'
+import { aaTrack } from '@/lib/aa-track'
 
 type ChatLink = { label: string; href: string }
 type Message = { role: 'user' | 'assistant'; content: string; at?: string; links?: ChatLink[]; followups?: string[] }
@@ -317,6 +318,17 @@ export default function ChatWidget() {
     return () => document.removeEventListener('pointerdown', onPointerDown)
   }, [open])
 
+  // Report open/close to the behavior tracker. The panel closes from four places
+  // (× button, outside click, a chat link, the launcher toggle), so this watches
+  // the state instead of each call site. Skips the initial closed render.
+  const wasOpen = useRef(false)
+  useEffect(() => {
+    if (open === wasOpen.current) return
+    wasOpen.current = open
+    if (open) aaTrack('chat', 'open')
+    else aaTrack('chat', 'close', questionCount.current)
+  }, [open])
+
   useEffect(() => () => { if (typingTimer.current) clearTimeout(typingTimer.current) }, [])
 
   function logConversation(thread: Message[]) {
@@ -352,6 +364,7 @@ export default function ChatWidget() {
     extractVisitorInfo(text, visitorRef.current)
     const justSharedEmail = !hadEmail && Boolean(visitorRef.current.email)
     questionCount.current += 1
+    aaTrack('chat', 'message', questionCount.current)
     const at = new Date().toISOString()
     const withUser = [...messages, { role: 'user' as const, content: text, at }]
     setMessages(withUser)
