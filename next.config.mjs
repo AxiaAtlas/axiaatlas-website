@@ -49,6 +49,24 @@ const nextConfig = {
         statusCode: 301,
       },
 
+      // ── a doubled address: /https:/axiaatlas.com/<page> ──────────────────
+      // Somewhere a link was written as a relative path holding a full URL, so
+      // the browser resolved it against this site and asked for
+      // axiaatlas.com/https:/axiaatlas.com/<page> (the two slashes after the
+      // scheme collapse to one on the way in). Those visits 404ed. The page
+      // they meant is the tail of the path, so they go there in one hop. The
+      // colon is escaped because an unescaped one starts a parameter name, and
+      // the bare host has its own rule because an empty :path* writes an empty
+      // Location header.
+      { source: '/https\\:/axiaatlas.com', destination: '/', statusCode: 301 },
+      { source: '/https\\:/axiaatlas.com/:path+', destination: '/:path+', statusCode: 301 },
+      { source: '/https\\:/www.axiaatlas.com', destination: '/', statusCode: 301 },
+      { source: '/https\\:/www.axiaatlas.com/:path+', destination: '/:path+', statusCode: 301 },
+      { source: '/http\\:/axiaatlas.com', destination: '/', statusCode: 301 },
+      { source: '/http\\:/axiaatlas.com/:path+', destination: '/:path+', statusCode: 301 },
+      { source: '/http\\:/www.axiaatlas.com', destination: '/', statusCode: 301 },
+      { source: '/http\\:/www.axiaatlas.com/:path+', destination: '/:path+', statusCode: 301 },
+
       // ── /case-studies is gone ────────────────────────────────────────────
       // The five results it carried now ARE the home Results section — same
       // slider, same wording — so there is no longer a page for this URL to
