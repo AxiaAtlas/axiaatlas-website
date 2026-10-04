@@ -79,49 +79,34 @@ export const metadata: Metadata = {
   // back on this layout.
 
   // ── ICONS ────────────────────────────────────────────────────────────────
-  // TWO ASSETS, TWO JOBS, AND ONE OF THEM IS DELIBERATELY NOT DECLARED.
+  // TWO ASSETS, TWO JOBS, BOTH DECLARED -- AND THE ORDER IS FOR GOOGLE.
   //
-  //   /icon-light.svg + /icon-dark.svg  transparent, mediated  ->  browser tabs
-  //   /favicon.ico                      opaque Deep Spruce     ->  Google
+  //   /favicon.ico                      opaque, accent-color mark  ->  Google
+  //   /icon-light.svg + /icon-dark.svg  transparent, mediated      ->  browser tabs
   //
-  // THE TAB. The two SVGs below are the only icons this document declares. They
-  // carry no ground: Deep Spruce (#354940) ink on the light branch, Bone
-  // Alabaster (#F1F0EA) on the dark one, same geometry as the .ico but framed
-  // WIDER than it, chosen by the `media` attribute ON THE LINK. The query is
-  // evaluated by this document and the browser fetches only the file that
-  // matched. On the framing difference, which is deliberate, see THE FRAMING
+  // GOOGLE READS THE DECLARED ICONS, NOT THE ROOT PATH. From 2026-09 to
+  // 2026-10-04 this list declared only the two SVGs, on the theory that Google
+  // would still find /favicon.ico by convention. It did not: Google's favicon
+  // service (t1.gstatic.com/faviconV2, the one search results draw from) served
+  // icon-light.svg -- transparent spruce ink, framed for a tab, near-invisible
+  // on Google's dark theme. The .ico is therefore declared again, FIRST. Do not
+  // remove it to win back the tab; that is the experiment that lost search.
+  //
+  // THE COST, ACCEPTED. Chrome maps a declared favicon.ico to the tab strip
+  // regardless of link order and never downloads the SVG (measured), so Chrome
+  // tabs show the opaque tile. Firefox and Safari honour the mediated SVGs.
+  // Search is where nearly everyone sees the icon; the tab is not.
+  //
+  // THE TAB PAIR. No ground: Deep Spruce (#354940) ink on the light branch,
+  // Bone Alabaster (#F1F0EA) on the dark one, same geometry as the .ico but
+  // framed WIDER, chosen by the `media` attribute ON THE LINK. See THE FRAMING
   // TRADE below.
   //
-  // WHY favicon.ico IS NOT IN THIS LIST. Chrome maps favicon.ico to the tab
-  // strip whenever it is DECLARED -- regardless of link order, regardless of
-  // what else is listed -- and never downloads the SVG at all. That was
-  // measured, not assumed: with the .ico declared the tab was the opaque tile
-  // and the SVG was never fetched; with only the mediated SVGs declared Chrome
-  // fetched and mapped icon-dark.svg. So the .ico is omitted from the HTML. The
-  // FILE is byte-unchanged and still served at /favicon.ico, which is where
-  // Google looks for a site icon by convention, link or no link -- that is what
-  // serves the search result for this domain.
-  //
-  // RE-DECLARING favicon.ico HERE SILENTLY REVERTS THE TAB TO THE OPAQUE TILE.
-  // It will not error and it will not look like a regression in review. Do not
-  // add it back.
-  //
-  // THE KNOWN RISK, STATED. The root-path convention is well established but
-  // unproven for this domain. If the icon disappears from our search results
-  // over the coming weeks, the revert is one line -- put the favicon.ico
-  // descriptor back in `icon` -- and we go back to an opaque tab.
-  //
-  // TWO EARLIER EXPLANATIONS LIVED HERE AND BOTH WERE WRONG. Browsers do NOT
-  // prefer image/svg+xml over ICO in Chrome's tab strip, so link order was
-  // never the only lever. And the SVG-internal @media block was not what
-  // failed -- crbug.com/1311553 was never reached, because Chrome was taking
-  // the declared .ico and never downloading the SVG at all. Undeclaring the
-  // .ico is the move that was missing, and it gets us both icons.
-  //
   // WHAT STAYS OPAQUE. apple-touch-icon below, the manifest icons and the
-  // og-card. A home-screen tile and a search row composite an icon against
+  // og-card (1200x630, written by scripts/gen-og-card.mjs on the same file's
+  // ground). A home-screen tile and a search row composite an icon against
   // their own background, so transparency there is not adaptive, it is
-  // undefined. All of them are full-bleed squares written by
+  // undefined. The icons are full-bleed squares written by
   // scripts/gen-icons.mjs from the accent-color brand file in public/brand/,
   // resized whole, at versioned URLs (src/lib/brand/app-icons.ts) so an
   // installed device cannot keep a cached old mark. The portal does the same
@@ -139,8 +124,8 @@ export const metadata: Metadata = {
   //
   // The two SVGs above are NOT on that framing and never were bound by it, and
   // they carry NO brand-framing obligation of their own. The trade bought brand
-  // fidelity where Google reads, and Google does not read them -- it reads
-  // /favicon.ico. They are tab-only, so they are framed at MARK_RATIO_TAB 0.80
+  // fidelity where Google reads, and Google reads the .ico because it is
+  // declared first. They are framed for the tab, at MARK_RATIO_TAB 0.80
   // for the one job they have, where the same slot measures 1.07 device pixels
   // and renders as a 47%-ink channel against 100% flanks across seven contiguous
   // rows instead of closing. Measured at 16px on the shipped icon-light.svg; on
@@ -158,6 +143,7 @@ export const metadata: Metadata = {
   // happened here; raising the OPAQUE one is the move that costs us search.
   icons: {
     icon: [
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48 96x96' },
       { url: '/icon-light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
       { url: '/icon-dark.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: dark)' },
     ],

@@ -36,13 +36,11 @@
 // THE TAB ICON IS THE ONE EXCEPTION, AND IT IS GENERATED HERE TOO. The last
 // block of this script writes public/icon-light.svg and public/icon-dark.svg:
 // transparent, no ground, Deep Spruce ink and Bone Alabaster ink respectively.
-// They are chosen by the media attribute on the <link> in src/app/layout.tsx and
-// they are the ONLY icons that layout declares. favicon.ico is still written
-// here and still served at the root path, but it is deliberately NOT linked --
-// Chrome maps a declared favicon.ico to the tab strip whatever the link order,
-// so declaring it is what takes the tab back. See the trade recorded above the
-// icon declarations in src/app/layout.tsx. Do not make the transparent pair
-// Google's icon, and do not re-declare favicon.ico.
+// src/app/layout.tsx declares favicon.ico FIRST and the pair after it, chosen by
+// the media attribute on each <link>. The .ico is first for Google: from
+// 2026-09 to 2026-10-04 it was left undeclared and Google's favicon service
+// took icon-light.svg for search results instead. Chrome's tab takes the
+// declared .ico too; Firefox and Safari take the pair. Do not undeclare the .ico.
 //
 // SIZES. Google wants a square favicon whose side is a multiple of 48px, so
 // every linked icon is 48, 96, or 192. 512 exists only for the PWA manifest.
@@ -291,12 +289,10 @@ console.log(`opaque icons v${ICON_VERSION} written from ${ICON_SOURCE}: favicon.
 // the file that matched. Two files, no query inside either one, nothing for the
 // rasterizer to resolve.
 //
-// WHY THE PAIR NOW WINS THE TAB. Not because SVG outranks PNG or ICO; it does
-// not. Chrome maps favicon.ico to the tab strip whenever it is DECLARED,
-// regardless of link order, and never downloads the SVG. Measured, not assumed.
-// The pair wins only because layout.tsx declares no favicon.ico at all. The .ico
-// written above is still served at /favicon.ico, which is where Google looks by
-// convention whether or not a link points at it.
+// WHERE THE PAIR WINS. Firefox and Safari. Chrome maps a declared favicon.ico
+// to the tab strip regardless of link order and never downloads the SVG
+// (measured), and the .ico IS declared, first, because Google reads declared
+// icons rather than probing /favicon.ico -- see the trade in src/app/layout.tsx.
 //
 // TRANSPARENT ON PURPOSE. These two are the only transparent icons this site
 // serves and they are tab-only. A tab strip is a known background; a search
