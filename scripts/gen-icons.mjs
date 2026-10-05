@@ -35,13 +35,12 @@
 //
 // THE TAB ICON IS THE ONE EXCEPTION, AND IT IS GENERATED HERE TOO. The last
 // block of this script writes public/icon-light.svg and public/icon-dark.svg:
-// transparent, no ground, Deep Spruce ink and Bone Alabaster ink respectively.
-// src/app/layout.tsx declares favicon.ico FIRST and the pair after it, chosen by
-// the media attribute on each <link>. The .ico is first for Google: from
-// 2026-09 to 2026-10-04 it was left undeclared and Google's favicon service
-// took icon-light.svg for search results instead. Chrome's tab takes the
-// declared .ico in any order (measured 2026-10-04); Firefox and Safari take the
-// pair. Do not undeclare the .ico.
+// transparent, no ground, #6A8C7D ink and Bone Alabaster ink respectively.
+// src/app/layout.tsx declares ONLY that pair, chosen by the media attribute on
+// each <link>. /favicon.ico is written but not declared: Chrome takes a declared
+// .ico over the SVGs in any order (measured 2026-10-04). With the pair alone,
+// Chrome follows the theme, Firefox keeps the last SVG declared in both themes,
+// and Google's favicon service takes icon-light.svg (see src/app/layout.tsx).
 //
 // SIZES. Google wants a square favicon whose side is a multiple of 48px, so
 // every linked icon is 48, 96, or 192. 512 exists only for the PWA manifest.
@@ -82,6 +81,8 @@ import { readFileSync, readdirSync, unlinkSync, writeFileSync } from 'fs'
 
 const SPRUCE = '#354940'
 const BONE = '#F1F0EA'
+// Ink of the light-theme tab SVG (see THE ADAPTIVE TAB PAIR).
+const TAB_LIGHT_INK = '#6A8C7D'
 
 // ── The canonical geometry (see header) ─────────────────────────────────────
 const MARK_PATHS = [
@@ -109,10 +110,9 @@ const CY = (BOX.y0 + BOX.y1) / 2
 // PNGs — and it governs them alone. Do not raise this number to "fix" 16px.
 const MARK_RATIO_OPAQUE = 0.39
 //
-// 0.80 IS TAB LEGIBILITY. The transparent pair is tab-only: layout.tsx declares
-// no .ico, and Google reads /favicon.ico, so it never fetches these two files.
-// Nothing about a result row constrains them, they carry no brand-framing
-// obligation at all, and they are framed for the one job they have. At 0.39
+// 0.80 IS TAB LEGIBILITY. The transparent pair is framed for the tab strip.
+// It is also the only thing layout.tsx declares, so Google's favicon service
+// takes icon-light.svg at this framing; that is accepted with the pair. At 0.39
 // their slot closes solid at 16px; at 0.80 it renders as a 47%-ink channel
 // against 100% flanks and opens fully to 0% on a 2x strip. Measured, on the
 // shipped files.
@@ -254,21 +254,14 @@ writeFileSync(`public${APP_ICONS.icon512Maskable}`, rasters[512])
 // multiple-of-48 rule.
 writeFileSync(`public${APP_ICONS.apple}`, rasters[192])
 
-// /favicon.ico is the one favicon URL that never moves: it is what Google
-// probes when it wants a site icon, and it is declared FIRST in layout.tsx.
+// /favicon.ico is the one favicon URL that never moves. It is kept at the root
+// for anything that requests it directly, but layout.tsx does NOT declare it:
+// Chrome takes a declared .ico over the SVG pair in any order (measured
+// 2026-10-04 on fresh profiles, four declarations), so declaring it is what
+// stopped the tab from following the theme.
 //
 // IT IS THE DARK TILE: the brand file resized whole, Bone mark on its own
-// spruce-to-black ground, same pixels as the PNGs above. That is the icon the
-// brand owner wants Google to show, on both of its themes.
-//
-// THE COST, MEASURED AND ACCEPTED: Chrome's tab shows this tile too. On
-// 2026-10-04 Chrome was run against four declarations on fresh profiles --
-// .ico first, SVG pair first, SVG pair with sizes="any", .ico without sizes --
-// and every time it stored favicon.ico (16+32) for the tab; with the SVGs first
-// it did not even download them. There is no ordering that gives Google the
-// tile and Chrome the transparent pair, and search beats tab. Firefox and
-// Safari still take the pair. (A transparent .ico in #6A8C7D, tried the same
-// day so the tab would not be a dark square, was rejected for search.)
+// spruce-to-black ground, same pixels as the PNGs above.
 //
 // Frames ascending, so a browser at 16px takes the 16px frame and Google,
 // which wants the one nearest 48, takes the 48.
@@ -301,10 +294,13 @@ console.log(`opaque icons v${ICON_VERSION} written from ${ICON_SOURCE}: favicon.
 // the file that matched. Two files, no query inside either one, nothing for the
 // rasterizer to resolve.
 //
-// WHERE THE PAIR WINS. Firefox and Safari. Chrome maps a declared favicon.ico
-// to the tab strip regardless of link order and never downloads the SVG
-// (measured), and the .ico IS declared, first, because Google reads declared
-// icons rather than probing /favicon.ico -- see the trade in src/app/layout.tsx.
+// WHERE THE PAIR WINS. Chrome, which honors the link media (measured
+// 2026-10-04). Firefox ignores it and keeps the last declared SVG. Safari is
+// unmeasured. Details in src/app/layout.tsx.
+//
+// WHY THE LIGHT INK IS #6A8C7D, NOT DEEP SPRUCE. Google reads icon-light.svg
+// for search, on both of its themes. #6A8C7D is 3.71:1 on white and 4.44:1 on
+// Google dark #1f1f1f; Deep Spruce was 1.71:1 there and vanished.
 //
 // TRANSPARENT ON PURPOSE. These two are the only transparent icons this site
 // serves and they are tab-only. A tab strip is a known background; a search
@@ -319,14 +315,13 @@ console.log(`opaque icons v${ICON_VERSION} written from ${ICON_SOURCE}: favicon.
 //
 // FRAMED WIDER THAN EVERYTHING ABOVE, ON PURPOSE. Same geometry, same centered
 // square construction -- but MARK_RATIO_TAB, not MARK_RATIO_OPAQUE. These two
-// files are the only assets Google never reads, so the brand-fidelity crop that
-// governs the .ico has no claim on them and they are framed for the tab strip
-// instead. If you are tempted to put them back on OPAQUE for consistency, read
+// files are framed for the tab strip, and Google now reads icon-light.svg at
+// this framing too, since nothing opaque is declared. If you are tempted to put them back on OPAQUE for consistency, read
 // KEEP IN SYNC at MARK_RATIO_TAB first.
 const adaptiveSvg = (fill) =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${TAB.viewBox}" width="512" height="512">${paths(fill)}</svg>\n`
 
-for (const [name, fill] of [['light', SPRUCE], ['dark', BONE]])
+for (const [name, fill] of [['light', TAB_LIGHT_INK], ['dark', BONE]])
   writeFileSync(`public/icon-${name}.svg`, adaptiveSvg(fill))
 
-console.log(`adaptive tab pair written at ${MARK_RATIO_TAB}, viewBox "${TAB.viewBox}": icon-light.svg (spruce ink), icon-dark.svg (bone ink)`)
+console.log(`adaptive tab pair written at ${MARK_RATIO_TAB}, viewBox "${TAB.viewBox}": icon-light.svg (${TAB_LIGHT_INK} ink), icon-dark.svg (bone ink)`)

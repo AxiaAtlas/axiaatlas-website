@@ -79,34 +79,49 @@ export const metadata: Metadata = {
   // back on this layout.
 
   // ── ICONS ────────────────────────────────────────────────────────────────
-  // TWO ASSETS, TWO JOBS, BOTH DECLARED -- AND THE ORDER IS FOR GOOGLE.
+  // TWO TRANSPARENT SVGs, ONE PER THEME, AND NOTHING ELSE DECLARED.
   //
-  //   /favicon.ico                      dark tile, Bone on spruce  ->  Google (+ Chrome tab)
-  //   /icon-light.svg + /icon-dark.svg  transparent, mediated      ->  browser tabs
+  //   /icon-light.svg   #6A8C7D ink, no ground   (prefers-color-scheme: light)
+  //   /icon-dark.svg    Bone #F1F0EA ink         (prefers-color-scheme: dark)
   //
-  // GOOGLE READS THE DECLARED ICONS, NOT THE ROOT PATH. From 2026-09 to
-  // 2026-10-04 this list declared only the two SVGs, on the theory that Google
-  // would still find /favicon.ico by convention. It did not: Google's favicon
-  // service (t1.gstatic.com/faviconV2, the one search results draw from) served
-  // icon-light.svg -- transparent spruce ink, framed for a tab, near-invisible
-  // on Google's dark theme. The .ico is therefore declared again, FIRST. Do not
-  // remove it to win back the tab; that is the experiment that lost search.
+  // THREE ENTRIES FROM TWO FILES, ON PURPOSE. DO NOT DEDUPE THE LIST BELOW.
+  //   1. icon-light.svg  (light)   FIRST, for Google: its favicon service takes
+  //                                the first declared icon.
+  //   2. icon-dark.svg   (dark)    for Chrome's dark theme.
+  //   3. icon-light.svg  (light)   LAST, for Firefox: it ignores `media` and
+  //                                keeps the last declared icon.
+  // Chrome honors `media` whatever the order, so it still adapts. Google and
+  // Firefox both land on the #6A8C7D mark, which holds on light and dark. The
+  // repeat carries the light query too, so in Chrome's dark theme nothing
+  // unconditional competes with icon-dark.svg. Removing either light entry
+  // hands Bone (1.14:1 on white) to Google or to Firefox's light tab.
   //
-  // THE COST, MEASURED AND ACCEPTED: CHROME'S TAB SHOWS THE TILE. On 2026-10-04
-  // Chrome was run on fresh profiles against four declarations -- .ico first,
-  // SVG pair first, SVG pair with sizes="any", .ico without sizes -- and stored
-  // favicon.ico for the tab every time; with the SVGs first it did not even
-  // download them. No order gives Google the tile and Chrome the pair, and
-  // search beats tab. Firefox and Safari still take the SVG pair. A transparent
-  // .ico in #6A8C7D, tried the same day to spare the tab, was rejected for
-  // search: Google shows the dark tile.
+  // /favicon.ico (the dark tile) still exists at the root for anything that asks
+  // for it directly, but it is NOT listed here: Chrome takes a declared .ico
+  // over the SVGs whatever the order (measured 2026-10-04, four declarations,
+  // fresh profiles), so declaring it is what kept the tab from adapting.
   //
-  // THE TAB PAIR. No ground: Deep Spruce (#354940) ink on the light branch,
-  // Bone Alabaster (#F1F0EA) on the dark one, same geometry as the .ico but
-  // framed WIDER, chosen by the `media` attribute ON THE LINK. See THE FRAMING
-  // TRADE below.
+  // MEASURED 2026-10-04 with this list, fresh profiles, favicon DB read after a
+  // clean quit:
+  //   Chrome 154    light -> icon-light.svg, dark -> icon-dark.svg. Honors the
+  //                 link `media`, in either declaration order.
+  //   Firefox 157   ignores `media` on icon links and keeps the LAST declared
+  //                 SVG in both themes (measured both orders on the pair). With
+  //                 the pair alone and dark last, a light-theme Firefox tab
+  //                 showed Bone on a near-white strip -- hence entry 3 above.
+  //   Safari        not measured: WebDriver needs "Allow remote automation" and
+  //                 its favicon cache is behind Full Disk Access.
   //
-  // WHAT STAYS OPAQUE. The .ico, apple-touch-icon below, the manifest icons and the og-card (1200x630, written by scripts/gen-og-card.mjs on the same file's
+  // GOOGLE READS THE DECLARED ICONS. With only the SVGs declared (2026-09), its
+  // favicon service (t1.gstatic.com/faviconV2) took icon-light.svg, flattened
+  // onto white. That is why the light ink is #6A8C7D and not Deep Spruce: it
+  // holds 3.71:1 on white and 4.44:1 on Google's dark #1f1f1f, where #354940
+  // fell to 1.71. Bone, if Google ever took icon-dark.svg, is 1.14:1 on white.
+  //
+  // THE TAB PAIR, same geometry as the opaque set but framed WIDER. See THE
+  // FRAMING TRADE below.
+  //
+  // WHAT STAYS OPAQUE. /favicon.ico, apple-touch-icon below, the manifest icons and the og-card (1200x630, written by scripts/gen-og-card.mjs on the same file's
   // ground). A home-screen tile and a search row composite an icon against
   // their own background, so transparency there is not adaptive, it is
   // undefined. The icons are full-bleed squares written by
@@ -125,14 +140,13 @@ export const metadata: Metadata = {
   // brand fidelity in search beats tab crispness. Do not "fix" that seam by
   // cropping in.
   //
-  // The two SVGs above are NOT on that framing and never were bound by it, and
-  // they carry NO brand-framing obligation of their own. The trade bought brand
-  // fidelity where Google reads, and Google reads the .ico because it is
-  // declared first. They are framed for the tab, at MARK_RATIO_TAB 0.80
-  // for the one job they have, where the same slot measures 1.07 device pixels
-  // and renders as a 47%-ink channel against 100% flanks across seven contiguous
-  // rows instead of closing. Measured at 16px on the shipped icon-light.svg; on
-  // a 2x strip the channel opens to 0% and becomes an actual gap.
+  // The two SVGs above are NOT on that framing. They are framed for the tab, at
+  // MARK_RATIO_TAB 0.80, where the same slot measures 1.07 device pixels and
+  // renders as a 47%-ink channel against 100% flanks across seven contiguous
+  // rows instead of closing. Measured at 16px on the shipped icon-light.svg; on a 2x strip
+  // the channel opens to 0% and becomes an actual gap. With the .ico undeclared,
+  // Google reads icon-light.svg too, so search shows the mark at this tab
+  // framing rather than the 0.39 brand framing.
   //
   // 0.80 REPLACED 0.62, WHICH WAS A GUESS RATHER THAN A CONSTRAINT. 0.62 did
   // hold the slot open, but it had never been measured against anything else. It
@@ -146,9 +160,10 @@ export const metadata: Metadata = {
   // happened here; raising the OPAQUE one is the move that costs us search.
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '16x16 32x32 48x48 96x96' },
       { url: '/icon-light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
       { url: '/icon-dark.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: dark)' },
+      // Repeat of entry 1, deliberately last. See THREE ENTRIES above.
+      { url: '/icon-light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
     ],
     apple: [{ url: APP_ICONS.apple, type: 'image/png', sizes: '192x192' }],
   },
