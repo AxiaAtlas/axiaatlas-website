@@ -10,9 +10,8 @@
 //
 // THE FRAMING. TWO RATIOS, ONE PER CONSUMER.
 //
-//   MARK_RATIO_OPAQUE = 0.39   the opaque PNGs (apple, manifest)
-//   MARK_RATIO_TAB    = 0.80   favicon.ico (transparent, Google + Chrome tab)
-//                              and icon-light.svg / icon-dark.svg
+//   MARK_RATIO_OPAQUE = 0.39   favicon.ico + the opaque PNGs   -> Google
+//   MARK_RATIO_TAB    = 0.80   icon-light.svg / icon-dark.svg  -> browser tabs
 //
 // Both crops are computed from the geometry rather than eyeballed: the mark's
 // own bounding box, centered, scaled to its ratio of the canvas. Only the ratio
@@ -26,11 +25,9 @@
 // never fetches those files. See MARK_RATIO_OPAQUE / MARK_RATIO_TAB below for
 // the measurements behind both.
 //
-// WHY THE PNGs ARE OPAQUE (AND THE .ICO IS NOT). Google composites a transparent favicon against its
+// WHY EVERYTHING IS OPAQUE. Google composites a transparent favicon against its
 // own result-row background, which is why a transparent icon looks correct in
-// the tab and wrong in search even when it is the same file -- unless its ink
-// is chosen for both grounds, which is what favicon.ico now does (see the
-// FAVICON_INK block below). The PNGs below make no such choice, so they stay opaque. Every asset this
+// the tab and wrong in search even when it is the same file. Every asset this
 // script writes is the accent-color brand file, whose own ground runs edge to
 // edge, with the alpha channel dropped. They are also full-bleed squares, not pre-rounded tiles: iOS
 // and Android apply their own mask, and a pre-rounded tile leaves transparent
@@ -43,7 +40,8 @@
 // the media attribute on each <link>. The .ico is first for Google: from
 // 2026-09 to 2026-10-04 it was left undeclared and Google's favicon service
 // took icon-light.svg for search results instead. Chrome's tab takes the
-// declared .ico too; Firefox and Safari take the pair. Do not undeclare the .ico.
+// declared .ico in any order (measured 2026-10-04); Firefox and Safari take the
+// pair. Do not undeclare the .ico.
 //
 // SIZES. Google wants a square favicon whose side is a multiple of 48px, so
 // every linked icon is 48, 96, or 192. 512 exists only for the PWA manifest.
@@ -259,40 +257,23 @@ writeFileSync(`public${APP_ICONS.apple}`, rasters[192])
 // /favicon.ico is the one favicon URL that never moves: it is what Google
 // probes when it wants a site icon, and it is declared FIRST in layout.tsx.
 //
-// IT IS TRANSPARENT, AND THE ONLY ICON IN THIS BLOCK THAT IS. Since 2026-10-04
-// it is not a resize of the brand file: it is the mark alone, drawn from
-// MARK_PATHS at each frame size, in FAVICON_INK on no ground. Two consumers
-// read this one file and both put it on a ground we do not control:
-//   - Chrome's tab strip (it takes a declared .ico over the SVG pair), where
-//     the opaque spruce-to-black tile read as a dark square on a light strip;
-//   - Google search (faviconV2), which composites it on white in the light
-//     theme and on #1f1f1f / #303134 in the dark one.
-// Deep Spruce ink vanishes on the dark theme (1.7:1, which is what Google
-// showed when it took icon-light.svg) and Bone vanishes on white (1.1:1). So
-// the ink is neither: FAVICON_INK is Spruce's own hue lifted to the luminance
-// that splits the difference between white and #1f1f1f. Measured contrast:
-// white 3.71, #f1f3f4 3.33, #1f1f1f 4.44, #303134 3.51 -- every ground clears
-// the 3:1 non-text floor. Do not darken it toward Spruce or lighten it toward
-// Sage to "match the brand"; either direction loses one of the two themes.
+// IT IS THE DARK TILE: the brand file resized whole, Bone mark on its own
+// spruce-to-black ground, same pixels as the PNGs above. That is the icon the
+// brand owner wants Google to show, on both of its themes.
 //
-// FRAMED AT MARK_RATIO_TAB, NOT OPAQUE. 0.39 was the brand file's framing and
-// only made sense with the brand file's ground filling the rest of the square;
-// a bare mark at 0.39 is a 6px speck at 16px. This file is framed like the tab
-// pair, for the same legibility reasons measured there.
+// THE COST, MEASURED AND ACCEPTED: Chrome's tab shows this tile too. On
+// 2026-10-04 Chrome was run against four declarations on fresh profiles --
+// .ico first, SVG pair first, SVG pair with sizes="any", .ico without sizes --
+// and every time it stored favicon.ico (16+32) for the tab; with the SVGs first
+// it did not even download them. There is no ordering that gives Google the
+// tile and Chrome the transparent pair, and search beats tab. Firefox and
+// Safari still take the pair. (A transparent .ico in #6A8C7D, tried the same
+// day so the tab would not be a dark square, was rejected for search.)
 //
 // Frames ascending, so a browser at 16px takes the 16px frame and Google,
 // which wants the one nearest 48, takes the 48.
-const FAVICON_INK = '#6A8C7D'
-const faviconFrame = (size) =>
-  sharp(Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${TAB.viewBox}" width="${size}" height="${size}">${paths(FAVICON_INK)}</svg>`,
-  ), { density: 72 * 8 }) // 8x supersample, then Lanczos down to the frame
-    .resize(size, size, { kernel: 'lanczos3' })
-    .png({ compressionLevel: 9 })
-    .toBuffer()
-writeFileSync('public/favicon.ico', ico(await Promise.all(
-  [16, 32, 48, 96].map(async (size) => ({ size, data: await faviconFrame(size) })),
-)))
+for (const size of [16, 32]) rasters[size] = await png(size)
+writeFileSync('public/favicon.ico', ico([16, 32, 48, 96].map((size) => ({ size, data: rasters[size] }))))
 
 writeFileSync('src/lib/brand/app-icons.ts', `// GENERATED by scripts/gen-icons.mjs -- do not edit. Re-run the script.
 //
@@ -303,8 +284,7 @@ writeFileSync('src/lib/brand/app-icons.ts', `// GENERATED by scripts/gen-icons.m
 export const APP_ICONS = ${JSON.stringify(APP_ICONS, null, 2)} as const
 `)
 
-console.log(`opaque icons v${ICON_VERSION} written from ${ICON_SOURCE}: ${Object.values(APP_ICONS).slice(1).join(', ')}`)
-console.log(`favicon.ico written transparent in ${FAVICON_INK} at ${MARK_RATIO_TAB}: 16, 32, 48, 96`)
+console.log(`opaque icons v${ICON_VERSION} written from ${ICON_SOURCE}: favicon.ico, ${Object.values(APP_ICONS).slice(1).join(', ')}`)
 
 // ── THE ADAPTIVE TAB PAIR ────────────────────────────────────────────────
 // Two transparent files, one per OS theme, and the ONLY icons that

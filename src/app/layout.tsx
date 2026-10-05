@@ -81,7 +81,7 @@ export const metadata: Metadata = {
   // ── ICONS ────────────────────────────────────────────────────────────────
   // TWO ASSETS, TWO JOBS, BOTH DECLARED -- AND THE ORDER IS FOR GOOGLE.
   //
-  //   /favicon.ico                      transparent, #6A8C7D ink   ->  Google + Chrome tab
+  //   /favicon.ico                      dark tile, Bone on spruce  ->  Google (+ Chrome tab)
   //   /icon-light.svg + /icon-dark.svg  transparent, mediated      ->  browser tabs
   //
   // GOOGLE READS THE DECLARED ICONS, NOT THE ROOT PATH. From 2026-09 to
@@ -92,22 +92,21 @@ export const metadata: Metadata = {
   // on Google's dark theme. The .ico is therefore declared again, FIRST. Do not
   // remove it to win back the tab; that is the experiment that lost search.
   //
-  // ONE FILE FOR BOTH GROUNDS. Chrome maps a declared favicon.ico to the tab
-  // strip regardless of link order and never downloads the SVG (measured), and
-  // Google composites the same file on white or on its dark theme. Until
-  // 2026-10-04 the .ico was the opaque accent-color tile, which Chrome showed as
-  // a dark square. It is now the bare mark on a TRANSPARENT ground in #6A8C7D,
-  // Spruce's hue at mid luminance: 3.71:1 on white, 3.33 on #f1f3f4, 4.44 on
-  // Google's #1f1f1f, 3.51 on #303134. Spruce ink would vanish on the dark
-  // theme, Bone on the light one. Firefox and Safari still take the SVG pair.
+  // THE COST, MEASURED AND ACCEPTED: CHROME'S TAB SHOWS THE TILE. On 2026-10-04
+  // Chrome was run on fresh profiles against four declarations -- .ico first,
+  // SVG pair first, SVG pair with sizes="any", .ico without sizes -- and stored
+  // favicon.ico for the tab every time; with the SVGs first it did not even
+  // download them. No order gives Google the tile and Chrome the pair, and
+  // search beats tab. Firefox and Safari still take the SVG pair. A transparent
+  // .ico in #6A8C7D, tried the same day to spare the tab, was rejected for
+  // search: Google shows the dark tile.
   //
   // THE TAB PAIR. No ground: Deep Spruce (#354940) ink on the light branch,
   // Bone Alabaster (#F1F0EA) on the dark one, same geometry as the .ico but
   // framed WIDER, chosen by the `media` attribute ON THE LINK. See THE FRAMING
   // TRADE below.
   //
-  // WHAT STAYS OPAQUE. Everything except the .ico and the tab pair:
-  // apple-touch-icon below, the manifest icons and the og-card (1200x630, written by scripts/gen-og-card.mjs on the same file's
+  // WHAT STAYS OPAQUE. The .ico, apple-touch-icon below, the manifest icons and the og-card (1200x630, written by scripts/gen-og-card.mjs on the same file's
   // ground). A home-screen tile and a search row composite an icon against
   // their own background, so transparency there is not adaptive, it is
   // undefined. The icons are full-bleed squares written by
@@ -117,9 +116,7 @@ export const metadata: Metadata = {
   // from the same file, so the marketing site and the portal are one icon.
   //
   // THE FRAMING TRADE, ACCEPTED AND CLOSED -- AND IT APPLIES TO THE OPAQUE SET
-  // ONLY. The transparent .ico is framed at MARK_RATIO_TAB like the pair below:
-  // a bare mark at 0.39 is a speck, and the brand file's ground that justified
-  // 0.39 is not in it. gen-icons.mjs draws the opaque assets at the brand's own framing --
+  // ONLY. gen-icons.mjs draws the opaque assets at the brand's own framing --
   // 400 units on a 1024 canvas, MARK_RATIO_OPAQUE 0.39 -- so the favicon is the
   // logo rather than a tighter crop of it. The cost is that at 16px the slot
   // between the mark's two halves is about half a device pixel, so the apex
