@@ -178,18 +178,27 @@ const SERVICES = CATALOGUE.map((svc) => {
   return { id: svc.id, headline: svc.name, art: d.art, desc: d.desc, who: d.who }
 })
 
-/* Derived, not typed. The list a machine reads in the ItemList below and the
-   list a search result shows are the same nine names in the same order, and
-   adding a service updates both without anyone remembering to. The old string
-   was hand-written, said "Eight", and had already fallen a service behind. */
+/* A SUMMARY FIRST, THEN THE DERIVED LIST. The list alone ran to ~280
+   characters, and a search result prints about 155: the snippet stopped at
+   "Lead G", four names in, so a searcher never saw advisory, research, local or
+   exec brand. The opening sentence is what the snippet shows, and it names the
+   breadth by kind without typing a count. The list after it is still derived,
+   so the ItemList and the description cannot drift apart and adding a service
+   still updates both without anyone remembering to. */
 const DESCRIPTION =
-  `The Axia Atlas service catalog — ${SERVICES.map((s) => s.headline).join(', ')}.`
+  'Search, answer engines, local, social, websites, client dashboards, lead generation and advisory from one studio, run as one plan. ' +
+  `Full catalog: ${SERVICES.map((s) => s.headline).join(', ')}.`
+
+/* The page sells channels AND builds, so the title names both by kind rather
+   than leading on three channel acronyms, which told Google this page was
+   about SEO, AEO and social and nothing else. 52 characters with the tail. */
+const TITLE = 'Marketing Services: Search, Social, Web'
 
 export const metadata: Metadata = {
-  title: 'SEO, AEO & Social Media Marketing Services',
+  title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/services' },
-  ...social({ title: pageTitle('SEO, AEO & Social Media Marketing Services'), description: DESCRIPTION, path: '/services' }),
+  ...social({ title: pageTitle(TITLE), description: DESCRIPTION, path: '/services' }),
 }
 
 /* Machine-readable mirror of the services above, so answer engines and search
