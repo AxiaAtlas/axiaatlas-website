@@ -9,10 +9,10 @@ const DESCRIPTION =
   'Three Axia Atlas tiers — Starter, Growth, and Command — scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.'
 
 export const metadata: Metadata = {
-  title: 'Digital Marketing Pricing and Packages',
+  title: 'Marketing Packages and Dashboard Pricing',
   description: DESCRIPTION,
   alternates: { canonical: '/pricing' },
-  ...social({ title: pageTitle('Digital Marketing Pricing and Packages'), description: DESCRIPTION, path: '/pricing' }),
+  ...social({ title: pageTitle('Marketing Packages and Dashboard Pricing'), description: DESCRIPTION, path: '/pricing' }),
 }
 
 const TIERS = [

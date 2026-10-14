@@ -35,7 +35,7 @@ export default function CtaBand({ eyebrow = 'Book a Demo', headline, sub, cta = 
           <h2 className="section-headline">{headline}</h2>
           <p className="section-sub">{sub}</p>
           <Link href="/demo" className="btn-primary cta-band-btn">{cta} <Arrow className="arr" /></Link>
-          <div className="cta-band-note">Free visibility audit before the call · No pitch deck · No pressure</div>
+          <div className="cta-band-note">We audit your visibility before the call · No pitch deck · No pressure</div>
         </div>
         {artifact && <div className="cta-band-artifact">{artifact}</div>}
       </div>

@@ -15,10 +15,10 @@ const DESCRIPTION =
   'Axia Atlas is a digital marketing studio built on one idea: to be found is to be seen. We help brands, local businesses, and founders show up where their buyers are looking.'
 
 export const metadata: Metadata = {
-  title: 'About Our Search and Social Marketing Studio',
+  title: 'About Our Marketing, Web and Dashboard Studio',
   description: DESCRIPTION,
   alternates: { canonical: '/about' },
-  ...social({ title: pageTitle('About Our Search and Social Marketing Studio'), description: DESCRIPTION, path: '/about' }),
+  ...social({ title: pageTitle('About Our Marketing, Web and Dashboard Studio'), description: DESCRIPTION, path: '/about' }),
 }
 
 export default async function AboutPage() {
@@ -31,7 +31,7 @@ export default async function AboutPage() {
       <div className="about-hero">
         <div className="about-hero-text">
           <div className="section-eyebrow">About</div>
-          <h1 className="section-headline">About the Search and Social Marketing Studio We Built</h1>
+          <h1 className="section-headline">About the Marketing, Web and Dashboard Studio We Built</h1>
         </div>
       </div>
 
