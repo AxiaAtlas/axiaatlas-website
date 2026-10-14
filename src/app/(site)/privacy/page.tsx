@@ -18,7 +18,7 @@ const UPDATED = 'July 11, 2026'
 export default function PrivacyPage() {
   return (
     <div className="page">
-      <article className="legal-page">
+      <article data-aa-section="privacy.text" className="legal-page">
         <div className="section-eyebrow">Legal</div>
         <h1 className="legal-title">Privacy Policy</h1>
         <p className="legal-updated">Last updated {UPDATED}</p>

@@ -28,14 +28,14 @@ export default async function AboutPage() {
 
   return (
     <div className="page">
-      <div className="about-hero">
+      <div data-aa-section="about.hero" className="about-hero">
         <div className="about-hero-text">
           <div className="section-eyebrow">About</div>
           <h1 className="section-headline">About the Marketing, Web and Dashboard Studio We Built</h1>
         </div>
       </div>
 
-      <div className="about-section">
+      <div data-aa-section="about.why" className="about-section">
         <div className="about-inner">
           <h2 className="about-headline">Why we exist</h2>
           <div className="about-body">
@@ -48,7 +48,7 @@ export default async function AboutPage() {
         </div>
       </div>
 
-      <div className="about-section">
+      <div data-aa-section="about.seen" className="about-section">
         <div className="about-inner about-seen">
           <h2 className="about-headline">&quot;To be found is to be seen.&quot;</h2>
           <div className="about-body">
@@ -72,7 +72,7 @@ export default async function AboutPage() {
       </div>
 
       {latest.length ? (
-        <div className="about-section">
+        <div data-aa-section="about.insights" className="about-section">
           <div className="about-insights-inner">
             <h2 className="about-headline">What we&apos;re writing about</h2>
             <p className="about-insights-sub">
@@ -103,7 +103,7 @@ export default async function AboutPage() {
         </div>
       ) : null}
 
-      <div className="about-section">
+      <div data-aa-section="about.working" className="about-section">
         <div className="about-inner">
           <h2 className="about-headline">How working with us feels</h2>
           <div className="about-body">

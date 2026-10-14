@@ -223,13 +223,13 @@ export default function DemoPage() {
           THE CARD AND EVERYTHING INSIDE IT IS UNTOUCHED — same markup, same
           handlers, same endpoints, same mount point. This is the wrapper only. */}
       <div className="demo-hero demo-lead">
-        <div className="demo-lead-copy">
+        <div data-aa-section="demo.copy" className="demo-lead-copy">
           <div className="section-eyebrow">Book a Demo</div>
           <h1 className="section-headline">Book a Demo. We Audit Your Visibility First.</h1>
           <p className="demo-lead-note">Before we meet, we audit how you show up across search, answer engines, local, and social. We arrive with the gaps mapped and real solutions, not a pitch deck.</p>
         </div>
 
-        <div className="demo-lead-form">
+        <div data-aa-section="demo.form" className="demo-lead-form">
         <div className="demo-card">
           <>
               <p className="demo-steps-intro">Three quick steps to a call worth your time.</p>

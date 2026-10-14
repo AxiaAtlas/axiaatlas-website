@@ -76,12 +76,12 @@ const TIERS = [
 export default function PricingPage() {
   return (
     <div className="page pricing-page">
-      <div className="pricing-hero">
+      <div data-aa-section="pricing.hero" className="pricing-hero">
         <div className="section-eyebrow">Pricing</div>
         <h1 className="section-headline">Digital Marketing Packages, Priced in Three Clear Tiers</h1>
       </div>
 
-      <div className="pricing-grid">
+      <div data-aa-section="pricing.tiers" className="pricing-grid">
         {TIERS.map((t) => (
           <div key={t.name} className={`pricing-card${t.featured ? ' featured' : ''}`}>
             {t.featured && <div className="pricing-flag">Most popular</div>}
@@ -127,7 +127,7 @@ export default function PricingPage() {
           build fee, then a monthly, sold outside the three tiers. That it is
           not represented on this page is a real gap, and closing it is a
           separate decision rather than something to slip in beside this one. */}
-      <section className="pricing-band" aria-labelledby="pricing-band-head">
+      <section data-aa-section="pricing.dashboards" className="pricing-band" aria-labelledby="pricing-band-head">
         <div className="pricing-band-inner">
           <div className="pb-copy">
             <div className="section-eyebrow">Outside the tiers</div>
@@ -159,7 +159,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <p className="pricing-note">
+      <p data-aa-section="pricing.note" className="pricing-note">
         No long lock-ins and no surprise add-ons. Pricing depends on the channels you choose and how much we&apos;re building — we&apos;ll quote it clearly on your demo call, and you decide from there.
       </p>
 

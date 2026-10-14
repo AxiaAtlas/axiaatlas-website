@@ -176,7 +176,7 @@ export default async function HomePage() {
           carrying a state for each instead of just naming them. One of the two
           had to go and the artifact is the stronger. The hero ends on the CTAs
           now, which puts the artifact further up the fold. */}
-      <div className="hero">
+      <div data-aa-section="home.hero" className="hero">
         <div className="hero-aura" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-copy">
@@ -234,7 +234,7 @@ export default async function HomePage() {
           One row, no icons, no caret. A thin brand-green band, so the eye reads
           it as the rule between the hero and the argument rather than as a
           section of its own. */}
-      <div className="ticker g-spruce" aria-label="Where buyers decide and where you win: Google, ChatGPT, the map pack, Perplexity, Gemini, LinkedIn, Claude, TikTok, reviews">
+      <div data-aa-section="home.ticker" className="ticker g-spruce" aria-label="Where buyers decide and where you win: Google, ChatGPT, the map pack, Perplexity, Gemini, LinkedIn, Claude, TikTok, reviews">
         <div className="marquee-track">
           {[0, 1].map((dup) => (
             <div className="marquee-group" key={dup} aria-hidden={dup === 1}>
@@ -255,7 +255,7 @@ export default async function HomePage() {
           ONE GRAPHIC, NOT TWO. The three failure-mode cards under the mock are
           gone: the search-result mock already makes the whole argument, and a
           second graphic in the same column turned the evidence into a list. */}
-      <section className="problem-section g-black">
+      <section data-aa-section="home.problem" className="problem-section g-black">
         <div className="section-inner problem-split">
           <div className="problem-arg">
             <div className="section-eyebrow">The Problem</div>
@@ -285,7 +285,7 @@ export default async function HomePage() {
           The heading is centred here. It is the only full-width statement on
           the page with a symmetric panel under it, and centring one or two
           moments is what stops the other headings from reading as a default. */}
-      <section className="system-section g-spruce">
+      <section data-aa-section="home.system" className="system-section g-spruce">
         <div className="section-inner">
           <div className="section-head centred">
             <div className="section-eyebrow">The System</div>
@@ -356,7 +356,7 @@ export default async function HomePage() {
           Services" is the fix: it is the same noun the H2 counts, so the
           eyebrow and the heading are now counting one thing instead of two,
           and it introduces no count of its own. */}
-      <section className="channels-section g-raise">
+      <section data-aa-section="home.channels" className="channels-section g-raise">
         <div className="section-inner">
           <div className="section-head aligned-right">
             <div className="section-eyebrow">The Services</div>
@@ -440,7 +440,7 @@ export default async function HomePage() {
           reader to imagine they could is a claim the site cannot honour.
 
           `id="results"` is the redirect target for /case-studies. */}
-      <section className="results-section g-spruce" id="results">
+      <section data-aa-section="home.results" className="results-section g-spruce" id="results">
         <div className="section-inner">
           <div className="section-head results-head">
             <div className="section-eyebrow">Case Studies</div>
@@ -470,7 +470,7 @@ export default async function HomePage() {
 
           The heading is right-aligned over a left-hand graphic: the two lean
           into each other instead of both starting at the gutter. */}
-      <section className="process-section g-black">
+      <section data-aa-section="home.process" className="process-section g-black">
         <div className="section-inner">
           <div className="process-lead">
             <div className="process-shot">

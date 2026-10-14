@@ -406,7 +406,7 @@ export default function ChatWidget() {
   const lastAssistant = messages.map((m) => m.role).lastIndexOf('assistant')
 
   return (
-    <div ref={rootRef}>
+    <div data-aa-section="chat" ref={rootRef}>
       {open && (
         <div className="chat-panel" role="dialog" aria-label="Axia Atlas assistant">
           <div className="chat-panel-header">

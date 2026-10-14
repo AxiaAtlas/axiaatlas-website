@@ -145,13 +145,13 @@ export default function CareersPage() {
 
   return (
     <div className="page careers-page">
-      <div className="demo-hero">
+      <div data-aa-section="careers.hero" className="demo-hero">
         <div className="section-eyebrow">Careers</div>
         <h1 className="section-headline">Careers and Open Roles at a Digital Marketing Studio</h1>
         <p className="section-sub">We build presence across search, answer engines, local, and social — and we&apos;re always glad to meet sharp, curious people who do great work. Tell us about yourself in three quick steps.</p>
       </div>
 
-      <div className="demo-body">
+      <div data-aa-section="careers.apply" className="demo-body">
         <div className="demo-card">
           {sent ? (
             <div style={{ textAlign: 'center', padding: '24px 0 12px' }}>
