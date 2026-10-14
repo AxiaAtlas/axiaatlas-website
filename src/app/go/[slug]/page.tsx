@@ -38,7 +38,7 @@ export default function GoNotFoundPage() {
         <span className="lt-blob b" />
       </div>
 
-      <div className="nf-inner">
+      <div data-aa-section="go.not-found" className="nf-inner">
         <Wordmark className="nf-mark" />
         <span className="nf-eyebrow">Short link</span>
         <h1 className="nf-title">We couldn’t find that link.</h1>

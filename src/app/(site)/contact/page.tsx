@@ -215,14 +215,14 @@ export default function ContactPage() {
 
   return (
     <div className="page contact-page">
-      <div className="contact-hero">
+      <div data-aa-section="contact.hero" className="contact-hero">
         <div className="section-eyebrow">Contact</div>
         <h1 className="section-headline">Contact Our Digital Marketing Team With Any Question</h1>
         <p className="section-sub">Send us a message and we&apos;ll reply within 24 hours. Ready to start? The fastest path is to <Link href="/demo" style={{ color: 'var(--inverse-accent)', textDecoration: 'underline', textUnderlineOffset: 2 }}>book a demo</Link>.</p>
       </div>
 
       <div className="contact-body">
-        <div>
+        <div data-aa-section="contact.info">
           <h2 className="contact-info-title">Get in touch</h2>
 
           <div className="contact-info-item">
@@ -261,7 +261,7 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div>
+        <div data-aa-section="contact.form">
           {sent ? (
             <div className="contact-form">
               <div style={{ textAlign: 'center', padding: '32px 0' }}>
@@ -308,7 +308,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <section className="faq-section g-spruce">
+      <section data-aa-section="contact.faq" className="faq-section g-spruce">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}

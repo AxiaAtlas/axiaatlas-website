@@ -107,7 +107,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
-      <div className="blog-post-hero">
+      <div data-aa-section="post.hero" className="blog-post-hero">
         <div className="blog-post-hero-inner">
           <Link href="/blog" className="blog-back">
             Insights
@@ -122,7 +122,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         </div>
       </div>
 
-      <article className="blog-body">
+      <article data-aa-section="post.body" className="blog-body">
         {post.content ? (
           <ReactMarkdown
             components={{
@@ -151,7 +151,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       </article>
 
       {others.length ? (
-        <div className="blog-more-wrap">
+        <div data-aa-section="post.more" className="blog-more-wrap">
           <div className="blog-more-inner">
             <h2 className="blog-more-title">Keep reading</h2>
             <div className="blog-grid">

@@ -251,7 +251,7 @@ export default function ServicesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICES_JSON_LD) }}
       />
-      <div className="services-hero">
+      <div data-aa-section="services.hero" className="services-hero">
         <div className="section-eyebrow">Services</div>
         <h1 className="section-headline">Nine Services That Work as One Plan</h1>
         <p className="section-sub">Start with one channel or build the full system. Either way, it begins with strategy — never random tactics.</p>
@@ -261,7 +261,7 @@ export default function ServicesPage() {
           it's positioned relative to this flow. */}
       <div className="services-flow">
         <ServiceRouteLine />
-        <div className="services-route">
+        <div data-aa-section="services.list" className="services-route">
           {SERVICES.map((s) => {
             const Icon = ServiceIcons[s.id]
             const Art = s.art ? ServiceArt[s.id] : null

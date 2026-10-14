@@ -20,7 +20,7 @@ type Props = {
    page that has nothing honest to show is not forced to invent something. */
 export default function CtaBand({ eyebrow = 'Book a Demo', headline, sub, cta = 'Book a Demo', artifact }: Props) {
   return (
-    <section className={`cta-band${artifact ? ' has-artifact' : ''}`}>
+    <section data-aa-section="cta-band" className={`cta-band${artifact ? ' has-artifact' : ''}`}>
       {/* Clip window for the drifting grid; the grid itself is this element's
           ::before, so the drift is a composited transform. */}
       <div className="cta-band-grid" aria-hidden="true" />

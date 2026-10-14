@@ -18,7 +18,7 @@ const UPDATED = 'July 11, 2026'
 export default function TermsPage() {
   return (
     <div className="page">
-      <article className="legal-page">
+      <article data-aa-section="terms.text" className="legal-page">
         <div className="section-eyebrow">Legal</div>
         <h1 className="legal-title">Terms of Service</h1>
         <p className="legal-updated">Last updated {UPDATED}</p>

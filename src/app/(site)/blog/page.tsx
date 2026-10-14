@@ -33,7 +33,7 @@ export default async function BlogIndexPage() {
 
   return (
     <div className="page blog-page">
-      <div className="blog-hero">
+      <div data-aa-section="blog.hero" className="blog-hero">
         <div className="section-eyebrow">Insights</div>
         <h1 className="section-headline">
           Marketing Insights on Search,
@@ -45,7 +45,7 @@ export default async function BlogIndexPage() {
       {posts.length === 0 ? (
         // No static fallback on purpose. If this shows, the table returned no
         // row with published = true.
-        <div className="blog-empty">
+        <div data-aa-section="blog.empty" className="blog-empty">
           <h2 className="blog-empty-title">Nothing published yet.</h2>
           <p className="blog-empty-sub">
             New articles land here as they go live. In the meantime, the case studies show
@@ -56,7 +56,7 @@ export default async function BlogIndexPage() {
           </Link>
         </div>
       ) : (
-        <div className="blog-list">
+        <div data-aa-section="blog.list" className="blog-list">
           <Link href={`/blog/${lead.slug}`} className="blog-lead">
             <div className="blog-lead-body">
               <div className="blog-meta">

@@ -6,7 +6,7 @@ const PORTAL_URL = 'https://app.axiaatlas.com'
 
 export default function Footer() {
   return (
-    <footer>
+    <footer data-aa-section="footer">
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">

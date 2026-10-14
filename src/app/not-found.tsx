@@ -17,7 +17,7 @@ export default function NotFound() {
         <span className="lt-blob b" />
       </div>
 
-      <div className="nf-inner">
+      <div data-aa-section="not-found.message" className="nf-inner">
         <Wordmark className="nf-mark" />
         <div className="nf-code">404</div>
         <span className="nf-eyebrow">Off the map</span>

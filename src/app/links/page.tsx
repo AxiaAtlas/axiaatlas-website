@@ -49,7 +49,7 @@ export default function LinksPage() {
       </div>
 
       <div className="lt-col">
-        <header className="lt-hero">
+        <header data-aa-section="links.hero" className="lt-hero">
           <span className="lt-mark-wrap">
             <AMark className="lt-mark" />
           </span>
@@ -61,7 +61,7 @@ export default function LinksPage() {
           </p>
         </header>
 
-        <nav className="lt-grid" aria-label="Axia Atlas links">
+        <nav data-aa-section="links.grid" className="lt-grid" aria-label="Axia Atlas links">
           {TILES.map((t, i) => {
             const Icon = t.Icon
             const className =
@@ -104,7 +104,7 @@ export default function LinksPage() {
           })}
         </nav>
 
-        <p className="lt-foot">
+        <p data-aa-section="links.foot" className="lt-foot">
           Prefer email? <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a>
         </p>
       </div>
