@@ -130,11 +130,10 @@ const FAQ_SECTIONS: FaqSection[] = [
     items: [
       {
         q: 'Are you a marketing agency in Miami?',
-        /* THE LOCAL-INTENT ANSWER, AND WHAT IT DELIBERATELY DOES NOT SAY. We
-           hold no address, so this answers the intent behind the query — can you
-           do this for my city — without claiming a Miami office, which would be
-           a new and false claim. If a real city is ever added to the brand, this
-           is the answer that has to change first.
+        /* THE LOCAL-INTENT ANSWER. The studio is based in Miami and works with
+           clients across the country, and the answer says both: being in a
+           city and serving nationwide are not in conflict. The home title in
+           lib/seo.ts names Miami too, so the two move together.
 
            NATIONWIDE, NOT WORLDWIDE. Corrected on direction: the reach claim is
            the United States, and "worldwide" was overstating it. The
@@ -143,7 +142,7 @@ const FAQ_SECTIONS: FaqSection[] = [
            and were corrected with it — a visible answer that says nationwide
            over a machine-readable claim that says worldwide is exactly the
            drift this file exists to prevent. */
-        a: 'We work with businesses in Miami and anywhere else in the country — Axia Atlas works remotely with clients nationwide rather than from a single city storefront. For a Miami business the local work is the same as anywhere: a Google Business Profile built out for your categories and service area, citations kept consistent across the directories that feed the map, a review programme, and service and location pages that rank for "service in Miami". Rankings and calls are tracked per location.',
+        a: 'Yes. Axia Atlas is based in Miami, and we work with clients across the country. For a Miami business the local work is the same as anywhere: a Google Business Profile built out for your categories and service area, citations kept consistent across the directories that feed the map, a review programme, and service and location pages that rank for "service in Miami". Rankings and calls are tracked per location.',
         link: { href: '/services#local', label: 'How local presence work is done' },
       },
       {

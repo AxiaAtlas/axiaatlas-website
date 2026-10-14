@@ -8,8 +8,9 @@
 // 525px — so "Axia Atlas" was occupying the only part of the string guaranteed
 // to be read.
 //
-//   Home:  keyword-led, and the ONE page that carries the full descriptor,
-//          because "Digital Marketing Studio" is the home page's keyword.
+//   Home:  keyword-led, and the ONE page that carries the full descriptor
+//          and the city, because "Miami Digital Marketing Studio" is the home
+//          page's keyword.
 //   Other: "<Keyword phrase> - Axia Atlas"
 //
 // THE BRAND TAIL IS "- Axia Atlas" AND NOTHING MORE. Google prints the site
@@ -45,10 +46,10 @@ export const BRAND_TAIL = 'Axia Atlas'
 
 /**
  * The home title, and the only one carrying the full descriptor — on the home
- * page "Digital Marketing Studio" IS the keyword, not a brand ornament. 57
- * characters.
+ * page "Miami Digital Marketing Studio" IS the keyword, not a brand ornament.
+ * The studio is based in Miami and serves clients nationwide. 43 characters.
  */
-export const HOME_TITLE = 'Digital Marketing Studio for Search & Social - Axia Atlas'
+export const HOME_TITLE = 'Miami Digital Marketing Studio - Axia Atlas'
 
 /** "<Keyword phrase> - Axia Atlas". Target the whole string at 50-60 chars. */
 export const pageTitle = (name: string) => `${name} - ${BRAND_TAIL}`

@@ -242,10 +242,10 @@ const ORG_NODE = {
   slogan: 'To be found is to be seen.',
   email: 'partner@axiaatlas.com',
   /* NATIONWIDE, NOT WORLDWIDE. Corrected on direction with the /contact answer
-     that made the same claim in prose ("works remotely with clients
-     nationwide"). A machine-readable areaServed of "Worldwide" sitting under a
-     visible answer that says nationwide is the drift the FAQ file works hard to
-     avoid, so the two moved together. `Country` with a name rather than the
+     that makes the same claim in prose ("based in Miami, and we work with
+     clients across the country"). A machine-readable areaServed of "Worldwide"
+     sitting under a visible answer that says nationwide is the drift the FAQ
+     file works hard to avoid, so the two moved together. `Country` with a name rather than the
      bare string, because an engine can resolve a typed node and cannot resolve
      an adjective. */
   areaServed: { '@type': 'Country', name: 'United States' },
