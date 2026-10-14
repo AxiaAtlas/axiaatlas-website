@@ -3492,7 +3492,7 @@ footer { background: #050906; }
 /* THE NOTE. It used to be a `.section-sub` in the right-hand column, level with
    the H1 — which is where the card sits now, and at lead size it was arguing
    with the headline rather than supporting it. Under the eyebrow and the
-   free-audit line, at body-small: the aside it always was. */
+   demo headline, at body-small: the aside it always was. */
 .demo-lead-note {
   font-size: var(--t-sm); line-height: 1.7;
   color: var(--inverse-muted);
