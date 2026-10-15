@@ -99,9 +99,9 @@ const EMPHASISED: ServiceId[] = ['website', 'dashboards']
    is where a reader who wants it is going. */
 const BLURB: Record<ServiceId, string> = {
   website: 'Positioning, copy, design, and build in one engagement, with search foundations laid from day one.',
-  dashboards: 'One operational dashboard for your own business — stock, orders, pipeline — read from the systems you already run on, behind your login and your branding.',
+  dashboards: 'One operational dashboard for your own business (stock, orders, pipeline), read from the systems you already run on, behind your login and your branding.',
   social: 'Content built for each platform, managed end to end, designed to grow an audience that actually buys.',
-  geo: 'Rank in Google and get named by the assistants buyers now ask — one content pipeline, with monthly proof of where you are cited and where you are not.',
+  geo: 'Rank in Google and get named by the assistants buyers now ask: one content pipeline, with monthly proof of where you are cited and where you are not.',
   intel: "Every competitor's positioning, cadence, and visibility tracked and sourced, so you decide on facts rather than hunches.",
   local: 'Profile, citations, and reviews managed so nearby buyers find you first, not the business down the road.',
   leadgen: 'Prospects researched against your ideal customer, reached with outreach written for them, tracked from first touch onward.',
@@ -216,7 +216,7 @@ export default async function HomePage() {
                 heading level. */}
             <p className="hero-display-sub">Your buyers are looking. Make sure they find you.</p>
             <p className="hero-sub">
-              Every day, people search the web, scroll their feeds, and ask answer engines what to buy and who to trust. Axia Atlas puts your business in those moments — for brands, local businesses, and the founders behind them.
+              Every day, people search the web, scroll their feeds, and ask answer engines what to buy and who to trust. Axia Atlas puts your business in those moments: for brands, local businesses, and the founders behind them.
             </p>
             <div className="hero-actions">
               <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
@@ -260,7 +260,7 @@ export default async function HomePage() {
           <div className="problem-arg">
             <div className="section-eyebrow">The Problem</div>
             <h2 className="section-headline">Being good isn&apos;t enough<br />if no one can find you.</h2>
-            <p>You can have the better product, the fairer price, and the happier customers — and still lose to the business that simply shows up first.</p>
+            <p>You can have the better product, the fairer price, and the happier customers, and still lose to the business that simply shows up first.</p>
             <p>Attention has moved. Buyers search, scroll, and ask answer engines before they ever call. The companies winning right now aren&apos;t louder. They&apos;re easier to find, in more of the places that matter, more of the time.</p>
             <p>That&apos;s the gap we close.</p>
             <Link href="/demo" className="btn-primary">Find Your Gaps <Arrow className="arr" /></Link>
@@ -296,24 +296,24 @@ export default async function HomePage() {
               <div className="feature-copy">
                 <div className="bento-num">The approach</div>
                 <h3 className="bento-title">Get found, get chosen, get remembered.</h3>
-                <p className="bento-desc">Strategy first — we map where your buyers already are and where you&apos;re missing. Then we build presence in search, answer engines, local, and social, and tie it back to leads and sales you can measure.</p>
+                <p className="bento-desc">Strategy first. We map where your buyers already are and where you&apos;re missing. Then we build presence in search, answer engines, local, and social, and tie it back to leads and sales you can measure.</p>
               </div>
               <BrandMarquee />
             </div>
             <div className="bento-card">
-              <div className="bento-num">01 — Find</div>
+              <div className="bento-num">01 · Find</div>
               <h3 className="bento-title">Show up first</h3>
               <p className="bento-desc">Rank in search, win local, and get cited by answer engines where buyers are already looking.</p>
             </div>
             <div className="bento-card">
-              <div className="bento-num">02 — Convert</div>
+              <div className="bento-num">02 · Convert</div>
               <h3 className="bento-title">Turn attention into customers</h3>
               <p className="bento-desc">A site and content built to move people from curious to booked, not just to bounce.</p>
             </div>
             <div className="bento-card">
-              <div className="bento-num">03 — Compound</div>
+              <div className="bento-num">03 · Compound</div>
               <h3 className="bento-title">Build assets that keep paying off</h3>
-              <p className="bento-desc">Rankings, reviews, citations, and a founder reputation don&apos;t reset each month — they grow.</p>
+              <p className="bento-desc">Rankings, reviews, citations, and a founder reputation don&apos;t reset each month. They grow.</p>
             </div>
           </div>
         </div>
@@ -502,7 +502,7 @@ export default async function HomePage() {
           is in the hero now, and the band is cleaner as copy and a button. */}
       <CtaBand
         headline="Ready to be seen?"
-        sub="Book a demo. Before the call we audit how you show up today — where buyers are looking, where you're missing, and what we'd do about it. You leave with the map either way."
+        sub="Book a demo. Before the call we audit how you show up today: where buyers are looking, where you're missing, and what we'd do about it. You leave with the map either way."
       />
 
       <Footer />

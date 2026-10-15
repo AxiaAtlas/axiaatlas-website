@@ -70,7 +70,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['what do you do', 'what is axia', 'who are you', 'about', 'services overview', 'what you offer'],
     answer:
-      'Axia Atlas is a digital marketing studio. We make brands, local businesses, and founders impossible to miss: in Google, in the AI platforms buyers now ask (Claude, ChatGPT, Perplexity, and Gemini), in local search, and across social. We start with strategy, then build content and systems that compound.',
+      'Axia Atlas is a digital marketing studio. We make brands, local businesses, and founders impossible to miss: in Google, in the answer engines buyers now ask (Claude, ChatGPT, Perplexity, and Gemini), in local search, and across social. We start with strategy, then build content and systems that compound.',
     links: [L.services, L.demo],
     followups: ['What services do you offer?', 'How do I get started?'],
   },
@@ -108,7 +108,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['competitor', 'competitive intelligence', 'competition', 'benchmark', 'market research', 'share of voice', 'rivals'],
     answer:
-      'Competitive Intelligence tracks a named set of competitors you choose (usually five to ten) and reports what they actually did: pricing and packaging changes, the queries and pages they rank for that you don\'t, publishing cadence and what earned engagement, hiring signals, review sentiment, and whether the AI platforms name them when they don\'t name you. Every claim is sourced and dated.',
+      'Competitive Intelligence tracks a named set of competitors you choose (usually five to ten) and reports what they actually did: pricing and packaging changes, the queries and pages they rank for that you don\'t, publishing cadence and what earned engagement, hiring signals, review sentiment, and whether the answer engines name them when they don\'t name you. Every claim is sourced and dated.',
     links: [L.intel, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],

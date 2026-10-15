@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseKey) {
-    console.error('[demo] Supabase env vars missing — cannot record lead')
+    console.error('[demo] Supabase env vars missing, cannot record lead')
     return NextResponse.json({ error: 'DB not configured' }, { status: 500 })
   }
 
@@ -65,8 +65,8 @@ export async function POST(req: NextRequest) {
 
   const notes = [
     '[Demo request]',
-    noWebsite && '⚠ UPSELL: No website — opportunity to pitch a website build.',
-    noSocials && '⚠ UPSELL: No social presence — greenfield social opportunity.',
+    noWebsite && '⚠ UPSELL: No website. Opportunity to pitch a website build.',
+    noSocials && '⚠ UPSELL: No social presence. Greenfield social opportunity.',
     phone && `Phone: ${phone}`,
     position && `Position/role: ${position}`,
     websiteUrl && `Website: ${websiteUrl}`,

@@ -58,7 +58,7 @@ export default function TermsPage() {
 
           <h2>4. Intellectual property</h2>
           <p>
-            The Site and its content — including text, graphics, logos, the Axia Atlas name and marks, and design —
+            The Site and its content (including text, graphics, logos, the Axia Atlas name and marks, and design)
             are owned by or licensed to Axia Atlas and are protected by intellectual property laws. You may not
             copy, reproduce, distribute, or create derivative works from any part of the Site without our prior
             written permission, except as permitted for normal personal or business viewing.
@@ -84,7 +84,7 @@ export default function TermsPage() {
           <p>
             To the fullest extent permitted by law, Axia Atlas and its team will not be liable for any indirect,
             incidental, special, consequential, or punitive damages, or any loss of profits or revenues, arising
-            out of your use of — or inability to use — the Site.
+            out of your use of, or inability to use, the Site.
           </p>
 
           <h2>8. Indemnification</h2>

@@ -16,7 +16,7 @@ const montserrat = Montserrat({
 })
 
 const DESCRIPTION =
-  'Axia Atlas is a digital marketing studio that makes brands, local businesses, and founders impossible to miss — in search, answer engines, and in the feeds where your buyers decide. Strategy first, then content that compounds.'
+  'Axia Atlas is a digital marketing studio that makes brands, local businesses, and founders impossible to miss: in search, answer engines, and in the feeds where your buyers decide. Strategy first, then content that compounds.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

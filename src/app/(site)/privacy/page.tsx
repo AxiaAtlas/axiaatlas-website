@@ -63,7 +63,7 @@ export default function PrivacyPage() {
           <h2>3. How we share information</h2>
           <p>
             We do <strong>not</strong> sell your personal information. We may share information with trusted
-            third-party service providers who help us operate our business — for example, our hosting provider
+            third-party service providers who help us operate our business, for example our hosting provider
             (Vercel), our database and form-processing provider (Supabase), email tools, and analytics providers
             (Google Analytics). These providers process information only on our behalf and under appropriate
             confidentiality obligations. We may also disclose information where required by law or to protect our
@@ -80,8 +80,8 @@ export default function PrivacyPage() {
 
           <h2>5. Data retention</h2>
           <p>
-            We keep personal information for as long as needed to fulfil the purposes described in this policy —
-            for example, to maintain our relationship with you as a prospect or client — and as required to comply
+            We keep personal information for as long as needed to fulfil the purposes described in this policy
+            (for example, to maintain our relationship with you as a prospect or client) and as required to comply
             with our legal obligations. When information is no longer needed, we delete or anonymize it.
           </p>
 

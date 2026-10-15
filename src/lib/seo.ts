@@ -59,7 +59,7 @@ export const OG_IMAGE = {
   url: '/og-card.png',
   width: 1200,
   height: 630,
-  alt: 'Axia Atlas — Digital Marketing',
+  alt: 'Axia Atlas, Digital Marketing',
 } as const
 
 type SocialArgs = {

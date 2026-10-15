@@ -160,12 +160,12 @@ export async function POST(req: NextRequest) {
 async function sendConfirmationEmail(email: string, fullName: string, role: string) {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) {
-    console.error('[careers] RESEND_API_KEY missing — confirmation email not sent')
+    console.error('[careers] RESEND_API_KEY missing, confirmation email not sent')
     return
   }
 
   const firstName = fullName.split(/\s+/)[0] || 'there'
-  const subject = 'We received your application — Axia Atlas'
+  const subject = 'We received your Axia Atlas application'
   const text = [
     `Hi ${firstName},`,
     '',

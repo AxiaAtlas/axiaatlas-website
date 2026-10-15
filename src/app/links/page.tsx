@@ -8,7 +8,7 @@ import {
 import { pageTitle, social } from '@/lib/seo'
 
 const DESCRIPTION =
-  'One place for everything Axia Atlas — visit our website, book a demo, and follow along on LinkedIn, Instagram, Facebook, X, and YouTube.'
+  'One place for everything Axia Atlas: visit our website, book a demo, and follow along on LinkedIn, Instagram, Facebook, X, and YouTube.'
 
 export const metadata: Metadata = {
   title: 'Links',
@@ -57,7 +57,7 @@ export default function LinksPage() {
           <p className="lt-tagline">To be found is to be seen.</p>
           <p className="lt-desc">
             Strategy-led marketing that makes brands, local businesses, and founders
-            impossible to miss — in search, in answer engines, and in the feeds where buyers decide.
+            impossible to miss: in search, in answer engines, and in the feeds where buyers decide.
           </p>
         </header>
 

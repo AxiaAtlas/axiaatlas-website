@@ -56,17 +56,17 @@ const FAQ_SECTIONS: FaqSection[] = [
       },
       {
         q: 'Do you do local SEO and Google Business Profile management?',
-        a: 'Yes. Two results decide whether a nearby buyer finds you — the map pack and the organic listings under it — and we work both. That means a Google Business Profile built out properly with categories, services, hours, photos and Q&A; citations kept consistent across the directories that feed the map; a review programme; and the service and location pages that rank for "service in city". Rankings and calls are tracked per location.',
+        a: 'Yes. Two results decide whether a nearby buyer finds you: the map pack and the organic listings under it. We work both. That means a Google Business Profile built out properly with categories, services, hours, photos and Q&A; citations kept consistent across the directories that feed the map; a review programme; and the service and location pages that rank for "service in city". Rankings and calls are tracked per location.',
         link: { href: '/services#local', label: `${serviceName('local')} in detail` },
       },
       {
         q: 'Can you build or rebuild my website?',
-        a: 'Yes, and it is the core engagement most other channels point traffic at. It starts with positioning — what you sell, who it is for, and why a buyer picks you — which drives the copy, which drives the layout. Search foundations go in during the build rather than after it. You get a working site, not a mockup handed to someone else to interpret.',
+        a: 'Yes, and it is the core engagement most other channels point traffic at. It starts with positioning (what you sell, who it is for, and why a buyer picks you), which drives the copy, which drives the layout. Search foundations go in during the build rather than after it. You get a working site, not a mockup handed to someone else to interpret.',
         link: { href: '/services#website', label: 'What a website engagement includes' },
       },
       {
         q: 'Do you work with B2B and B2C?',
-        a: 'Both. We work with consumer brands, local businesses, and B2B and professional services. The playbook adapts — the goal is the same: make you impossible to miss where your buyers actually spend attention. What changes between them is which two or three channels are worth your money first, which is the first thing we tell you.',
+        a: 'Both. We work with consumer brands, local businesses, and B2B and professional services. The playbook adapts, but the goal is the same: make you impossible to miss where your buyers actually spend attention. What changes between them is which two or three channels are worth your money first, which is the first thing we tell you.',
       },
     ],
   },
@@ -76,7 +76,7 @@ const FAQ_SECTIONS: FaqSection[] = [
     items: [
       {
         q: 'How much does Axia Atlas cost?',
-        a: 'We work in three tiers — Starter, Growth, and Command — scoped to how fast you want to move, and exact pricing is shared on your demo call once we know your goals. Pricing depends on the channels you choose and how much we are building, so we quote it clearly on the call and you decide from there.',
+        a: 'We work in three tiers (Starter, Growth, and Command), scoped to how fast you want to move, and exact pricing is shared on your demo call once we know your goals. Pricing depends on the channels you choose and how much we are building, so we quote it clearly on the call and you decide from there.',
         link: { href: '/pricing', label: 'See what each tier includes' },
       },
       {
@@ -86,7 +86,7 @@ const FAQ_SECTIONS: FaqSection[] = [
       },
       {
         q: 'Am I locked into a long contract?',
-        a: 'No. There are no long lock-ins and no surprise add-ons. Each tier is a monthly engagement, and what you pay depends on the channels you picked and how much we are building — quoted clearly on your demo call before anything starts, not discovered later on an invoice.',
+        a: 'No. There are no long lock-ins and no surprise add-ons. Each tier is a monthly engagement, and what you pay depends on the channels you picked and how much we are building, quoted clearly on your demo call before anything starts, not discovered later on an invoice.',
       },
       {
         q: 'Can I start with just one channel?',
@@ -101,7 +101,7 @@ const FAQ_SECTIONS: FaqSection[] = [
     items: [
       {
         q: 'How does working with Axia Atlas start?',
-        a: 'It starts with a demo. Before the call we audit where you show up today, where you do not, and the fastest wins — so we arrive with your pain points pinpointed and solutions to propose, then build a clear 90-day plan. There is no 30-day onboarding; real output lands in week one.',
+        a: 'It starts with a demo. Before the call we audit where you show up today, where you do not, and the fastest wins, so we arrive with your pain points pinpointed and solutions to propose, then build a clear 90-day plan. There is no 30-day onboarding; real output lands in week one.',
         link: { href: '/demo', label: 'Book a demo' },
       },
       {
@@ -114,7 +114,7 @@ const FAQ_SECTIONS: FaqSection[] = [
       },
       {
         q: 'How do you report on results?',
-        a: 'In plain English, monthly. We measure pipeline, rankings, citations, and compounding assets — not posts published. Growth and Command tiers include a live dashboard and a monthly strategy call, so you can see the numbers between reports rather than waiting for one.',
+        a: 'In plain English, monthly. We measure pipeline, rankings, citations, and compounding assets, not posts published. Growth and Command tiers include a live dashboard and a monthly strategy call, so you can see the numbers between reports rather than waiting for one.',
         link: { href: 'https://app.axiaatlas.com', label: 'The client portal', external: true },
       },
       {
@@ -146,18 +146,18 @@ const FAQ_SECTIONS: FaqSection[] = [
         link: { href: '/services#local', label: 'How local presence work is done' },
       },
       {
-        q: "I'm a current client — who do I contact?",
+        q: "I'm a current client. Who do I contact?",
         a: 'Email strategy@axiaatlas.com and your strategist will pick it up. You can also sign in to the client portal for reporting, deliverables, and messages. Use this inbox for anything about your account, your plan, or your deliverables rather than the general one.',
         link: { href: 'https://app.axiaatlas.com', label: 'Sign in to the client portal', external: true },
       },
       {
-        q: "I'm new — what's the right email to reach you?",
-        a: 'Write to partner@axiaatlas.com. That inbox covers new and prospective clients, partnerships, and general questions. If you are ready to talk, the fastest path is to book a demo instead — we audit your presence beforehand and come to the call with specific recommendations rather than questions.',
+        q: "I'm new. What's the right email to reach you?",
+        a: 'Write to partner@axiaatlas.com. That inbox covers new and prospective clients, partnerships, and general questions. If you are ready to talk, the fastest path is to book a demo instead: we audit your presence beforehand and come to the call with specific recommendations rather than questions.',
         link: { href: '/demo', label: 'Book a demo' },
       },
       {
         q: 'How quickly will you reply?',
-        a: 'Within 24 hours, usually the same day. That applies to both inboxes — partner@axiaatlas.com for new enquiries and strategy@axiaatlas.com for current clients. If you would rather skip the back-and-forth entirely, booking a demo puts a time in the calendar directly.',
+        a: 'Within 24 hours, usually the same day. That applies to both inboxes: partner@axiaatlas.com for new enquiries and strategy@axiaatlas.com for current clients. If you would rather skip the back-and-forth entirely, booking a demo puts a time in the calendar directly.',
       },
       {
         q: 'Are you hiring?',
@@ -229,7 +229,7 @@ export default function ContactPage() {
             <h3 className="contact-info-label">New &amp; prospective clients</h3>
             <div className="contact-info-value"><a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a></div>
             <div style={{ fontWeight: 400, fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-muted)', marginTop: 4 }}>
-              Thinking about working together, exploring a partnership, or just have a question — this is the inbox for you.
+              Thinking about working together, exploring a partnership, or just have a question? This is the inbox for you.
             </div>
           </div>
 
@@ -249,7 +249,7 @@ export default function ContactPage() {
           <div className="contact-info-item">
             <h3 className="contact-info-label">Ready to start?</h3>
             <div className="contact-info-value" style={{ fontWeight: 400, fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-muted)' }}>
-              Skip the back-and-forth and <Link href="/demo" style={{ color: 'var(--accent)' }}>book a demo</Link> — a quick survey, then we audit how you show up today and come to the call with your pain points pinpointed and solutions to propose.
+              Skip the back-and-forth and <Link href="/demo" style={{ color: 'var(--accent)' }}>book a demo</Link>: a quick survey, then we audit how you show up today and come to the call with your pain points pinpointed and solutions to propose.
             </div>
           </div>
 
@@ -275,7 +275,7 @@ export default function ContactPage() {
           ) : (
             <form className="contact-form" data-aa-form="contact" data-aa-submit="manual" onSubmit={submit}>
               <h2 className="form-title">Send us a message</h2>
-              <p className="form-intro">Not ready for a demo yet? Ask us anything — we&apos;re happy to help.</p>
+              <p className="form-intro">Not ready for a demo yet? Ask us anything. We&apos;re happy to help.</p>
 
               <div className="form-2col">
                 <div className="form-row">

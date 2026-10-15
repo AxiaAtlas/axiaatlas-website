@@ -20,14 +20,16 @@
 // is in scope: seo.ts titles and the careers confirmation email are copy too.
 //
 // NOT SEEN: copy that lives in Supabase rows (case studies, blog posts). The
-// build cannot read the database; those are fixed by migration.
+// build cannot read the database. Migration 006 holds those at zero with a
+// CHECK constraint on each table instead.
 //
 // EXEMPT: a string that is ONLY the dash (and whitespace). That is the
 // empty-value glyph in a table cell, not punctuation.
 //
-// CEILINGS: files that still held dashes when this was written, with the
-// count they held then. They may go down, never up; lower the number (or drop
-// the entry) once the file is cleaned. A file not listed has a ceiling of 0.
+// CEILINGS: every file is at zero, so the map is empty. It stays as the one
+// escape hatch: a file listed here may hold up to its number, never more.
+// Adding an entry is a decision to ship a dash, not a way to get a build
+// through.
 //
 // Run: npm run check:em-dash   (also runs on prebuild)
 // ============================================================================
@@ -41,21 +43,7 @@ const ts = require('typescript')
 
 const DASH = '—'
 
-const CEILINGS = {
-  'src/app/(site)/about/page.tsx': 8,
-  'src/app/(site)/careers/page.tsx': 6,
-  'src/app/(site)/contact/page.tsx': 14,
-  'src/app/(site)/page.tsx': 10,
-  'src/app/(site)/pricing/page.tsx': 5,
-  'src/app/(site)/privacy/page.tsx': 2,
-  'src/app/(site)/services/page.tsx': 11,
-  'src/app/(site)/terms/page.tsx': 2,
-  'src/app/api/careers/route.ts': 2,
-  'src/app/api/demo/route.ts': 3,
-  'src/app/layout.tsx': 1,
-  'src/app/links/page.tsx': 2,
-  'src/lib/seo.ts': 1,
-}
+const CEILINGS = {}
 
 const TEXT_KINDS = new Set([
   ts.SyntaxKind.StringLiteral,

@@ -6,7 +6,7 @@ import { pageTitle, social } from '@/lib/seo'
 import { serviceName, serviceShort } from '@/lib/services'
 
 const DESCRIPTION =
-  'Three Axia Atlas tiers — Starter, Growth, and Command — scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.'
+  'Three Axia Atlas tiers (Starter, Growth, and Command), scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.'
 
 export const metadata: Metadata = {
   title: 'Marketing Packages and Dashboard Pricing',
@@ -32,7 +32,7 @@ const TIERS = [
   },
   {
     name: 'Growth',
-    blurb: 'A connected multi-channel system — our most popular tier for businesses ready to move.',
+    blurb: 'A connected multi-channel system, our most popular tier for businesses ready to move.',
     features: [
       'Three to four channels working together',
       'Everything in Starter',
@@ -46,7 +46,7 @@ const TIERS = [
   },
   {
     name: 'Command',
-    blurb: 'Full-spectrum visibility, founder brand, and campaigns — for businesses that want to own their category.',
+    blurb: 'Full-spectrum visibility, founder brand, and campaigns, for businesses that want to own their category.',
     features: [
       'Full channel coverage',
       'Everything in Growth',
@@ -134,7 +134,7 @@ export default function PricingPage() {
             <h2 className="pb-head" id="pricing-band-head">Portals & Dashboards are priced on a different shape.</h2>
             <p className="pb-lede">
               The three plans above buy channels, month to month. A client dashboard is software
-              built for your own operation — it sits behind your login and is indexed by nobody —
+              built for your own operation. It sits behind your login and is indexed by nobody,
               so it is quoted the way software is quoted, not slotted into a tier.
             </p>
             <div className="pb-links">
@@ -160,7 +160,7 @@ export default function PricingPage() {
       </section>
 
       <p data-aa-section="pricing.note" className="pricing-note">
-        No long lock-ins and no surprise add-ons. Pricing depends on the channels you choose and how much we&apos;re building — we&apos;ll quote it clearly on your demo call, and you decide from there.
+        No long lock-ins and no surprise add-ons. Pricing depends on the channels you choose and how much we&apos;re building. We&apos;ll quote it clearly on your demo call, and you decide from there.
       </p>
 
       <Footer />

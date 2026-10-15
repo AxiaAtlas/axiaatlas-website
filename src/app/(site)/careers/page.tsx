@@ -148,7 +148,7 @@ export default function CareersPage() {
       <div data-aa-section="careers.hero" className="demo-hero">
         <div className="section-eyebrow">Careers</div>
         <h1 className="section-headline">Careers and Open Roles at a Digital Marketing Studio</h1>
-        <p className="section-sub">We build presence across search, answer engines, local, and social — and we&apos;re always glad to meet sharp, curious people who do great work. Tell us about yourself in three quick steps.</p>
+        <p className="section-sub">We build presence across search, answer engines, local, and social, and we&apos;re always glad to meet sharp, curious people who do great work. Tell us about yourself in three quick steps.</p>
       </div>
 
       <div data-aa-section="careers.apply" className="demo-body">
@@ -223,14 +223,14 @@ export default function CareersPage() {
                     <div className="form-row">
                       <label>Role you&apos;re applying for *</label>
                       <select value={form.role} onChange={set('role')} required autoFocus>
-                        <option value="">— Select a role —</option>
+                        <option value="">Select a role</option>
                         {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
                       </select>
                     </div>
                     <div className="form-row">
                       <label>Years of experience *</label>
                       <select value={form.yearsExperience} onChange={set('yearsExperience')} required>
-                        <option value="">— Select —</option>
+                        <option value="">Select</option>
                         {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
                       </select>
                     </div>
@@ -260,14 +260,14 @@ export default function CareersPage() {
                     <div className="form-row">
                       <label>Country *</label>
                       <select value={form.workCountry} onChange={set('workCountry')} required>
-                        <option value="">— Select your country —</option>
+                        <option value="">Select your country</option>
                         {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </div>
                     <div className="form-row">
                       <label>Authorized to work in that country? *</label>
                       <select value={form.workAuthorized} onChange={set('workAuthorized')} required>
-                        <option value="">— Select —</option>
+                        <option value="">Select</option>
                         {WORK_AUTH.map((w) => <option key={w} value={w}>{w}</option>)}
                       </select>
                     </div>
@@ -329,7 +329,7 @@ export default function CareersPage() {
         </div>
 
         <p className="careers-note">
-          Don&apos;t see your exact role? Apply under <strong>General / Open application</strong> — we read every submission. Prefer email? Reach us at <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a>.
+          Don&apos;t see your exact role? Apply under <strong>General / Open application</strong>. We read every submission. Prefer email? Reach us at <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a>.
         </p>
       </div>
 
