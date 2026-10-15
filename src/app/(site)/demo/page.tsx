@@ -12,7 +12,7 @@ const GROWTH_AREAS = [
   'Build a founder / executive brand',
   'Launch or rebuild my website',
   'Generate more leads / pipeline',
-  'Not sure yet — help me figure it out',
+  'Not sure yet: help me figure it out',
 ]
 
 /* On-site booking. After the survey saves the lead to Prospects, step 3 fetches
@@ -152,7 +152,7 @@ export default function DemoPage() {
         // Slot was taken between fetch and submit — refresh and let them re-pick.
         setSelected(null)
         setBooking('idle')
-        setBookingError('That time was just taken. We’ve refreshed the available times — please pick another.')
+        setBookingError('That time was just taken. We’ve refreshed the available times. Please pick another.')
         loadSlots()
         return
       }
@@ -286,7 +286,7 @@ export default function DemoPage() {
               {step === 2 && (
                 <form data-aa-form="demo-survey" data-aa-submit="manual" onSubmit={submitSurvey}>
                   <h2 className="demo-step-title">Tell us about your business</h2>
-                  <div className="demo-step-sub">Just the basics so we can take a look before we talk. Add the links you have — skip the ones you don&apos;t.</div>
+                  <div className="demo-step-sub">Just the basics so we can take a look before we talk. Add the links you have and skip the ones you don&apos;t.</div>
 
                   <div className="form-2col">
                     <div className="form-row">
@@ -363,7 +363,7 @@ export default function DemoPage() {
                   <div className="form-row demo-growth-row">
                     <label>What areas do you need growth in? *</label>
                     <select value={form.growthArea} onChange={set('growthArea')} required>
-                      <option value="">— Select an area —</option>
+                      <option value="">Select an area</option>
                       {GROWTH_AREAS.map((g) => <option key={g} value={g}>{g}</option>)}
                     </select>
                   </div>
@@ -385,17 +385,17 @@ export default function DemoPage() {
                   <div className="demo-done-check" aria-hidden="true">✓</div>
                   <h2 className="demo-step-title">Request received{form.firstName ? `, ${form.firstName}` : ''}</h2>
                   <div className="demo-step-sub">
-                    Thanks — we&apos;ve got your request for{' '}
+                    Thanks, we&apos;ve got your request for{' '}
                     <strong>{selected ? `${dayFmt.format(new Date(selected.start))} at ${timeFmt.format(new Date(selected.start))} (${tzLabel})` : 'your chosen time'}</strong>.
                     We&apos;ll confirm shortly and send the calendar invite with your Google Meet link to {form.email || 'your email'}. We&apos;ll arrive with the gaps mapped and real recommendations, not a pitch deck.
                   </div>
-                  <div className="demo-booking-foot">No need to do anything else — watch your inbox for the confirmation.</div>
+                  <div className="demo-booking-foot">No need to do anything else. Watch your inbox for the confirmation.</div>
                 </div>
               )}
 
               {step === 3 && booking !== 'done' && (
                 <div className="demo-book">
-                  <h2 className="demo-step-title">You&apos;re all set{form.firstName ? `, ${form.firstName}` : ''} — pick your time</h2>
+                  <h2 className="demo-step-title">You&apos;re all set{form.firstName ? `, ${form.firstName}` : ''}. Pick your time</h2>
                   <div className="demo-step-sub">
                     Choose a slot for your demo below. We&apos;ll confirm it and send the calendar invite with your Google Meet link.
                     {slotsState === 'ready' && slots.length > 0 ? <> All times shown in {tzLabel}.</> : null}
