@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/check-no-em-dash.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "icons": "node scripts/gen-icons.mjs",
-    "og": "node scripts/gen-og-card.mjs"
+    "og": "node scripts/gen-og-card.mjs",
+    "check:em-dash": "node scripts/check-no-em-dash.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.2",
