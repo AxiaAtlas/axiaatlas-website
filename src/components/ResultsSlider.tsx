@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { Arrow } from '@/components/icons'
-import { RESULT_VISUALS } from '@/components/artifacts/ResultVisual'
+import { visualFor } from '@/components/artifacts/ResultVisual'
 
 /* ────────────────────────────────────────────────────────────────────────────
    THE RESULTS SECTION IS NOW THE CASE STUDIES.
@@ -97,7 +97,7 @@ export default function ResultsSlider({ slides }: { slides: CaseItem[] }) {
       <div className="rs-viewport">
         <div className="rs-track" style={{ transform: `translateX(-${index * 100}%)` }}>
           {slides.map((c, i) => {
-            const visual = RESULT_VISUALS[c.result_headline]
+            const visual = visualFor(c.result_headline)
             return (
               <article key={c.id ?? i} className="rs-slide" aria-hidden={i !== index}>
                 <div className="rs-main">

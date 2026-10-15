@@ -14,7 +14,7 @@ export default function Footer() {
               <AMark className="brand-mark" />
               <WordmarkText className="brand-word" />
             </div>
-            <p className="footer-tagline">Marketing that makes you impossible to miss — in search, answer engines, and in the feeds where your buyers decide.</p>
+            <p className="footer-tagline">Marketing that makes you impossible to miss: in search, answer engines, and in the feeds where your buyers decide.</p>
           </div>
 
           <div>

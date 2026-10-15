@@ -54,13 +54,6 @@ const CEILINGS = {
   'src/app/api/demo/route.ts': 3,
   'src/app/layout.tsx': 1,
   'src/app/links/page.tsx': 2,
-  'src/components/BrandMarquee.tsx': 1,
-  'src/components/ChatWidget.tsx': 21,
-  'src/components/Footer.tsx': 1,
-  'src/components/Nav.tsx': 1,
-  'src/components/artifacts/ChannelArtifacts.tsx': 1,
-  'src/components/artifacts/ResultVisual.tsx': 1,
-  'src/components/charts/TimeSeries.tsx': 1,
   'src/lib/seo.ts': 1,
 }
 

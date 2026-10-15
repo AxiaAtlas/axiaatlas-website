@@ -180,8 +180,12 @@ export function Benchmark({
    result's numbers. Only two of the five are here, deliberately: these are the
    two whose endpoints are stated precisely enough to draw. The rest carry the
    longer text, which is the honest treatment when we hold a claim and not a
-   measurement. */
-export const RESULT_VISUALS: Record<string, React.ReactNode> = {
+   measurement.
+
+   Keys carry no em dash, so the lookup goes through visualFor(), which reads
+   a headline's " — " as ", ". The Supabase row still holds the dash today and
+   will keep matching after it is rewritten. */
+const RESULT_VISUALS: Record<string, React.ReactNode> = {
   '340% organic growth in 90 days': (
     <BeforeAfter
       title="Monthly organic sessions"
@@ -193,7 +197,7 @@ export const RESULT_VISUALS: Record<string, React.ReactNode> = {
       to={{ label: 'Day 90', value: 4200, display: '~4,200' }}
     />
   ),
-  'Beat the cart-recovery benchmark by 7 points — zero ad spend': (
+  'Beat the cart-recovery benchmark by 7 points, zero ad spend': (
     <Benchmark
       title="Pre-order cart recovery"
       source="The 20–30% range and the 7-point gap are both quoted from the result beside this."
@@ -205,4 +209,8 @@ export const RESULT_VISUALS: Record<string, React.ReactNode> = {
       markerLabel="7 points above it, owned channels only"
     />
   ),
+}
+
+export function visualFor(headline: string): React.ReactNode | undefined {
+  return RESULT_VISUALS[headline.replace(/\s*\u2014\s*/g, ', ')]
 }

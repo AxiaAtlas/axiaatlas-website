@@ -149,7 +149,7 @@ export const ArtGeo = (_: A) =>
         <div className="ch-reply">
           <span className="ch-spark" aria-hidden="true" />
           <span className="ch-reply-text">
-            I&apos;d start with <b>{MOCK_BUSINESS}</b> — strong reviews and they cover your area.
+            I&apos;d start with <b>{MOCK_BUSINESS}</b>. Strong reviews, and they cover your area.
           </span>
         </div>
       </div>

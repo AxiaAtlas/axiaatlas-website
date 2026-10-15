@@ -82,7 +82,7 @@ export default function BrandMarquee() {
     <div
       className="brand-marquee"
       role="img"
-      aria-label="Published across TikTok, Instagram, Facebook, X, YouTube and LinkedIn — and optimized to be cited by the answer engines ChatGPT, Gemini, Claude, Perplexity and Copilot."
+      aria-label="Published across TikTok, Instagram, Facebook, X, YouTube and LinkedIn, and optimized to be cited by the answer engines ChatGPT, Gemini, Claude, Perplexity and Copilot."
     >
       <div className="bm-col">
         <span className="bm-cap">Published to</span>

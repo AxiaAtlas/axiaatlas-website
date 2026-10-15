@@ -11,7 +11,7 @@ type Message = { role: 'user' | 'assistant'; content: string; at?: string; links
 type VisitorInfo = { name?: string; email?: string; phone?: string; company?: string }
 
 const WELCOME =
-  "Hi — I'm the Axia Atlas assistant. Ask me what we do, how we work, our tiers, or how to get started. Pick a question below or type your own."
+  "Hi, I'm the Axia Atlas assistant. Ask me what we do, how we work, our tiers, or how to get started. Pick a question below or type your own."
 
 // ── Predetermined Q&A. No external calls. First entry that matches wins. ──
 // `topic: true` marks an entry that maps to a specific page (a service section
@@ -70,7 +70,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['what do you do', 'what is axia', 'who are you', 'about', 'services overview', 'what you offer'],
     answer:
-      'Axia Atlas is a digital marketing studio. We make brands, local businesses, and founders impossible to miss — in Google, in the AI platforms buyers now ask (Claude, ChatGPT, Perplexity, and Gemini), in local search, and across social. We start with strategy, then build content and systems that compound.',
+      'Axia Atlas is a digital marketing studio. We make brands, local businesses, and founders impossible to miss: in Google, in the AI platforms buyers now ask (Claude, ChatGPT, Perplexity, and Gemini), in local search, and across social. We start with strategy, then build content and systems that compound.',
     links: [L.services, L.demo],
     followups: ['What services do you offer?', 'How do I get started?'],
   },
@@ -100,7 +100,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['social media', 'instagram', 'tiktok', 'facebook', 'content calendar', 'posting'],
     answer:
-      'Social Media Management is the whole thing, not just a posting schedule — we pick the two or three platforms worth your time, set recurring content pillars, produce and publish natively for each platform, and manage the comments so an audience that actually buys grows around it.',
+      'Social Media Management is the whole thing, not just a posting schedule: we pick the two or three platforms worth your time, set recurring content pillars, produce and publish natively for each platform, and manage the comments so an audience that actually buys grows around it.',
     links: [L.social, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
@@ -108,7 +108,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['competitor', 'competitive intelligence', 'competition', 'benchmark', 'market research', 'share of voice', 'rivals'],
     answer:
-      'Competitive Intelligence tracks a named set of competitors you choose — usually five to ten — and reports what they actually did: pricing and packaging changes, the queries and pages they rank for that you don\'t, publishing cadence and what earned engagement, hiring signals, review sentiment, and whether the AI platforms name them when they don\'t name you. Every claim is sourced and dated.',
+      'Competitive Intelligence tracks a named set of competitors you choose (usually five to ten) and reports what they actually did: pricing and packaging changes, the queries and pages they rank for that you don\'t, publishing cadence and what earned engagement, hiring signals, review sentiment, and whether the AI platforms name them when they don\'t name you. Every claim is sourced and dated.',
     links: [L.intel, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
@@ -124,7 +124,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['website', 'web design', 'web site', 'landing page', 'redesign', 'site speed', 'conversion'],
     answer:
-      'Website Design & Build is our core engagement, and it covers more than design: positioning first, then the copy, the design, and the build itself — with search foundations laid during the build rather than bolted on after. You get a working, indexed, fast site, not a mockup handed to someone else.',
+      'Website Design & Build is our core engagement, and it covers more than design: positioning first, then the copy, the design, and the build itself, with search foundations laid during the build rather than bolted on after. You get a working, indexed, fast site, not a mockup handed to someone else.',
     links: [L.website, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
@@ -132,7 +132,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['advisory', 'strategy', 'strategic', 'consulting', 'embedded', 'pricing decision', 'positioning'],
     answer:
-      "Strategic Advisory & Embedded Thinking is standing access to a strategist who knows your business — recurring working sessions on the decisions that don't fit one channel: what to charge, how to package it, which segment is next, what to say when a competitor undercuts you. Decisions get written down and revisited.",
+      "Strategic Advisory & Embedded Thinking is standing access to a strategist who knows your business: recurring working sessions on the decisions that don't fit one channel: what to charge, how to package it, which segment is next, what to say when a competitor undercuts you. Decisions get written down and revisited.",
     links: [L.strategy, L.demo],
     topic: true,
     followups: ['What are your tiers?', 'How do I get started?'],
@@ -140,7 +140,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['lead gen', 'lead generation', 'outbound', 'prospecting', 'cold email', 'outreach', 'pipeline'],
     answer:
-      'Lead Generation fills the pipeline now while search and content compound — targeted prospecting over email and LinkedIn that finds your ideal customers and warms them up without sounding like spam.',
+      'Lead Generation fills the pipeline now while search and content compound: targeted prospecting over email and LinkedIn that finds your ideal customers and warms them up without sounding like spam.',
     links: [L.leadgen, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
@@ -148,7 +148,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['founder', 'executive', 'personal brand', 'thought leadership'],
     answer:
-      "Executive Personal Brand builds a founder's voice separately from the company's — positions drawn out of you in interviews, then written up as posts and essays that sound like you, with inbound triaged so real buyers get a real reply. The audience and the archive stay yours.",
+      "Executive Personal Brand builds a founder's voice separately from the company's: positions drawn out of you in interviews, then written up as posts and essays that sound like you, with inbound triaged so real buyers get a real reply. The audience and the archive stay yours.",
     links: [L.executive, L.demo],
     topic: true,
     followups: ['What are your tiers?', 'See some results?'],
@@ -157,14 +157,14 @@ const QA_SET: QA[] = [
     keywords: ['career', 'job', 'jobs', 'hiring', 'work for you', 'join the team', 'open role', 'resume', 'cv'],
     topic: true,
     answer:
-      "We're glad you asked — open roles and how to apply live on our careers page. If your skills fit how we work, we'd love to see your application.",
+      "We're glad you asked. Open roles and how to apply live on our careers page. If your skills fit how we work, we'd love to see your application.",
     links: [L.careers, L.contact],
     followups: ['What services do you offer?', 'Where are you located?'],
   },
   {
     keywords: ['price', 'pricing', 'cost', 'how much', 'budget', 'rate', 'fee'],
     answer:
-      'We work in three tiers — Starter, Growth, and Command — scoped to how fast you want to move. Exact pricing is shared on your demo call, once we know your goals. See what each tier includes:',
+      'We work in three tiers (Starter, Growth, and Command), scoped to how fast you want to move. Exact pricing is shared on your demo call, once we know your goals. See what each tier includes:',
     links: [L.pricing, L.demo],
     followups: ['What are your tiers?', 'How do I get started?'],
   },
@@ -178,42 +178,42 @@ const QA_SET: QA[] = [
   {
     keywords: ['start', 'get started', 'begin', 'sign up', 'onboard', 'first step', 'how do i', 'audit', 'demo', 'book', 'consult'],
     answer:
-      "Getting started is one step: book a demo. It's a quick survey — your business, then your goals. Before the call we audit how you show up today, so we arrive with your pain points pinpointed and specific solutions to propose. Work begins in week one.",
+      "Getting started is one step: book a demo. It's a quick survey: your business, then your goals. Before the call we audit how you show up today, so we arrive with your pain points pinpointed and specific solutions to propose. Work begins in week one.",
     links: [L.demo, L.services],
     followups: ['How much does it cost?', 'See some results?'],
   },
   {
     keywords: ['contact', 'email', 'reach', 'talk', 'call', 'message', 'question'],
     answer:
-      'New and prospective clients can email partner@axiaatlas.com — current clients reach their strategist at strategy@axiaatlas.com. We reply within 24 hours, usually the same day. Or, if you’re ready to start, the fastest path is to book a demo.',
+      'New and prospective clients can email partner@axiaatlas.com. Current clients reach their strategist at strategy@axiaatlas.com. We reply within 24 hours, usually the same day. Or, if you’re ready to start, the fastest path is to book a demo.',
     links: [L.contact, L.demo],
     followups: ['How do I get started?', 'What services do you offer?'],
   },
   {
     keywords: ['portal', 'login', 'log in', 'client login', 'dashboard', 'sign in', 'account'],
     answer:
-      'Existing clients can sign in to the portal at app.axiaatlas.com — there’s also a Client Portal button at the top of every page.',
+      'Existing clients can sign in to the portal at app.axiaatlas.com. There’s also a Client Portal button at the top of every page.',
     links: [{ label: 'Client Portal', href: 'https://app.axiaatlas.com' }, L.contact],
     followups: ['How do I get started?', 'What services do you offer?'],
   },
   {
     keywords: ['where', 'located', 'location', 'remote', 'city', 'based'],
     answer:
-      "We're a fully remote studio and work with clients across North America and beyond — with regular strategy calls and live reporting.",
+      "We're a fully remote studio and work with clients across North America and beyond, with regular strategy calls and live reporting.",
     links: [L.demo, L.contact],
     followups: ['What services do you offer?', 'How do I get started?'],
   },
   {
     keywords: ['b2c', 'consumer', 'ecommerce', 'e-commerce', 'retail', 'shop', 'brand', 'b2b'],
     answer:
-      'Yes — we work with B2C and consumer brands as well as B2B and professional services. The playbook adapts: the goal is the same, making you impossible to miss where your buyers spend attention.',
+      'Yes. We work with B2C and consumer brands as well as B2B and professional services. The playbook adapts: the goal is the same, making you impossible to miss where your buyers spend attention.',
     links: [L.cases, L.demo],
     followups: ['What services do you offer?', 'How do I get started?'],
   },
   {
     keywords: ['result', 'guarantee', 'roi', 'work', 'proof', 'case study', 'results', 'how long', 'how fast', 'timeline'],
     answer:
-      'We measure success in pipeline, rankings, citations, and compounding assets — not posts published. Work starts in week one; compounding channels build over 60–90 days. See real outcomes:',
+      'We measure success in pipeline, rankings, citations, and compounding assets, not posts published. Work starts in week one; compounding channels build over 60–90 days. See real outcomes:',
     links: [L.cases, L.demo],
     followups: ['How much does it cost?', 'How do I get started?'],
   },
@@ -260,7 +260,7 @@ function answerFor(text: string): Message {
   return {
     role: 'assistant',
     content:
-      "Good question — I don't have a ready answer for that one. The fastest way to a real answer is to book a demo, or email partner@axiaatlas.com and we'll reply within 24 hours.",
+      "Good question. I don't have a ready answer for that one. The fastest way to a real answer is to book a demo, or email partner@axiaatlas.com and we'll reply within 24 hours.",
     links: DEFAULT_LINKS,
     followups: ['What services do you offer?', 'What are your tiers?'],
   }
@@ -378,7 +378,7 @@ export default function ChatWidget() {
       if (justSharedEmail) {
         replies.push({
           role: 'assistant',
-          content: `Got it — we'll follow up at ${visitorRef.current.email}. Keep the questions coming in the meantime.`,
+          content: `Got it. We'll follow up at ${visitorRef.current.email}. Keep the questions coming in the meantime.`,
           at: replyAt,
           links: [L.demo, L.contact],
           followups: ['What services do you offer?', 'How do I get started?'],
@@ -391,7 +391,7 @@ export default function ChatWidget() {
           replies.push({
             role: 'assistant',
             content:
-              "By the way — if you leave your email, we can follow up personally with answers tailored to your business. No pressure: you're welcome to keep asking questions either way.",
+              "By the way, if you leave your email, we can follow up personally with answers tailored to your business. No pressure: you're welcome to keep asking questions either way.",
             at: replyAt,
           })
         }
@@ -413,7 +413,7 @@ export default function ChatWidget() {
             <AMark className="amark" />
             <div style={{ flex: 1 }}>
               <div className="chat-panel-title">Ask Axia Atlas</div>
-              <span className="chat-status">Email us — <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a></span>
+              <span className="chat-status">Email us: <a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a></span>
             </div>
             <button className="chat-close" onClick={() => setOpen(false)} aria-label="Close chat">×</button>
           </div>
@@ -485,7 +485,7 @@ export default function ChatWidget() {
               <Send />
             </button>
           </div>
-          <div className="chat-disclaimer">The assistant can make mistakes — please double-check important details.</div>
+          <div className="chat-disclaimer">The assistant can make mistakes. Please double-check important details.</div>
         </div>
       )}
 

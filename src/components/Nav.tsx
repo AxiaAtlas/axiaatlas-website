@@ -26,7 +26,7 @@ export default function Nav() {
           and the letters are each sized on their own ink. The single combined
           <Wordmark> used to be sized here at 24px total, which scaled the
           letterforms down to roughly half the portal's. */}
-      <Link href="/" className="nav-brand brand-lockup" onClick={close} aria-label="Axia Atlas — home">
+      <Link href="/" className="nav-brand brand-lockup" onClick={close} aria-label="Axia Atlas home">
         <AMark className="brand-mark" />
         <WordmarkText className="brand-word" />
       </Link>

@@ -265,7 +265,7 @@ export default function TimeSeries({
         <div style={{ display: 'flex', gap: 6, alignItems: 'flex-start', fontSize: 10, color: AXIS.label, lineHeight: 1.55, marginTop: 7 }}>
           <AlertCircle size={11} style={{ flexShrink: 0, marginTop: 2 }} />
           <span>
-            {pointCount(primary.points)} day{pointCount(primary.points) === 1 ? '' : 's'} returned a figure — plotted as points.
+            {pointCount(primary.points)} day{pointCount(primary.points) === 1 ? '' : 's'} returned a figure, plotted as points.
             A line needs {MIN_POINTS_FOR_LINE}; drawing one through these would assert a trajectory this many days cannot carry.
           </span>
         </div>
