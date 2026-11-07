@@ -109,7 +109,7 @@ Each add-on row: one-paragraph answer block, "who it is for" (platform `audience
 
 ## 4. Page outlines
 
-Prices on every page are read from the platform's `pricing.ts` through a generated JSON (a sync script, never typed by hand). Titles and H1s below were character-counted; the build re-checks every page with the platform's `validatePage()`.
+Prices on every page are read from the platform's `pricing.ts` through a generated JSON (a sync script, never typed by hand). Titles and H1s below were character-counted (all within 50 to 60); the build re-checks every page with the platform's `validatePage()`.
 
 ### `/` Home (NOW; "Meet Theia" THEIA)
 - Purpose: say in one screen that Axia builds your website, runs your social, and gives you a portal to see it all; agency plus software.
@@ -119,12 +119,12 @@ Prices on every page are read from the platform's `pricing.ts` through a generat
 - Remove: ticker and System marquee entries that name the model provider (pending Q3); "Nine services" H2.
 
 ### `/website-design` Website Design & Build (NOW)
-- Title: `Website Design and Build With Care Plans - Axia Atlas` (53). H1: `Website Design and Build, Backed by a Monthly Care Plan` (54).
+- Title: `Website Design and Build With Care Plans - Axia Atlas` (53). H1: `Website Design and Build, Backed by a Monthly Care Plan` (55).
 - Sections: hero + answer block · `website.process` (positioning, copy, design, build; search foundations during the build) · `website.tiers` (Starter Site / Growth Site / Authority Site build fees; "pay once, or spread over six months") · `website.care` (care retainer Starter $250 / Growth $400 / Authority $650 a month, three-month minimum; what it covers) · `website.addons` (extra page, e-commerce, email broadcasts, client CRM; chatbot only once renamed, Q5) · `website.pairs` (SEO & AEO, Local) · FAQ (FAQPage JSON-LD) · `cta-band`.
 - Reuse: ArtWebsite artifact, service copy from today's `/services#website`. Build: tier and care-plan cards, FAQ block (reuse contact FAQ markup).
 
 ### `/social-media-management` Social Media Management (NOW)
-- Title: `Social Media Management for Growing Brands - Axia Atlas` (55). H1: `Social Media Management, Planned, Published and Answered` (55).
+- Title: `Social Media Management for Growing Brands - Axia Atlas` (55). H1: `Social Media Management, Planned, Published and Answered` (56).
 - Sections: hero + answer block · `social.how` (pick two or three platforms, pillars, native production, community management) · `social.tiers` (Essentials $1,500 / Growth $2,800 / Authority $4,500 a month, 3-month minimum, meeting and reporting cadence) · `social.addons` (channel setup, 4-reel pack, extra platform) · `social.ads-note` (we report on ads you already run; we do not run or buy them) · `social.pairs` (Executive Brand, Lead Gen) · FAQ · `cta-band`.
 
 ### `/portal` The Portal (THEIA)
@@ -138,17 +138,17 @@ Prices on every page are read from the platform's `pricing.ts` through a generat
 - Build: Theia mark + lockups from `brand/Theia Logos`, glass card styling from the handoff, scrubbed screenshots (no real names, no "AI" footer, placeholder client).
 
 ### `/add-ons` (NOW)
-- Title: `Marketing Add-Ons: SEO, Local, Leads and More - Axia Atlas` (58). H1: `Add-On Services for Search, Local, Leads and Strategy` (52).
+- Title: `Marketing Add-Ons: SEO, Local, Leads and More - Axia Atlas` (58). H1: `Add-On Services for Search, Local, Leads and Strategy` (53).
 - Sections: hero + answer · `addons.found` · `addons.pipeline` · `addons.decide` · `addons.custom` · `cta-band`. Service JSON-LD per add-on with Offers.
 - Reuse: today's `/services` prose (DETAIL), ServiceIcons, ChannelArt figures for local and SEO.
 
 ### `/pricing` (NOW; portal tier THEIA)
-- Title: `Website, Social and Client Portal Pricing - Axia Atlas` (54). H1: `Published Prices for Websites, Social and the Portal` (51).
+- Title: `Website, Social and Client Portal Pricing - Axia Atlas` (54). H1: `Published Prices for Websites, Social and the Portal` (52).
 - Sections: hero + answer (ranges computed from data) · `pricing.website` (build fees, six-month option, care plans) · `pricing.social` · `pricing.portal` THEIA · `pricing.addons` (compact table of every add-on's three tiers and minimum term) · `pricing.note` · `cta-band`. Service + Offer JSON-LD, prices only as printed.
 - The work stashed as `pre-plan edits` (sync script, `lib/pricing.ts`, generated JSON) is the base for this.
 
 ### `/services` (NOW, kept as hub)
-- Title: `Marketing Services and Add-Ons Overview - Axia Atlas` (52). H1: `Every Axia Atlas Service, From Website Builds to Advisory` (56).
+- Title: `Marketing Services and Add-Ons Overview - Axia Atlas` (52). H1: `Every Axia Atlas Service, From Website Builds to Advisory` (57).
 - Short hub: three headline cards, four add-on groups, all linking out. Keeps the URL's ranking and the ItemList JSON-LD. Includes a small script that forwards old fragments (`/services#geo`) to their new page and anchor, since fragments never reach the server.
 
 ### Others
