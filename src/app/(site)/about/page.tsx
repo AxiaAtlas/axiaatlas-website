@@ -12,13 +12,13 @@ import { pageTitle, social } from '@/lib/seo'
 export const revalidate = 3600
 
 const DESCRIPTION =
-  'Axia Atlas is a digital marketing studio built on one idea: to be found is to be seen. We help brands, local businesses, and founders show up where their buyers are looking.'
+  'Axia Atlas is a marketing agency headquartered in Miami, built on one idea: to be found is to be seen. We design and build websites and run social media for brands, local businesses, and founders across the US.'
 
 export const metadata: Metadata = {
-  title: 'About Our Marketing, Web and Dashboard Studio',
+  title: 'About Our Miami Website and Social Media Agency',
   description: DESCRIPTION,
   alternates: { canonical: '/about' },
-  ...social({ title: pageTitle('About Our Marketing, Web and Dashboard Studio'), description: DESCRIPTION, path: '/about' }),
+  ...social({ title: pageTitle('About Our Miami Website and Social Media Agency'), description: DESCRIPTION, path: '/about' }),
 }
 
 export default async function AboutPage() {
@@ -31,7 +31,8 @@ export default async function AboutPage() {
       <div data-aa-section="about.hero" className="about-hero">
         <div className="about-hero-text">
           <div className="section-eyebrow">About</div>
-          <h1 className="section-headline">About the Marketing, Web and Dashboard Studio We Built</h1>
+          <h1 className="section-headline">About the Miami Agency Behind Your Website and Social Media</h1>
+          <p className="section-sub">Axia Atlas is a marketing agency headquartered in Miami, working with clients across the US. We design and build websites and run social media for brands, local businesses and founders, and add search, local, lead and strategy work when it will pay off. We also build the software our clients use to see that work.</p>
         </div>
       </div>
 
@@ -109,11 +110,11 @@ export default async function AboutPage() {
           <div className="about-body">
             <p>Every engagement starts with an audit. We map where you show up today, where you don&apos;t, and the fastest wins available, then build a clear 90-day plan around them.</p>
             <p>Then we get to work. No 30-day onboarding, no committee approvals. Real output lands in week one.</p>
-            <p>We operate as an extension of your team, not a faceless vendor. You get direct access to the people doing the work, monthly strategy calls, a live dashboard, and reporting written in language you can actually read.</p>
+            <p>We operate as an extension of your team, not a faceless vendor. You get direct access to the people doing the work, meetings and reports on the cadence your plan sets, and reporting written in language you can actually read.</p>
             <p>Whether you&apos;re a growing brand, a local business, or the founder who is the brand, the goal is the same: make you impossible to miss.</p>
           </div>
           <div style={{ marginTop: 36 }}>
-            <Link href="/demo" className="btn-primary">Work With Us <Arrow className="arr" /></Link>
+            <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
           </div>
         </div>
       </div>

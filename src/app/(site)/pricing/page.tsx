@@ -1,167 +1,205 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
-import { Arrow, Check } from '@/components/icons'
-import { pageTitle, social } from '@/lib/seo'
-import { serviceName, serviceShort } from '@/lib/services'
+import CtaBand from '@/components/CtaBand'
+import { Arrow } from '@/components/icons'
+import { SectionHead, TierCards, AddonList, JsonLd } from '@/components/service/Blocks'
+import { pageTitle, social, SITE_URL } from '@/lib/seo'
+import { THEIA_LAUNCH } from '@/lib/flags'
+import { ADDON_IDS, HEADLINE_PAGES, PORTAL_PATH, serviceHref, serviceName } from '@/lib/services'
+import { SERVICE_ADDON_COPY } from '@/lib/service-copy'
+import {
+  CURRENCY, addOn, addOnPrice, addOnsFor, money, monthsWord, paymentPlan, pricingFor, range, termLabel, tierNotes, tierPrice,
+} from '@/lib/pricing'
+
+/* ── EVERY FIGURE ON THIS PAGE COMES FROM THE PLATFORM ────────────────────
+   lib/pricing reads pricing-catalog.json, which scripts/sync-pricing.mjs
+   writes by running the platform's src/lib/pricing.ts. Nothing numeric is
+   typed in this file. When the platform reprices, run `npm run sync:pricing`.
+
+   THE SHAPE FOLLOWS THE SITE MODEL: the headline services first (website,
+   with its payment plan and care plan, then social), the Portal at the Theia
+   launch with no invented figure, then every add-on in one compact table.
+   Service JSON-LD carries only prices printed on the page. */
+
+const W = pricingFor('website')
+const S = pricingFor('social')
+const [WEB_LO, WEB_HI] = range('website', 'oneTime')
+const [SOCIAL_LO, SOCIAL_HI] = range('social', 'monthly')
+const CARE = addOn('website', 'care_plan')
+const CARE_PRICES = CARE.tierPrices ?? [CARE.price]
+const PLAN_WORD = monthsWord(W.paymentPlanMonths ?? 0)
+const ADDON_LO = Math.min(...ADDON_IDS.flatMap((id) => pricingFor(id).tiers.map((t) => t.monthly).filter((n) => n > 0)))
+
+const TITLE = THEIA_LAUNCH ? 'Website, Social and Client Portal Pricing' : 'Website and Social Media Pricing, Plus Add-Ons'
+const H1 = THEIA_LAUNCH ? 'Published Prices for Websites, Social and the Portal' : 'Published Prices for Websites, Social Media and Add-Ons'
+
+const ANSWER =
+  `A website is a one-time build from ${money(WEB_LO)} to ${money(WEB_HI)}, paid once or over ${PLAN_WORD} months at the same total, ` +
+  `with an optional care plan from ${money(Math.min(...CARE_PRICES))} a month. ` +
+  `Social media management runs ${money(SOCIAL_LO)} to ${money(SOCIAL_HI)} a month. ` +
+  `Add-ons start at ${money(ADDON_LO)} a month, and you buy only what you need.`
 
 const DESCRIPTION =
-  'Three Axia Atlas tiers (Starter, Growth, and Command), scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.'
+  `Published prices: websites from ${money(WEB_LO)} one-time or over ${PLAN_WORD} months, care plans from ${money(Math.min(...CARE_PRICES))} a month, ` +
+  `social media from ${money(SOCIAL_LO)} a month, and add-ons from ${money(ADDON_LO)} a month.`
 
 export const metadata: Metadata = {
-  title: 'Marketing Packages and Dashboard Pricing',
+  title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/pricing' },
-  ...social({ title: pageTitle('Marketing Packages and Dashboard Pricing'), description: DESCRIPTION, path: '/pricing' }),
+  ...social({ title: pageTitle(TITLE), description: DESCRIPTION, path: '/pricing' }),
 }
 
-const TIERS = [
-  {
-    name: 'Starter',
-    blurb: 'Get momentum on one or two channels and prove the model before you scale.',
-    features: [
-      `One or two channels (e.g. ${serviceName('local')}, or ${serviceShort('social')})`,
-      'Strategy and 90-day plan',
-      'Monthly content and execution',
-      'Core setup: profile, on-page, tracking',
-      'Monthly report in plain English',
-      'Email support',
-    ],
-    featured: false,
-    cta: 'Start with Starter',
-  },
-  {
-    name: 'Growth',
-    blurb: 'A connected multi-channel system, our most popular tier for businesses ready to move.',
-    features: [
-      'Three to four channels working together',
-      'Everything in Starter',
-      `${serviceName('geo')} included`,
-      'Website or landing-page work',
-      'Monthly strategy call',
-      'Live dashboard and priority support',
-    ],
-    featured: true,
-    cta: 'Scope a Growth plan',
-  },
-  {
-    name: 'Command',
-    blurb: 'Full-spectrum visibility, founder brand, and campaigns, for businesses that want to own their category.',
-    features: [
-      'Full channel coverage',
-      'Everything in Growth',
-      'Executive personal brand program',
-      'Campaign strategy and execution',
-      'Lead generation, if it fits',
-      'Senior strategist as your lead contact',
-    ],
-    featured: false,
-    /* NOT "Talk about Command". A top tier's objection is commitment, not
-       curiosity: the reader who has got this far already believes the tier is
-       good, and is weighing whether clicking starts something they cannot back
-       out of. "Talk about X" answers that with a meeting. "Explore your
-       options" answers it with a look around — and it is the only one of the
-       three CTAs that promises the reader nothing is being decided.
+const monthlySpec = (price: number) => ({ '@type': 'UnitPriceSpecification', price, priceCurrency: CURRENCY, unitCode: 'MON' })
 
-       The two it beat, kept here so the next pass does not re-run the argument:
-       "Explore full coverage" (same verb, names what Command is, but "full"
-       re-raises the size question the tier already loses on) and "Own your
-       category" (strongest line, straight out of the tier's own blurb, but it
-       is a claim on a button — the loudest promise on the page sitting under
-       the tier that is hardest to say yes to). */
-    cta: 'Explore your options',
-  },
-]
+const PRICING_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service', '@id': `${SITE_URL}${HEADLINE_PAGES.website}#service`, name: serviceName('website'),
+      url: `${SITE_URL}/pricing#website`, provider: { '@id': `${SITE_URL}/#organization` },
+      offers: [
+        ...W.tiers.map((t) => ({ '@type': 'Offer', name: `${serviceName('website')}: ${t.label}`, price: t.oneTime, priceCurrency: CURRENCY })),
+        ...W.tiers.map((t, i) => ({ '@type': 'Offer', name: `${CARE.label}: ${t.label}`, price: CARE_PRICES[i] ?? CARE_PRICES[0], priceCurrency: CURRENCY, priceSpecification: monthlySpec(CARE_PRICES[i] ?? CARE_PRICES[0]) })),
+      ],
+    },
+    {
+      '@type': 'Service', '@id': `${SITE_URL}${HEADLINE_PAGES.social}#service`, name: serviceName('social'),
+      url: `${SITE_URL}/pricing#social`, provider: { '@id': `${SITE_URL}/#organization` },
+      offers: S.tiers.map((t) => ({ '@type': 'Offer', name: `${serviceName('social')}: ${t.label}`, price: t.monthly, priceCurrency: CURRENCY, priceSpecification: monthlySpec(t.monthly) })),
+    },
+  ],
+}
+
+function addonRows(id: 'website' | 'social') {
+  return addOnsFor(id)
+    .filter((a) => a.key !== 'care_plan')
+    .map((a) => ({ key: a.key, name: SERVICE_ADDON_COPY[a.key]?.label ?? a.label, price: addOnPrice(a), what: SERVICE_ADDON_COPY[a.key]?.what ?? '' }))
+}
 
 export default function PricingPage() {
   return (
-    <div className="page pricing-page">
-      <div data-aa-section="pricing.hero" className="pricing-hero">
+    <div className="page sv-page pricing-page">
+      <JsonLd data={PRICING_JSON_LD} />
+
+      <div data-aa-section="pricing.hero" className="services-hero sv-hero">
         <div className="section-eyebrow">Pricing</div>
-        <h1 className="section-headline">Digital Marketing Packages, Priced in Three Clear Tiers</h1>
+        <h1 className="section-headline">{H1}</h1>
+        <div className="section-sub sv-hero-side">
+          <p className="sv-answer">{ANSWER}</p>
+          <nav className="sv-hero-actions sv-jump-inline" aria-label="Price sections">
+            <a href="#website">Website</a>
+            <a href="#social">Social</a>
+            {THEIA_LAUNCH && <a href="#portal">Portal</a>}
+            <a href="#add-ons">Add-ons</a>
+          </nav>
+        </div>
       </div>
 
-      <div data-aa-section="pricing.tiers" className="pricing-grid">
-        {TIERS.map((t) => (
-          <div key={t.name} className={`pricing-card${t.featured ? ' featured' : ''}`}>
-            {t.featured && <div className="pricing-flag">Most popular</div>}
-            <h2 className="pricing-tier">{t.name}</h2>
-            <div className="pricing-amount">Custom <span>/ scoped to you</span></div>
-            <p className="pricing-blurb">{t.blurb}</p>
-            <ul className="pricing-features">
-              {t.features.map((f) => <li key={f}><Check />{f}</li>)}
-            </ul>
-            <Link
-              href="/demo"
-              className={t.featured ? 'btn-primary' : 'btn-outline'}
-              style={{ width: '100%', justifyContent: 'center' }}
-            >
-              {t.cta} <Arrow className="arr" />
-            </Link>
-          </div>
-        ))}
-      </div>
-
-      {/* ── CLIENT DASHBOARDS — A BAND, NOT A FOURTH CARD ──────────────────
-          A fourth card in that grid would say "fourth rung of the same
-          ladder", and that is exactly the wrong claim. Starter, Growth, and
-          Command are three sizes of one thing: channels, bought monthly,
-          scoped to how fast you want to move. A client dashboard is not a
-          bigger version of any of them — it is software built for the client's
-          own operation, it is not a way to be found, and it is priced on a
-          shape the ladder does not have. Putting it beside the three would
-          have made a reader compare it to Command, which is the one
-          comparison that teaches them nothing true.
-
-          A band reads as "and separately", which is the relationship.
-
-          NO FIGURES. Same rule as the three cards above and the same reason:
-          the build fee, the monthly, and the term all live in the platform's
-          SERVICES table, which is the source of truth and moves without this
-          repo. What this band publishes is the SHAPE of the price — that there
-          is a build fee, that the monthly buys upkeep rather than hosting, and
-          that there is a term — because the shape is what a reader needs to
-          know before a call and it is the part that does not move.
-
-          WEBSITE DESIGN & BUILD IS NOT IN HERE, and it is the same shape: a
-          build fee, then a monthly, sold outside the three tiers. That it is
-          not represented on this page is a real gap, and closing it is a
-          separate decision rather than something to slip in beside this one. */}
-      <section data-aa-section="pricing.dashboards" className="pricing-band" aria-labelledby="pricing-band-head">
-        <div className="pricing-band-inner">
-          <div className="pb-copy">
-            <div className="section-eyebrow">Outside the tiers</div>
-            <h2 className="pb-head" id="pricing-band-head">Portals & Dashboards are priced on a different shape.</h2>
-            <p className="pb-lede">
-              The three plans above buy channels, month to month. A client dashboard is software
-              built for your own operation. It sits behind your login and is indexed by nobody,
-              so it is quoted the way software is quoted, not slotted into a tier.
+      <section data-aa-section="pricing.website" className="sv-section g-raise" id="website">
+        <div className="section-inner">
+          <SectionHead
+            eyebrow={serviceName('website')}
+            title={`Website Builds: Pay Once or Over ${PLAN_WORD} Months`}
+            lede={`A one-time fee per build. Pay it upfront, or spread it over ${PLAN_WORD} months for the same total: not financed, no interest, no fee.`}
+          />
+          <TierCards
+            tiers={W.tiers.map((t) => {
+              const plan = paymentPlan('website', t.oneTime)
+              return { name: t.label, amount: money(t.oneTime), unit: 'one-time', extra: plan ? `or ${plan.monthly} a month for ${PLAN_WORD} months` : undefined, notes: t.features }
+            })}
+          />
+          <div className="sv-subhead" id="care-plan">
+            <h3 className="sv-subhead-title">{CARE.label}</h3>
+            <p className="sv-lede">
+              {`Optional, after launch, priced by your site's tier${CARE.minTermMonths ? `, with a ${monthsWord(CARE.minTermMonths)}-month minimum` : ''}. `}
+              <strong>It covers only sites Axia Atlas built.</strong>
             </p>
-            <div className="pb-links">
-              <Link href="/services#dashboards" className="btn-outline">What it is <Arrow className="arr" /></Link>
-              <Link href="/demo" className="btn-primary">Scope a build <Arrow className="arr" /></Link>
-            </div>
           </div>
-          <dl className="pb-terms">
-            <div className="pb-term">
-              <dt>Build fee</dt>
-              <dd>Scoped to the views you actually run on and the systems they have to read from. Quoted once, in full, before anything starts.</dd>
-            </div>
-            <div className="pb-term">
-              <dt>Monthly</dt>
-              <dd>Integration upkeep. Your store admin, your CRM, and your spreadsheet all change underneath a dashboard, and the mapping has to change with them. This is not hosting.</dd>
-            </div>
-            <div className="pb-term">
-              <dt>Minimum term</dt>
-              <dd>A dashboard is retained, not delivered. Keeping it right as your tools move is the work, so it is bought for a term rather than signed off at handover.</dd>
-            </div>
-          </dl>
+          <TierCards tiers={W.tiers.map((t, i) => ({ name: `${t.label} care`, amount: money(CARE_PRICES[i] ?? CARE_PRICES[0]), unit: '/mo' }))} />
+          <div className="sv-subhead">
+            <h3 className="sv-subhead-title">Website add-ons</h3>
+          </div>
+          <AddonList rows={addonRows('website')} />
+          <Link href={HEADLINE_PAGES.website} className="service-link sv-more">What a website build includes <Arrow className="arr" /></Link>
+        </div>
+      </section>
+
+      <section data-aa-section="pricing.social" className="sv-section g-black" id="social">
+        <div className="section-inner">
+          <SectionHead
+            eyebrow={serviceName('social')}
+            title="Social Media Plans, Billed Monthly"
+            lede={`Three plans. The plan sets how much we publish and how often we meet and report.${S.minTermMonths ? ` ${termLabel(S)}.` : ''}`}
+          />
+          <TierCards tiers={S.tiers.map((t) => ({ name: t.label, amount: money(t.monthly), unit: '/mo', notes: tierNotes(t) }))} />
+          <div className="sv-subhead">
+            <h3 className="sv-subhead-title">Social add-ons</h3>
+          </div>
+          <AddonList rows={addonRows('social')} />
+          <Link href={HEADLINE_PAGES.social} className="service-link sv-more">How social media management works <Arrow className="arr" /></Link>
+        </div>
+      </section>
+
+      {THEIA_LAUNCH && (
+        <section data-aa-section="pricing.portal" className="sv-section g-raise" id="portal">
+          <div className="section-inner sv-note">
+            <h2 className="section-headline">The Client Portal</h2>
+            <p className="sv-lede">One login for your results, approvals and reports, with Theia by Axia Atlas built in.</p>
+            <div className="sv-tier-amount">Pricing on request</div>
+            <Link href={PORTAL_PATH} className="service-link">About the portal <Arrow className="arr" /></Link>
+          </div>
+        </section>
+      )}
+
+      <section data-aa-section="pricing.addons" className="sv-section g-raise" id="add-ons">
+        <div className="section-inner">
+          <SectionHead
+            eyebrow="Add-ons"
+            title="Every Add-On, With Its Three Tiers"
+            lede="Each add-on is priced on its own and runs alongside a website or social engagement."
+          />
+          <div className="sv-table-wrap">
+            <table className="sv-table">
+              <thead>
+                <tr><th scope="col">Add-on</th><th scope="col">Tier 1</th><th scope="col">Tier 2</th><th scope="col">Tier 3</th><th scope="col">Term</th></tr>
+              </thead>
+              <tbody>
+                {ADDON_IDS.map((id) => {
+                  const p = pricingFor(id)
+                  return (
+                    <tr key={id}>
+                      <th scope="row"><Link href={serviceHref(id)}>{serviceName(id)}</Link></th>
+                      {p.tiers.map((t) => {
+                        const pr = tierPrice(p, t)
+                        return (
+                          <td key={t.label} data-label={t.label}>
+                            <span className="sv-table-tier">{t.label}</span>
+                            <span className="sv-table-price">{pr.amount}<small>{pr.unit.replace('/mo', ' a month').replace('one-time', ' one-time')}</small></span>
+                            {pr.extra && <span className="sv-table-extra">{pr.extra}</span>}
+                          </td>
+                        )
+                      })}
+                      <td data-label="Term" className="sv-table-term">{termLabel(p)}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
       <p data-aa-section="pricing.note" className="pricing-note">
-        No long lock-ins and no surprise add-ons. Pricing depends on the channels you choose and how much we&apos;re building. We&apos;ll quote it clearly on your demo call, and you decide from there.
+        Prices are in US dollars. You combine only the services you need, and the quote you sign is the price you pay. On the demo call we tell you which services and tiers will pay off first.
       </p>
+
+      <CtaBand
+        eyebrow="Not sure which tier?"
+        headline="We'll tell you what to do first."
+        sub="Book a demo. We audit how you show up before the call, then walk you through the services and tiers that will pay off fastest."
+      />
 
       <Footer />
     </div>

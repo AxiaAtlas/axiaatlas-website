@@ -3,7 +3,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
 import { Arrow, Check, Plus } from '@/components/icons'
-import { serviceName } from '@/lib/services'
+import { PORTAL_PATH, THEIA_PATH, serviceHref, serviceName } from '@/lib/services'
+import { THEIA_LAUNCH } from '@/lib/flags'
+import { ADDONS_PRICE, CARE_PRICE, SOCIAL_PRICE, WEBSITE_PRICE } from '@/lib/price-facts'
 import { aaTrack } from '@/lib/aa-track'
 
 /* ────────────────────────────────────────────────────────────────────────────
@@ -23,13 +25,13 @@ import { aaTrack } from '@/lib/aa-track'
       says anything.
 
    3. NOTHING HERE IS A NEW CLAIM. Every fact below already ships on this site:
-      the services and their descriptions from /services, the three tiers
-      and their contents from /pricing, the audit-plan-build-grow sequence and
+      the services and their descriptions from /services, prices and terms
+      from lib/pricing (the platform's pricing.ts), the audit-plan-build-grow sequence and
       the week-one output from the home page and /about, the two inboxes and
       the 24-hour reply from this page, and `areaServed` from the Organization
       node in app/layout.tsx. The local-intent question is answered from that
-      last one — we say how the work is done for a city, and we do NOT claim an
-      office in one, because the site claims no address anywhere.
+      last one: headquartered in Miami, working with clients across the US. The
+      chat widget and the Organization node say the same sentence.
 
    ANSWERS ARE PLAIN STRINGS, with an optional trailing link, so that the
    visible copy and the FAQPage JSON-LD below are generated from ONE source and
@@ -46,52 +48,82 @@ const FAQ_SECTIONS: FaqSection[] = [
     items: [
       {
         q: 'What services does Axia Atlas offer?',
-        a: 'Website design and build, social media management, competitive intelligence, local presence and maps, answer engine optimization, lead generation, executive personal brand, client dashboards, and strategic advisory. Most clients combine three or four of them into one connected plan rather than buying a single channel. Which three depends on where your buyers already are and where you are currently missing.',
-        link: { href: '/services', label: 'See the full breakdown of every service' },
+        a: `Two headline services: ${serviceName('website')} and ${serviceName('social')}. Everything else is an add-on you bolt on when it pays off: SEO and answer engine optimization, local presence and maps, lead generation, executive personal brand, competitive intelligence, strategic advisory, and custom dashboards. We tell you on the demo call which add-ons, if any, are worth it first.`,
+        link: { href: '/services', label: 'See every service and add-on' },
       },
       {
         q: 'What is answer engine optimization (AEO), and do I need it?',
-        a: 'Answer engine optimization is the work of getting your business named and cited when buyers ask Claude, ChatGPT, Perplexity, or Gemini which company to use. We measure it first: the exact prompts a buyer in your category would type, run across all four platforms, recorded so you can see who gets named today. Then we fix the entity data, schema, and source pages those systems read.',
-        link: { href: '/services#geo', label: 'How answer engine optimization works' },
+        a: 'Answer engine optimization is the work of getting your business named and cited when buyers ask ChatGPT, Perplexity, Gemini or another answer engine which company to use. We measure it first: the exact prompts a buyer in your category would type, run across those platforms, recorded so you can see who gets named today. Then we fix the entity data, schema, and source pages those systems read. It is sold as an add-on with SEO.',
+        link: { href: serviceHref('geo'), label: 'How answer engine optimization works' },
       },
       {
         q: 'Do you do local SEO and Google Business Profile management?',
-        a: 'Yes. Two results decide whether a nearby buyer finds you: the map pack and the organic listings under it. We work both. That means a Google Business Profile built out properly with categories, services, hours, photos and Q&A; citations kept consistent across the directories that feed the map; a review programme; and the service and location pages that rank for "service in city". Rankings and calls are tracked per location.',
-        link: { href: '/services#local', label: `${serviceName('local')} in detail` },
+        a: 'Yes, as an add-on. Two results decide whether a nearby buyer finds you: the map pack and the organic listings under it. We work both. That means a Google Business Profile built out properly with categories, services, hours, photos and Q&A; citations kept consistent across the directories that feed the map; a review program; and the service and location pages that rank for "service in city". Rankings and calls are tracked per location.',
+        link: { href: serviceHref('local'), label: `${serviceName('local')} in detail` },
       },
       {
         q: 'Can you build or rebuild my website?',
-        a: 'Yes, and it is the core engagement most other channels point traffic at. It starts with positioning (what you sell, who it is for, and why a buyer picks you), which drives the copy, which drives the layout. Search foundations go in during the build rather than after it. You get a working site, not a mockup handed to someone else to interpret.',
-        link: { href: '/services#website', label: 'What a website engagement includes' },
+        a: 'Yes. It is one of our two headline services. It starts with positioning (what you sell, who it is for, and why a buyer picks you), which drives the copy, which drives the layout. Search foundations go in during the build rather than after it. You get a working site, not a mockup handed to someone else to interpret.',
+        link: { href: serviceHref('website'), label: 'What a website build includes' },
+      },
+      {
+        q: 'Do you run or manage paid ads?',
+        a: 'No. We do not run, buy or manage advertising. If you already run ads, a custom dashboard can show how they perform beside the rest of your numbers, read from the ad accounts you own. The spend, the accounts and the decisions stay yours.',
+        link: { href: serviceHref('dashboards'), label: 'Custom dashboards' },
       },
       {
         q: 'Do you work with B2B and B2C?',
-        a: 'Both. We work with consumer brands, local businesses, and B2B and professional services. The playbook adapts, but the goal is the same: make you impossible to miss where your buyers actually spend attention. What changes between them is which two or three channels are worth your money first, which is the first thing we tell you.',
+        a: 'Both. We work with consumer brands, local businesses, and B2B and professional services. The playbook adapts, but the goal is the same: make you impossible to miss where your buyers actually spend attention. What changes between them is which add-ons are worth your money first, which is the first thing we tell you.',
       },
     ],
   },
+  ...(THEIA_LAUNCH
+    ? [
+        {
+          id: 'portal',
+          title: 'Portal and Theia',
+          items: [
+            {
+              q: 'What is the Axia Atlas client portal?',
+              a: 'One login for your results, deliverables, approvals and reports. It also shows how the ads you already run are performing, read from your own accounts; we do not run or buy ads. Portal pricing is on request, and we walk you through it on the demo call.',
+              link: { href: PORTAL_PATH, label: 'See the client portal' },
+            },
+            {
+              q: 'Who is Theia?',
+              a: 'Theia by Axia Atlas is our proprietary assistant inside the client portal. She knows only your business and helps you understand your data, then build your own reports, decks and plans from it. She lives only in your portal, never on your website, and she does not create the work we deliver for you.',
+              link: { href: THEIA_PATH, label: 'Meet Theia' },
+            },
+          ],
+        },
+      ]
+    : []),
   {
     id: 'pricing',
     title: 'Pricing',
     items: [
       {
         q: 'How much does Axia Atlas cost?',
-        a: 'We work in three tiers (Starter, Growth, and Command), scoped to how fast you want to move, and exact pricing is shared on your demo call once we know your goals. Pricing depends on the channels you choose and how much we are building, so we quote it clearly on the call and you decide from there.',
-        link: { href: '/pricing', label: 'See what each tier includes' },
+        a: `We publish our prices. ${WEBSITE_PRICE} ${SOCIAL_PRICE} ${ADDONS_PRICE}`,
+        link: { href: '/pricing', label: 'See every price' },
       },
       {
-        q: "What's the difference between Starter, Growth, and Command?",
-        a: 'Starter is one or two channels, a 90-day plan, monthly execution and a plain-English report. Growth adds a third and fourth channel working together, answer engine optimization, website or landing-page work, a monthly strategy call, a live dashboard and priority support. Command is full channel coverage plus the executive personal brand programme, campaign work, lead generation where it fits, and a senior strategist as your lead contact.',
-        link: { href: '/pricing', label: 'Compare the three tiers' },
+        q: 'Can I pay for a website over time?',
+        a: `Yes. ${WEBSITE_PRICE}`,
+        link: { href: '/pricing', label: 'Website prices' },
+      },
+      {
+        q: 'Do you maintain websites after launch?',
+        a: `${CARE_PRICE} If someone else built your site, we would quote a rebuild rather than care for it.`,
+        link: { href: serviceHref('website'), label: 'The website care plan' },
       },
       {
         q: 'Am I locked into a long contract?',
-        a: 'No. There are no long lock-ins and no surprise add-ons. Each tier is a monthly engagement, and what you pay depends on the channels you picked and how much we are building, quoted clearly on your demo call before anything starts, not discovered later on an invoice.',
+        a: `No long lock-ins. A website build is a one-time fee. ${serviceName('social')} and the website care plan carry a short minimum term so the work has time to show results, and any add-on with a minimum term says so beside its price. After that you stay because it is working.`,
+        link: { href: '/pricing', label: 'Terms beside every price' },
       },
       {
-        q: 'Can I start with just one channel?',
-        a: 'Yes. Starter exists for exactly that: get momentum on one or two channels and prove the model before you scale. You do not need every service, and we would rather tell you which two or three will pay off fastest than sell you the full system on day one.',
-        link: { href: '/pricing', label: 'What Starter includes' },
+        q: 'Can I start with just one service?',
+        a: 'Yes. Most clients start with a website or social media and add more once the first one is paying off. You do not need every add-on, and we would rather tell you which one will pay off fastest than sell you everything on day one.',
       },
     ],
   },
@@ -114,12 +146,12 @@ const FAQ_SECTIONS: FaqSection[] = [
       },
       {
         q: 'How do you report on results?',
-        a: 'In plain English, monthly. We measure pipeline, rankings, citations, and compounding assets, not posts published. Growth and Command tiers include a live dashboard and a monthly strategy call, so you can see the numbers between reports rather than waiting for one.',
+        a: 'In plain English, on the cadence your tier sets. We measure pipeline, rankings, citations, and compounding assets, not posts published. Current clients can also sign in to the client portal to see deliverables and reports between meetings.',
         link: { href: 'https://app.axiaatlas.com', label: 'The client portal', external: true },
       },
       {
         q: 'Who actually does the work?',
-        a: 'The people you meet. We operate as an extension of your team rather than a faceless vendor, and you get direct access to the people doing the work. We take on fewer clients than most agencies, on purpose, so we can go deep instead of wide. On the Command tier a senior strategist is your lead contact.',
+        a: 'The people you meet. We operate as an extension of your team rather than a faceless vendor, and you get direct access to the people doing the work. We take on fewer clients than most agencies, on purpose, so we can go deep instead of wide.',
         link: { href: '/about', label: 'How we work, and why' },
       },
     ],
@@ -142,8 +174,8 @@ const FAQ_SECTIONS: FaqSection[] = [
            and were corrected with it — a visible answer that says nationwide
            over a machine-readable claim that says worldwide is exactly the
            drift this file exists to prevent. */
-        a: 'Yes. Axia Atlas is based in Miami, and we work with clients across the country. For a Miami business the local work is the same as anywhere: a Google Business Profile built out for your categories and service area, citations kept consistent across the directories that feed the map, a review programme, and service and location pages that rank for "service in Miami". Rankings and calls are tracked per location.',
-        link: { href: '/services#local', label: 'How local presence work is done' },
+        a: 'Yes. Axia Atlas is headquartered in Miami, working with clients across the US. For a Miami business the local work is the same as anywhere: a Google Business Profile built out for your categories and service area, citations kept consistent across the directories that feed the map, a review program, and service and location pages that rank for "service in Miami". Rankings and calls are tracked per location.',
+        link: { href: serviceHref('local'), label: 'How local presence work is done' },
       },
       {
         q: "I'm a current client. Who do I contact?",
@@ -217,7 +249,7 @@ export default function ContactPage() {
     <div className="page contact-page">
       <div data-aa-section="contact.hero" className="contact-hero">
         <div className="section-eyebrow">Contact</div>
-        <h1 className="section-headline">Contact Our Digital Marketing Team With Any Question</h1>
+        <h1 className="section-headline">Contact Our Miami Marketing Team With Any Question</h1>
         <p className="section-sub">Send us a message and we&apos;ll reply within 24 hours. Ready to start? The fastest path is to <Link href="/demo" style={{ color: 'var(--inverse-accent)', textDecoration: 'underline', textUnderlineOffset: 2 }}>book a demo</Link>.</p>
       </div>
 

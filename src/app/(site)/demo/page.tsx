@@ -3,15 +3,16 @@ import { useCallback, useEffect, useState } from 'react'
 import Footer from '@/components/Footer'
 import { Arrow } from '@/components/icons'
 import { aaTrack } from '@/lib/aa-track'
+import { THEIA_LAUNCH } from '@/lib/flags'
 
+/* The three headline services, then add-ons as one choice. The client portal
+   joins only at the Theia launch (lib/flags). The API takes any non-empty
+   string and records it as the prospect's focus. */
 const GROWTH_AREAS = [
-  'Get found in search (SEO)',
-  'Get cited by answer engines (AEO/GEO)',
-  'Win local / "near me" customers',
-  'Grow on social media',
-  'Build a founder / executive brand',
-  'Launch or rebuild my website',
-  'Generate more leads / pipeline',
+  'Website design and build',
+  'Social media management',
+  ...(THEIA_LAUNCH ? ['Client portal'] : []),
+  'An add-on (SEO, local, leads, research or advisory)',
   'Not sure yet: help me figure it out',
 ]
 
@@ -179,7 +180,7 @@ export default function DemoPage() {
     setError('')
     if (!form.companyName.trim()) { setError('Please add your company name.'); return }
     if (!form.noWebsite && !form.websiteUrl.trim()) { setError('Please add your website, or check that you don’t have one yet.'); return }
-    if (!form.growthArea) { setError('Please pick the area you need growth in.'); return }
+    if (!form.growthArea) { setError('Please pick what you need help with first.'); return }
     if (!form.noSocials && socialCount < 2) { setError('Please add at least two social platforms, or check that you don’t have a social presence.'); return }
     setSending(true)
     try {
@@ -361,7 +362,7 @@ export default function DemoPage() {
                   </label>
 
                   <div className="form-row demo-growth-row">
-                    <label>What areas do you need growth in? *</label>
+                    <label>What do you need help with first? *</label>
                     <select value={form.growthArea} onChange={set('growthArea')} required>
                       <option value="">Select an area</option>
                       {GROWTH_AREAS.map((g) => <option key={g} value={g}>{g}</option>)}
