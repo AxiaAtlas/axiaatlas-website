@@ -3,7 +3,9 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { AMark } from './Logo'
 import { Send, Arrow } from './icons'
-import { SERVICE_NAMES, serviceShort, type ServiceId } from '@/lib/services'
+import { ADDONS_PATH, PORTAL_PATH, THEIA_PATH, serviceHref, serviceName, serviceShort, type ServiceId } from '@/lib/services'
+import { THEIA_LAUNCH } from '@/lib/flags'
+import { ADDONS_PRICE, CARE_PRICE, SOCIAL_PRICE, WEBSITE_PRICE } from '@/lib/price-facts'
 import { aaTrack } from '@/lib/aa-track'
 
 type ChatLink = { label: string; href: string }
@@ -11,7 +13,7 @@ type Message = { role: 'user' | 'assistant'; content: string; at?: string; links
 type VisitorInfo = { name?: string; email?: string; phone?: string; company?: string }
 
 const WELCOME =
-  "Hi, I'm the Axia Atlas assistant. Ask me what we do, how we work, our tiers, or how to get started. Pick a question below or type your own."
+  "Hi, I'm the Axia Atlas assistant. Ask me what we do, what it costs, or how to get started. Pick a question below or type your own."
 
 // ── Predetermined Q&A. No external calls. First entry that matches wins. ──
 // `topic: true` marks an entry that maps to a specific page (a service section
@@ -19,37 +21,25 @@ const WELCOME =
 // overview entries so a topic question always links the right page.
 type QA = { keywords: string[]; answer: string; links?: ChatLink[]; followups: string[]; topic?: boolean }
 
-/* A deep link into one service section. BOTH HALVES ARE DERIVED: the label
-   from lib/services, the href from the same id that produced it, so a link
-   cannot come to name one service and point at another.
-
-   The eight labels below were typed, and eight hand-typed labels disagreed
-   with each other about what register they were in — "Competitive
-   Intelligence details" and "Local Presence & Maps details" carried the full
-   catalogue name, "Social Media details" and "Website details" carried a
-   shortening, and "Executive brand details" and "Lead gen details" were the
-   short name with the capital dropped. Three conventions in one table of
-   eight, none of them chosen. `short` is the convention now, because these
-   sit inline in a chat bubble, which is a narrow slot. */
+/* A link to one service. The label comes from lib/services and the href from
+   serviceHref(), so a link cannot name one service and point at another. */
 const svcLink = (id: ServiceId): ChatLink => ({
   label: `${serviceShort(id)} details`,
-  href: `/services#${id}`,
+  href: serviceHref(id),
 })
 
 const L = {
-  demo: { label: 'Book a demo', href: '/demo' },
+  demo: { label: 'Book a Demo', href: '/demo' },
   services: { label: 'See all services', href: '/services' },
+  addons: { label: 'See the add-ons', href: ADDONS_PATH },
   pricing: { label: 'View pricing', href: '/pricing' },
-  /* '/#results', not '/case-studies'. The page was deleted and its five results
-     ARE the home section now; next.config.mjs 308s the old URL to this exact
-     anchor. Pointing here sent every "See results" click through that redirect —
-     an extra round trip on the one link in this widget that exists to show proof,
-     and the last internal link on the site still taking the hop (/blog already
-     links straight to /#results). The 308 stays for inbound links from off-site;
-     it is not a route we should be using on our own pages. */
+  /* '/#results', not '/case-studies': the old page 301s to this anchor, so
+     linking it directly saves the hop. */
   cases: { label: 'See results', href: '/#results' },
   contact: { label: 'Contact us', href: '/contact' },
   careers: { label: 'See open roles', href: '/careers' },
+  portal: { label: 'About the portal', href: PORTAL_PATH },
+  theia: { label: 'Meet Theia', href: THEIA_PATH },
   social: svcLink('social'),
   intel: svcLink('intel'),
   geo: svcLink('geo'),
@@ -58,33 +48,49 @@ const L = {
   website: svcLink('website'),
   leadgen: svcLink('leadgen'),
   strategy: svcLink('strategy'),
+  dashboards: svcLink('dashboards'),
 } satisfies Record<string, ChatLink>
-
-/* The nine names as an English list, in catalogue order — the same order
-   /services renders and the footer column now runs in. It was typed out here
-   in a tenth order of its own, which is how this sentence came to be the last
-   copy of the catalogue on the site. */
-const SERVICE_SENTENCE = `${SERVICE_NAMES.slice(0, -1).join(', ')}, and ${SERVICE_NAMES[SERVICE_NAMES.length - 1]}`
 
 const QA_SET: QA[] = [
   {
     keywords: ['what do you do', 'what is axia', 'who are you', 'about', 'services overview', 'what you offer'],
     answer:
-      'Axia Atlas is a digital marketing studio. We make brands, local businesses, and founders impossible to miss: in Google, in the answer engines buyers now ask (Claude, ChatGPT, Perplexity, and Gemini), in local search, and across social. We start with strategy, then build content and systems that compound.',
+      `Axia Atlas is a marketing agency headquartered in Miami. We design and build websites and run social media for brands, local businesses, and founders, and we offer add-ons for search, answer engines, local, leads and strategy. We start with strategy, then do the work.`,
     links: [L.services, L.demo],
-    followups: ['What services do you offer?', 'How do I get started?'],
+    followups: ['What services do you offer?', 'How much does it cost?'],
   },
   {
-    keywords: ['service', 'offer', 'what can you', 'help with', 'channels', 'what do you sell'],
+    keywords: ['service', 'offer', 'what can you', 'help with', 'channels', 'what do you sell', 'add-on', 'add on', 'addon'],
     answer:
-      `Our services: ${SERVICE_SENTENCE}. Most clients combine three or four.`,
-    links: [L.services, L.demo],
-    followups: ['How does answer engine optimization work?', 'What are your tiers?'],
+      `Two headline services: ${serviceName('website')} and ${serviceName('social')}. ` +
+      `Everything else is an add-on you bolt on when it pays off: SEO and answer engines, local search and maps, lead generation, executive brand, competitor research, strategic advisory, and custom dashboards.`,
+    links: [L.services, L.addons, L.demo],
+    followups: ['How much does it cost?', 'How does answer engine optimization work?'],
   },
+  ...(THEIA_LAUNCH
+    ? [
+        {
+          keywords: ['theia', 'assistant in the portal', 'portal assistant'],
+          answer:
+            "Theia by Axia Atlas is our proprietary assistant inside the client portal. She knows only your business and helps you understand your data, then build your own reports, decks and plans from it. She lives only in your portal, never on your website.",
+          links: [L.theia, L.demo],
+          topic: true,
+          followups: ['What is the client portal?', 'How do I get started?'],
+        },
+        {
+          keywords: ['client portal', 'what is the portal', 'portal pricing', 'saas', 'software'],
+          answer:
+            'The client portal is one login for your results, deliverables, approvals and reports, with Theia inside it. It also shows how the ads you already run are performing. We do not run or buy ads. Portal pricing is on request: book a demo and we will walk you through it.',
+          links: [L.portal, L.demo],
+          topic: true,
+          followups: ['Who is Theia?', 'How do I get started?'],
+        },
+      ] satisfies QA[]
+    : []),
   {
-    keywords: ['answer engine', 'answer-engine', 'claude', 'chatgpt', 'perplexity', 'gemini', 'geo', 'aeo', 'cited', 'citation', 'generative', 'ai platform', 'ai search', 'llm'],
+    keywords: ['answer engine', 'answer-engine', 'chatgpt', 'perplexity', 'gemini', 'geo', 'aeo', 'cited', 'citation', 'generative', 'llm'],
     answer:
-      "SEO & Answer Engine Optimization is one service, because ranking in Google and getting named by an assistant run on the same work. Long-form articles built on real keyword research, the schema and entity data behind them, and source pages written to be quoted whole. On the answer-engine side we baseline the exact prompts a buyer would type across Claude, ChatGPT, Perplexity, and Gemini, record who gets named today, build presence on the third-party sources those systems fall back on, then re-run the same prompts monthly so you can see where you're cited and where you're still left out.",
+      "SEO & Answer Engine Optimization is one add-on, because ranking in Google and getting named by an assistant run on the same work: articles built on real keyword research, the schema and entity data behind them, and source pages written to be quoted whole. We baseline the exact prompts a buyer would type across ChatGPT, Perplexity, Gemini and other answer engines, record who gets named today, build presence on the sources those systems fall back on, then re-run the same prompts monthly so you can see where you are cited and where you are still left out.",
     links: [L.geo, L.demo],
     topic: true,
     followups: ['How long until I see results?', 'How much does it cost?'],
@@ -92,23 +98,23 @@ const QA_SET: QA[] = [
   {
     keywords: ['local', 'google business', 'map pack', 'maps', 'near me', 'review'],
     answer:
-      "Local Presence & Maps works the map pack and the organic results under it together: a fully built Google Business Profile, consistent citations, a review programme with public responses, plus the service and location pages that rank for 'service in city'. Rankings and calls are tracked per location. Usually the highest-ROI channel for a business that sells inside a radius.",
+      "Local Presence & Maps is an add-on that works the map pack and the organic results under it together: a fully built Google Business Profile, consistent citations, a review program with public responses, plus the service and location pages that rank for 'service in city'. Rankings and calls are tracked per location.",
     links: [L.local, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
   },
   {
-    keywords: ['social media', 'instagram', 'tiktok', 'facebook', 'content calendar', 'posting'],
+    keywords: ['social media', 'instagram', 'tiktok', 'facebook', 'linkedin', 'content calendar', 'posting'],
     answer:
-      'Social Media Management is the whole thing, not just a posting schedule: we pick the two or three platforms worth your time, set recurring content pillars, produce and publish natively for each platform, and manage the comments so an audience that actually buys grows around it.',
+      `${serviceName('social')} is one of our two headline services: we pick the two or three platforms worth your time, set recurring content pillars, produce and publish natively for each platform, and answer the comments and messages. ${SOCIAL_PRICE}`,
     links: [L.social, L.demo],
     topic: true,
-    followups: ['What services do you offer?', 'How do I get started?'],
+    followups: ['How much does it cost?', 'How do I get started?'],
   },
   {
     keywords: ['competitor', 'competitive intelligence', 'competition', 'benchmark', 'market research', 'share of voice', 'rivals'],
     answer:
-      'Competitive Intelligence tracks a named set of competitors you choose (usually five to ten) and reports what they actually did: pricing and packaging changes, the queries and pages they rank for that you don\'t, publishing cadence and what earned engagement, hiring signals, review sentiment, and whether the answer engines name them when they don\'t name you. Every claim is sourced and dated.',
+      "Competitive Intelligence is an add-on that tracks the competitors you choose and reports what they actually did: pricing and packaging changes, the queries and pages they rank for that you don't, publishing cadence and what earned engagement, hiring signals, review sentiment, and whether the answer engines name them when they don't name you. Every claim is sourced and dated.",
     links: [L.intel, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
@@ -116,7 +122,7 @@ const QA_SET: QA[] = [
   {
     keywords: ['seo', 'search engine optimization', 'ranking', 'rank', 'keyword', 'organic', 'blog', 'article'],
     answer:
-      "SEO is sold as SEO & Answer Engine Optimization, because organic search and the assistants buyers now ask run on one content pipeline: keyword research, long-form articles written to rank and to be cited, and the schema and entity work underneath them. Search foundations are laid during the website build, and the proximity side (service and location pages, the map pack, citations) sits in Local Presence & Maps.",
+      "SEO is sold as the SEO & Answer Engine Optimization add-on, because organic search and the assistants buyers now ask run on one content pipeline. Search foundations are also laid during every website build, and the proximity side (location pages, the map pack, citations) is the Local Presence & Maps add-on.",
     links: [L.geo, L.website],
     topic: true,
     followups: ['How does answer engine optimization work?', 'How long until I see results?'],
@@ -124,23 +130,38 @@ const QA_SET: QA[] = [
   {
     keywords: ['website', 'web design', 'web site', 'landing page', 'redesign', 'site speed', 'conversion'],
     answer:
-      'Website Design & Build is our core engagement, and it covers more than design: positioning first, then the copy, the design, and the build itself, with search foundations laid during the build rather than bolted on after. You get a working, indexed, fast site, not a mockup handed to someone else.',
-    links: [L.website, L.demo],
+      `${serviceName('website')} is one of our two headline services: positioning first, then the copy, the design and the build, with search foundations laid during the build. ${WEBSITE_PRICE}`,
+    links: [L.website, L.pricing, L.demo],
     topic: true,
-    followups: ['What services do you offer?', 'How do I get started?'],
+    followups: ['What is the care plan?', 'How do I get started?'],
+  },
+  {
+    keywords: ['care plan', 'maintenance', 'maintain', 'updates', 'retainer', 'hosting', 'support'],
+    answer: `${CARE_PRICE} If someone else built your site, we would quote a rebuild rather than care for it.`,
+    links: [L.website, L.pricing],
+    topic: true,
+    followups: ['How much is a website?', 'How do I get started?'],
+  },
+  {
+    keywords: ['assistant on my site', 'website assistant', 'chat on my site', 'chat widget for my site'],
+    answer:
+      'Website assistant is a website add-on: a chat assistant on your own site that answers visitor questions and sends leads to your contacts. It is priced on the pricing page.',
+    links: [L.website, L.pricing],
+    topic: true,
+    followups: ['How much is a website?', 'How do I get started?'],
   },
   {
     keywords: ['advisory', 'strategy', 'strategic', 'consulting', 'embedded', 'pricing decision', 'positioning'],
     answer:
-      "Strategic Advisory & Embedded Thinking is standing access to a strategist who knows your business: recurring working sessions on the decisions that don't fit one channel: what to charge, how to package it, which segment is next, what to say when a competitor undercuts you. Decisions get written down and revisited.",
+      "Strategic Advisory & Embedded Thinking is an add-on: standing access to a strategist who knows your business, for the decisions that don't fit one channel: what to charge, how to package it, which segment is next, what to say when a competitor undercuts you. Decisions get written down and revisited.",
     links: [L.strategy, L.demo],
     topic: true,
-    followups: ['What are your tiers?', 'How do I get started?'],
+    followups: ['How much does it cost?', 'How do I get started?'],
   },
   {
     keywords: ['lead gen', 'lead generation', 'outbound', 'prospecting', 'cold email', 'outreach', 'pipeline'],
     answer:
-      'Lead Generation fills the pipeline now while search and content compound: targeted prospecting over email and LinkedIn that finds your ideal customers and warms them up without sounding like spam.',
+      'Lead Generation is an add-on that fills the pipeline now while search and content compound: targeted prospecting over email and LinkedIn, written for each company rather than dropped into a template.',
     links: [L.leadgen, L.demo],
     topic: true,
     followups: ['What services do you offer?', 'How do I get started?'],
@@ -148,10 +169,18 @@ const QA_SET: QA[] = [
   {
     keywords: ['founder', 'executive', 'personal brand', 'thought leadership'],
     answer:
-      "Executive Personal Brand builds a founder's voice separately from the company's: positions drawn out of you in interviews, then written up as posts and essays that sound like you, with inbound triaged so real buyers get a real reply. The audience and the archive stay yours.",
+      "Executive Personal Brand is an add-on that builds a founder's voice separately from the company's: positions drawn out of you in interviews, then written up as posts and essays that sound like you, with inbound triaged so real buyers get a real reply. The audience and the archive stay yours.",
     links: [L.executive, L.demo],
     topic: true,
-    followups: ['What are your tiers?', 'See some results?'],
+    followups: ['How much does it cost?', 'See some results?'],
+  },
+  {
+    keywords: ['dashboard', 'custom dashboard', 'operations dashboard', 'ad dashboard', 'ads dashboard', 'ad campaign', 'ads', 'advertising'],
+    answer:
+      "Portals & Dashboards is a custom-build add-on: one dashboard for your own operation (stock, orders, pipeline, or the ads you already run), read from the systems you use, behind your own login. We show how your ads perform; we do not run or buy them.",
+    links: [L.dashboards, L.demo],
+    topic: true,
+    followups: ['How much does it cost?', 'How do I get started?'],
   },
   {
     keywords: ['career', 'job', 'jobs', 'hiring', 'work for you', 'join the team', 'open role', 'resume', 'cv'],
@@ -162,18 +191,10 @@ const QA_SET: QA[] = [
     followups: ['What services do you offer?', 'Where are you located?'],
   },
   {
-    keywords: ['price', 'pricing', 'cost', 'how much', 'budget', 'rate', 'fee'],
-    answer:
-      'We work in three tiers (Starter, Growth, and Command), scoped to how fast you want to move. Exact pricing is shared on your demo call, once we know your goals. See what each tier includes:',
+    keywords: ['price', 'pricing', 'cost', 'how much', 'budget', 'rate', 'fee', 'tier', 'plan', 'package'],
+    answer: `We publish our prices. ${WEBSITE_PRICE} ${SOCIAL_PRICE} ${ADDONS_PRICE}`,
     links: [L.pricing, L.demo],
-    followups: ['What are your tiers?', 'How do I get started?'],
-  },
-  {
-    keywords: ['tier', 'starter', 'growth', 'command', 'authority', 'plan', 'package'],
-    answer:
-      'Three tiers: Starter (one or two channels, get momentum), Growth (multi-channel system, our most popular), and Command (full-spectrum, founder brand + campaigns).',
-    links: [L.pricing, L.demo],
-    followups: ['How much does it cost?', 'How do I get started?'],
+    followups: ['What is the care plan?', 'How do I get started?'],
   },
   {
     keywords: ['start', 'get started', 'begin', 'sign up', 'onboard', 'first step', 'how do i', 'audit', 'demo', 'book', 'consult'],
@@ -190,16 +211,15 @@ const QA_SET: QA[] = [
     followups: ['How do I get started?', 'What services do you offer?'],
   },
   {
-    keywords: ['portal', 'login', 'log in', 'client login', 'dashboard', 'sign in', 'account'],
+    keywords: ['portal', 'login', 'log in', 'client login', 'sign in', 'account'],
     answer:
       'Existing clients can sign in to the portal at app.axiaatlas.com. There’s also a Client Portal button at the top of every page.',
     links: [{ label: 'Client Portal', href: 'https://app.axiaatlas.com' }, L.contact],
     followups: ['How do I get started?', 'What services do you offer?'],
   },
   {
-    keywords: ['where', 'located', 'location', 'remote', 'city', 'based'],
-    answer:
-      "We're a fully remote studio and work with clients across North America and beyond, with regular strategy calls and live reporting.",
+    keywords: ['where', 'located', 'location', 'remote', 'city', 'based', 'miami', 'headquarters'],
+    answer: "We're headquartered in Miami, working with clients across the US.",
     links: [L.demo, L.contact],
     followups: ['What services do you offer?', 'How do I get started?'],
   },
@@ -213,14 +233,14 @@ const QA_SET: QA[] = [
   {
     keywords: ['result', 'guarantee', 'roi', 'work', 'proof', 'case study', 'results', 'how long', 'how fast', 'timeline'],
     answer:
-      'We measure success in pipeline, rankings, citations, and compounding assets, not posts published. Work starts in week one; compounding channels build over 60–90 days. See real outcomes:',
+      'We measure success in pipeline, rankings, citations, and compounding assets, not posts published. Work starts in week one; compounding channels build over 60 to 90 days. See real outcomes:',
     links: [L.cases, L.demo],
     followups: ['How much does it cost?', 'How do I get started?'],
   },
 ]
 
 const DEFAULT_LINKS: ChatLink[] = [L.demo, L.contact]
-const SUGGESTIONS = ['What do you do?', 'What are your tiers?', 'How do I get started?', 'How do answer engines work?']
+const SUGGESTIONS = ['What do you do?', 'How much does it cost?', 'How do I get started?', 'How do answer engines work?']
 
 // Score a question against an entry. Each keyword must start on a word boundary
 // (so "seo" can't fire inside "season" or "rank" inside "frank"), but we don't
@@ -262,7 +282,7 @@ function answerFor(text: string): Message {
     content:
       "Good question. I don't have a ready answer for that one. The fastest way to a real answer is to book a demo, or email partner@axiaatlas.com and we'll reply within 24 hours.",
     links: DEFAULT_LINKS,
-    followups: ['What services do you offer?', 'What are your tiers?'],
+    followups: ['What services do you offer?', 'How much does it cost?'],
   }
 }
 

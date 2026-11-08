@@ -5,7 +5,7 @@ import GoogleAnalytics from '@/components/GoogleAnalytics'
 import SiteBehavior from '@/components/SiteBehavior'
 import SelectBridge from '@/components/SelectBridge'
 import { SITE_URL, HOME_TITLE, BRAND_TAIL, OG_IMAGE } from '@/lib/seo'
-import { SERVICE_NAMES } from '@/lib/services'
+import { ADDON_IDS, serviceHref, serviceName, type ServiceId } from '@/lib/services'
 import { APP_ICONS } from '@/lib/brand/app-icons'
 
 const montserrat = Montserrat({
@@ -16,7 +16,7 @@ const montserrat = Montserrat({
 })
 
 const DESCRIPTION =
-  'Axia Atlas is a digital marketing studio that makes brands, local businesses, and founders impossible to miss: in search, answer engines, and in the feeds where your buyers decide. Strategy first, then content that compounds.'
+  'Axia Atlas is a marketing agency headquartered in Miami that designs and builds websites and runs social media for brands, local businesses, and founders across the US, with add-ons for search, answer engines, local, leads and strategy. Strategy first, then the work.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -34,7 +34,6 @@ export const metadata: Metadata = {
     'answer engine optimization',
     'AEO',
     'GEO',
-    'Claude',
     'ChatGPT',
     'Perplexity',
     'Gemini',
@@ -185,7 +184,10 @@ export const metadata: Metadata = {
 // mirrors the platform's SERVICES table once, and both this node and the
 // /services ItemList read that mirror, so the two can no longer disagree about
 // a name OR about an order.
-const SERVICE_CATALOG = SERVICE_NAMES
+// 2026-11: the two headline services first, then the add-ons in group order.
+// /services must publish its ItemList in this same order under the same @id.
+const CATALOG_IDS: ServiceId[] = ['website', 'social', ...ADDON_IDS]
+const SERVICE_CATALOG = CATALOG_IDS.map((id) => ({ name: serviceName(id), url: `${SITE_URL}${serviceHref(id)}` }))
 
 // ── The canonical Organization node ─────────────────────────────────────────
 // KEEP IN SYNC with axiaatlas-platform/src/lib/brand/organization-schema.ts,
@@ -242,20 +244,21 @@ const ORG_NODE = {
     'Axia Atlas is a digital marketing and SEO studio. It is not a healthcare provider, medical group, or patient services organization, and is unaffiliated with any similarly named business in healthcare.',
   slogan: 'To be found is to be seen.',
   email: 'partner@axiaatlas.com',
-  /* NATIONWIDE, NOT WORLDWIDE. Corrected on direction with the /contact answer
-     that makes the same claim in prose ("based in Miami, and we work with
-     clients across the country"). A machine-readable areaServed of "Worldwide"
+  /* HEADQUARTERED IN MIAMI, WORKING ACROSS THE US. The /contact answer and the
+     chat widget say the same sentence ("headquartered in Miami, working with
+     clients across the US"). A machine-readable areaServed of "Worldwide"
      sitting under a visible answer that says nationwide is the drift the FAQ
      file works hard to avoid, so the two moved together. `Country` with a name rather than the
      bare string, because an engine can resolve a typed node and cannot resolve
      an adjective. */
   areaServed: { '@type': 'Country', name: 'United States' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Miami', addressRegion: 'FL', addressCountry: 'US' },
   // An engine that cannot tell what sector a company is in falls back to
   // whichever same-named entity it DOES have a sector for. Stating it explicitly
   // is what makes a healthcare entity a bad match rather than a plausible one.
-  industry: 'Advertising, Marketing & Digital Services',
+  // Not "Advertising": Axia Atlas does not run or manage ads (2026-11).
+  industry: 'Marketing & Digital Services',
   naics: '541613', // Marketing Consulting Services
-  isicV4: '7310',  // Advertising
   knowsAbout: [
     'Answer Engine Optimization',
     'Generative Engine Optimization',
@@ -279,10 +282,10 @@ const ORG_NODE = {
     // that is false. `numberOfItems` still carries the count.
     name: 'Axia Atlas service catalog',
     numberOfItems: SERVICE_CATALOG.length,
-    itemListElement: SERVICE_CATALOG.map((name, i) => ({
+    itemListElement: SERVICE_CATALOG.map(({ name, url }, i) => ({
       '@type': 'Offer',
       position: i + 1,
-      itemOffered: { '@type': 'Service', name, serviceType: name, provider: { '@id': ORG_ID } },
+      itemOffered: { '@type': 'Service', name, serviceType: name, url, provider: { '@id': ORG_ID } },
     })),
   },
 }
@@ -313,7 +316,7 @@ const JSON_LD = {
       applicationSubCategory: 'Client Portal',
       operatingSystem: 'Any (web browser)',
       description:
-        'The client portal for Axia Atlas, a digital marketing studio. Axia Atlas clients sign in to review deliverables, approve content, and see performance across search, answer engines and social.',
+        'The client portal for Axia Atlas, a marketing agency. Axia Atlas clients sign in to review deliverables, approve content, and see performance across search, answer engines and social.',
       image: ORG_LOGO_URL,
       provider: { '@id': ORG_ID },
       publisher: { '@id': ORG_ID },

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   ...social({ title: pageTitle('Terms of Service'), description: DESCRIPTION, path: '/terms' }),
 }
 
-const UPDATED = 'July 11, 2026'
+const UPDATED = 'November 8, 2026'
 
 export default function TermsPage() {
   return (
@@ -33,9 +33,10 @@ export default function TermsPage() {
 
           <h2>1. Who we are</h2>
           <p>
-            Axia Atlas is a digital marketing studio offering services including search engine optimization,
-            answer-engine optimization, social media, local presence, founder branding, website design, campaigns,
-            and lead generation. Information on the Site is provided for general informational purposes.
+            Axia Atlas is a marketing agency offering website design and build and social media management, with
+            add-on services including search engine and answer-engine optimization, local presence, lead generation,
+            executive personal branding, competitive intelligence, strategic advisory and custom dashboards. Axia Atlas
+            does not run, buy or manage advertising. Information on the Site is provided for general informational purposes.
           </p>
 
           <h2>2. Use of the Site</h2>

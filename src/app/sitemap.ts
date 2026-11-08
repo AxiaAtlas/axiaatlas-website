@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getPosts, postDate } from '@/lib/blog'
+import { THEIA_LAUNCH } from '@/lib/flags'
 
 const SITE_URL = 'https://axiaatlas.com'
 
@@ -18,8 +19,9 @@ export const revalidate = 3600
 //
 // So, concretely, what may not appear below:
 //   • /case-studies — retired, 301s to /#results (see next.config.mjs)
-//   • anything under /services/ — the nine services are fragments on /services
-//     (/services#geo), not pages, and /services/<anything> 301s to the page
+//   • a retired /services/<id> address: only the live service pages below are
+//     listed; the old ids 301 (see next.config.mjs)
+//   • /services/portal and /theia before the Theia launch: they 404 until then
 //   • a trailing-slash form of any path — /blog/ 308s to /blog
 //   • the www or *.vercel.app host — one canonical host, and it is the apex
 //   • /go/* — those are redirects, noindex, and disallowed in robots.txt
@@ -27,6 +29,15 @@ export const revalidate = 3600
 const STATIC_ROUTES: { path: string; priority: number; freq: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
   { path: '', priority: 1.0, freq: 'weekly' },
   { path: '/services', priority: 0.9, freq: 'monthly' },
+  { path: '/services/website-design', priority: 0.9, freq: 'monthly' },
+  { path: '/services/social-media-management', priority: 0.9, freq: 'monthly' },
+  { path: '/services/add-ons', priority: 0.8, freq: 'monthly' },
+  ...(THEIA_LAUNCH
+    ? [
+        { path: '/services/portal', priority: 0.9, freq: 'monthly' as const },
+        { path: '/theia', priority: 0.8, freq: 'monthly' as const },
+      ]
+    : []),
   { path: '/pricing', priority: 0.9, freq: 'monthly' },
   { path: '/blog', priority: 0.8, freq: 'weekly' },
   { path: '/about', priority: 0.6, freq: 'monthly' },

@@ -3,16 +3,26 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { AMark, WordmarkText } from './Logo'
+import { THEIA_LAUNCH } from '@/lib/flags'
+import { ADDONS_PATH, HEADLINE_PAGES, PORTAL_PATH, THEIA_PATH } from '@/lib/services'
 
 const PORTAL_URL = 'https://app.axiaatlas.com'
 
+/* The headline services lead, then add-ons and pricing. The Portal and Theia
+   join at the Theia launch (lib/flags). */
 const LINKS = [
-  { href: '/services', label: 'Services' },
+  ...(THEIA_LAUNCH ? [{ href: PORTAL_PATH, label: 'Portal' }] : []),
+  { href: HEADLINE_PAGES.website, label: 'Website Design' },
+  { href: HEADLINE_PAGES.social, label: 'Social Media' },
+  { href: ADDONS_PATH, label: 'Add-ons' },
   { href: '/pricing', label: 'Pricing' },
+  ...(THEIA_LAUNCH ? [{ href: THEIA_PATH, label: 'Theia' }] : []),
   { href: '/blog', label: 'Insights' },
   { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
 ]
+
+const isActive = (pathname: string | null, href: string) =>
+  !!pathname && (pathname === href || pathname.startsWith(`${href}/`))
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
@@ -37,8 +47,8 @@ export default function Nav() {
             <Link
               href={l.href}
               onClick={close}
-              className={pathname === l.href ? 'active' : undefined}
-              aria-current={pathname === l.href ? 'page' : undefined}
+              className={isActive(pathname, l.href) ? 'active' : undefined}
+              aria-current={isActive(pathname, l.href) ? 'page' : undefined}
             >
               {l.label}
             </Link>

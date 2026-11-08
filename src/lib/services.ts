@@ -151,25 +151,18 @@
    budget that a 1.2px bias cannot change the answer. A row landing within ~3px of
    the budget still needs a real browser.
 
-   ── THE ORDER IS PRICE, HIGHEST FIRST ───────────────────────────────────────
-   /services renders this array in this order, and it is ranked by what the
-   service costs at its top tier, read off the platform table:
+   ── HEADLINE SERVICES AND ADD-ONS (2026-11) ─────────────────────────────────
+   The site sells three headline services: the Portal, Website Design & Build
+   and Social Media Management. Everything else is an add-on, grouped by the job
+   the buyer wants done (ADDON_GROUPS below). Until the Theia launch the Portal
+   is left out of the headline set (lib/flags), so the live site leads with two.
 
-     dashboards   $18,000 build + $900/mo      the largest engagement we sell
-     website      $10,000 one-time
-     geo          $5,500/mo
-     social       $4,500/mo
-     leadgen      $3,800/mo
-     executive    $2,800/mo   (per person)
-     strategy     $2,500/mo
-     intel        $1,500/mo   ─┐ tied at the top tier; intel is ahead on both
-     local        $1,500/mo   ─┘ lower tiers ($950/$500 against $900/$450)
+   Every service page lives under /services/<slug>. `href` below is the one
+   place a service's address is written; next.config.mjs 301s the old
+   /services/<id> addresses to the same places.
 
-   NO PRICE IS PRINTED ON THIS SITE, and none is recorded here either — a
-   second copy of a number is a number that will one day disagree, and the
-   pricing page already says so. The ORDER carries the ranking; the figures
-   above are a comment explaining how the order was arrived at, and they are
-   checked against the platform whenever it reprices, not read by any code.
+   PRICES are printed now, and they are never typed here: lib/pricing reads
+   them from the platform's pricing.ts through scripts/sync-pricing.mjs.
    ════════════════════════════════════════════════════════════════════════════ */
 
 export type ServiceId =
@@ -232,3 +225,55 @@ export function serviceShort(id: ServiceId): string {
 
 /** How many services there are. The only place the site's count comes from. */
 export const SERVICE_COUNT = SERVICES.length
+
+/* ── WHERE EACH SERVICE LIVES ──────────────────────────────────────────────── */
+
+export const ADDONS_PATH = '/services/add-ons'
+
+/** The two headline services that have pages of their own, and their slugs. */
+export const HEADLINE_PAGES = {
+  website: '/services/website-design',
+  social: '/services/social-media-management',
+} as const
+
+export const PORTAL_PATH = '/services/portal'
+export const THEIA_PATH = '/theia'
+
+/** The anchor each add-on takes on /services/add-ons. */
+export const ADDON_ANCHOR: Record<Exclude<ServiceId, 'website' | 'social'>, string> = {
+  geo: 'seo-aeo',
+  local: 'local',
+  leadgen: 'lead-generation',
+  executive: 'executive-brand',
+  intel: 'competitive-intelligence',
+  strategy: 'strategic-advisory',
+  dashboards: 'custom-dashboards',
+}
+
+/** The one way to link to a service. */
+export function serviceHref(id: ServiceId): string {
+  if (id === 'website' || id === 'social') return HEADLINE_PAGES[id]
+  return `${ADDONS_PATH}#${ADDON_ANCHOR[id]}`
+}
+
+/* ── ADD-ONS, GROUPED BY THE JOB THE BUYER WANTS DONE ──────────────────────── */
+
+export type AddonGroup = { id: string; section: string; name: string; lede: string; ids: ServiceId[] }
+
+export const ADDON_GROUPS: AddonGroup[] = [
+  { id: 'get-found', section: 'addons.found', name: 'Get Found',
+    lede: 'Be the business that shows up when a buyer searches, asks an answer engine, or looks at the map.',
+    ids: ['geo', 'local'] },
+  { id: 'fill-the-pipeline', section: 'addons.pipeline', name: 'Fill the Pipeline',
+    lede: 'Start conversations with the buyers you want, from your company and from the people who lead it.',
+    ids: ['leadgen', 'executive'] },
+  { id: 'decide-with-evidence', section: 'addons.decide', name: 'Decide With Evidence',
+    lede: 'Know what the competition is doing and get a second mind on the decisions that cross every channel.',
+    ids: ['intel', 'strategy'] },
+  { id: 'custom-builds', section: 'addons.custom', name: 'Custom Builds',
+    lede: 'Software built for your own operation, reading from the systems you already run on.',
+    ids: ['dashboards'] },
+]
+
+/** Every add-on id, in group order. */
+export const ADDON_IDS: ServiceId[] = ADDON_GROUPS.flatMap((g) => g.ids)
