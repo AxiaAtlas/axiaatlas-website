@@ -8,7 +8,8 @@
 // src/lib/pricing-catalog.json. Nothing in that file is typed by hand.
 //
 // WHAT IS COPIED: service keys, kind, the channel flag, per-person pricing,
-// minimum terms, the outward "who it is for" sentence, and for each tier its label, monthly price, one-time fee,
+// minimum terms, the payment plan, the outward "who it is for" sentence, each
+// add-on's label, prices, term and note, and for each tier its label, monthly price, one-time fee,
 // capped hours and overage rate, meeting and reporting cadence, and its
 // public feature lines. Costs, margins, deliverable mixes and add-on costs
 // stay in the platform: they are not public.
@@ -69,7 +70,19 @@ try {
     priced: !P.isUnpriced(s),
     perPerson: P.pricedPerPerson(s),
     minTermMonths: s.minTermMonths ?? null,
+    paymentPlanMonths: s.paymentPlanMonths ?? null,
     audience: text(P.defaultServiceFor(s.key)?.audience) ?? null,
+    addOns: (s.addOns || []).map((a) => ({
+      key: a.key,
+      label: text(a.label),
+      price: a.price || 0,
+      tierPrices: a.tierPrices?.length ? a.tierPrices : null,
+      oneTime: !!a.oneTime,
+      included: !!a.included,
+      setupPrice: a.setupPrice || null,
+      minTermMonths: a.minTermMonths ?? null,
+      note: text(a.note) ?? null,
+    })),
     tiers: s.tiers.map((t) => ({
       level: t.level,
       label: text(t.label),

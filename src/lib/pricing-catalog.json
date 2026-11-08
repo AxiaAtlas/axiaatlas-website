@@ -1,6 +1,6 @@
 {
   "source": "axiaatlas-platform/src/lib/pricing.ts",
-  "costModelVersion": 11,
+  "costModelVersion": 12,
   "currency": "USD",
   "services": [
     {
@@ -10,7 +10,84 @@
       "priced": true,
       "perPerson": false,
       "minTermMonths": null,
+      "paymentPlanMonths": 6,
       "audience": "A business whose website is the step between interest and a sale, with nobody in-house to build or maintain it. Either there is no site yet, or there is one built for a brand the business has since outgrown.",
+      "addOns": [
+        {
+          "key": "extra_page",
+          "label": "Extra page",
+          "price": 350,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "ecommerce",
+          "label": "Add e-commerce to a Tier-1 site",
+          "price": 2000,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "chatbot",
+          "label": "Website assistant",
+          "price": 1500,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "care_plan",
+          "label": "Website care plan",
+          "price": 250,
+          "tierPrices": [
+            250,
+            400,
+            650
+          ],
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": 3,
+          "note": "Only for sites Axia Atlas built."
+        },
+        {
+          "key": "crm_contacts",
+          "label": "Client CRM / Contacts",
+          "price": 0,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": true,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "email_broadcasts",
+          "label": "Email Broadcasts",
+          "price": 350,
+          "tierPrices": [
+            350,
+            450,
+            550
+          ],
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
       "tiers": [
         {
           "level": 1,
@@ -58,7 +135,43 @@
       "priced": true,
       "perPerson": false,
       "minTermMonths": 3,
+      "paymentPlanMonths": null,
       "audience": "A business whose category gets judged on a feed, and whose accounts are either empty or posted to whenever somebody remembers.",
+      "addOns": [
+        {
+          "key": "channel_setup",
+          "label": "Channel Setup from scratch",
+          "price": 1200,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "reel_pack",
+          "label": "Extra 4-reel pack",
+          "price": 500,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "extra_platform",
+          "label": "Extra platform",
+          "price": 400,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
       "tiers": [
         {
           "level": 1,
@@ -102,7 +215,21 @@
       "priced": true,
       "perPerson": false,
       "minTermMonths": 3,
+      "paymentPlanMonths": null,
       "audience": "A business whose buyers now ask an answer engine before they ask a person, and which is not in the answer they get back.",
+      "addOns": [
+        {
+          "key": "extra_article",
+          "label": "Extra article",
+          "price": 350,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
       "tiers": [
         {
           "level": 1,
@@ -146,7 +273,32 @@
       "priced": true,
       "perPerson": false,
       "minTermMonths": 3,
+      "paymentPlanMonths": null,
       "audience": "A business people find by proximity: a storefront, a service area, a map pack, a search that ends in \"near me\".",
+      "addOns": [
+        {
+          "key": "citation_cleanup",
+          "label": "Citation cleanup",
+          "price": 400,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "location_pages",
+          "label": "Local landing / location pages",
+          "price": 1750,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
       "tiers": [
         {
           "level": 1,
@@ -190,7 +342,21 @@
       "priced": true,
       "perPerson": false,
       "minTermMonths": null,
+      "paymentPlanMonths": null,
       "audience": "A business that sells to named people rather than to a feed, and whose pipeline currently depends on who the founder already knows.",
+      "addOns": [
+        {
+          "key": "list_building",
+          "label": "List building sprint",
+          "price": 500,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
       "tiers": [
         {
           "level": 1,
@@ -234,7 +400,21 @@
       "priced": true,
       "perPerson": true,
       "minTermMonths": null,
+      "paymentPlanMonths": null,
       "audience": "A founder or executive whose own name carries trust the company name has not earned yet, and who has no time to write.",
+      "addOns": [
+        {
+          "key": "ghost_article",
+          "label": "Ghostwritten article",
+          "price": 450,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
       "tiers": [
         {
           "level": 1,
@@ -278,7 +458,9 @@
       "priced": true,
       "perPerson": false,
       "minTermMonths": null,
+      "paymentPlanMonths": null,
       "audience": "A business making positioning and pricing decisions from an impression of what its competitors are doing.",
+      "addOns": [],
       "tiers": [
         {
           "level": 1,
@@ -322,7 +504,21 @@
       "priced": true,
       "perPerson": false,
       "minTermMonths": null,
+      "paymentPlanMonths": null,
       "audience": "A founder who owns every marketing decision and has nobody to argue one through with before it is made.",
+      "addOns": [
+        {
+          "key": "workshop",
+          "label": "Strategy workshop (half-day)",
+          "price": 1200,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
       "tiers": [
         {
           "level": 1,
@@ -366,7 +562,43 @@
       "priced": true,
       "perPerson": false,
       "minTermMonths": 12,
+      "paymentPlanMonths": null,
       "audience": "A business running on systems that each answer half a question. Stock lives in one place, orders in another, the pipeline in a third, and somebody exports all three into a spreadsheet on Monday morning to find out how the week actually went.",
+      "addOns": [
+        {
+          "key": "extra_source",
+          "label": "Additional connected source",
+          "price": 300,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": 4000,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "extra_module",
+          "label": "Additional module",
+          "price": 150,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": 5000,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "handover",
+          "label": "Handover & migration (offboarding Plan B)",
+          "price": 6500,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
       "tiers": [
         {
           "level": 1,

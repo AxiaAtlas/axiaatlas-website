@@ -24,6 +24,23 @@ export type PricedTier = {
   features: string[]
 }
 
+export type PricedAddOn = {
+  key: string
+  label: string
+  /** Flat price, or the fallback when tierPrices is unset. */
+  price: number
+  /** [Tier 1, Tier 2, Tier 3] when the add-on is priced by the service's tier. */
+  tierPrices: number[] | null
+  oneTime: boolean
+  /** Included with the service at no charge. */
+  included: boolean
+  /** A one-time build charged alongside a recurring add-on. */
+  setupPrice: number | null
+  minTermMonths: number | null
+  /** The one condition a buyer must know, in the platform's words. */
+  note: string | null
+}
+
 export type PricedService = {
   key: string
   kind: 'recurring' | 'project' | 'advisory'
@@ -31,9 +48,12 @@ export type PricedService = {
   priced: boolean
   perPerson: boolean
   minTermMonths: number | null
+  /** A one-time fee may be paid over this many months, same total. */
+  paymentPlanMonths: number | null
   /** The platform's outward sentence on who the service is for. */
   audience: string | null
   tiers: PricedTier[]
+  addOns: PricedAddOn[]
 }
 
 export const CURRENCY = catalog.currency
@@ -108,3 +128,48 @@ export function tierNotes(t: PricedTier): string[] {
 export function minimumTerms(): [ServiceId, number][] {
   return PRICED_SERVICES.filter((s) => s.pricing.minTermMonths).map((s) => [s.id, s.pricing.minTermMonths as number])
 }
+
+/* ── ADD-ONS ─────────────────────────────────────────────────────────────── */
+
+/** Add-ons a buyer can be quoted. The offboarding handover is how an
+    engagement ends, not something sold up front, so it is left off. */
+export function addOnsFor(id: ServiceId): PricedAddOn[] {
+  return pricingFor(id).addOns.filter((a) => a.key !== 'handover')
+}
+
+/** One add-on by key. Throws at build time if the platform dropped it. */
+export function addOn(id: ServiceId, key: string): PricedAddOn {
+  const a = pricingFor(id).addOns.find((x) => x.key === key)
+  if (!a) throw new Error(`No platform add-on ${key} on ${id}`)
+  return a
+}
+
+/** How an add-on's price reads, e.g. "$350 one-time", "$250 to $650 a month". */
+export function addOnPrice(a: PricedAddOn): string {
+  if (a.included) return 'Included'
+  const unit = a.oneTime ? ' one-time' : ' a month'
+  if (a.tierPrices) {
+    const lo = Math.min(...a.tierPrices), hi = Math.max(...a.tierPrices)
+    return lo === hi ? `${money(lo)}${unit}` : `${money(lo)} to ${money(hi)}${unit}`
+  }
+  if (!a.oneTime && a.setupPrice) return `${money(a.price)} a month plus ${money(a.setupPrice)} to build`
+  return `${money(a.price)}${unit}`
+}
+
+/* ── THE BUILD PAYMENT PLAN ──────────────────────────────────────────────── */
+
+/** A one-time fee spread over the platform's plan months: the same total,
+    not financed. Returns null when the service has no plan. */
+export function paymentPlan(id: ServiceId, total: number): { months: number; monthly: string } | null {
+  const months = pricingFor(id).paymentPlanMonths
+  if (!months) return null
+  const monthly = total / months
+  const str = Number.isInteger(monthly)
+    ? money(monthly)
+    : `$${monthly.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  return { months, monthly: str }
+}
+
+/** "six", for a sentence. Falls back to the numeral. */
+export const monthsWord = (n: number) =>
+  (['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n] ?? String(n))
