@@ -1,167 +1,181 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
-import { Arrow, Check } from '@/components/icons'
-import { pageTitle, social } from '@/lib/seo'
-import { serviceName, serviceShort } from '@/lib/services'
+import CtaBand from '@/components/CtaBand'
+import { Arrow } from '@/components/icons'
+import { pageTitle, social, SITE_URL } from '@/lib/seo'
+import { serviceName, type ServiceId } from '@/lib/services'
+import {
+  CURRENCY, PRICED_SERVICES, minimumTerms, money, monthlyRange, range, termLabel, tierNotes, tierPrice,
+  type PricedService,
+} from '@/lib/pricing'
+
+/* ── EVERY FIGURE ON THIS PAGE COMES FROM THE PLATFORM ────────────────────
+   lib/pricing reads pricing-catalog.json, which scripts/sync-pricing.mjs
+   writes by running the platform's src/lib/pricing.ts. Tier names, prices,
+   build fees, terms, capped hours and cadences all come from there, and
+   nothing numeric is typed in this file. When the platform reprices, run
+   `npm run sync:pricing` and this page follows.
+
+   THE SHAPE IS THE PLATFORM'S TOO. There is no site-wide bundle ladder: each
+   service is priced on its own three tiers, so the page is one row per
+   service. Monthly services come first, then the two builds (Portals &
+   Dashboards and Website Design & Build), which are priced as software is:
+   a fee to build, and for a dashboard a monthly to keep it right.
+
+   ON-PAGE SEO follows the platform's contract (lib/website/seo-contract.ts):
+   a 50-60 character title, one H1 of 50-60 characters, the answer in the
+   first 40-60 words, H2 per section and H3 per service, and Service JSON-LD
+   carrying only prices that are printed on the page. */
+
+const TITLE = 'Digital Marketing Pricing by Service and Tier'
+
+const [MONTHLY_LO, MONTHLY_HI] = monthlyRange()
+const [WEB_LO, WEB_HI] = range('website', 'oneTime')
+const [DASH_BUILD_LO] = range('dashboards', 'oneTime')
+const [DASH_MONTHLY_LO] = range('dashboards', 'monthly')
+
+/* The answer block: what it costs, in one paragraph a model can lift whole. */
+const ANSWER =
+  `Axia Atlas publishes a price for every service, each on its own three tiers, and you buy only the services you need. ` +
+  `Monthly services run from ${money(MONTHLY_LO)} to ${money(MONTHLY_HI)} a month each. ` +
+  `A website is a one-time build from ${money(WEB_LO)} to ${money(WEB_HI)}. ` +
+  `${serviceName('dashboards')} start at a ${money(DASH_BUILD_LO)} build plus ${money(DASH_MONTHLY_LO)} a month.`
 
 const DESCRIPTION =
-  'Three Axia Atlas tiers (Starter, Growth, and Command), scoped to how fast you want to move. See what each includes; exact pricing is shared on your demo call.'
+  `Published prices for every Axia Atlas service. Monthly services from ${money(MONTHLY_LO)} to ${money(MONTHLY_HI)} a month, ` +
+  `websites from ${money(WEB_LO)} one-time, and client portals and dashboards from a ${money(DASH_BUILD_LO)} build.`
 
 export const metadata: Metadata = {
-  title: 'Marketing Packages and Dashboard Pricing',
+  title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/pricing' },
-  ...social({ title: pageTitle('Marketing Packages and Dashboard Pricing'), description: DESCRIPTION, path: '/pricing' }),
+  ...social({ title: pageTitle(TITLE), description: DESCRIPTION, path: '/pricing' }),
 }
 
-const TIERS = [
-  {
-    name: 'Starter',
-    blurb: 'Get momentum on one or two channels and prove the model before you scale.',
-    features: [
-      `One or two channels (e.g. ${serviceName('local')}, or ${serviceShort('social')})`,
-      'Strategy and 90-day plan',
-      'Monthly content and execution',
-      'Core setup: profile, on-page, tracking',
-      'Monthly report in plain English',
-      'Email support',
-    ],
-    featured: false,
-    cta: 'Start with Starter',
-  },
-  {
-    name: 'Growth',
-    blurb: 'A connected multi-channel system, our most popular tier for businesses ready to move.',
-    features: [
-      'Three to four channels working together',
-      'Everything in Starter',
-      `${serviceName('geo')} included`,
-      'Website or landing-page work',
-      'Monthly strategy call',
-      'Live dashboard and priority support',
-    ],
-    featured: true,
-    cta: 'Scope a Growth plan',
-  },
-  {
-    name: 'Command',
-    blurb: 'Full-spectrum visibility, founder brand, and campaigns, for businesses that want to own their category.',
-    features: [
-      'Full channel coverage',
-      'Everything in Growth',
-      'Executive personal brand program',
-      'Campaign strategy and execution',
-      'Lead generation, if it fits',
-      'Senior strategist as your lead contact',
-    ],
-    featured: false,
-    /* NOT "Talk about Command". A top tier's objection is commitment, not
-       curiosity: the reader who has got this far already believes the tier is
-       good, and is weighing whether clicking starts something they cannot back
-       out of. "Talk about X" answers that with a meeting. "Explore your
-       options" answers it with a look around — and it is the only one of the
-       three CTAs that promises the reader nothing is being decided.
+const isBuild = (p: PricedService) => p.tiers.some((t) => t.oneTime > 0)
+const MONTHLY = PRICED_SERVICES.filter((s) => !isBuild(s.pricing))
+const BUILDS = PRICED_SERVICES.filter((s) => isBuild(s.pricing))
 
-       The two it beat, kept here so the next pass does not re-run the argument:
-       "Explore full coverage" (same verb, names what Command is, but "full"
-       re-raises the size question the tier already loses on) and "Own your
-       category" (strongest line, straight out of the tier's own blurb, but it
-       is a claim on a button — the loudest promise on the page sitting under
-       the tier that is hardest to say yes to). */
-    cta: 'Explore your options',
-  },
-]
+/** "A, B and C" */
+const list = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`)
+
+/* Minimum terms, worded from the data rather than typed. */
+const MONTHLY_TERMS = minimumTerms().filter(([id]) => MONTHLY.some((s) => s.id === id))
+const TERM_MONTHS = Array.from(new Set(MONTHLY_TERMS.map(([, m]) => m)))
+const MONTHLY_LEDE =
+  'Each monthly service has three tiers. The service decides what gets done; the tier decides how much of it, how often we meet and how often you get a report. ' +
+  (TERM_MONTHS.length === 1
+    ? `${list(MONTHLY_TERMS.map(([id]) => serviceName(id)))} carry a ${TERM_MONTHS[0]}-month minimum term. The rest run month to month.`
+    : 'Each card states its minimum term, if it has one.')
+
+const DASH_TERM = minimumTerms().find(([id]) => id === 'dashboards')?.[1]
+const BUILDS_LEDE =
+  `Websites and dashboards are software we build, so they are priced as builds. ${serviceName('website')} is a one-time fee. ` +
+  `${serviceName('dashboards')} is a build fee plus a monthly that keeps its integrations right as your other systems change` +
+  (DASH_TERM ? `, on a ${DASH_TERM}-month minimum term.` : '.')
+
+/* Service JSON-LD with an Offer per tier. Same @ids as /services, so the two
+   pages describe one set of entities. Only prices printed below. */
+const PRICING_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@graph': PRICED_SERVICES.map((s) => ({
+    '@type': 'Service',
+    '@id': `${SITE_URL}/services#${s.id}`,
+    name: s.name,
+    url: `${SITE_URL}/pricing#${s.id}`,
+    provider: { '@id': `${SITE_URL}/#organization` },
+    areaServed: { '@type': 'Country', name: 'United States' },
+    offers: s.pricing.tiers.map((t) => ({
+      '@type': 'Offer',
+      name: `${s.name}: ${t.label}`,
+      priceCurrency: CURRENCY,
+      price: t.monthly || t.oneTime,
+      priceSpecification: [
+        ...(t.monthly
+          ? [{ '@type': 'UnitPriceSpecification', price: t.monthly, priceCurrency: CURRENCY, unitCode: 'MON', referenceQuantity: { '@type': 'QuantitativeValue', value: 1, unitCode: 'MON' } }]
+          : []),
+        ...(t.oneTime ? [{ '@type': 'PriceSpecification', price: t.oneTime, priceCurrency: CURRENCY, name: 'One-time build' }] : []),
+      ],
+    })),
+  })),
+}
+
+function PriceRow({ id, name, pricing }: { id: ServiceId; name: string; pricing: PricedService }) {
+  return (
+    <article id={id} className="price-row">
+      <div className="price-row-head">
+        <h3 className="price-row-name">{name}</h3>
+        {pricing.audience && <p className="price-row-who">{pricing.audience}</p>}
+        <div className="price-row-foot">
+          <span className="price-row-term">{termLabel(pricing)}</span>
+          <Link href={`/services#${id}`} className="service-link">What it includes <Arrow className="arr" /></Link>
+        </div>
+      </div>
+      <ol className="price-tiers">
+        {pricing.tiers.map((t) => {
+          const p = tierPrice(pricing, t)
+          const notes = tierNotes(t)
+          return (
+            <li key={t.label} className="price-tier">
+              <div className="price-tier-name">{t.label}</div>
+              <div className="price-tier-amount">{p.amount} <span>{p.unit}</span></div>
+              {p.extra && <div className="price-tier-extra">{p.extra}</div>}
+              {notes.length > 0 && (
+                <ul className="price-tier-notes">
+                  {notes.map((n) => <li key={n}>{n}</li>)}
+                </ul>
+              )}
+            </li>
+          )
+        })}
+      </ol>
+    </article>
+  )
+}
 
 export default function PricingPage() {
   return (
     <div className="page pricing-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PRICING_JSON_LD) }} />
+
       <div data-aa-section="pricing.hero" className="pricing-hero">
         <div className="section-eyebrow">Pricing</div>
-        <h1 className="section-headline">Digital Marketing Packages, Priced in Three Clear Tiers</h1>
+        <h1 className="section-headline">Published Prices for Every Marketing Service and Tier</h1>
+        <p className="section-sub pricing-answer">{ANSWER}</p>
       </div>
 
-      <div data-aa-section="pricing.tiers" className="pricing-grid">
-        {TIERS.map((t) => (
-          <div key={t.name} className={`pricing-card${t.featured ? ' featured' : ''}`}>
-            {t.featured && <div className="pricing-flag">Most popular</div>}
-            <h2 className="pricing-tier">{t.name}</h2>
-            <div className="pricing-amount">Custom <span>/ scoped to you</span></div>
-            <p className="pricing-blurb">{t.blurb}</p>
-            <ul className="pricing-features">
-              {t.features.map((f) => <li key={f}><Check />{f}</li>)}
-            </ul>
-            <Link
-              href="/demo"
-              className={t.featured ? 'btn-primary' : 'btn-outline'}
-              style={{ width: '100%', justifyContent: 'center' }}
-            >
-              {t.cta} <Arrow className="arr" />
-            </Link>
-          </div>
-        ))}
-      </div>
+      <section data-aa-section="pricing.tiers" className="price-section" aria-labelledby="price-monthly-head">
+        <div className="price-section-head">
+          <div className="section-eyebrow">Billed monthly</div>
+          <h2 className="section-headline" id="price-monthly-head">Monthly Services</h2>
+          <p className="price-section-lede">{MONTHLY_LEDE}</p>
+        </div>
+        <div className="price-rows">
+          {MONTHLY.map((s) => <PriceRow key={s.id} id={s.id} name={s.name} pricing={s.pricing} />)}
+        </div>
+      </section>
 
-      {/* ── CLIENT DASHBOARDS — A BAND, NOT A FOURTH CARD ──────────────────
-          A fourth card in that grid would say "fourth rung of the same
-          ladder", and that is exactly the wrong claim. Starter, Growth, and
-          Command are three sizes of one thing: channels, bought monthly,
-          scoped to how fast you want to move. A client dashboard is not a
-          bigger version of any of them — it is software built for the client's
-          own operation, it is not a way to be found, and it is priced on a
-          shape the ladder does not have. Putting it beside the three would
-          have made a reader compare it to Command, which is the one
-          comparison that teaches them nothing true.
-
-          A band reads as "and separately", which is the relationship.
-
-          NO FIGURES. Same rule as the three cards above and the same reason:
-          the build fee, the monthly, and the term all live in the platform's
-          SERVICES table, which is the source of truth and moves without this
-          repo. What this band publishes is the SHAPE of the price — that there
-          is a build fee, that the monthly buys upkeep rather than hosting, and
-          that there is a term — because the shape is what a reader needs to
-          know before a call and it is the part that does not move.
-
-          WEBSITE DESIGN & BUILD IS NOT IN HERE, and it is the same shape: a
-          build fee, then a monthly, sold outside the three tiers. That it is
-          not represented on this page is a real gap, and closing it is a
-          separate decision rather than something to slip in beside this one. */}
-      <section data-aa-section="pricing.dashboards" className="pricing-band" aria-labelledby="pricing-band-head">
-        <div className="pricing-band-inner">
-          <div className="pb-copy">
-            <div className="section-eyebrow">Outside the tiers</div>
-            <h2 className="pb-head" id="pricing-band-head">Portals & Dashboards are priced on a different shape.</h2>
-            <p className="pb-lede">
-              The three plans above buy channels, month to month. A client dashboard is software
-              built for your own operation. It sits behind your login and is indexed by nobody,
-              so it is quoted the way software is quoted, not slotted into a tier.
-            </p>
-            <div className="pb-links">
-              <Link href="/services#dashboards" className="btn-outline">What it is <Arrow className="arr" /></Link>
-              <Link href="/demo" className="btn-primary">Scope a build <Arrow className="arr" /></Link>
-            </div>
-          </div>
-          <dl className="pb-terms">
-            <div className="pb-term">
-              <dt>Build fee</dt>
-              <dd>Scoped to the views you actually run on and the systems they have to read from. Quoted once, in full, before anything starts.</dd>
-            </div>
-            <div className="pb-term">
-              <dt>Monthly</dt>
-              <dd>Integration upkeep. Your store admin, your CRM, and your spreadsheet all change underneath a dashboard, and the mapping has to change with them. This is not hosting.</dd>
-            </div>
-            <div className="pb-term">
-              <dt>Minimum term</dt>
-              <dd>A dashboard is retained, not delivered. Keeping it right as your tools move is the work, so it is bought for a term rather than signed off at handover.</dd>
-            </div>
-          </dl>
+      <section data-aa-section="pricing.builds" className="price-section price-section-builds" aria-labelledby="price-builds-head">
+        <div className="price-section-head">
+          <div className="section-eyebrow">Priced as builds</div>
+          <h2 className="section-headline" id="price-builds-head">Websites, Portals and Dashboards</h2>
+          <p className="price-section-lede">{BUILDS_LEDE}</p>
+        </div>
+        <div className="price-rows">
+          {BUILDS.map((s) => <PriceRow key={s.id} id={s.id} name={s.name} pricing={s.pricing} />)}
         </div>
       </section>
 
       <p data-aa-section="pricing.note" className="pricing-note">
-        No long lock-ins and no surprise add-ons. Pricing depends on the channels you choose and how much we&apos;re building. We&apos;ll quote it clearly on your demo call, and you decide from there.
+        Prices are in US dollars, per service. You combine only the services you need, and the quote you sign is the price you pay. On the demo call we tell you which services and tiers will pay off first.
       </p>
+
+      <CtaBand
+        eyebrow="Not sure which tier?"
+        headline="We'll tell you what to do first."
+        sub="Book a demo. We audit how you show up before the call, then walk you through the services and tiers that will pay off fastest."
+      />
 
       <Footer />
     </div>
