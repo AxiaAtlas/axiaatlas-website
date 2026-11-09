@@ -4,15 +4,16 @@ import Footer from '@/components/Footer'
 import { Arrow, Check, Doc } from '@/components/icons'
 import { aaTrack } from '@/lib/aa-track'
 
+// The two headline services' roles first, then the add-on specialisms.
 const ROLES = [
+  'Web Designer / Developer',
+  'Social Media Manager',
+  'Graphic / Brand Designer',
+  'Content Writer',
   'SEO & Content Strategist',
   'Answer-Engine / GEO Specialist',
-  'Social Media Manager',
   'Local Presence Specialist',
-  'Web Designer / Developer',
   'Account & Strategy',
-  'Content Writer',
-  'Graphic / Brand Designer',
   'General / Open application',
 ]
 
@@ -148,7 +149,7 @@ export default function CareersPage() {
       <div data-aa-section="careers.hero" className="demo-hero">
         <div className="section-eyebrow">Careers</div>
         <h1 className="section-headline">Careers and Open Roles at a Digital Marketing Studio</h1>
-        <p className="section-sub">We build presence across search, answer engines, local, and social, and we&apos;re always glad to meet sharp, curious people who do great work. Tell us about yourself in three quick steps.</p>
+        <p className="section-sub">Axia Atlas builds websites and runs social media for businesses across the US, with search, answer engines and local on top. We&apos;re always glad to meet sharp, curious people who do great work. Tell us about yourself in three quick steps: a little about you, your experience, and your resume.</p>
       </div>
 
       <div data-aa-section="careers.apply" className="demo-body">

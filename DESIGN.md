@@ -1,8 +1,36 @@
 # Axia Atlas — Design System
 
 The source of truth for the Axia Atlas marketing site's visual language. All tokens
-live in `src/app/globals.css` under `:root`. The site ships a single, committed
-theme (no toggle). This document explains the intent so future work stays cohesive.
+live in `src/app/globals.css` under `:root`. This document explains the intent so
+future work stays cohesive.
+
+> **2026-11: light and dark, in the Theia look.** The site now ships both themes
+> and wears the client portal's assistant skin (Theia). This note overrides any
+> "single theme" wording further down.
+>
+> - **One token set.** Every theme token is written once as `light-dark(LIGHT, DARK)`
+>   in the THEME block of `globals.css`, with the portal's values (light page
+>   `#F1F0EA`, card `#FFF`, ink `#1F2E28`, muted `#53625B`; dark page `#070C09`,
+>   card `#131A15`). `:root` has `color-scheme: light dark`, so the site follows
+>   the OS; the nav's theme button pins `data-theme` on `<html>` and saves it
+>   (`aa-theme` in localStorage), re-applied before paint by `THEME_INIT` in
+>   `app/layout.tsx`.
+> - **Spruce panels are dark islands.** `.g-spruce`, `.g-lift`, the CTA band and the
+>   featured cards set `color-scheme: dark`, so tokens used inside them resolve dark
+>   in both themes. The footer color is a registered `@property` so it resolves in
+>   the page's theme.
+> - **Accent and tints.** `--tint` is Theia's accent (Spruce on light, Sage on dark);
+>   every translucent tint is `color-mix(in srgb, var(--tint) N%, transparent)`.
+>   Never write `rgba(200, 209, 197, x)`: it only works on dark.
+> - **Glass.** Cards take `background: var(--sheen), var(--glass)`, a 1px
+>   `var(--edge)`, `box-shadow: ..., var(--rim)` and `--r-card` (10px). Buttons
+>   and chips keep the 4px brand maximum (`--r`). No backdrop blur on cards; the
+>   nav keeps its measured 8px blur, the chat panel uses Theia's full blur.
+> - **Glow and motion.** A soft neutral glow (`--glow`, never green) drifts behind
+>   every hero; reveals use Theia's rise (8px, 640ms, `--ease`). The global
+>   `prefers-reduced-motion` rule stops both.
+> - **Type.** Montserrat 600 uppercase for display headings (tracked) and kickers
+>   (`--kicker-track`, 0.18em); Arial for body.
 
 > **Design north star:** *Cartographic editorial.* The brand is an atlas — maps,
 > coordinates, contour lines, "to be found is to be chosen." Confident typography,
@@ -24,7 +52,7 @@ theme (no toggle). This document explains the intent so future work stays cohesi
   Sage is the secondary accent; the **CTA band is the one sage section** on each
   page, deliberately distinct from the dark footer. Aim for contrast and breathing
   room, not green fill.
-- **Single committed theme.** Every surface, border, and text color is a semantic
+- **Semantic tokens only.** Every surface, border, and text color is a semantic
   token. Never hardcode a hex in a component when a token exists.
 
 ---

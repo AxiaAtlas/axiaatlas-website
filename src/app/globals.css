@@ -1776,102 +1776,132 @@ section {
               hero is the page ground, not a spruce slab — that was the whole
               mistake the light theme's `--inverse-bg` invited here.
    ──────────────────────────────────────────────────────────────────────── */
+/* ── THEME: light and dark, one token set ──────────────────────────────────
+   Every theme token is written once, as light-dark(LIGHT, DARK). The root's
+   color-scheme picks the side: it follows the OS by default, and the theme
+   button in the nav pins it with data-theme on <html> (an inline script in
+   app/layout.tsx applies the saved choice before first paint, so there is no
+   flash). Values are the portal's (axiaatlas-platform globals.css) and
+   Theia's (src/components/theia/theia.css): the same grounds, inks and glass.
+
+   A Spruce panel (.g-spruce, .g-lift, the CTA band, the featured cards) sets
+   color-scheme: dark on itself. Its own ground is fixed, so every token used
+   inside it resolves to the dark side in both themes.
+   ──────────────────────────────────────────────────────────────────────── */
+/* Registered as a color so it resolves on :root, in the page's theme, and
+   reaches the footer as a finished color; the footer is a dark island and
+   would otherwise always pick the dark side. */
+@property --footer-bg { syntax: '<color>'; inherits: true; initial-value: #050906; }
+:root { color-scheme: light dark; }
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
 :root {
-  color-scheme: dark;
+  /* ── Type: Montserrat 600 uppercase tracked for display, Arial for body ── */
+  --font-body: Arial, Helvetica, system-ui, sans-serif;
+  --kicker-track: 0.18em;
 
-  /* ── Montserrat for body text too. The portal's rule is "Montserrat for ALL
-        text — never switch fonts", and the split font was half of why the two
-        properties looked unrelated at a glance. ── */
-  --font-body: var(--font-montserrat), 'Montserrat', Arial, system-ui, sans-serif;
-
-  /* ── ONE DISPLAY SIZE, ONE SECTION-HEADING SIZE, ONE BODY SIZE ──────────
-     The light scale ran the hero to 88px and section headings to 50px, which
-     is why "Being good isn't enough if no one can find you." needed three
-     lines and why every section headline set its own rhythm. Three sizes now,
-     held everywhere:
-
-       --t-display  42px  the ONE H1 per page, in that page's hero
-       --t-h2       32px  every section heading, without exception
-       --t-h3       21px  card and detail headings
-       --t-body     16px  running text (14px for meta and card body)
-
-     Nothing at desktop width needs three lines at these sizes. --t-h1 is kept
-     as an alias of --t-display so the page heroes that reference it do not
-     have to be rewritten one by one. */
+  /* ── One display size, one section-heading size, one body size ── */
   --t-display: clamp(2rem, 2.4vw + 0.7rem, 2.625rem);
   --t-h1: var(--t-display);
   --t-h2: clamp(1.55rem, 1.05rem + 1.5vw, 2rem);
   --t-h3: clamp(1.15rem, 1rem + 0.6vw, 1.3125rem);
   --t-lead: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
 
-  /* ── The portal's radius and content width ── */
-  --r: 6px;
+  /* ── Radius: 4px brand maximum for buttons and chips; cards and panels
+        take Theia's named surface radii ── */
+  --r: 4px;
   --r-sm: 3px;
+  --r-card: 10px;
+  --r-panel: 14px;
   --maxw: 1280px;
 
+  /* ── Motion (Theia) ── */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-fast: 260ms;
+  --t-pop: 320ms;
+  --t-rise: 640ms;
+
   /* ── Grounds ── */
-  --bg: #070C09;
-  --bg-alt: #0b120e;
-  --surface: #131a15;
-  --surface-2: #0f1611;
-  --surface-hover: #18211a;
+  --bg: light-dark(#F1F0EA, #070C09);
+  --bg-alt: light-dark(#E9E8E0, #0b120e);
+  --bg-raise: light-dark(#E9E8E0, #101812);
+  --surface: light-dark(#FFFFFF, #131A15);
+  --surface-2: light-dark(#F7F6F1, #0f1611);
+  --surface-hover: light-dark(#FBFAF6, #18211a);
+  --field: light-dark(#FFFFFF, #0b110d);
+  --footer-bg: light-dark(#17231D, #050906);
 
-  /* ── Ink. Muted flips to light sage exactly as the portal's --spruce-mid
-        does in dark; spruce-on-dark would be unreadable. ── */
-  --text: #f1f0ea;
-  --text-muted: rgba(200, 209, 197, 0.62);
-  /* 0.58, not the light theme's 0.40-equivalent. Faint is the third tier, but
-     on a near-black ground the same alpha that reads as "quiet" on alabaster
-     lands under 3:1 — and this tier carries real text (the capability-list
-     label, the slider's service line), not decoration. 0.58 clears 4.5:1 on
-     both the page and the card. */
-  --text-faint: rgba(200, 209, 197, 0.58);
+  /* ── Ink. Muted is the portal's --spruce-mid in each theme; both muted and
+        faint clear 4.5:1 on every ground they sit on ── */
+  --text: light-dark(#1F2E28, #F1F0EA);
+  --text-muted: light-dark(#53625B, #A3ADA6);
+  --text-faint: light-dark(#5A6862, #939D96);
 
-  --border: rgba(200, 209, 197, 0.10);
-  --border-strong: rgba(200, 209, 197, 0.24);
-  --hairline: rgba(200, 209, 197, 0.07);
+  /* The accent is Theia's: Deep Spruce on light, Sage Mist on dark. Every
+     translucent tint on the site is mixed from it. */
+  --tint: light-dark(#354940, #C8D1C5);
+  --accent: var(--tint);
+  --pf-mark: var(--tint);
+  --accent-soft: color-mix(in srgb, var(--tint) 8%, transparent);
+  --ring: color-mix(in srgb, var(--tint) 55%, transparent);
+  --border: light-dark(rgba(53, 73, 64, 0.14), rgba(200, 209, 197, 0.10));
+  --border-strong: light-dark(rgba(53, 73, 64, 0.28), rgba(200, 209, 197, 0.24));
+  --hairline: light-dark(rgba(53, 73, 64, 0.09), rgba(200, 209, 197, 0.07));
 
-  /* ── A solid spruce button disappears on #070C09, so the primary inverts to
-        bone with dark ink — the same swap the hero already made. ── */
-  --primary: #f1f0ea;
-  --primary-hover: #ffffff;
-  --on-primary: #0b120e;
-  --accent: #c8d1c5;
-  --accent-soft: rgba(200, 209, 197, 0.08);
-  --ring: rgba(200, 209, 197, 0.55);
+  /* A solid Spruce button holds on alabaster; on near-black it disappears,
+     so the dark primary is bone with dark ink, as the portal does. */
+  --primary: light-dark(#354940, #F1F0EA);
+  --primary-hover: light-dark(#2A3C34, #FFFFFF);
+  --on-primary: light-dark(#F1F0EA, #0b120e);
 
-  /* #9c5757 was tuned to sit on alabaster and lands at 2.6:1 on #070C09 — an
-     error message you cannot read is worse than none. Same hue, lifted. */
-  --negative: #e09a9a;
-  --positive: #7fc4a0;
+  /* Status inks, tuned per ground (portal roster values on light). */
+  --pos: light-dark(#2F6649, #7FC4A0);
+  --neg: light-dark(#8B4B4B, #E09A9A);
+  --sand: light-dark(#7A5A1E, #D9B37C);
+  --positive: var(--pos);
+  --negative: var(--neg);
 
-  /* ── The emphasis panel: Deep Spruce, one step ABOVE the page rather than
-        below it. On a light site the depth panel is the dark one; here the
-        relationship flips and the tokens flip with it. ── */
+  /* ── Deep Spruce, the emphasis panel. The same in both themes. ── */
   --inverse-bg: #354940;
   --inverse-bg-2: #2a3c34;
   --inverse-surface: rgba(255, 255, 255, 0.07);
-  --inverse-text: #f1f0ea;
+  --inverse-text: #F1F0EA;
   --inverse-muted: rgba(241, 240, 234, 0.74);
-  --inverse-faint: rgba(241, 240, 234, 0.52);
+  --inverse-faint: rgba(241, 240, 234, 0.6);
   --inverse-border: rgba(200, 209, 197, 0.18);
-  --inverse-accent: #c8d1c5;
-  --inverse-primary: #f1f0ea;
+  --inverse-accent: #C8D1C5;
+  --inverse-primary: #F1F0EA;
   --inverse-on-primary: #16221d;
 
-  --grid-line: rgba(200, 209, 197, 0.045);
-  --glow-a: rgba(200, 209, 197, 0.07);
-  --glow-b: rgba(200, 209, 197, 0.10);
+  /* ── Shadows. Black on dark; on light the same shapes in spruce ink at
+        about a quarter of the strength (Theia's --th-sa) ── */
+  --shade: light-dark(rgba(34, 48, 42, 0.28), #000000);
+  --shadow-sm: 0 1px 2px color-mix(in srgb, var(--shade) 50%, transparent);
+  --shadow-md: 0 12px 30px color-mix(in srgb, var(--shade) 55%, transparent);
+  --shadow-lg: 0 26px 60px color-mix(in srgb, var(--shade) 65%, transparent);
 
-  /* Elevation on a near-black ground is carried by the border, not by a soft
-     grey halo — a light-mode shadow simply does not exist against #070C09. */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.55);
-  --shadow-lg: 0 26px 60px rgba(0, 0, 0, 0.65);
+  /* ── Theia glass. Fill, edge, top sheen and inner rim, layered as
+        background: var(--sheen), var(--glass) with box-shadow ..., var(--rim) ── */
+  --glass: light-dark(rgba(255, 255, 255, 0.72), rgba(19, 26, 21, 0.72));
+  --glass-strong: light-dark(rgba(251, 250, 246, 0.86), rgba(7, 12, 9, 0.8));
+  --glass-menu: light-dark(rgba(251, 250, 246, 0.97), rgba(11, 14, 12, 0.97));
+  --edge: light-dark(rgba(34, 48, 42, 0.1), rgba(255, 255, 255, 0.09));
+  --sheen: linear-gradient(180deg, light-dark(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.03)), rgba(255, 255, 255, 0) 40%);
+  --rim: inset 0 1px 0 light-dark(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.1)), inset 0 0 0 1px light-dark(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.025));
+  --blur: blur(40px) saturate(150%);
+
+  /* ── Glow: a soft neutral light, never green (Theia rgb 225,228,224).
+        On light it darkens a touch instead, as Theia's multiply does ── */
+  --glow: light-dark(rgba(53, 73, 64, 0.07), rgba(225, 228, 224, 0.075));
+  --glow-soft: light-dark(rgba(53, 73, 64, 0.04), rgba(225, 228, 224, 0.04));
+  --grid-line: light-dark(rgba(53, 73, 64, 0.06), rgba(200, 209, 197, 0.045));
+  --glow-a: var(--glow);
+  --glow-b: var(--glow-soft);
 }
-/* The body paints the ground behind the fixed nav and past the end of the
-   page; without this the browser's white shows through on overscroll. */
-{ background: #070c09; }
+/* The ground behind the fixed nav and past the end of the page, so overscroll
+   never shows the browser's white. */
+html { background: var(--bg); }
 /* ── The nav, while the home page is under it ──────────────────────────────
    The nav is shared chrome rendered as a sibling of the page, so it cannot be
    reached by a class on the page wrapper. `:has()` is the whole mechanism —
@@ -1879,33 +1909,33 @@ section {
    match. Browsers without `:has()` get the light nav over the dark hero, which
    is legible but wrong; that is the trade, and it is a shrinking one. */
 .nav {
-  background: color-mix(in srgb, #070c09 72%, transparent);
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
 }
 .nav.scrolled {
-  background: color-mix(in srgb, #070c09 92%, transparent);
-  border-bottom-color: rgba(200, 209, 197, 0.10);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  border-bottom-color: color-mix(in srgb, var(--tint) 10%, transparent);
 }
-.nav-brand { color: #f1f0ea; }
-.nav-links a:not(.nav-login):not(.nav-cta) { color: rgba(200, 209, 197, 0.62); }
+.nav-brand { color: var(--text); }
+.nav-links a:not(.nav-login):not(.nav-cta) { color: var(--text-muted); }
 .nav-links a:not(.nav-login):not(.nav-cta):hover,
-.nav-links a.active { color: #f1f0ea; }
-.nav-links a:not(.nav-login):not(.nav-cta):hover { background: rgba(200, 209, 197, 0.08); }
+.nav-links a.active { color: var(--text); }
+.nav-links a:not(.nav-login):not(.nav-cta):hover { background: color-mix(in srgb, var(--tint) 8%, transparent); }
 .nav-login {
-  color: #f1f0ea !important;
-  border-color: rgba(200, 209, 197, 0.26);
+  color: var(--text) !important;
+  border-color: color-mix(in srgb, var(--tint) 26%, transparent);
   border-radius: 6px;
 }
-.nav-login:hover { border-color: #c8d1c5; background: rgba(200, 209, 197, 0.08); }
+.nav-login:hover { border-color: var(--accent); background: color-mix(in srgb, var(--tint) 8%, transparent); }
 .nav-cta {
-  background: #f1f0ea; color: #0b120e !important; border-radius: 6px;
+  background: var(--primary); color: var(--on-primary) !important; border-radius: var(--r);
 }
-.nav-cta:hover { background: #ffffff; }
-.nav-mobile-toggle span { background: #f1f0ea; }
+.nav-cta:hover { background: var(--primary-hover); }
+.nav-mobile-toggle span { background: var(--text); }
 .nav-links {
-  background: color-mix(in srgb, #070c09 98%, transparent);
-  border-bottom-color: rgba(200, 209, 197, 0.10);
+  background: color-mix(in srgb, var(--bg) 98%, transparent);
+  border-bottom-color: color-mix(in srgb, var(--tint) 10%, transparent);
 }
-.nav-actions { border-top-color: rgba(200, 209, 197, 0.10); }
+.nav-actions { border-top-color: color-mix(in srgb, var(--tint) 10%, transparent); }
 /* ── Buttons on the dark ground ────────────────────────────────────────────
    THE SECONDARY CTA. It was bone text on a border at 16% sage over near-black:
    the label read, the button did not, so the pair looked like one CTA and a
@@ -1914,18 +1944,18 @@ section {
 .btn-outline,
 .hero .btn-outline {
   background: var(--surface);
-  border-color: rgba(200, 209, 197, 0.32);
-  color: #f1f0ea;
+  border-color: color-mix(in srgb, var(--tint) 32%, transparent);
+  color: var(--text);
 }
 .btn-outline:hover,
 .hero .btn-outline:hover {
   background: var(--surface-hover);
-  border-color: #c8d1c5;
+  border-color: var(--accent);
   transform: translateY(-1px);
 }
 /* The bone primary needs no alabaster shine sweep — the sweep IS bone. */
 .btn-primary::after { display: none; }
-.btn-primary:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
+.btn-primary:hover { box-shadow: 0 8px 24px color-mix(in srgb, var(--shade) 50%, transparent); }
 /* ── HERO — asymmetric: the pitch left, the product right ──────────────────
    The old hero was three lines of display type, centred, and nothing else: a
    poster for a company that sells software and showed none of it. Display type
@@ -1952,8 +1982,8 @@ section {
    has to fight through it. */
 .hero::before {
   background-image:
-    linear-gradient(rgba(200, 209, 197, 0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200, 209, 197, 0.028) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--tint) 2.8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--tint) 2.8%, transparent) 1px, transparent 1px);
 }
 .hero-inner {
   max-width: var(--maxw);
@@ -2003,7 +2033,7 @@ section {
   line-height: 1.72;
   max-width: none;
   margin: 0 0 30px;
-  color: rgba(200, 209, 197, 0.72);
+  color: var(--text-muted);
 }
 .hero-actions { justify-content: flex-start; }
 /* The artifact column. The aura moves off centre so it sits behind the copy
@@ -2015,7 +2045,7 @@ section {
   left: 24%; top: 48%;
   width: min(760px, 72vw);
   background:
-    radial-gradient(circle at 50% 50%, rgba(200, 209, 197, 0.085) 0%, rgba(200, 209, 197, 0.03) 34%, transparent 66%);
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--tint) 8.5%, transparent) 0%, color-mix(in srgb, var(--tint) 3%, transparent) 34%, transparent 66%);
 }
 /* ── Marquee on the dark ground ── */
 .hero-marquee { background: var(--surface-2); border-top: 1px solid var(--border); }
@@ -2032,32 +2062,32 @@ section {
   border-color: var(--border);
   color: var(--text);
 }
-.service-card:hover { border-color: rgba(200, 209, 197, 0.28); box-shadow: var(--shadow-md); }
+.service-card:hover { border-color: color-mix(in srgb, var(--tint) 28%, transparent); box-shadow: var(--shadow-md); }
 .service-name { color: var(--text); }
 .service-desc { color: var(--text-muted); }
 .service-link { color: var(--accent); }
 .service-card .service-icon {
-  background: rgba(200, 209, 197, 0.07);
+  background: color-mix(in srgb, var(--tint) 7%, transparent);
   border-color: var(--border);
   color: var(--accent);
 }
 .service-card:hover .service-icon {
-  background: rgba(200, 209, 197, 0.13);
-  border-color: rgba(200, 209, 197, 0.34);
-  color: #f1f0ea;
+  background: color-mix(in srgb, var(--tint) 13%, transparent);
+  border-color: color-mix(in srgb, var(--tint) 34%, transparent);
+  color: var(--text);
 }
 /* Results slider viewport, on the card ground. */
 .rs-result { color: var(--accent); }
-.rs-slide::before { background: radial-gradient(circle, rgba(200, 209, 197, 0.10), transparent 70%); }
-.rs-detail p { border-left-color: rgba(200, 209, 197, 0.30); }
+.rs-slide::before { background: radial-gradient(circle, color-mix(in srgb, var(--tint) 10%, transparent), transparent 70%); }
+.rs-detail p { border-left-color: color-mix(in srgb, var(--tint) 30%, transparent); }
 .rs-arrow { background: var(--surface); color: var(--text); }
 .rs-arrow:hover { border-color: var(--accent); }
 .rs-dot.active { background: var(--accent); }
-.case-tag { color: var(--accent); background: rgba(200, 209, 197, 0.08); border-color: var(--border); }
+.case-tag { color: var(--accent); background: color-mix(in srgb, var(--tint) 8%, transparent); border-color: var(--border); }
 /* The process connector and the open steps. */
 .process-num { background: var(--surface); border-color: var(--border-strong); color: var(--accent); }
 .process-ants::before {
-  background: repeating-linear-gradient(90deg, rgba(200, 209, 197, 0.22) 0 6px, transparent 6px 12px);
+  background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--tint) 22%, transparent) 0 6px, transparent 6px 12px);
 }
 /* ── CTA band ─────────────────────────────────────────────────────────────
    It is still the one band on the page that changes ground, and it is still
@@ -2090,11 +2120,10 @@ section {
    CTA band would merge the two into one green block. The footer takes the
    portal's darkest ground — the value its sidebar uses in dark mode — so the
    page ends a step below where it started. */
-footer { background: #0a110d; }
 footer::before {
   background:
-    radial-gradient(ellipse 50% 70% at 85% 0%, rgba(200, 209, 197, 0.05), transparent 60%),
-    radial-gradient(ellipse 60% 80% at 15% 120%, rgba(200, 209, 197, 0.04), transparent 60%);
+    radial-gradient(ellipse 50% 70% at 85% 0%, color-mix(in srgb, var(--tint) 5%, transparent), transparent 60%),
+    radial-gradient(ellipse 60% 80% at 15% 120%, color-mix(in srgb, var(--tint) 4%, transparent), transparent 60%);
 }
 /* ── Where the split stops paying ─────────────────────────────────────────
    The artifact column is worth having only while the chart inside it is worth
@@ -2127,8 +2156,8 @@ footer::before {
 .contact-hero::before, .pricing-hero::before, .demo-hero::before,
 .blog-hero::before, .blog-post-hero::before {
   background:
-    radial-gradient(ellipse 55% 70% at 72% 0%, rgba(200, 209, 197, 0.055) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 10% 120%, rgba(200, 209, 197, 0.035) 0%, transparent 60%);
+    radial-gradient(ellipse 55% 70% at 72% 0%, color-mix(in srgb, var(--tint) 5.5%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 10% 120%, color-mix(in srgb, var(--tint) 3.5%, transparent) 0%, transparent 60%);
 }
 /* ── SERVICES ─────────────────────────────────────────────────────────────
    The route spine down the page took `--primary`, which is now bone: a white
@@ -2142,14 +2171,14 @@ footer::before {
 .services-page .btn-primary:hover {
   background: var(--primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(200, 209, 197, 0.4);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--shade) 50%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--tint) 40%, transparent);
 }
 /* ── PRICING ──────────────────────────────────────────────────────────────
    The featured card stays the one Deep Spruce panel on the page. On this
    ground it needs a border that separates it from #070C09, which 18% sage does
    not do at that size. */
-.pricing-card.featured { border-color: rgba(200, 209, 197, 0.28); }
-.belief-num { color: rgba(200, 209, 197, 0.30); }
+.pricing-card.featured { border-color: color-mix(in srgb, var(--tint) 28%, transparent); }
+.belief-num { color: color-mix(in srgb, var(--tint) 30%, transparent); }
 /* ── FORMS (contact, demo, careers) ───────────────────────────────────────
    Inputs sit a step BELOW the card they are in rather than above it, which is
    how a dark UI says "you can type here" — a lighter well on a dark card reads
@@ -2157,12 +2186,12 @@ footer::before {
    near-white fill over any background and there is no way to override it
    except through the inset-shadow trick. */
 .form-row input, .form-row select, .form-row textarea {
-  background: #0b110d;
-  border-color: rgba(200, 209, 197, 0.20);
+  background: var(--field);
+  border-color: color-mix(in srgb, var(--tint) 20%, transparent);
 }
 .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(200, 209, 197, 0.12);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tint) 12%, transparent);
 }
 .form-row input:-webkit-autofill,
 .form-row input:-webkit-autofill:hover,
@@ -2170,16 +2199,16 @@ footer::before {
 .form-row textarea:-webkit-autofill,
 .form-row select:-webkit-autofill {
   -webkit-text-fill-color: var(--text);
-  -webkit-box-shadow: 0 0 0 1000px #0b110d inset;
+  -webkit-box-shadow: 0 0 0 1000px var(--field) inset;
   caret-color: var(--text);
 }
-.file-drop { background: #0b110d; }
+.file-drop { background: var(--field); }
 .cal-nav, .slot-chip, .cal-day.has { background: var(--surface-2); }
 /* ── 404 / short-link fallback ────────────────────────────────────────────
    The big code was a gradient from Deep Spruce, which on #070C09 starts almost
    exactly at the page colour: the top two thirds of the numeral disappeared. */
 .nf-code {
-  background: linear-gradient(178deg, #f1f0ea 0%, var(--accent) 58%, rgba(200, 209, 197, 0.28) 100%);
+  background: linear-gradient(178deg, var(--text) 0%, var(--accent) 58%, color-mix(in srgb, var(--tint) 28%, transparent) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 /* ── SELECTION ────────────────────────────────────────────────────────────
@@ -2251,7 +2280,7 @@ footer::before {
 .problem-evidence { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 /* The failure modes light up as they arrive rather than all at once. SiteFX
    stages them; this is only the lit state. */
-.problem-card.in { border-color: rgba(200, 209, 197, 0.20); }
+.problem-card.in { border-color: color-mix(in srgb, var(--tint) 20%, transparent); }
 .problem-card.in::before { opacity: 0.8; }
 /* The mock result list. */
 .sg {
@@ -2310,15 +2339,15 @@ footer::before {
 .sg-host { font-size: var(--t-xs); color: var(--text-faint); }
 /* The whole point of the graphic: the row that is not filled. */
 .sg-gap {
-  border-color: rgba(200, 209, 197, 0.30);
+  border-color: color-mix(in srgb, var(--tint) 30%, transparent);
   border-style: dashed;
-  background: rgba(200, 209, 197, 0.035);
+  background: color-mix(in srgb, var(--tint) 3.5%, transparent);
 }
 .sg-gap .sg-rank { color: var(--accent); }
 .sg-name.sg-missing { color: var(--accent); font-weight: 700; }
 .sg-bar-ghost {
   height: 6px; border-radius: 3px; max-width: 180px;
-  background: repeating-linear-gradient(135deg, rgba(200, 209, 197, 0.20) 0 4px, transparent 4px 8px);
+  background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--tint) 20%, transparent) 0 4px, transparent 4px 8px);
 }
 /* The tag every artifact carries inside its own frame. */
 .artifact-tag {
@@ -2326,8 +2355,8 @@ footer::before {
   font-family: var(--font-head); font-size: 9px; font-weight: 700;
   letter-spacing: 0.08em; text-transform: uppercase;
   padding: 3px 9px; border-radius: 3px;
-  background: rgba(200, 209, 197, 0.12);
-  border: 1px solid rgba(200, 209, 197, 0.22);
+  background: color-mix(in srgb, var(--tint) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tint) 22%, transparent);
   color: var(--accent);
 }
 /* The plan node: the one Deep Spruce panel in this section. */
@@ -2369,33 +2398,33 @@ footer::before {
 }
 .channel-card.emphasis .ch-art { height: 118px; }
 .ch-cal { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; width: 100%; }
-.ch-cell { height: 9px; border-radius: 2px; background: rgba(200, 209, 197, 0.09); }
+.ch-cell { height: 9px; border-radius: 2px; background: color-mix(in srgb, var(--tint) 9%, transparent); }
 .ch-cell.on { background: var(--accent); opacity: 0.75; }
 .ch-bars { display: flex; flex-direction: column; gap: 6px; width: 100%; }
-.ch-bar { display: block; height: 7px; border-radius: 4px; background: rgba(200, 209, 197, 0.09); overflow: hidden; }
+.ch-bar { display: block; height: 7px; border-radius: 4px; background: color-mix(in srgb, var(--tint) 9%, transparent); overflow: hidden; }
 .ch-bar span { display: block; height: 100%; background: var(--accent); opacity: 0.55; border-radius: 4px; }
 /* ── website — a browser, and a page inside it ─────────────────────────── */
 /* Capped and centred: a browser is landscape, but at the full ~490px of the
    services aside against a ~135px inner height it reads as a letterbox rather
    than as a screen. */
 .ch-browser { width: 100%; max-width: 400px; margin-inline: auto; border: 1px solid var(--border-strong); border-radius: 5px; overflow: hidden; background: var(--surface-2); }
-.ch-chrome { display: flex; align-items: center; gap: 4px; padding: 7px 9px; background: rgba(200, 209, 197, 0.07); border-bottom: 1px solid var(--border); }
-.ch-chrome i { width: 5px; height: 5px; border-radius: 50%; background: rgba(200, 209, 197, 0.3); flex: none; }
+.ch-chrome { display: flex; align-items: center; gap: 4px; padding: 7px 9px; background: color-mix(in srgb, var(--tint) 7%, transparent); border-bottom: 1px solid var(--border); }
+.ch-chrome i { width: 5px; height: 5px; border-radius: 50%; background: color-mix(in srgb, var(--tint) 30%, transparent); flex: none; }
 /* The address pill. It is what makes the frame read as a browser rather than as
    a window: three dots alone are also a dialog, a player, a card header. */
-.ch-url { flex: 1; height: 9px; margin-left: 7px; border-radius: 5px; background: rgba(200, 209, 197, 0.12); }
+.ch-url { flex: 1; height: 9px; margin-left: 7px; border-radius: 5px; background: color-mix(in srgb, var(--tint) 12%, transparent); }
 .ch-page { padding: 9px 10px 11px; display: flex; flex-direction: column; gap: 9px; }
 .ch-nav { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
 .ch-mark { width: 14px; height: 8px; border-radius: 2px; background: var(--accent); opacity: 0.75; flex: none; }
 .ch-navlinks { display: flex; gap: 7px; flex: 1; }
-.ch-navlinks i { width: 22px; height: 4px; border-radius: 2px; background: rgba(200, 209, 197, 0.20); }
-.ch-navcta { width: 30px; height: 10px; border-radius: 3px; background: rgba(200, 209, 197, 0.26); flex: none; }
+.ch-navlinks i { width: 22px; height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--tint) 20%, transparent); }
+.ch-navcta { width: 30px; height: 10px; border-radius: 3px; background: color-mix(in srgb, var(--tint) 26%, transparent); flex: none; }
 .ch-heroblock { display: flex; flex-direction: column; gap: 6px; padding: 2px 0 3px; }
-.ch-hl { display: block; height: 8px; width: 74%; border-radius: 3px; background: rgba(200, 209, 197, 0.30); }
+.ch-hl { display: block; height: 8px; width: 74%; border-radius: 3px; background: color-mix(in srgb, var(--tint) 30%, transparent); }
 .ch-hl.short { width: 48%; height: 8px; }
 .ch-hbtn { display: block; width: 46px; height: 12px; border-radius: 3px; margin-top: 3px; background: var(--accent); opacity: 0.8; }
 .ch-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.ch-cards span { display: block; height: 26px; border-radius: 3px; background: rgba(200, 209, 197, 0.10); border: 1px solid var(--border); }
+.ch-cards span { display: block; height: 26px; border-radius: 3px; background: color-mix(in srgb, var(--tint) 10%, transparent); border: 1px solid var(--border); }
 /* ── local — the Google local result, not a map of the word "local" ─────── */
 .ch-listing {
   width: 100%; display: flex; align-items: flex-start; gap: 14px;
@@ -2412,17 +2441,17 @@ footer::before {
 .ch-listing-rate { display: flex; align-items: center; gap: 6px; }
 .ch-rate-num { font-family: var(--font-head); font-size: 0.75rem; font-weight: 700; color: var(--text); }
 .ch-stars { display: inline-flex; gap: 1px; }
-.ch-star { width: 11px; height: 11px; color: #d9b37c; flex: none; }
-.ch-star.dim { color: rgba(200, 209, 197, 0.22); }
+.ch-star { width: 11px; height: 11px; color: var(--sand); flex: none; }
+.ch-star.dim { color: color-mix(in srgb, var(--tint) 22%, transparent); }
 .ch-reviews { font-size: 0.6875rem; color: var(--text-faint); white-space: nowrap; }
 .ch-listing-meta { font-size: 0.6875rem; color: var(--text-faint); line-height: 1.55; }
-.ch-open { color: #7fc4a0; font-weight: 700; }
+.ch-open { color: var(--pos); font-weight: 700; }
 /* The listing photo, where Google puts it. A flat tile, deliberately — an
    invented photograph is a claim and a grey square is not. */
 .ch-listing-thumb {
   width: 46px; height: 46px; flex: none; border-radius: 4px;
   background:
-    linear-gradient(135deg, rgba(200, 209, 197, 0.16), rgba(200, 209, 197, 0.05)),
+    linear-gradient(135deg, color-mix(in srgb, var(--tint) 16%, transparent), color-mix(in srgb, var(--tint) 5%, transparent)),
     var(--surface);
   border: 1px solid var(--border);
 }
@@ -2431,7 +2460,7 @@ footer::before {
 .ch-ask {
   align-self: flex-end; max-width: 78%;
   padding: 7px 11px; border-radius: 11px 11px 3px 11px;
-  background: rgba(200, 209, 197, 0.13);
+  background: color-mix(in srgb, var(--tint) 13%, transparent);
   font-size: 0.75rem; line-height: 1.45; color: var(--text);
 }
 .ch-reply { display: flex; align-items: flex-start; gap: 8px; max-width: 92%; }
@@ -2452,8 +2481,8 @@ footer::before {
   font-family: var(--font-head); font-size: 8px; font-weight: 700;
   letter-spacing: 0.08em; text-transform: uppercase;
   padding: 2px 6px; border-radius: 3px;
-  background: rgba(200, 209, 197, 0.10);
-  border: 1px solid rgba(200, 209, 197, 0.18);
+  background: color-mix(in srgb, var(--tint) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tint) 18%, transparent);
   color: var(--text-faint);
   pointer-events: none;
 }
@@ -2484,7 +2513,7 @@ footer::before {
   font-family: var(--font-head); font-size: 8px; font-weight: 700;
   letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint);
 }
-.ch-dash-dot { width: 5px; height: 5px; border-radius: 50%; background: #7fc4a0; flex: none; }
+.ch-dash-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--pos); flex: none; }
 /* Three figures across. `minmax(0, 1fr)` rather than `1fr`: at 390px the
    longest label ("Orders today") would otherwise set the column width and push
    the third stat out of the panel. */
@@ -2492,7 +2521,7 @@ footer::before {
 .ch-dash-stat {
   display: flex; flex-direction: column; gap: 1px; min-width: 0;
   padding: 7px 8px; border-radius: 4px;
-  background: rgba(200, 209, 197, 0.06);
+  background: color-mix(in srgb, var(--tint) 6%, transparent);
 }
 .ch-dash-stat b {
   font-family: var(--font-head); font-size: 0.8125rem; font-weight: 700;
@@ -2518,7 +2547,7 @@ footer::before {
 /* The one row that needs a decision. A dashboard whose every figure reads the
    same is a report; the point of this product is that it tells you which line
    to look at. */
-.ch-dash-qty.low { color: #d9b37c; }
+.ch-dash-qty.low { color: var(--sand); }
 .ch-funnel { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .ch-funnel span { display: block; height: 9px; border-radius: 3px; background: var(--accent); }
 .ch-funnel .f1 { width: 86%; opacity: 0.28; }
@@ -2527,17 +2556,17 @@ footer::before {
 .ch-post { width: 100%; display: flex; flex-direction: column; gap: 7px; }
 .ch-post-head { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
 .ch-avatar { width: 18px; height: 18px; border-radius: 50%; background: var(--accent); opacity: 0.7; flex: none; }
-.ch-handle { height: 6px; width: 84px; border-radius: 3px; background: rgba(200, 209, 197, 0.22); }
+.ch-handle { height: 6px; width: 84px; border-radius: 3px; background: color-mix(in srgb, var(--tint) 22%, transparent); }
 .ch-log { width: 100%; display: flex; flex-direction: column; gap: 12px; }
 .ch-log-row { display: flex; align-items: center; gap: 10px; }
 .ch-log-node { width: 7px; height: 7px; flex: none; background: var(--accent); transform: rotate(45deg); }
-.ch-log-line { flex: 1; height: 5px; border-radius: 3px; background: rgba(200, 209, 197, 0.14); }
+.ch-log-line { flex: 1; height: 5px; border-radius: 3px; background: color-mix(in srgb, var(--tint) 14%, transparent); }
 .ch-log-row:nth-child(2) .ch-log-line { max-width: 72%; }
 .ch-log-row:nth-child(3) .ch-log-line { max-width: 55%; }
 .ch-rank { width: 100%; display: flex; flex-direction: column; gap: 8px; }
 .ch-rank-row { display: flex; align-items: center; gap: 10px; }
 .ch-rank-n { font-family: var(--font-head); font-size: 10px; font-weight: 700; color: var(--text-faint); width: 12px; flex: none; }
-.ch-rank-bar { flex: 1; height: 7px; border-radius: 4px; background: rgba(200, 209, 197, 0.12); }
+.ch-rank-bar { flex: 1; height: 7px; border-radius: 4px; background: color-mix(in srgb, var(--tint) 12%, transparent); }
 .ch-rank-row.you .ch-rank-n { color: var(--accent); }
 .ch-rank-row.you .ch-rank-bar { background: var(--accent); opacity: 0.7; }
 /* ── HOW WE WORK — one rail, four stations ── */
@@ -2550,12 +2579,12 @@ footer::before {
 }
 .rail-line {
   position: absolute; left: 0; right: 0; top: 17px; height: 2px;
-  background: rgba(200, 209, 197, 0.12); border-radius: 2px; overflow: hidden;
+  background: color-mix(in srgb, var(--tint) 12%, transparent); border-radius: 2px; overflow: hidden;
 }
 /* The fill runs once as the rail arrives, not on a loop. */
 .rail-fill {
   display: block; height: 100%; width: 0;
-  background: linear-gradient(90deg, var(--accent), rgba(200, 209, 197, 0.35));
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--tint) 35%, transparent));
   transition: width 1.4s var(--ease-out);
 }
 .rail.in .rail-fill { width: 100%; }
@@ -2631,7 +2660,7 @@ footer::before {
    finding rather than as two competing right-hand values. */
 .audit-row { display: grid; grid-template-columns: minmax(0, 88px) minmax(0, 1fr) 34px 54px; align-items: center; gap: 10px; }
 .audit-label { font-family: var(--font); font-size: 11px; font-weight: 600; color: var(--fg-primary); }
-.audit-track { height: 6px; border-radius: 3px; background: rgba(200, 209, 197, 0.10); overflow: hidden; }
+.audit-track { height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--tint) 10%, transparent); overflow: hidden; }
 .audit-fill { display: block; height: 100%; border-radius: 3px; background: var(--spruce-mid); }
 .audit-pct {
   font-family: var(--font); font-size: 12px; font-weight: 700;
@@ -2644,12 +2673,12 @@ footer::before {
   letter-spacing: 0.06em; text-transform: uppercase; text-align: right;
   color: var(--spruce-mid);
 }
-.audit-row.gap .audit-fill { background: #e09a9a; }
-.audit-row.gap .audit-pct, .audit-row.gap .audit-state { color: #e09a9a; }
-.audit-row.ok .audit-fill { background: #7fc4a0; }
-.audit-row.ok .audit-pct, .audit-row.ok .audit-state { color: #7fc4a0; }
-.audit-row.partial .audit-fill { background: #d9b37c; }
-.audit-row.partial .audit-pct, .audit-row.partial .audit-state { color: #d9b37c; }
+.audit-row.gap .audit-fill { background: var(--neg); }
+.audit-row.gap .audit-pct, .audit-row.gap .audit-state { color: var(--neg); }
+.audit-row.ok .audit-fill { background: var(--pos); }
+.audit-row.ok .audit-pct, .audit-row.ok .audit-state { color: var(--pos); }
+.audit-row.partial .audit-fill { background: var(--sand); }
+.audit-row.partial .audit-pct, .audit-row.partial .audit-state { color: var(--sand); }
 /* On a phone the card is ~310px inside its padding, and 88 + 34 + 54 + gaps
    leaves the track under 90px. The label wraps to two lines instead and the
    bar keeps a readable length. */
@@ -2733,9 +2762,9 @@ footer::before {
 .pricing-card {
   background: var(--card-bg, var(--surface));
   border-radius: var(--r);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(200, 209, 197, 0.02);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--shade) 40%, transparent), 0 0 0 1px color-mix(in srgb, var(--tint) 2%, transparent);
 }
-.pricing-card:hover { box-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); }
+.pricing-card:hover { box-shadow: 0 2px 14px color-mix(in srgb, var(--shade) 50%, transparent); }
 .pricing-features li svg { color: var(--accent); }
 /* The comparison has to be readable on a phone without a horizontal scroll, so
    the grid becomes one column and the featured card keeps its flag rather than
@@ -2817,14 +2846,15 @@ footer::before {
    ──────────────────────────────────────────────────────────────────────── */
 .portal-ui {
   /* The portal's own token names, because the ported chart components ask for
-     them by those names. Values are the platform's html[data-theme="dark"]. */
-  --page-bg: #070c09;
-  --card-bg: #131a15;
-  --fg-primary: #f1f0ea;
-  --spruce-mid: rgba(200, 209, 197, 0.55);
-  --spruce-faint: rgba(200, 209, 197, 0.05);
-  --border: rgba(200, 209, 197, 0.10);
-  --bone: #f1f0ea;
+     them by those names. Values are the platform's :root (light) and
+     html[data-theme="dark"], so the mock matches the portal in each theme. */
+  --page-bg: light-dark(#ECEBE3, #070C09);
+  --card-bg: light-dark(#FFFFFF, #131A15);
+  --fg-primary: light-dark(#1F2E28, #F1F0EA);
+  --spruce-mid: light-dark(#53625B, #939D96);
+  --spruce-faint: light-dark(rgba(53, 73, 64, 0.08), rgba(200, 209, 197, 0.05));
+  --border: light-dark(rgba(53, 73, 64, 0.10), rgba(200, 209, 197, 0.10));
+  --bone: #F1F0EA;
   --radius: 6px;
   --font: var(--font-montserrat), 'Montserrat', Arial, sans-serif;
 
@@ -2874,7 +2904,7 @@ footer::before {
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--spruce-mid);
 }
-.portal-ui .tb-title { font-size: 17px; font-weight: 700; color: #f1f0ea; line-height: 1.2; }
+.portal-ui .tb-title { font-size: 17px; font-weight: 700; color: var(--fg-primary); line-height: 1.2; }
 .portal-ui .content { padding: 16px 18px 18px; }
 .portal-ui .kpi-grid {
   display: grid;
@@ -2910,7 +2940,7 @@ footer::before {
 }
 .portal-ui .card-title {
   font-size: 10px; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase; color: #f1f0ea;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-primary);
 }
 .portal-ui .card-body { padding: 14px 16px 12px; }
 .portal-ui .ps-range { font-size: 10px; color: var(--spruce-mid); }
@@ -2927,10 +2957,10 @@ footer::before {
    fully contained like a stock illustration. */
 .portal-shot {
   display: flex;
-  border: 1px solid rgba(200, 209, 197, 0.14);
+  border: 1px solid color-mix(in srgb, var(--tint) 14%, transparent);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 24px 60px color-mix(in srgb, var(--shade) 60%, transparent);
   min-width: 0;
 }
 .portal-shot .ps-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
@@ -2943,9 +2973,9 @@ footer::before {
    that ends up in a deck or a screenshot never includes it. The badge lives in
    the topbar, inside the frame, where it travels with the image. */
 .portal-shot .ps-sample {
-  background: rgba(200, 209, 197, 0.12);
-  color: #c8d1c5;
-  border: 1px solid rgba(200, 209, 197, 0.22);
+  background: color-mix(in srgb, var(--tint) 12%, transparent);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--tint) 22%, transparent);
   flex-shrink: 0;
 }
 .portal-ui .sb-label { min-width: 0; overflow: hidden; }
@@ -3021,18 +3051,22 @@ footer::before {
 /* ── 1. The grounds ─────────────────────────────────────────────────────── */
 .g-black { background: var(--bg); }
 .g-raise {
-  background: #101812;
-  --surface: #1c261f;
-  --surface-2: #16201a;
-  --surface-hover: #212d24;
-  --border: rgba(200, 209, 197, 0.12);
-  --border-strong: rgba(200, 209, 197, 0.26);
+  background: var(--bg-raise);
+  --surface: light-dark(#FFFFFF, #1c261f);
+  --surface-2: light-dark(#F7F6F1, #16201a);
+  --surface-hover: light-dark(#FBFAF6, #212d24);
+  --glass: light-dark(rgba(255, 255, 255, 0.78), rgba(28, 38, 31, 0.72));
+  --border: light-dark(rgba(53, 73, 64, 0.16), rgba(200, 209, 197, 0.12));
+  --border-strong: light-dark(rgba(53, 73, 64, 0.3), rgba(200, 209, 197, 0.26));
 }
 /* Deep Spruce. Cards on it go DOWN, not up: a lighter card on a mid-green
    ground reads as a sticker, a darker one reads as a recess, and the portal
    already teaches the eye that a card is the darker thing. */
 .g-spruce {
+  color-scheme: dark;
   background: #354940;
+  --glass: rgba(43, 58, 51, 0.72);
+  --edge: rgba(255, 255, 255, 0.1);
   --surface: #2b3a33;
   --surface-2: #30413a;
   --surface-hover: #33463d;
@@ -3052,7 +3086,10 @@ footer::before {
 /* The lighter panel. Muted runs higher here than on spruce because the ground
    itself is lighter — 0.76 lands at 4.1:1 on #47614F and 0.84 clears it. */
 .g-lift {
+  color-scheme: dark;
   background: #47614f;
+  --glass: rgba(60, 83, 68, 0.72);
+  --edge: rgba(255, 255, 255, 0.12);
   --surface: #3c5344;
   --surface-2: #41594a;
   --surface-hover: #4c684f;
@@ -3073,7 +3110,7 @@ footer::before {
    further up the file and would otherwise win on source order. */
 section.g-black, section.g-raise, section.g-spruce, section.g-lift,
 .cta-band.g-lift { background-image: none; }
-section.g-raise { background-color: #101812; }
+section.g-raise { background-color: var(--bg-raise); }
 section.g-spruce { background-color: #354940; }
 section.g-lift, .cta-band.g-lift { background-color: #47614f; }
 /* ── 2. Section-head alignment ──────────────────────────────────────────── */
@@ -3116,7 +3153,7 @@ section.g-lift, .cta-band.g-lift { background-color: #47614f; }
    centred in its column, and capped so it does not stretch to a slab on a wide
    screen. */
 .hero-artifact .audit-card { max-width: 460px; margin-left: auto; }
-.hero-artifact .audit-card .card { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55); }
+.hero-artifact .audit-card .card { box-shadow: 0 24px 60px color-mix(in srgb, var(--shade) 55%, transparent); }
 .hero-artifact .audit-card .card-body { padding: 20px 20px 18px; }
 .hero-artifact .audit-rows { gap: 16px; }
 @media (max-width: 1120px) {.hero-artifact .audit-card { margin-left: 0; max-width: 460px; }}
@@ -3270,7 +3307,7 @@ section.g-lift, .cta-band.g-lift { background-color: #47614f; }
 .rs-viewport {
   background: var(--surface);
   border-color: var(--border);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 18px 44px color-mix(in srgb, var(--shade) 28%, transparent);
 }
 .rs-slide {
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
@@ -3348,7 +3385,7 @@ section.g-lift, .cta-band.g-lift { background-color: #47614f; }
 .result-visual-src {
   margin: 14px 0 0;
   font-size: 10.5px; line-height: 1.6;
-  color: var(--spruce-mid, rgba(200, 209, 197, 0.55));
+  color: var(--spruce-mid, color-mix(in srgb, var(--tint) 55%, transparent));
 }
 /* Two endpoints, side by side. */
 .rv-cols { display: flex; align-items: flex-end; gap: 22px; height: 148px; }
@@ -3360,55 +3397,55 @@ section.g-lift, .cta-band.g-lift { background-color: #47614f; }
 }
 .rv-col-value {
   font-family: var(--font); font-size: 15px; font-weight: 700;
-  letter-spacing: -0.01em; color: rgba(200, 209, 197, 0.55);
+  letter-spacing: -0.01em; color: var(--text-faint);
   transition: color 0.2s var(--ease);
 }
-.rv-col.on .rv-col-value, .rv-col:focus-visible .rv-col-value { color: #f1f0ea; }
+.rv-col.on .rv-col-value, .rv-col:focus-visible .rv-col-value { color: var(--text); }
 .rv-col-bar {
   display: block; width: 100%; border-radius: 4px 4px 0 0;
-  background: linear-gradient(180deg, #7fc4a0, rgba(127, 196, 160, 0.35));
+  background: linear-gradient(180deg, var(--pos), color-mix(in srgb, var(--pos) 35%, transparent));
   transition: filter 0.2s var(--ease);
 }
 .rv-col.on .rv-col-bar { filter: brightness(1.22); }
 .rv-col-label {
   font-family: var(--font); font-size: 10px; font-weight: 600;
   letter-spacing: 0.06em; text-transform: uppercase;
-  color: rgba(200, 209, 197, 0.55);
+  color: var(--text-faint);
 }
-.rv-col:focus-visible { outline: 2px solid #c8d1c5; outline-offset: 3px; border-radius: 4px; }
+.rv-col:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 /* A cited range, and a stated distance above it. */
 .rv-scale { padding: 12px 0 2px; }
 .rv-track {
   position: relative; height: 10px; border-radius: 5px;
-  background: rgba(200, 209, 197, 0.10);
+  background: color-mix(in srgb, var(--tint) 10%, transparent);
   margin-bottom: 20px;
 }
 .rv-band {
   position: absolute; top: 0; bottom: 0;
-  background: rgba(200, 209, 197, 0.34); border-radius: 3px;
+  background: color-mix(in srgb, var(--tint) 34%, transparent); border-radius: 3px;
   transition: background 0.2s var(--ease);
 }
-.rv-band.on { background: rgba(200, 209, 197, 0.62); }
+.rv-band.on { background: color-mix(in srgb, var(--tint) 62%, transparent); }
 .rv-marker {
   position: absolute; top: -6px; bottom: -6px; width: 3px;
-  background: #7fc4a0; border-radius: 2px;
-  box-shadow: 0 0 0 4px rgba(127, 196, 160, 0.16);
+  background: var(--pos); border-radius: 2px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--pos) 16%, transparent);
   transition: box-shadow 0.2s var(--ease);
 }
-.rv-marker.on { box-shadow: 0 0 0 7px rgba(127, 196, 160, 0.26); }
+.rv-marker.on { box-shadow: 0 0 0 7px color-mix(in srgb, var(--pos) 26%, transparent); }
 .rv-keys { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
 .rv-key {
   display: flex; align-items: center; gap: 9px;
   background: none; border: 0; padding: 0; cursor: default;
   font-family: var(--font); font-size: 11px; line-height: 1.4;
-  color: rgba(200, 209, 197, 0.55); text-align: left;
+  color: var(--text-faint); text-align: left;
   transition: color 0.2s var(--ease);
 }
-.rv-key.on, .rv-key:focus-visible { color: #f1f0ea; }
-.rv-key:focus-visible { outline: 2px solid #c8d1c5; outline-offset: 3px; border-radius: 3px; }
+.rv-key.on, .rv-key:focus-visible { color: var(--text); }
+.rv-key:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
 .rv-key-swatch { width: 12px; height: 10px; border-radius: 3px; flex: none; }
-.rv-key.band .rv-key-swatch { background: rgba(200, 209, 197, 0.42); }
-.rv-key.marker .rv-key-swatch { background: #7fc4a0; width: 3px; margin: 0 4px 0 4px; }
+.rv-key.band .rv-key-swatch { background: color-mix(in srgb, var(--tint) 42%, transparent); }
+.rv-key.marker .rv-key-swatch { background: var(--pos); width: 3px; margin: 0 4px 0 4px; }
 /* ── HOW WE WORK ─────────────────────────────────────────────────────────
    Built out around the portal shot. The graphic leads on the left, the head
    sits right against it, and the four-station rail runs full width beneath. */
@@ -3427,6 +3464,7 @@ section.g-lift, .cta-band.g-lift { background-color: #47614f; }
 /* ── BOOK A DEMO ─────────────────────────────────────────────────────────
    The lighter spruce panel, and the only one on the page. */
 .cta-band {
+  color-scheme: dark;
   background: #47614f;
   border-top: none;
   color: #ffffff;
@@ -3448,7 +3486,7 @@ section.g-lift, .cta-band.g-lift { background-color: #47614f; }
 .cta-band-btn::before { border-color: rgba(255, 255, 255, 0.5); }
 /* The footer sits directly under this band on every page, so it drops to the
    darkest ground on the site — the page must not end on two greens. */
-footer { background: #050906; }
+footer { background: var(--footer-bg); color-scheme: dark; }
 /* ════════════════════════════════════════════════════════════════════════
    THE OTHER PAGES
    ════════════════════════════════════════════════════════════════════════ */
@@ -3824,7 +3862,7 @@ footer { background: #050906; }
    than a glimpse, so it is fully contained; and the crop was also what clipped
    the card and ran the sessions chart off the right edge of a 390px screen.
    ──────────────────────────────────────────────────────────────────────── */
-.portal-shot { border-radius: 10px; box-shadow: 0 26px 64px rgba(0, 0, 0, 0.55); }
+.portal-shot { border-radius: 10px; box-shadow: 0 26px 64px color-mix(in srgb, var(--shade) 55%, transparent); }
 .process-shot .portal-shot { width: 100%; }
 /* At two columns the third KPI was left alone on a row with a hole beside it.
    It is the one with the sparkline, so it takes the full row instead. */
@@ -3875,9 +3913,10 @@ html, body { overflow-x: hidden; max-width: 100%; }
    one every other channel points traffic at) takes Deep Spruce, which is the
    only emphasis on the page. The remaining seven alternate black and the
    raised near-black, so no two consecutive rows share a ground. */
-.service-detail:nth-child(odd) { background: #070c09; }
-.service-detail:nth-child(even) { background: #101812; --surface: #1c261f; --surface-2: #16201a; }
+.service-detail:nth-child(odd) { background: var(--bg); }
+.service-detail:nth-child(even) { background: var(--bg-raise); --surface: light-dark(#FFFFFF, #1c261f); --surface-2: light-dark(#F7F6F1, #16201a); }
 .service-detail:first-child {
+  color-scheme: dark;
   background: #354940;
   --surface: #2b3a33;
   --text: #f1f0ea;
@@ -3898,8 +3937,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
 /* ABOUT. Four prose sections and an article teaser, all on one value. They
    alternate now, and the belief cards' section takes the spruce because it is
    the page's argument rather than its narration. */
-.about-section:nth-child(even) { background: #101812; --surface: #1c261f; }
+.about-section:nth-child(even) { background: var(--bg-raise); --surface: light-dark(#FFFFFF, #1c261f); }
 .about-section:nth-child(3) {
+  color-scheme: dark;
   background: #354940;
   --surface: #2b3a33;
   --text: #f1f0ea;
@@ -3916,3 +3956,329 @@ html, body { overflow-x: hidden; max-width: 100%; }
 /* Stacked, the visual should sit under the copy rather than float in the
    middle of the height borrowed from the tallest slide. */
 @media (max-width: 900px) {.rs-detail { justify-content: flex-start; }}
+/* ════════════════════════════════════════════════════════════════════════
+   BRAND TYPE PASS (2026-11)
+   The brand: Montserrat 600, uppercase and tracked, for display; Arial for
+   body. The dark :root block above had moved body text to Montserrat; this
+   puts it back. Display sizes come down because uppercase Montserrat sets
+   about a fifth wider than mixed case at the same size.
+   ════════════════════════════════════════════════════════════════════════ */
+:root { --font-body: Arial, Helvetica, system-ui, sans-serif; }
+body { font-family: var(--font-body); }
+
+h1, h2,
+.section-headline, .hero-headline, .legal-title, .about-headline,
+.service-detail-headline, .sv-note-title {
+  font-family: var(--font-head);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-wrap: balance;
+}
+.hero-headline { font-size: clamp(1.625rem, 1.6vw + 0.75rem, 2.25rem); line-height: 1.14; }
+.hero-headline br { display: none; }
+.section-headline { font-size: clamp(1.375rem, 1rem + 1.5vw, 2.125rem); line-height: 1.18; }
+.sv-hero .section-headline, .services-hero > .section-headline, .about-hero h1, .contact-hero h1, .legal-title {
+  font-size: clamp(1.625rem, 1.1rem + 1.9vw, 2.5rem); line-height: 1.14;
+}
+/* Headings that are not display (FAQ questions, card titles) stay in case. */
+.faq-q-text, .faq-group-title { text-transform: none; letter-spacing: 0; }
+.faq-group-title { font-weight: 600; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   SERVICE PAGES (sv-)
+   /services, /services/<slug>, /pricing, /theia and the home offer.
+   ════════════════════════════════════════════════════════════════════════ */
+.sv-hero { padding: clamp(48px, 7vw, 96px) var(--gutter) clamp(40px, 5vw, 72px); }
+.sv-hero-side { display: flex; flex-direction: column; gap: 22px; }
+.sv-answer { margin: 0; font-size: var(--t-body); line-height: 1.65; color: var(--text-muted); }
+.sv-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.sv-jump-inline a, .sv-jump a {
+  font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--accent); padding: 8px 14px; border: 1px solid var(--border);
+  border-radius: var(--r-pill); transition: border-color 0.18s var(--ease);
+}
+.sv-jump-inline a:hover, .sv-jump a:hover { border-color: var(--accent); }
+.sv-jump { display: flex; flex-wrap: wrap; gap: 10px; padding: 0 var(--gutter) clamp(32px, 4vw, 48px); }
+
+.sv-section { padding: clamp(56px, 7vw, 104px) var(--gutter); }
+.sv-head { max-width: 760px; margin-bottom: clamp(28px, 3.5vw, 44px); }
+.sv-head .section-eyebrow { justify-content: flex-start; margin-bottom: 14px; }
+.sv-head .section-headline { margin-bottom: 0; }
+.sv-lede { margin: 14px 0 0; font-size: var(--t-body); line-height: 1.65; color: var(--text-muted); }
+.sv-split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
+.sv-figure { border: 1px solid var(--border); border-radius: var(--r); background: var(--surface); padding: 20px; }
+.sv-figure-wide { margin-top: 32px; padding: 0; overflow: hidden; }
+
+.sv-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+.sv-step { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; }
+.sv-step-n { font-family: var(--font-head); font-weight: 600; font-size: var(--t-sm); color: var(--accent); letter-spacing: 0.08em; padding-top: 2px; }
+.sv-step-title { font-family: var(--font-head); font-weight: 600; font-size: 1.0625rem; color: var(--text); margin: 0 0 6px; }
+.sv-step-desc { margin: 0; font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); }
+
+.sv-tiers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.sv-tier { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 24px 22px; }
+.sv-tier-name { font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+.sv-tier-amount { font-family: var(--font-head); font-size: 1.75rem; font-weight: 600; color: var(--text); line-height: 1.1; }
+.sv-tier-amount span { font-family: var(--font-body); font-size: var(--t-sm); font-weight: 400; color: var(--text-faint); }
+.sv-tier-extra { margin-top: 8px; font-size: var(--t-sm); color: var(--text-muted); }
+.sv-tier-notes { list-style: none; margin: 16px 0 0; padding: 16px 0 0; border-top: 1px solid var(--border); display: grid; gap: 8px; font-size: var(--t-sm); color: var(--text-muted); }
+.sv-tier-notes li::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); transform: rotate(45deg); margin-right: 10px; vertical-align: 2px; }
+
+.sv-checks { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 10px; font-size: var(--t-body); color: var(--text); }
+.sv-checks li::before { content: ''; display: inline-block; width: 7px; height: 7px; background: var(--accent); transform: rotate(45deg); margin-right: 12px; vertical-align: 2px; }
+
+.sv-addons { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.sv-addon { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 20px 22px; }
+.sv-addon-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.sv-addon-name { font-family: var(--font-head); font-size: 1rem; font-weight: 600; color: var(--text); margin: 0; }
+.sv-addon-name a { color: inherit; }
+.sv-addon-name a:hover { color: var(--accent); }
+.sv-addon-price { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--accent); white-space: nowrap; }
+.sv-addon-what, .sv-addon-note { margin: 0; font-size: var(--t-sm); line-height: 1.65; color: var(--text-muted); }
+.sv-addon-note { margin-top: 8px; color: var(--text); font-weight: 700; }
+.sv-subhead { margin: clamp(36px, 4vw, 52px) 0 18px; }
+.sv-subhead-title { font-family: var(--font-head); font-size: 1.125rem; font-weight: 600; color: var(--text); margin: 0; }
+.sv-subhead .sv-lede { margin-top: 8px; }
+.sv-more { display: inline-flex; margin-top: 24px; }
+
+.sv-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.sv-cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.sv-cards-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.sv-card {
+  display: flex; flex-direction: column; gap: 12px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 28px 26px; color: var(--text); transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+a.sv-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-md); }
+.sv-card .service-icon { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--border); border-radius: var(--r); color: var(--accent); }
+.sv-card .service-icon svg { width: 22px; height: 22px; }
+.sv-card-name { font-family: var(--font-head); font-size: 1.25rem; font-weight: 600; margin: 4px 0 0; color: var(--text); }
+.sv-card-desc { margin: 0; font-size: var(--t-sm); line-height: 1.7; color: var(--text-muted); flex: 1; }
+.sv-card-price { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--text); letter-spacing: 0.02em; }
+
+.sv-groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.sv-group { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 22px; }
+a.sv-group-link { color: var(--text); transition: border-color 0.2s var(--ease); }
+a.sv-group-link:hover { border-color: var(--border-strong); }
+.sv-group-name { font-family: var(--font-head); font-size: 1rem; font-weight: 600; margin: 0 0 8px; color: var(--text); }
+.sv-group-name a { color: inherit; }
+.sv-group-lede { margin: 0; font-size: var(--t-sm); line-height: 1.6; color: var(--text-muted); }
+.sv-group-list { list-style: none; margin: 16px 0 0; padding: 16px 0 0; border-top: 1px solid var(--border); display: grid; gap: 14px; }
+.sv-group-list a { display: block; font-family: var(--font-head); font-weight: 600; font-size: var(--t-sm); color: var(--accent); margin-bottom: 4px; }
+.sv-group-list span { font-size: var(--t-sm); line-height: 1.6; color: var(--text-muted); }
+
+.sv-addon-details { display: grid; gap: 16px; }
+.sv-addon-detail {
+  display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(24px, 4vw, 56px);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: clamp(24px, 3vw, 36px);
+  scroll-margin-top: calc(var(--nav-h) + 24px);
+}
+.sv-addon-detail-head .service-icon { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--border); border-radius: var(--r); color: var(--accent); margin-bottom: 16px; }
+.sv-addon-detail-head .service-icon svg { width: 22px; height: 22px; }
+.sv-addon-detail-name { font-family: var(--font-head); font-size: 1.25rem; font-weight: 600; color: var(--text); margin: 0 0 10px; }
+.sv-addon-who { margin: 0; font-size: var(--t-sm); line-height: 1.65; color: var(--text-muted); }
+.sv-addon-desc { margin: 0 0 20px; font-size: var(--t-body); line-height: 1.7; color: var(--text-muted); }
+.sv-addon-tiers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.sv-addon-tiers li { border: 1px solid var(--border); border-radius: var(--r); padding: 14px; display: grid; gap: 4px; }
+.sv-addon-tier-name { font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.sv-addon-tier-price { font-family: var(--font-head); font-size: var(--t-sm); font-weight: 600; color: var(--text); }
+.sv-addon-tier-notes { font-size: var(--t-xs); color: var(--text-faint); line-height: 1.5; }
+.sv-addon-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 18px; }
+.price-row-term { font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+section[id], [id].sv-addon-detail { scroll-margin-top: calc(var(--nav-h) + 16px); }
+
+.sv-note { max-width: 760px; }
+.sv-note-section { padding-block: clamp(40px, 5vw, 64px); }
+.sv-note-title { font-size: clamp(1.125rem, 0.9rem + 0.9vw, 1.5rem); color: var(--text); margin: 0 0 12px; }
+.sv-note p { margin: 0 0 16px; font-size: var(--t-body); line-height: 1.7; color: var(--text-muted); }
+.sv-note .sv-tier-amount { margin: 18px 0 6px; }
+
+.sv-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r); }
+.sv-table { width: 100%; border-collapse: collapse; font-size: var(--t-sm); }
+.sv-table th, .sv-table td { text-align: left; padding: 16px 18px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-muted); }
+.sv-table thead th { font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+.sv-table tbody th a { font-family: var(--font-head); font-weight: 600; color: var(--text); }
+.sv-table tbody th a:hover { color: var(--accent); }
+.sv-table tr:last-child th, .sv-table tr:last-child td { border-bottom: 0; }
+.sv-table-tier { display: block; font-size: var(--t-xs); color: var(--text-faint); margin-bottom: 4px; }
+.sv-table-price { display: block; font-family: var(--font-head); font-weight: 600; color: var(--text); }
+.sv-table-price small { font-family: var(--font-body); font-weight: 400; color: var(--text-faint); font-size: var(--t-xs); }
+.sv-table-extra { display: block; font-size: var(--t-xs); color: var(--text-faint); margin-top: 2px; }
+.sv-table-term { white-space: nowrap; }
+
+.sv-asks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.sv-asks li { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 18px 20px; font-size: var(--t-body); color: var(--text); }
+.sv-attribution { text-align: center; font-family: var(--font-head); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); padding: 18px var(--gutter); margin: 0; background: var(--bg); }
+.sv-faq-list { max-width: 820px; }
+.footer-col-sub { margin-top: 28px; }
+
+@media (max-width: 1024px) {
+  .sv-groups, .sv-cards-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sv-cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  .sv-split, .sv-addon-detail { grid-template-columns: minmax(0, 1fr); }
+  .sv-cards, .sv-cards-3, .sv-asks { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .sv-groups, .sv-cards-4, .sv-addon-tiers { grid-template-columns: minmax(0, 1fr); }
+  .sv-table thead { display: none; }
+  .sv-table, .sv-table tbody, .sv-table tr, .sv-table th, .sv-table td { display: block; width: 100%; }
+  .sv-table tr { border-bottom: 1px solid var(--border); padding: 8px 0; }
+  .sv-table th, .sv-table td { border-bottom: 0; padding: 8px 16px; }
+}
+.sv-split .sv-tiers { grid-template-columns: minmax(0, 1fr); }
+
+/* ════════════════════════════════════════════════════════════════════════
+   THE THEIA LOOK (2026-11)
+   The site takes the client portal's assistant skin: Theia's glass, glow and
+   motion over the portal's grounds, in light and dark. Values come from the
+   tokens at the top of THEME; nothing here hardcodes a color.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Heroes sit on the page ground in both themes, so the ink they borrowed
+      from the Spruce panel (--inverse-*) follows the page instead ── */
+.hero, .page-hero, .services-hero, .cs-hero, .about-hero, .contact-hero,
+.pricing-hero, .demo-hero, .blog-hero, .blog-post-hero, .careers-hero {
+  --inverse-text: var(--text);
+  --inverse-muted: var(--text-muted);
+  --inverse-faint: var(--text-faint);
+  --inverse-accent: var(--accent);
+  --inverse-border: var(--border-strong);
+  --inverse-surface: var(--accent-soft);
+  --inverse-primary: var(--primary);
+  --inverse-on-primary: var(--on-primary);
+  isolation: isolate;
+  /* Clip the glow top and bottom only (overflow: clip keeps the other axis
+     visible), so it reaches the viewport edges without bleeding into the
+     next section. The page itself clips sideways (html, body overflow-x). */
+  overflow-x: visible;
+  overflow-y: clip;
+}
+
+/* ── Glow: Theia's soft neutral light behind every hero, drifting slowly.
+      Transform-only animation on one pseudo-element per page, and still under
+      prefers-reduced-motion (the global rule above stops it). ── */
+.page-hero::before, .services-hero::before, .cs-hero::before, .about-hero::before,
+.contact-hero::before, .pricing-hero::before, .demo-hero::before,
+.blog-hero::before, .blog-post-hero::before, .careers-hero::before {
+  display: block;
+  content: '';
+  position: absolute;
+  /* Several heroes are boxed to the content width; the glow runs the full
+     viewport sideways so it never shows the box's edge. */
+  inset: -40% calc(50% - 50vw) -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 38% 44% at 76% 30%, var(--glow) 0%, transparent 70%),
+    radial-gradient(ellipse 34% 40% at 16% 74%, var(--glow-soft) 0%, transparent 70%);
+  animation: aaGlowDrift 26s var(--ease) infinite alternate;
+}
+.hero-aura {
+  background: radial-gradient(circle at 50% 50%, var(--glow) 0%, var(--glow-soft) 36%, transparent 66%);
+}
+@keyframes aaGlowDrift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-5%, 4%, 0) scale(1.08); }
+}
+
+/* ── Type: Montserrat 600 uppercase, tracked, for every kicker ── */
+.section-eyebrow, .hero-eyebrow, .sv-tier-name, .sv-addon-tier-name, .price-row-term {
+  font-family: var(--font-head);
+  font-weight: 600;
+  letter-spacing: var(--kicker-track);
+  text-transform: uppercase;
+}
+.section-headline { font-weight: 600; }
+
+/* ── Glass: the nav. The 8px blur ceiling above stays (it is measured); the
+      glass comes from Theia's fill, edge and rim ── */
+.nav, .nav.scrolled {
+  background: var(--sheen), var(--glass-strong);
+  border-bottom: 1px solid var(--edge);
+  box-shadow: var(--rim);
+}
+@media (max-width: 900px) {
+  .nav-links { background: var(--glass-menu); border-bottom-color: var(--edge); }
+}
+
+/* ── Glass: cards. Fill, top sheen, 1px edge, inner rim, Theia's card radius.
+      No backdrop blur on cards: there are dozens per page, and the fill is
+      dense enough that a blur would cost frames and show nothing ── */
+.sv-card, .sv-tier, .sv-addon, .sv-group, .sv-addon-detail, .sv-figure, .sv-asks li,
+.service-card, .bento-card:not(.feature), .belief-card, .blog-card, .blog-lead,
+.contact-form, .demo-card, .faq-item, .pricing-card:not(.featured), .rs-viewport,
+.problem-card, .channel-card, .sv-table-wrap {
+  background: var(--sheen), var(--glass);
+  border-color: var(--edge);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-sm), var(--rim);
+}
+.sv-addon-tiers li { border-color: var(--edge); border-radius: var(--r-card); background: var(--accent-soft); }
+a.sv-card, a.sv-group-link, .service-card, .blog-card {
+  transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+a.sv-card:hover, a.sv-group-link:hover, .service-card:hover, .blog-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md), var(--rim);
+}
+
+/* Spruce panels keep their weight and take the same rim. */
+.pricing-card.featured, .bento-card.feature, .sys-plan, .process-step.featured {
+  color-scheme: dark;
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ── Chat panel: Theia's floating glass panel ── */
+.chat-panel {
+  background: var(--sheen), var(--glass-menu);
+  border-color: var(--edge);
+  border-radius: var(--r-panel);
+  box-shadow: 0 30px 90px color-mix(in srgb, var(--shade) 65%, transparent), var(--rim);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+}
+.chat-panel-header { color-scheme: dark; }
+
+/* ── Motion: Theia's rise. The reveal keeps its JS (SiteFX) and takes the
+      handoff's curve and distance ── */
+.reveal { transform: translateY(8px); transition: opacity var(--t-rise) var(--ease), transform var(--t-rise) var(--ease); }
+
+/* ── Inputs on the field ground ── */
+.form-row input, .form-row select, .form-row textarea { border-radius: var(--r); }
+
+/* ── Theme button (nav) ── */
+.theme-toggle {
+  display: inline-grid; place-items: center;
+  width: 36px; height: 36px;
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+}
+.theme-toggle:hover { color: var(--text); border-color: var(--border-strong); background: var(--accent-soft); }
+.theme-toggle svg { width: 16px; height: 16px; }
+.theme-toggle .ic-sun { display: none; }
+.theme-toggle .ic-moon { display: block; }
+/* Show the sun while dark is in effect: whatever the OS says, unless pinned. */
+:root[data-theme="dark"] .theme-toggle .ic-sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .ic-moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .ic-sun { display: block; }
+  :root:not([data-theme="light"]) .theme-toggle .ic-moon { display: none; }
+}
+@media (max-width: 900px) { .theme-toggle { width: 100%; height: 40px; } }
+
+/* An underlined link inside running copy (the contact hero's "book a demo"). */
+.inline-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.inline-link:hover { color: var(--text); }
+
+/* /links, the 404 and the short-link fallback: their aurora takes Theia's
+   neutral glow, strong enough to read as light, never as a sage blob. */
+.lt-blob.a { background: radial-gradient(circle, light-dark(rgba(53, 73, 64, 0.10), rgba(225, 228, 224, 0.10)) 0%, transparent 62%); }
+.lt-blob.b { background: radial-gradient(circle, var(--glow-soft) 0%, transparent 60%); }

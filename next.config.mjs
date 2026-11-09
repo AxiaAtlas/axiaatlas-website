@@ -74,21 +74,47 @@ const nextConfig = {
       { source: '/case-studies', destination: '/#results', statusCode: 301 },
       { source: '/case-studies/:path*', destination: '/#results', statusCode: 301 },
 
-      // ── retired per-service pages ────────────────────────────────────────
-      // The nine services have never had pages of their own on this site; they
-      // are rows on /services, addressed by fragment (/services#geo). Anything
-      // under /services/ is therefore an address that either never existed or
-      // no longer does, and in both cases /services is the nearest live
-      // equivalent — so the whole shape is covered by one rule rather than by
-      // nine hand-typed ids that would then have to be kept in step with
-      // lib/services.
-      //
-      // Carrying the slug into the fragment is what makes one rule enough: for
-      // the nine real ids the visitor lands on their own row, and for anything
-      // else an unknown fragment is simply ignored by the browser and they
-      // land at the top of the page. No 404 either way.
-      { source: '/services/:slug', destination: '/services#:slug', statusCode: 301 },
-      { source: '/services/:slug/:rest*', destination: '/services#:slug', statusCode: 301 },
+      // ── services under /services/<slug> (2026-11) ──────────────────────────
+      // Two headline services have pages of their own and every other service
+      // is an add-on, anchored on /services/add-ons. Each old address, and the
+      // short forms people guess, 301s to its new home in one hop. Fragments
+      // on /services itself (/services#geo) never reach the server; the hub
+      // page forwards those in the browser.
+      ...[
+        ['/services/website', '/services/website-design'],
+        ['/services/social', '/services/social-media-management'],
+        ['/services/geo', '/services/add-ons#seo-aeo'],
+        ['/services/seo', '/services/add-ons#seo-aeo'],
+        ['/services/aeo', '/services/add-ons#seo-aeo'],
+        ['/services/local', '/services/add-ons#local'],
+        ['/services/leadgen', '/services/add-ons#lead-generation'],
+        ['/services/executive', '/services/add-ons#executive-brand'],
+        ['/services/intel', '/services/add-ons#competitive-intelligence'],
+        ['/services/strategy', '/services/add-ons#strategic-advisory'],
+        ['/services/dashboards', '/services/add-ons#custom-dashboards'],
+        ['/website', '/services/website-design'],
+        ['/web-design', '/services/website-design'],
+        ['/website-design', '/services/website-design'],
+        ['/social', '/services/social-media-management'],
+        ['/social-media', '/services/social-media-management'],
+        ['/social-media-management', '/services/social-media-management'],
+        ['/add-ons', '/services/add-ons'],
+        ['/addons', '/services/add-ons'],
+        ['/services/addons', '/services/add-ons'],
+      ].map(([source, destination]) => ({ source, destination, statusCode: 301 })),
+
+      // Anything else under /services/ never existed: the hub is the nearest
+      // live page. The live slugs are excluded, or this rule would answer
+      // before the page does (redirects run ahead of the filesystem). `portal`
+      // is excluded too: before the Theia launch it 404s rather than
+      // redirecting, because a browser caches a 301 and would keep sending
+      // people away after launch.
+      {
+        source: '/services/:slug((?!website-design$|social-media-management$|add-ons$|portal$).*)',
+        destination: '/services',
+        statusCode: 301,
+      },
+      { source: '/services/:slug/:rest+', destination: '/services', statusCode: 301 },
     ]
   },
 

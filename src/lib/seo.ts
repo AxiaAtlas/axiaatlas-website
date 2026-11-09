@@ -38,6 +38,8 @@
 // than merging it — which is how /blog silently lost its og:image.
 // ============================================================================
 
+import { THEIA_LAUNCH } from './flags'
+
 export const SITE_URL = 'https://axiaatlas.com'
 
 /** The tail every non-home title ends with. Two words, nine characters plus
@@ -45,21 +47,35 @@ export const SITE_URL = 'https://axiaatlas.com'
 export const BRAND_TAIL = 'Axia Atlas'
 
 /**
- * The home title, and the only one carrying the full descriptor — on the home
- * page "Miami Digital Marketing Studio" IS the keyword, not a brand ornament.
- * The studio is based in Miami and serves clients nationwide. 43 characters.
+ * The home title, keyword-led and carrying the city. Before the Theia launch
+ * it names the two live headline services; at launch it names the portal.
+ * Both are 50 to 60 characters.
  */
-export const HOME_TITLE = 'Miami Digital Marketing Studio - Axia Atlas'
+export const HOME_TITLE = THEIA_LAUNCH
+  ? 'Websites, Social and a Client Portal in Miami - Axia Atlas'
+  : 'Miami Website Design and Social Media Agency - Axia Atlas'
 
 /** "<Keyword phrase> - Axia Atlas". Target the whole string at 50-60 chars. */
 export const pageTitle = (name: string) => `${name} - ${BRAND_TAIL}`
+
+/** The SEO contract's ceiling (axiaatlas-platform seo-contract.ts, TITLE_MAX_CHARS). */
+export const TITLE_MAX = 60
+
+/**
+ * An article's title. The brand tail when it fits under the ceiling, and the
+ * article's own headline when it does not: an article is not a service page,
+ * and the contract keeps "brand last" for those. Over 60 characters is the
+ * blocking rule; a missing brand is only a note.
+ */
+export const articleTitle = (headline: string) =>
+  pageTitle(headline).length <= TITLE_MAX ? pageTitle(headline) : headline
 
 /** The finished 1200x630 link-preview card, shipped as a static asset. */
 export const OG_IMAGE = {
   url: '/og-card.png',
   width: 1200,
   height: 630,
-  alt: 'Axia Atlas, Digital Marketing',
+  alt: 'Axia Atlas, Website Design and Social Media',
 } as const
 
 type SocialArgs = {

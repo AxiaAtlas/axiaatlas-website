@@ -1,0 +1,648 @@
+{
+  "source": "axiaatlas-platform/src/lib/pricing.ts",
+  "costModelVersion": 12,
+  "currency": "USD",
+  "services": [
+    {
+      "key": "website",
+      "kind": "project",
+      "channel": true,
+      "priced": true,
+      "perPerson": false,
+      "minTermMonths": null,
+      "paymentPlanMonths": 6,
+      "audience": "A business whose website is the step between interest and a sale, with nobody in-house to build or maintain it. Either there is no site yet, or there is one built for a brand the business has since outgrown.",
+      "addOns": [
+        {
+          "key": "extra_page",
+          "label": "Extra page",
+          "price": 350,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "ecommerce",
+          "label": "Add e-commerce to a Tier-1 site",
+          "price": 2000,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "chatbot",
+          "label": "Website assistant",
+          "price": 1500,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "care_plan",
+          "label": "Website care plan",
+          "price": 250,
+          "tierPrices": [
+            250,
+            400,
+            650
+          ],
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": 3,
+          "note": "Only for sites Axia Atlas built."
+        },
+        {
+          "key": "crm_contacts",
+          "label": "Client CRM / Contacts",
+          "price": 0,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": true,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "email_broadcasts",
+          "label": "Email Broadcasts",
+          "price": 350,
+          "tierPrices": [
+            350,
+            450,
+            550
+          ],
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
+      "tiers": [
+        {
+          "level": 1,
+          "label": "Starter Site",
+          "monthly": 0,
+          "oneTime": 3500,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        },
+        {
+          "level": 2,
+          "label": "Growth Site",
+          "monthly": 0,
+          "oneTime": 6500,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": [
+            "E-commerce online shop included"
+          ]
+        },
+        {
+          "level": 3,
+          "label": "Authority Site",
+          "monthly": 0,
+          "oneTime": 10000,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": [
+            "E-commerce online shop included"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "social",
+      "kind": "recurring",
+      "channel": true,
+      "priced": true,
+      "perPerson": false,
+      "minTermMonths": 3,
+      "paymentPlanMonths": null,
+      "audience": "A business whose category gets judged on a feed, and whose accounts are either empty or posted to whenever somebody remembers.",
+      "addOns": [
+        {
+          "key": "channel_setup",
+          "label": "Channel Setup from scratch",
+          "price": 1200,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "reel_pack",
+          "label": "Extra 4-reel pack",
+          "price": 500,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "extra_platform",
+          "label": "Extra platform",
+          "price": 400,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
+      "tiers": [
+        {
+          "level": 1,
+          "label": "Essentials",
+          "monthly": 1500,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": "Bi-weekly",
+          "reportingCadence": "Monthly",
+          "features": []
+        },
+        {
+          "level": 2,
+          "label": "Growth",
+          "monthly": 2800,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": "Bi-weekly",
+          "reportingCadence": "Bi-weekly",
+          "features": []
+        },
+        {
+          "level": 3,
+          "label": "Authority",
+          "monthly": 4500,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": "Weekly",
+          "reportingCadence": "Weekly",
+          "features": []
+        }
+      ]
+    },
+    {
+      "key": "aeo_seo",
+      "kind": "recurring",
+      "channel": true,
+      "priced": true,
+      "perPerson": false,
+      "minTermMonths": 3,
+      "paymentPlanMonths": null,
+      "audience": "A business whose buyers now ask an answer engine before they ask a person, and which is not in the answer they get back.",
+      "addOns": [
+        {
+          "key": "extra_article",
+          "label": "Extra article",
+          "price": 350,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
+      "tiers": [
+        {
+          "level": 1,
+          "label": "Essentials",
+          "monthly": 1600,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        },
+        {
+          "level": 2,
+          "label": "Growth",
+          "monthly": 3200,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        },
+        {
+          "level": 3,
+          "label": "Authority",
+          "monthly": 5500,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        }
+      ]
+    },
+    {
+      "key": "local",
+      "kind": "recurring",
+      "channel": true,
+      "priced": true,
+      "perPerson": false,
+      "minTermMonths": 3,
+      "paymentPlanMonths": null,
+      "audience": "A business people find by proximity: a storefront, a service area, a map pack, a search that ends in \"near me\".",
+      "addOns": [
+        {
+          "key": "citation_cleanup",
+          "label": "Citation cleanup",
+          "price": 400,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "location_pages",
+          "label": "Local landing / location pages",
+          "price": 1750,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
+      "tiers": [
+        {
+          "level": 1,
+          "label": "Essentials",
+          "monthly": 450,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        },
+        {
+          "level": 2,
+          "label": "Growth",
+          "monthly": 900,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        },
+        {
+          "level": 3,
+          "label": "Authority",
+          "monthly": 1500,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        }
+      ]
+    },
+    {
+      "key": "lead_gen",
+      "kind": "recurring",
+      "channel": true,
+      "priced": true,
+      "perPerson": false,
+      "minTermMonths": null,
+      "paymentPlanMonths": null,
+      "audience": "A business that sells to named people rather than to a feed, and whose pipeline currently depends on who the founder already knows.",
+      "addOns": [
+        {
+          "key": "list_building",
+          "label": "List building sprint",
+          "price": 500,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
+      "tiers": [
+        {
+          "level": 1,
+          "label": "Essentials",
+          "monthly": 1000,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        },
+        {
+          "level": 2,
+          "label": "Growth",
+          "monthly": 2200,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        },
+        {
+          "level": 3,
+          "label": "Authority",
+          "monthly": 3800,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        }
+      ]
+    },
+    {
+      "key": "executive",
+      "kind": "recurring",
+      "channel": true,
+      "priced": true,
+      "perPerson": true,
+      "minTermMonths": null,
+      "paymentPlanMonths": null,
+      "audience": "A founder or executive whose own name carries trust the company name has not earned yet, and who has no time to write.",
+      "addOns": [
+        {
+          "key": "ghost_article",
+          "label": "Ghostwritten article",
+          "price": 450,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
+      "tiers": [
+        {
+          "level": 1,
+          "label": "Essentials",
+          "monthly": 750,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        },
+        {
+          "level": 2,
+          "label": "Growth",
+          "monthly": 1500,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        },
+        {
+          "level": 3,
+          "label": "Authority",
+          "monthly": 2800,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        }
+      ]
+    },
+    {
+      "key": "competitive_intel",
+      "kind": "recurring",
+      "channel": true,
+      "priced": true,
+      "perPerson": false,
+      "minTermMonths": null,
+      "paymentPlanMonths": null,
+      "audience": "A business making positioning and pricing decisions from an impression of what its competitors are doing.",
+      "addOns": [],
+      "tiers": [
+        {
+          "level": 1,
+          "label": "Essentials",
+          "monthly": 500,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": "Monthly",
+          "features": []
+        },
+        {
+          "level": 2,
+          "label": "Growth",
+          "monthly": 950,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": "Monthly",
+          "features": []
+        },
+        {
+          "level": 3,
+          "label": "Authority",
+          "monthly": 1500,
+          "oneTime": 0,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": "Monthly",
+          "reportingCadence": "Bi-weekly, plus a quarterly deep dive",
+          "features": []
+        }
+      ]
+    },
+    {
+      "key": "advisory",
+      "kind": "advisory",
+      "channel": true,
+      "priced": true,
+      "perPerson": false,
+      "minTermMonths": null,
+      "paymentPlanMonths": null,
+      "audience": "A founder who owns every marketing decision and has nobody to argue one through with before it is made.",
+      "addOns": [
+        {
+          "key": "workshop",
+          "label": "Strategy workshop (half-day)",
+          "price": 1200,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
+      "tiers": [
+        {
+          "level": 1,
+          "label": "Advisor",
+          "monthly": 500,
+          "oneTime": 0,
+          "cappedHours": 2,
+          "overageRate": 180,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        },
+        {
+          "level": 2,
+          "label": "Partner",
+          "monthly": 1200,
+          "oneTime": 0,
+          "cappedHours": 5,
+          "overageRate": 180,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        },
+        {
+          "level": 3,
+          "label": "Fractional CMO",
+          "monthly": 2500,
+          "oneTime": 0,
+          "cappedHours": 10,
+          "overageRate": 180,
+          "meetingCadence": null,
+          "reportingCadence": null,
+          "features": []
+        }
+      ]
+    },
+    {
+      "key": "client_dashboards",
+      "kind": "recurring",
+      "channel": false,
+      "priced": true,
+      "perPerson": false,
+      "minTermMonths": 12,
+      "paymentPlanMonths": null,
+      "audience": "A business running on systems that each answer half a question. Stock lives in one place, orders in another, the pipeline in a third, and somebody exports all three into a spreadsheet on Monday morning to find out how the week actually went.",
+      "addOns": [
+        {
+          "key": "extra_source",
+          "label": "Additional connected source",
+          "price": 300,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": 4000,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "extra_module",
+          "label": "Additional module",
+          "price": 150,
+          "tierPrices": null,
+          "oneTime": false,
+          "included": false,
+          "setupPrice": 5000,
+          "minTermMonths": null,
+          "note": null
+        },
+        {
+          "key": "handover",
+          "label": "Handover & migration (offboarding Plan B)",
+          "price": 6500,
+          "tierPrices": null,
+          "oneTime": true,
+          "included": false,
+          "setupPrice": null,
+          "minTermMonths": null,
+          "note": null
+        }
+      ],
+      "tiers": [
+        {
+          "level": 1,
+          "label": "One module",
+          "monthly": 400,
+          "oneTime": 8000,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": "Live, the dashboard is the report",
+          "features": [
+            "1 module",
+            "1 connected source included"
+          ]
+        },
+        {
+          "level": 2,
+          "label": "Two modules",
+          "monthly": 650,
+          "oneTime": 13000,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": null,
+          "reportingCadence": "Live, the dashboard is the report",
+          "features": [
+            "2 modules",
+            "1 connected source included"
+          ]
+        },
+        {
+          "level": 3,
+          "label": "Three modules",
+          "monthly": 900,
+          "oneTime": 18000,
+          "cappedHours": null,
+          "overageRate": null,
+          "meetingCadence": "Quarterly",
+          "reportingCadence": "Live, the dashboard is the report",
+          "features": [
+            "3 modules",
+            "1 connected source included"
+          ]
+        }
+      ]
+    }
+  ]
+}

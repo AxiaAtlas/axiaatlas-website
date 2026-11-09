@@ -3,196 +3,32 @@ import Link from 'next/link'
 import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 import { Arrow, ServiceIcons } from '@/components/icons'
-import ServiceRouteLine from './ServiceRouteLine'
-import { ChannelArt as ServiceArt } from '@/components/artifacts/ChannelArtifacts'
-import InfraStrip from '@/components/artifacts/InfraStrip'
-import { pageTitle, social } from '@/lib/seo'
-import { SERVICES as CATALOGUE, type ServiceId } from '@/lib/services'
+import { PageHero, SectionHead, JsonLd } from '@/components/service/Blocks'
+import FragmentForward from './FragmentForward'
+import { pageTitle, social, SITE_URL } from '@/lib/seo'
+import { THEIA_LAUNCH } from '@/lib/flags'
+import { ADDON_GROUPS, ADDON_IDS, PORTAL_PATH, serviceHref, serviceName, type ServiceId } from '@/lib/services'
+import { ADDON_BLURB } from '@/lib/service-copy'
+import { fromPrice, money, range } from '@/lib/pricing'
 
-/* ── THE ORDER IS PRICE, HIGHEST FIRST, AND IT LIVES IN lib/services ──────
-   Portals & Dashboards leads because it is the largest engagement we sell,
-   Website Design & Build follows, and the remaining seven descend from there.
-   The ranking is taken off the platform's own SERVICES table and recorded, with
-   the figures behind it, in lib/services — not here, and not twice.
+/* ── THE SERVICES HUB ────────────────────────────────────────────────────────
+   Kept at /services so the URL keeps its ranking. It is a short map now: the
+   headline services, then the add-ons by group, each linking to its page or
+   anchor. The Portal joins the headline cards at the Theia launch. */
 
-   NO PRICES ARE PRINTED ON THIS PAGE and none should be added. The order is
-   the ranking a reader gets; the numbers stay in the platform, where they move
-   without this repo.
+const TITLE = 'Marketing Services and Add-Ons Overview'
+const H1 = 'Marketing Services From Website Builds to Advisory Add-Ons'
 
-   WHY IT IS NOT THE OLD ORDER. Website Design & Build used to lead on the
-   argument that it is "the core engagement every other channel points traffic
-   at", with the rest following the home page's grid. That was a judgement this
-   file held alone, and it had already drifted from the home page it claimed to
-   mirror. A price ranking is a fact the business already maintains elsewhere,
-   so it cannot drift — and the home page is now free to order its six by what
-   a home page is for, which is a different question. See the note over that
-   grid.
+const [WEB_LO] = range('website', 'oneTime')
+const [SOCIAL_LO] = range('social', 'monthly')
 
-   ── WHERE THE COUNT LIVES, AND WHY IT LIVES IN ONE PLACE ──────────────────
-   lib/services. Its length feeds the meta description and the ItemList's
-   `numberOfItems`, and every page that used to type a numeral has stopped
-   typing one. (The H1 still spells "Nine" — see the note below on the two
-   sentences where a numeral is doing work rather than listing inventory.)
+const ANSWER =
+  'Axia Atlas builds websites and runs social media for growing businesses, then adds focused services where they pay off: ' +
+  'search and answer engines, local, leads, competitor research, advisory and custom dashboards. ' +
+  `Websites start at ${money(WEB_LO)} one-time and social media at ${money(SOCIAL_LO)} a month.`
 
-   THE LINE THAT WENT. "Eight ways to get found" was the strongest sentence on
-   the site, and it was a channel claim. Portals & Dashboards is not a channel —
-   it sits behind a login, it is indexed by nobody — so the moment it joined
-   this array the site was holding two counts that rot separately: the number
-   of services, and the number of ways a buyer can find you. Two counts in
-   prose is two counts that will one day disagree, and the disagreement is
-   invisible until a reader finds it.
-
-   SO THE NUMERAL SURVIVES IN EXACTLY TWO SENTENCES — this page's H1 and the
-   home page's channels H2 — where it is doing work: it tells a reader the
-   catalogue is bigger than the six cards in front of them. Everywhere else it
-   was inventory, not argument, and inventory is what the array is for. "View
-   all services", "you do not need every service", the FAQ answers, the chat
-   widget's catalogue line: all of them dropped it. This is the same discipline
-   the site already applies to prices, which live in the platform's SERVICES
-   table and are never restated here.
-
-   AND THE H1 NO LONGER SAYS "DIGITAL MARKETING SERVICES". It did, and that
-   filed a dashboard under digital marketing — the one row on the page that is
-   software built for the client's own operation. "Nine Services That Work as
-   One Plan" is shorter and it is true of all nine.
-
-   WHAT THIS PASS TOOK OUT, and why the page is shorter than it was:
-
-   1. THE "IN PRACTICE" CHIPS. Every row carried four or five
-      pills restating, in two words each, things the paragraph above them had
-      just said in full. Sixteen rows of chrome down the page, and the reader
-      learns nothing from the second set that the first did not already teach
-      them to skip.
-
-   2. MOST OF THE ARTIFACTS. A structural sketch beside a service is
-      worth having when the sketch shows a shape the prose cannot — a map pack
-      with one pin lit, a citation line under an answer, the wireframe of a
-      page. It is not worth having when it is three grey bars standing in for
-      "we do this too", which is what most of them were. The survivors sit on
-      the services whose shape is genuinely visual, and `art: true` is the flag
-      that says so.
-
-   The prose itself is untouched. "Too much text" was the note, but the
-   descriptions are the substance of the page — the length came from the
-   furniture around them, and that is what came off.
-
-   `art: true` marks a row that earns a figure. Rows alternate which side the
-   copy takes, so no two consecutive rows read alike; rows without a figure run
-   as a single measured column. */
-/* PROSE ONLY. The name and the position of every row below come from
-   lib/services — see the header there. This array carries the two things that
-   are genuinely this page's: the argument for each service, and who it is for.
-
-   It is deliberately still in the old hand-written order. Sorting it would put
-   two orders in the repo that have to agree; leaving it means the ORDER lives
-   in exactly one file and this one cannot drift out of step with it. */
-const DETAIL: { id: ServiceId; art: boolean; desc: string; who: string }[] = [
-  {
-    id: 'website',
-    art: true,
-    desc: "This is the core engagement, and it is not a design job. It starts with positioning: what you actually sell, who it is for, and why a buyer should pick you over the two alternatives they are also looking at. That decision drives the copy, and the copy drives the layout, so the pages argue a case instead of decorating one. Search foundations go in during the build rather than after it: an information architecture that matches how people search, titles and headings written for real queries, schema markup, clean internal linking, fast Core Web Vitals on a real phone, and a sitemap that gets indexed. We build it too: you get a working site, not a mockup handed to someone else to interpret.",
-    who: 'For businesses whose site is the front door: a first build, a rebuild, or a site that photographs well and still does not sell.',
-  },
-  {
-    id: 'social',
-    art: false,
-    desc: 'Each platform rewards something different: a hook inside the first second on TikTok, a defensible opinion on LinkedIn, a look you can recognise at thumbnail size on Instagram. We pick the two or three platforms worth your time and ignore the rest, set a handful of recurring content pillars so the account says one thing consistently instead of a new thing weekly, then produce, schedule, and publish it natively for each platform. We work the comments as well: answering the buying questions in public, and handling complaints so the thread ends up reading as evidence you are good to deal with.',
-    who: 'For brands and businesses treating social as a growth channel rather than an obligation, B2B or B2C.',
-  },
-  {
-    id: 'intel',
-    art: false,
-    desc: 'You pick the competitors, usually five to ten who genuinely take deals off you. We watch what they do and report it with the receipts: pricing and packaging changes, the queries and pages they rank for that you do not, publishing cadence and which posts actually earned engagement, the roles they are hiring for, review volume and what the complaints are really about, and whether the answer engines name them in the moments they do not name you. Every claim is sourced and dated so you can check it yourself. The deliverable is not a dashboard nobody opens. It is arriving at each decision about price, positioning, or where to publish next already knowing what your buyer sees when they look at the alternatives.',
-    who: 'For teams making positioning, pricing, or channel bets in a crowded category who are tired of guessing what the other side is doing.',
-  },
-  {
-    id: 'local',
-    art: true,
-    /* Renamed from "Local Presence & SEO" to match the service catalogue. See
-       the note on the home page's channel card. */
-    desc: 'Two results decide whether a nearby buyer finds you: the map pack, and the organic listings underneath it. We work both, because winning one and losing the other cedes half the page. On the local side that means a Google Business Profile built out properly (categories, services, hours, photos, Q&A), citations kept consistent across the directories that feed the map, a review programme that produces a steady flow rather than a spike, and public replies to the hard ones that show a prospect how you handle a problem. On the search side it is the service and location pages that rank for "service in city", the internal linking between them, and the technical fixes that stop good pages from being ignored. Rankings and calls are tracked per location, never averaged into one flattering number.',
-    who: 'For clinics, trades, shops, restaurants, practices, and multi-location businesses that sell inside a radius.',
-  },
-  {
-    id: 'geo',
-    art: true,
-    desc: 'Buyers now ask Claude, ChatGPT, Perplexity, and Gemini which company to use, and they largely take the answer at face value. We start by measuring it: the exact prompts a buyer in your category would type, run across all four platforms, recorded so you can see who gets named today and what is said about you when you are. Then we fix what those systems read. Entity data and schema so the models know what you are and what you do. Source pages written to be quoted whole (a clear claim, the evidence under it, and a date) rather than skimmed. Presence on the third-party pages, directories, and communities the models fall back on when they will not take your own site at its word. We re-run the same prompt set every month, so you can see the point at which you start getting cited and exactly where you are still being left out.',
-    who: 'For any business whose buyers ask an assistant before they ask a person, and for categories where going unnamed means going unconsidered.',
-  },
-  {
-    id: 'leadgen',
-    art: false,
-    desc: 'Search and content compound; outbound produces conversations this quarter. We define the ideal customer tightly enough that it disqualifies: industry, size, the role that signs, and a trigger that makes contact worth making now. Then build the list by hand instead of buying one, verify every address, and write sequences that reference something specific and true about the company rather than dropping a name into a template. Email and LinkedIn run together so the same person meets you twice. You see every prospect, every touch, and every reply, so the targeting and the message sharpen each cycle instead of being thrown out and restarted.',
-    who: 'For B2B and service businesses that know who their best customers are and want conversations booked now.',
-  },
-  {
-    id: 'executive',
-    art: false,
-    desc: 'A company account gets read the way an ad gets read. A person gets read differently. We build the founder or executive a voice that stands on its own: a small set of positions they are genuinely willing to defend in public, drawn out of them in interviews rather than invented in a strategy doc, then written up as posts, longer essays, and talking points that sound like the person and not like a marketing department. Comments and DMs are triaged so the buyers hiding among them get a real reply from a real person. The account stays theirs: the archive, the audience, and the reputation belong to the individual and carry back into the company.',
-    who: 'For founders, owners, and executives who are the face of the business, or intend to be.',
-  },
-  {
-    /* ── THE NINTH ROW, AND THE ONLY ONE THAT IS NOT A CHANNEL ─────────────
-       The other eight are ways a buyer finds you. This is software we build
-       for the business itself: it sits behind a login, it is indexed by
-       nobody, and it is bought by a company that already has an operation to
-       look at. The platform's own service table marks that difference with a
-       `channel: false` flag rather than leaving it to prose, which is why the
-       distinction is load-bearing here too and not a nicety.
-
-       IT IS NOT THE CLIENT PORTAL, and the paragraph says so in as many
-       words. Every client already gets the portal for their marketing work;
-       this is a separate build for their own operation, and the two being
-       confused in front of a buyer is the single failure this copy exists to
-       prevent.
-
-       NO PRICES, NO MODULE COUNTS, NO TIER NAMES. The build fee, the monthly,
-       what a module is and how many come with what all live in the platform's
-       SERVICES table, which is the source of truth and moves without this
-       repo. Anything numeric written here would be a second copy of a number,
-       and a second copy of a number is a number that will one day disagree. */
-    id: 'dashboards',
-    art: true,
-    desc: 'Most businesses run on decentralized systems that each answer half a question. Stock sits in one place, orders in another, the pipeline in a third, and somebody exports all three into a spreadsheet on Monday morning to work out how last week went. We build the thing that ends that: an operational dashboard for your business, not a template you are fitted into. The views are the ones you actually run on, defined with you. We do not replace your tools. We connect to them, keep the mapping right as those systems change underneath, and put the result behind your own login, in your branding, on your own subdomain. Your data sits in a database project of its own, separate from ours, with no route between your operation and our agency systems. This is not the client portal you already get for the marketing work. It is software built for the business itself.',
-    who: 'For businesses whose operating numbers are spread across a store admin, a CRM, and a spreadsheet, and who want one place that reads from all three and stays right as they change.',
-  },
-  {
-    id: 'strategy',
-    art: false,
-    desc: 'Sometimes what is missing is not another deliverable. This is standing access to a strategist who already knows your business: recurring working sessions on the decisions that do not belong to any one channel: what to charge and how to package it, which segment to go after next, whether to build a capability or partner for it, what to say when a competitor undercuts you by thirty percent. We sit in on the calls where it actually gets decided, write up the decision and the reasoning behind it so it survives the week, and open the next session by checking what happened. No deck nobody reads.',
-    who: 'For owners and teams who want a thinking partner across the whole business, not a vendor for one channel.',
-  },
-]
-
-/* THE ORDER IS PRICE, HIGHEST FIRST, and it is not this file's decision.
-   lib/services ranks the nine by what they cost at their top tier — Portals &
-   Dashboards, then Website Design & Build, then the rest descending — and this
-   page renders them in that order. No price is printed: the order carries it.
-
-   `headline` is resolved from the same place, so a rename in the platform
-   reaches this page, the ItemList below, the home grid, and the Organization
-   catalog in app/layout.tsx in one edit instead of five. */
-const SERVICES = CATALOGUE.map((svc) => {
-  const d = DETAIL.find((x) => x.id === svc.id)
-  if (!d) throw new Error(`No /services copy written for: ${svc.id}`)
-  return { id: svc.id, headline: svc.name, art: d.art, desc: d.desc, who: d.who }
-})
-
-/* A SUMMARY FIRST, THEN THE DERIVED LIST. The list alone ran to ~280
-   characters, and a search result prints about 155: the snippet stopped at
-   "Lead G", four names in, so a searcher never saw advisory, research, local or
-   exec brand. The opening sentence is what the snippet shows, and it names the
-   breadth by kind without typing a count. The list after it is still derived,
-   so the ItemList and the description cannot drift apart and adding a service
-   still updates both without anyone remembering to. */
 const DESCRIPTION =
-  'Search, answer engines, local, social, websites, client dashboards, lead generation and advisory from one studio, run as one plan. ' +
-  `Full catalog: ${SERVICES.map((s) => s.headline).join(', ')}.`
-
-/* The page sells channels AND builds, so the title names both by kind rather
-   than leading on three channel acronyms, which told Google this page was
-   about SEO, AEO and social and nothing else. 52 characters with the tail. */
-const TITLE = 'Marketing Services: Search, Social, Web'
+  `Website design and build from ${money(WEB_LO)}, social media management from ${money(SOCIAL_LO)} a month, and add-ons for search, local, leads, research, advisory and dashboards.`
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -201,148 +37,108 @@ export const metadata: Metadata = {
   ...social({ title: pageTitle(TITLE), description: DESCRIPTION, path: '/services' }),
 }
 
-/* Machine-readable mirror of the services above, so answer engines and search
-   engines read the same catalog a visitor does. Kept derived from SERVICES —
-   the count can never drift out of sync with the page.
+type Card = { key: string; icon: string; name: string; desc: string; price: string; href: string }
 
-   THE NAME NO LONGER SAYS "WAYS TO GET FOUND". It was
-   `${SERVICES.length} ways to get found`, which was true while every member of
-   the list was a discovery channel. Portals & Dashboards is not one — it sits
-   behind a login and is indexed by nobody — so the moment it joined the array
-   that template started emitting "9 ways to get found" to the machines that
-   read this page, which is a claim about the ninth that is not true. The count
-   still derives; only the phrase that made it a claim is gone. `numberOfItems`
-   carries the number, which is all a parser needed from it. */
-const SITE_URL = 'https://axiaatlas.com'
-const SERVICES_JSON_LD = {
+const HEADLINE: Card[] = [
+  ...(THEIA_LAUNCH
+    ? [{ key: 'portal', icon: 'dashboards', name: 'The Client Portal', desc: 'One login for your results, approvals and reports, with Theia by Axia Atlas built in.', price: 'Pricing on request', href: PORTAL_PATH }]
+    : []),
+  { key: 'website', icon: 'website', name: serviceName('website'), desc: 'Positioning, copy, design and build in one engagement, with search foundations laid from day one and an optional care plan after launch.', price: fromPrice('website'), href: serviceHref('website') },
+  { key: 'social', icon: 'social', name: serviceName('social'), desc: 'Two or three platforms, one voice, content made for each, published on a plan and answered in the comments.', price: fromPrice('social'), href: serviceHref('social') },
+]
+
+// The catalog as an @graph: the ItemList points at each Service by @id, and
+// every Service is a top-level node under the same @id its own page declares
+// (/services/<slug>#service, /services/add-ons#<anchor>), so a parser merges
+// them into one entity per service.
+const ITEMS = [
+  ...HEADLINE.map((c) => ({ name: c.name, url: c.href })),
+  ...ADDON_IDS.map((id) => ({ name: serviceName(id), url: serviceHref(id) })),
+].map((s) => {
+  const url = `${SITE_URL}${s.url}`
+  return { ...s, url, id: url.includes('#') ? url : `${url}#service` }
+})
+
+const LD = {
   '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  '@id': `${SITE_URL}/services#catalog`,
-  name: 'Axia Atlas service catalog',
-  numberOfItems: SERVICES.length,
-  itemListOrder: 'https://schema.org/ItemListUnordered',
-  itemListElement: SERVICES.map((s, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    item: {
-      '@type': 'Service',
-      '@id': `${SITE_URL}/services#${s.id}`,
-      name: s.headline,
-      description: s.desc,
-      url: `${SITE_URL}/services#${s.id}`,
-      serviceType: s.headline,
-      provider: { '@id': `${SITE_URL}/#organization` },
-      // Nationwide, matching the Organization node in app/layout.tsx and the
-      // /contact answer. See the note there.
-      areaServed: { '@type': 'Country', name: 'United States' },
+  '@graph': [
+    {
+      '@type': 'ItemList',
+      '@id': `${SITE_URL}/services#catalog`,
+      name: 'Axia Atlas services',
+      numberOfItems: ITEMS.length,
+      itemListElement: ITEMS.map((s, i) => ({ '@type': 'ListItem', position: i + 1, item: { '@id': s.id } })),
     },
-  })),
+    ...ITEMS.map((s) => ({
+      '@type': 'Service',
+      '@id': s.id,
+      name: s.name,
+      url: s.url,
+      provider: { '@id': `${SITE_URL}/#organization` },
+    })),
+  ],
 }
 
 export default function ServicesPage() {
-  /* Which side the copy takes. Counted across the rows that HAVE a figure, so
-     the three figures alternate sides down the page rather than depending on
-     where the text-only rows happen to fall. */
-  let figureIndex = -1
-
   return (
-    <div className="page services-page">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICES_JSON_LD) }}
-      />
-      <div data-aa-section="services.hero" className="services-hero">
-        <div className="section-eyebrow">Services</div>
-        <h1 className="section-headline">Nine Services That Work as One Plan</h1>
-        <p className="section-sub">Start with one channel or build the full system. Either way, it begins with strategy, never random tactics.</p>
-      </div>
+    <div className="page sv-page">
+      <JsonLd data={LD} />
+      <FragmentForward />
 
-      {/* A simple straight vertical line connects the services (ServiceRouteLine);
-          it's positioned relative to this flow. */}
-      <div className="services-flow">
-        <ServiceRouteLine />
-        <div data-aa-section="services.list" className="services-route">
-          {SERVICES.map((s) => {
-            const Icon = ServiceIcons[s.id]
-            const Art = s.art ? ServiceArt[s.id] : null
-            if (Art) figureIndex += 1
-            const flip = Art ? figureIndex % 2 === 1 : false
+      <PageHero data-aa-section="services.hero" eyebrow="Services" title={H1} answer={ANSWER}>
+        <Link href="/pricing" className="btn-outline">See pricing</Link>
+      </PageHero>
 
-            return (
-              <div
-                key={s.id}
-                id={s.id}
-                className={`service-detail${Art ? ' has-art' : ' text-only'}${flip ? ' flip' : ''}`}
-              >
-                {/* SEO used to be its own section; keep the old deep link working. */}
-                {s.id === 'local' && <span id="seo" aria-hidden="true" />}
-
-                <div className="service-detail-inner">
-                  {/* Two groups, always. On a row with a figure they simply
-                      stack; on a row without one, `.sd-copy` becomes the
-                      two-column grid itself and the mark and headline sit
-                      opposite the prose. Grouping them in the markup is what
-                      lets the headline stay level with its own icon instead of
-                      being dragged down the page by the paragraph beside it. */}
-                  <div className="sd-copy">
-                    <div className="sd-head">
-                      <div className="service-detail-label">
-                        <span className="service-icon">{Icon && <Icon />}</span>
-                      </div>
-                      <h2 className="service-detail-headline">{s.headline}</h2>
-                      {/* THE AUDIENCE LINE RIDES WITH THE HEADLINE ON A ROW WITH
-                          NO FIGURE, and it is the fix for a real defect rather
-                          than a preference. A text-only row splits `.sd-copy`
-                          into a narrow head column and a wide prose column. The
-                          head held two things — a 44px mark and a one-line
-                          headline — so on every one of these rows the left
-                          column ran about 120px of content against 400px of
-                          paragraph beside it, and the remaining 300-odd px was
-                          a hole. Executive Personal Brand is where it reads
-                          worst (shortest headline, and it sits directly above
-                          the tallest figure row on the page), but social,
-                          intel, leadgen, and strategy all had it.
-
-                          "Who this is for" is the one sentence that belongs
-                          with the NAME of a service rather than appended to the
-                          argument for it, so moving it is not padding — it puts
-                          the line where it reads better and closes the hole
-                          with content the row already owned. Rows WITH a figure
-                          are untouched: their head column is the full measure
-                          and has no hole to close. */}
-                      {!Art && <p className="service-who">{s.who}</p>}
-                    </div>
-                    <div className="sd-prose">
-                      <p className="service-detail-desc">{s.desc}</p>
-                      {Art && <p className="service-who">{s.who}</p>}
-                      <div>
-                        <Link href="/demo" className="btn-primary">Get Started <Arrow className="arr" /></Link>
-                      </div>
-                    </div>
-                  </div>
-
-                  {Art && (
-                    <div className="sd-aside">
-                      <div className="sd-art"><Art /></div>
-                      {/* One row only, and it is the row that sells software.
-                          See the note in InfraStrip for why it does not travel
-                          and why it is not repeated on the home page. */}
-                      {s.id === 'dashboards' && <InfraStrip />}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )
-          })}
+      <section data-aa-section="services.headline" className="sv-section g-raise">
+        <div className="section-inner">
+          <SectionHead eyebrow="Headline services" title="Where Most Clients Start" />
+          <div className={`sv-cards sv-cards-${HEADLINE.length}`}>
+            {HEADLINE.map((c) => {
+              const Icon = ServiceIcons[c.icon]
+              return (
+                <Link key={c.key} href={c.href} className="sv-card">
+                  <span className="service-icon">{Icon && <Icon />}</span>
+                  <h3 className="sv-card-name">{c.name}</h3>
+                  <p className="sv-card-desc">{c.desc}</p>
+                  <span className="sv-card-price">{c.price}</span>
+                  <span className="service-link">Learn more <Arrow className="arr" /></span>
+                </Link>
+              )
+            })}
+          </div>
         </div>
+      </section>
 
-        <CtaBand
-          eyebrow="Not sure where to start?"
-          headline="We'll tell you what to do first."
-          sub="Book a demo. We audit how you show up before the call, then walk you through the two or three channels that will pay off fastest."
-        />
-      </div>
+      <section data-aa-section="services.addons" className="sv-section g-black">
+        <div className="section-inner">
+          <SectionHead
+            eyebrow="Add-ons"
+            title="Add-Ons, Grouped by the Job You Need Done"
+            lede="Each add-on is priced on its own tiers and can be added to a website or social engagement when it pays off."
+          />
+          <div className="sv-groups">
+            {ADDON_GROUPS.map((g) => (
+              <div key={g.id} className="sv-group">
+                <h3 className="sv-group-name"><Link href={`/services/add-ons#${g.id}`}>{g.name}</Link></h3>
+                <p className="sv-group-lede">{g.lede}</p>
+                <ul className="sv-group-list">
+                  {g.ids.map((id: ServiceId) => (
+                    <li key={id}>
+                      <Link href={serviceHref(id)}>{serviceName(id)}</Link>
+                      <span>{ADDON_BLURB[id as keyof typeof ADDON_BLURB]}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
+      <CtaBand
+        headline="Not sure where to start?"
+        sub="Book a demo. We audit how you show up today before the call, then tell you which service will pay off first."
+      />
       <Footer />
     </div>
   )

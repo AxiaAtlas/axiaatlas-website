@@ -9,8 +9,10 @@ import BrandMarquee from '@/components/BrandMarquee'
 import PortalShot from '@/components/PortalShot'
 import SerpGap from '@/components/artifacts/SerpGap'
 import AuditPreview from '@/components/artifacts/AuditPreview'
-import { serviceName, type ServiceId } from '@/lib/services'
-import { SITE_URL } from '@/lib/seo'
+import { ADDON_GROUPS, ADDONS_PATH, PORTAL_PATH, THEIA_PATH, serviceHref, serviceName } from '@/lib/services'
+import { SITE_URL, HOME_TITLE } from '@/lib/seo'
+import { THEIA_LAUNCH } from '@/lib/flags'
+import { fromPrice, monthsWord, pricingFor } from '@/lib/pricing'
 
 /* The results are read at render, so the page has to be allowed to re-render.
    It was fully static because the CASES array made the read decorative; now
@@ -32,90 +34,24 @@ export const revalidate = 3600
    slash is a second address for this page, which is the thing all of this is
    for. */
 export const metadata: Metadata = {
+  title: { absolute: HOME_TITLE },
   alternates: { canonical: SITE_URL },
 }
 
-/* SIX OF THE NINE, and the six are chosen and ordered by what they cost.
-   lib/services ranks the whole catalogue by top-tier price and /services
-   renders it in that order; this grid shows the top of that ranking with two
-   deliberate exceptions, and both are about what a home page is for.
+/* ── THE OFFER ───────────────────────────────────────────────────────────────
+   Headline services only: Website Design & Build and Social Media Management,
+   with the Portal joining at the Theia launch (lib/flags). Everything else is
+   an add-on, shown as four groups under the cards. Names, addresses and the
+   "From" prices all resolve from lib/services and lib/pricing. */
+type OfferCard = { key: string; icon: string; name: string; desc: string; price: string; href: string }
 
-   THE ORDER HERE IS NOT THE /services ORDER, and that is on purpose. Website
-   Design & Build leads rather than Portals & Dashboards, because a website is
-   the engagement almost every visitor arrives already knowing they might need,
-   and a dashboard is the one that has to be explained. The most expensive
-   thing we sell is not the right first word to a stranger; it is the right
-   SECOND one, so it takes the cell beside it. Competitive Intelligence and
-   Local Presence & Maps sit at the foot of the price ranking and still make
-   this six, over Lead Generation, Executive Personal Brand and Strategic
-   Advisory, because they are the two that pull the most search traffic — the
-   grid is a home page's summary of the catalogue, not a rate card.
-
-   Executive Personal Brand, Lead Generation and Strategic Advisory & Embedded
-   Thinking live on /services (anchors #executive, #leadgen, #strategy) and in
-   the footer.
-
-   NO NUMERAL ON THE BUTTON. It said "View all 8 services" and the catalogue
-   went to nine, which is the whole argument for not typing counts into copy:
-   the count lives in lib/services and every sentence that merely listed
-   inventory has stopped repeating it. The H2 below keeps its numeral because
-   there it is doing work: it tells the reader six cards are not the whole
-   catalogue. See the note over that heading for the full reasoning.
-
-   NAMES ARE NOT TYPED HERE. They resolve from lib/services, which mirrors the
-   platform's SERVICES table — so the two properties cannot disagree about what
-   a service is called, and a rename is one edit rather than five.
-
-   TWO OF THE SIX ARE EMPHASISED, and no card carries an artifact. The previous
-   pass flattened this block to a uniform 3x2 because the version before it was
-   eight tiles each with its own small drawing — the busiest thing on the page.
-   Flat fixed the noise and lost the argument: six identical cards say the six
-   services are interchangeable, which is the opposite of what the page is for.
-   The emphasis is scale alone, not a graphic. `emphasis` cells span two of four
-   columns and lay their copy out beside the mark instead of under it; 2x2 + 4x1
-   is exactly two rows of four, so the grid still tiles.
-
-   WHICH TWO, AND WHY THEY CHANGED. They are now the two most expensive things
-   in the catalogue — Website Design & Build and Portals & Dashboards — and
-   they are also the two that are SOFTWARE WE BUILD rather than a channel we
-   work. That is a sharper argument than the one it replaces. SEO & Answer
-   Engine Optimization held the second wide cell before, and it did not need
-   it: the hero eyebrow names SEO first, the ticker names four answer engines,
-   the System card runs a marquee of their marks, and the audit card's second
-   row is Answer Engines. The page argues for it four times over without
-   spending a double-wide cell on it. Portals & Dashboards is argued for
-   nowhere else on this page and is the largest engagement we sell, so the cell
-   goes where it does work. */
-const HOME_IDS: ServiceId[] = ['website', 'dashboards', 'social', 'geo', 'intel', 'local']
-const EMPHASISED: ServiceId[] = ['website', 'dashboards']
-
-/* ONE OR TWO SENTENCES EACH, AND THEY HAVE TO STAY THAT WAY. Four of these
-   share a row on a four-column grid and the row is as tall as its longest
-   card, so a paragraph twice the length of its neighbours does not read as
-   more detail — it reads as three cards with holes in them. SEO & Answer
-   Engine Optimization carried the full pipeline description here while it held
-   a double-wide cell that could absorb it; in an ordinary cell it ran eight
-   lines against its neighbours' three. The long version is on /services, which
-   is where a reader who wants it is going. */
-const BLURB: Record<ServiceId, string> = {
-  website: 'Positioning, copy, design, and build in one engagement, with search foundations laid from day one.',
-  dashboards: 'One operational dashboard for your own business (stock, orders, pipeline), read from the systems you already run on, behind your login and your branding.',
-  social: 'Content built for each platform, managed end to end, designed to grow an audience that actually buys.',
-  geo: 'Rank in Google and get named by the assistants buyers now ask: one content pipeline, with monthly proof of where you are cited and where you are not.',
-  intel: "Every competitor's positioning, cadence, and visibility tracked and sourced, so you decide on facts rather than hunches.",
-  local: 'Profile, citations, and reviews managed so nearby buyers find you first, not the business down the road.',
-  leadgen: 'Prospects researched against your ideal customer, reached with outreach written for them, tracked from first touch onward.',
-  executive: "A founder's voice built separately from the company's, published on a cadence, with the audience and the archive staying theirs.",
-  strategy: 'Standing access to a strategist who already knows your business, for the decisions that do not belong to any one channel.',
-}
-
-const SERVICES = HOME_IDS.map((id) => ({
-  id,
-  name: serviceName(id),
-  desc: BLURB[id],
-  href: `/services#${id}`,
-  emphasis: EMPHASISED.includes(id),
-}))
+const OFFER: OfferCard[] = [
+  ...(THEIA_LAUNCH
+    ? [{ key: 'portal', icon: 'dashboards', name: 'The Client Portal', desc: 'One login for your results, approvals and reports, with Theia by Axia Atlas built in to help you understand your data.', price: 'Pricing on request', href: PORTAL_PATH }]
+    : []),
+  { key: 'website', icon: 'website', name: serviceName('website'), desc: `Positioning, copy, design and build in one engagement, with search foundations laid from day one. Pay once or over ${monthsWord(pricingFor('website').paymentPlanMonths ?? 0)} months, and keep it current with a care plan.`, price: fromPrice('website'), href: serviceHref('website') },
+  { key: 'social', icon: 'social', name: serviceName('social'), desc: 'The two or three platforms your buyers use, one voice across them, content made for each, and every comment answered.', price: fromPrice('social'), href: serviceHref('social') },
+]
 
 /* THE TICKER, BACK TO ONE LINE. It was two rows of search-field chips travelling
    in opposite directions, each with a magnifier and a blinking caret — three
@@ -131,7 +67,6 @@ const MARQUEE = [
   'Recommended over the competition',
   'Recommended by Gemini',
   'Trusted on LinkedIn',
-  'Named by Claude',
   'Discovered on TikTok',
   'Reviews checked before they call',
 ]
@@ -205,22 +140,21 @@ export default async function HomePage() {
                 buyers are looking" (a benefit line, so it competes with the
                 H1's job instead of adding to it, and carries no keyword at
                 all). */}
-            <div className="hero-eyebrow"><span className="pulse" /> SEO · Answer Engines · Local · Social</div>
+            <div className="hero-eyebrow"><span className="pulse" /> Website Design · Social Media · Search</div>
             <h1 className="hero-headline">
-              Digital Marketing That Makes You<br />
-              <em>Impossible to Miss</em>
+              {THEIA_LAUNCH ? <>Websites, Social and a Client Portal{' '}<br /><em>That Run as One System</em></> : <>Website Design and Social Media That Make You{' '}<br /><em>Hard to Miss</em></>}
             </h1>
             {/* The line the keyword H1 displaced, restored as a display subhead
                 rather than a second H1 — one H1 per page, and this is the better
                 sentence, so it keeps display weight without competing for the
                 heading level. */}
-            <p className="hero-display-sub">Your buyers are looking. Make sure they find you.</p>
+            <div className="hero-display-sub">Your buyers are looking. Make sure they find you.</div>
             <p className="hero-sub">
-              Every day, people search the web, scroll their feeds, and ask answer engines what to buy and who to trust. Axia Atlas puts your business in those moments: for brands, local businesses, and the founders behind them.
+              Axia Atlas designs and builds websites and runs social media for businesses that need to be found. We start by auditing how you show up in search, answer engines, maps and feeds, then build the site and the content that close the gaps. Headquartered in Miami, working with clients across the US.
             </p>
             <div className="hero-actions">
               <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
-              <Link href="/services" className="btn-outline">See How It Works</Link>
+              <Link href="/pricing" className="btn-outline">See Pricing</Link>
             </div>
           </div>
 
@@ -234,7 +168,7 @@ export default async function HomePage() {
           One row, no icons, no caret. A thin brand-green band, so the eye reads
           it as the rule between the hero and the argument rather than as a
           section of its own. */}
-      <div data-aa-section="home.ticker" className="ticker g-spruce" aria-label="Where buyers decide and where you win: Google, ChatGPT, the map pack, Perplexity, Gemini, LinkedIn, Claude, TikTok, reviews">
+      <div data-aa-section="home.ticker" className="ticker g-spruce" aria-label="Where buyers decide and where you win: Google, ChatGPT, the map pack, Perplexity, Gemini, LinkedIn, TikTok, reviews">
         <div className="marquee-track">
           {[0, 1].map((dup) => (
             <div className="marquee-group" key={dup} aria-hidden={dup === 1}>
@@ -263,7 +197,7 @@ export default async function HomePage() {
             <p>You can have the better product, the fairer price, and the happier customers, and still lose to the business that simply shows up first.</p>
             <p>Attention has moved. Buyers search, scroll, and ask answer engines before they ever call. The companies winning right now aren&apos;t louder. They&apos;re easier to find, in more of the places that matter, more of the time.</p>
             <p>That&apos;s the gap we close.</p>
-            <Link href="/demo" className="btn-primary">Find Your Gaps <Arrow className="arr" /></Link>
+            <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
           </div>
 
           <div className="problem-evidence">
@@ -356,36 +290,59 @@ export default async function HomePage() {
           Services" is the fix: it is the same noun the H2 counts, so the
           eyebrow and the heading are now counting one thing instead of two,
           and it introduces no count of its own. */}
-      <section data-aa-section="home.channels" className="channels-section g-raise">
+      <section data-aa-section="home.offer" className="channels-section g-raise">
         <div className="section-inner">
           <div className="section-head aligned-right">
             <div className="section-eyebrow">The Services</div>
-            <h2 className="section-headline">Nine services. One system.</h2>
+            <h2 className="section-headline">{THEIA_LAUNCH ? 'Three services. One system.' : 'Your website and your feed, built to sell.'}</h2>
           </div>
-          <div className="services-grid">
-            {SERVICES.map((s) => {
-              const Icon = ServiceIcons[s.id]
+          <div className={`sv-cards sv-cards-${OFFER.length}`}>
+            {OFFER.map((c) => {
+              const Icon = ServiceIcons[c.icon]
               return (
-                <div key={s.id} className={`service-card${s.emphasis ? ' emphasis' : ''}`}>
-                  {/* Two groups on every card, emphasised or not. On an ordinary
-                      cell they stack and the card looks exactly as it did; on a
-                      double-wide one the head takes the left column and the
-                      prose the right, which is what stops the wide card from
-                      being a normal card with a hole in it. */}
-                  <div className="sc-head">
-                    <div className="service-icon">{Icon && <Icon />}</div>
-                    <h3 className="service-name">{s.name}</h3>
-                  </div>
-                  <div className="sc-body">
-                    <p className="service-desc">{s.desc}</p>
-                    <Link href={s.href} className="service-link">Learn more <Arrow className="arr" /></Link>
-                  </div>
-                </div>
+                <Link key={c.key} href={c.href} className="sv-card">
+                  <span className="service-icon">{Icon && <Icon />}</span>
+                  <h3 className="sv-card-name">{c.name}</h3>
+                  <p className="sv-card-desc">{c.desc}</p>
+                  <span className="sv-card-price">{c.price}</span>
+                  <span className="service-link">Learn more <Arrow className="arr" /></span>
+                </Link>
               )
             })}
           </div>
+        </div>
+      </section>
+
+      {THEIA_LAUNCH && (
+        <section data-aa-section="home.theia" className="sv-section g-spruce">
+          <div className="section-inner sv-note">
+            <div className="sv-head">
+              <div className="section-eyebrow">Meet Theia</div>
+              <h2 className="section-headline">Theia by Axia Atlas, inside your portal.</h2>
+              <p className="sv-lede">Theia is our proprietary assistant. Ask her about your results in plain English, and she helps you build your own reports, decks and plans from your data. She lives only in your portal and knows only your business.</p>
+            </div>
+            <Link href={THEIA_PATH} className="service-link">Meet Theia <Arrow className="arr" /></Link>
+          </div>
+        </section>
+      )}
+
+      <section data-aa-section="home.addons" className="sv-section g-black">
+        <div className="section-inner">
+          <div className="sv-head">
+            <div className="section-eyebrow">Add-ons</div>
+            <h2 className="section-headline">Add only what pays off.</h2>
+            <p className="sv-lede">Search, local, leads, research, advisory and custom dashboards, each priced on its own and added when it is worth it.</p>
+          </div>
+          <div className="sv-groups">
+            {ADDON_GROUPS.map((g) => (
+              <Link key={g.id} href={`${ADDONS_PATH}#${g.id}`} className="sv-group sv-group-link">
+                <h3 className="sv-group-name">{g.name}</h3>
+                <p className="sv-group-lede">{g.ids.map(serviceName).join(' · ')}</p>
+              </Link>
+            ))}
+          </div>
           <div className="channels-foot">
-            <Link href="/services" className="btn-outline">View all services <Arrow className="arr" /></Link>
+            <Link href={ADDONS_PATH} className="btn-outline">See all add-ons <Arrow className="arr" /></Link>
           </div>
         </div>
       </section>
@@ -479,7 +436,7 @@ export default async function HomePage() {
             <div className="section-head aligned-right">
               <div className="section-eyebrow">How We Work</div>
               <h2 className="section-headline">Strategy before spend.<br />Every time.</h2>
-              <p className="section-sub">You get direct access to the people doing the work, monthly strategy calls, a live dashboard, and reporting written in language you can actually read.</p>
+              <p className="section-sub">You work directly with the people doing the work, approve everything before it goes live, and get reporting written in language you can actually read.</p>
             </div>
           </div>
 

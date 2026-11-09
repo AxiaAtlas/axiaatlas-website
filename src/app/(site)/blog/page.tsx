@@ -4,7 +4,8 @@ import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 import { Arrow } from '@/components/icons'
 import { getPosts, postDate, formatDate, readingTime } from '@/lib/blog'
-import { pageTitle, social } from '@/lib/seo'
+import { SITE_URL, pageTitle, social } from '@/lib/seo'
+import { JsonLd } from '@/components/service/Blocks'
 
 // The articles live in the database, so the index is regenerated hourly rather
 // than frozen at build time. Publishing a post in the platform puts it on the
@@ -31,8 +32,30 @@ export default async function BlogIndexPage() {
   // The newest article leads the page; the rest fill the grid beneath it.
   const [lead, ...rest] = posts
 
+  // The index as a collection, with every listed article as its own
+  // BlogPosting node, attributed to the site-wide Organization.
+  const ORG_ID = `${SITE_URL}/#organization`
+  const listLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'CollectionPage', '@id': `${SITE_URL}/blog#page`, url: `${SITE_URL}/blog`, name: 'Axia Atlas Insights', publisher: { '@id': ORG_ID } },
+      ...posts.map((p) => ({
+        '@type': 'BlogPosting',
+        '@id': `${SITE_URL}/blog/${p.slug}#article`,
+        headline: p.title,
+        url: `${SITE_URL}/blog/${p.slug}`,
+        datePublished: postDate(p),
+        ...(p.excerpt ? { description: p.excerpt } : {}),
+        author: { '@type': 'Organization', '@id': ORG_ID, name: p.author || 'Axia Atlas' },
+        publisher: { '@id': ORG_ID },
+        isPartOf: { '@id': `${SITE_URL}/blog#page` },
+      })),
+    ],
+  }
+
   return (
     <div className="page blog-page">
+      {posts.length > 0 && <JsonLd data={listLd} />}
       <div data-aa-section="blog.hero" className="blog-hero">
         <div className="section-eyebrow">Insights</div>
         <h1 className="section-headline">
@@ -40,6 +63,11 @@ export default async function BlogIndexPage() {
           <br />
           Answer Engines and Social
         </h1>
+        <p className="section-sub">
+          Axia Atlas publishes practical guides on how buyers find a business today, through search,
+          answer engines, local maps and social feeds. Each article takes one question owners ask us,
+          explains what changed and why it matters, and ends with what to do about it this month.
+        </p>
       </div>
 
       {posts.length === 0 ? (
