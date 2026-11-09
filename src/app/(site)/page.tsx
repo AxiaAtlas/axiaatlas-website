@@ -142,13 +142,13 @@ export default async function HomePage() {
                 all). */}
             <div className="hero-eyebrow"><span className="pulse" /> Website Design · Social Media · Search</div>
             <h1 className="hero-headline">
-              {THEIA_LAUNCH ? <>Websites, Social and a Client Portal{' '}<br /><em>That Run as One System</em></> : <>Websites and Social Media That Make You{' '}<br /><em>Impossible to Miss</em></>}
+              {THEIA_LAUNCH ? <>Websites, Social and a Client Portal{' '}<br /><em>That Run as One System</em></> : <>Website Design and Social Media That Make You{' '}<br /><em>Hard to Miss</em></>}
             </h1>
             {/* The line the keyword H1 displaced, restored as a display subhead
                 rather than a second H1 — one H1 per page, and this is the better
                 sentence, so it keeps display weight without competing for the
                 heading level. */}
-            <p className="hero-display-sub">Your buyers are looking. Make sure they find you.</p>
+            <div className="hero-display-sub">Your buyers are looking. Make sure they find you.</div>
             <p className="hero-sub">
               Axia Atlas designs and builds websites and runs social media for businesses that need to be found. We start by auditing how you show up in search, answer engines, maps and feeds, then build the site and the content that close the gaps. Headquartered in Miami, working with clients across the US.
             </p>

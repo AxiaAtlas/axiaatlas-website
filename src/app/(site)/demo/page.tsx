@@ -226,8 +226,8 @@ export default function DemoPage() {
       <div className="demo-hero demo-lead">
         <div data-aa-section="demo.copy" className="demo-lead-copy">
           <div className="section-eyebrow">Book a Demo</div>
-          <h1 className="section-headline">Book a Demo. We Audit Your Visibility First.</h1>
-          <p className="demo-lead-note">Before we meet, we audit how you show up across search, answer engines, local, and social. We arrive with the gaps mapped and real solutions, not a pitch deck.</p>
+          <h1 className="section-headline">Book a Demo, and We Audit Your Visibility Before the Call</h1>
+          <p className="demo-lead-note">Before we meet, we audit how you show up across search, answer engines, local maps and social feeds. We arrive at the call with your gaps already mapped, a short list of fixes in the order we would make them, and the prices for that work. No pitch deck, and no pressure to sign.</p>
         </div>
 
         <div data-aa-section="demo.form" className="demo-lead-form">

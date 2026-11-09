@@ -17,7 +17,7 @@ import { fromPrice, money, range } from '@/lib/pricing'
    anchor. The Portal joins the headline cards at the Theia launch. */
 
 const TITLE = 'Marketing Services and Add-Ons Overview'
-const H1 = 'Every Axia Atlas Service, From Website Builds to Advisory'
+const H1 = 'Marketing Services From Website Builds to Advisory Add-Ons'
 
 const [WEB_LO] = range('website', 'oneTime')
 const [SOCIAL_LO] = range('social', 'monthly')
@@ -47,20 +47,36 @@ const HEADLINE: Card[] = [
   { key: 'social', icon: 'social', name: serviceName('social'), desc: 'Two or three platforms, one voice, content made for each, published on a plan and answered in the comments.', price: fromPrice('social'), href: serviceHref('social') },
 ]
 
+// The catalog as an @graph: the ItemList points at each Service by @id, and
+// every Service is a top-level node under the same @id its own page declares
+// (/services/<slug>#service, /services/add-ons#<anchor>), so a parser merges
+// them into one entity per service.
+const ITEMS = [
+  ...HEADLINE.map((c) => ({ name: c.name, url: c.href })),
+  ...ADDON_IDS.map((id) => ({ name: serviceName(id), url: serviceHref(id) })),
+].map((s) => {
+  const url = `${SITE_URL}${s.url}`
+  return { ...s, url, id: url.includes('#') ? url : `${url}#service` }
+})
+
 const LD = {
   '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  '@id': `${SITE_URL}/services#catalog`,
-  name: 'Axia Atlas services',
-  numberOfItems: HEADLINE.length + ADDON_IDS.length,
-  itemListElement: [
-    ...HEADLINE.map((c) => ({ name: c.name, url: c.href })),
-    ...ADDON_IDS.map((id) => ({ name: serviceName(id), url: serviceHref(id) })),
-  ].map((s, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    item: { '@type': 'Service', name: s.name, url: `${SITE_URL}${s.url}`, provider: { '@id': `${SITE_URL}/#organization` } },
-  })),
+  '@graph': [
+    {
+      '@type': 'ItemList',
+      '@id': `${SITE_URL}/services#catalog`,
+      name: 'Axia Atlas services',
+      numberOfItems: ITEMS.length,
+      itemListElement: ITEMS.map((s, i) => ({ '@type': 'ListItem', position: i + 1, item: { '@id': s.id } })),
+    },
+    ...ITEMS.map((s) => ({
+      '@type': 'Service',
+      '@id': s.id,
+      name: s.name,
+      url: s.url,
+      provider: { '@id': `${SITE_URL}/#organization` },
+    })),
+  ],
 }
 
 export default function ServicesPage() {
@@ -69,7 +85,7 @@ export default function ServicesPage() {
       <JsonLd data={LD} />
       <FragmentForward />
 
-      <PageHero section="services.hero" eyebrow="Services" title={H1} answer={ANSWER}>
+      <PageHero data-aa-section="services.hero" eyebrow="Services" title={H1} answer={ANSWER}>
         <Link href="/pricing" className="btn-outline">See pricing</Link>
       </PageHero>
 

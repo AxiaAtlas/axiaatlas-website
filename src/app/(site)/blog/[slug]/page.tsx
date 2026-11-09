@@ -5,8 +5,8 @@ import ReactMarkdown from 'react-markdown'
 import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 import { Arrow } from '@/components/icons'
-import { getPost, getPosts, postDate, formatDate, readingTime } from '@/lib/blog'
-import { pageTitle, social } from '@/lib/seo'
+import { getPost, getPosts, postDate, formatDate, readingTime, faqFromMarkdown } from '@/lib/blog'
+import { social, articleTitle } from '@/lib/seo'
 
 export const revalidate = 3600
 // A post published after the last build must still resolve, so unknown slugs
@@ -38,11 +38,11 @@ export async function generateMetadata({
   // `title` goes through the root template; og:title and twitter:title do not,
   // so they are built here. The article keeps its publishedTime/author/section.
   return {
-    title: post.title,
+    title: { absolute: articleTitle(post.title) },
     description,
     alternates: { canonical: `/blog/${post.slug}` },
     ...social({
-      title: pageTitle(post.title),
+      title: articleTitle(post.title),
       description,
       path: `/blog/${post.slug}`,
       type: 'article',
@@ -86,6 +86,18 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     image: `${SITE_URL}/og-card.png`,
   }
 
+  // The article's FAQ section, as FAQPage. Built from the markdown the page
+  // renders, so the questions match the visible H3s.
+  const faq = faqFromMarkdown(post.content)
+  const faqLd = faq.length
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        '@id': `${url}#faq`,
+        mainEntity: faq.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+      }
+    : null
+
   const breadcrumbLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -106,6 +118,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
+      {faqLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        />
+      )}
 
       <div data-aa-section="post.hero" className="blog-post-hero">
         <div className="blog-post-hero-inner">

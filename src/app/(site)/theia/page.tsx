@@ -54,7 +54,7 @@ export default function TheiaPage() {
         publisher: { '@id': `${SITE_URL}/#organization` },
       }} />
 
-      <PageHero section="theia.hero" eyebrow="Theia by Axia Atlas" title={H1} answer={ANSWER}>
+      <PageHero data-aa-section="theia.hero" eyebrow="Theia by Axia Atlas" title={H1} answer={ANSWER}>
         <Link href={PORTAL_PATH} className="btn-outline">About the portal</Link>
       </PageHero>
 

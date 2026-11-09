@@ -250,7 +250,7 @@ export default function ContactPage() {
       <div data-aa-section="contact.hero" className="contact-hero">
         <div className="section-eyebrow">Contact</div>
         <h1 className="section-headline">Contact Our Miami Marketing Team With Any Question</h1>
-        <p className="section-sub">Send us a message and we&apos;ll reply within 24 hours. Ready to start? The fastest path is to <Link href="/demo" style={{ color: 'var(--inverse-accent)', textDecoration: 'underline', textUnderlineOffset: 2 }}>book a demo</Link>.</p>
+        <p className="section-sub">Send us a message about our services, pricing or your account and we&apos;ll reply within 24 hours. Axia Atlas is headquartered in Miami and works with clients across the US. Ready to start? The fastest path is to <Link href="/demo" className="inline-link">book a demo</Link>, where we audit your visibility before the call.</p>
       </div>
 
       <div className="contact-body">

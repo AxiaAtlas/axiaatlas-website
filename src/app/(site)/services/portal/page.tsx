@@ -49,7 +49,7 @@ export default function PortalPage() {
         provider: { '@id': `${SITE_URL}/#organization` }, areaServed: { '@type': 'Country', name: 'United States' },
       }} />
 
-      <PageHero section="portal.hero" eyebrow="The Client Portal" title={H1} answer={ANSWER} />
+      <PageHero data-aa-section="portal.hero" eyebrow="The Client Portal" title={H1} answer={ANSWER} />
 
       <section data-aa-section="portal.features" className="sv-section g-raise">
         <div className="section-inner">

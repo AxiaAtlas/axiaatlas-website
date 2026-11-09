@@ -105,3 +105,43 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
     return null
   }
 }
+
+export type FaqPair = { q: string; a: string }
+
+/** Markdown inline syntax off, so an answer reads as the page renders it. */
+function plain(md: string): string {
+  return md
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/(\*\*|__|\*|_|`)/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+/**
+ * The questions and answers of an article's "Frequently Asked Questions"
+ * section: each H3 under that H2 is a question, the text beneath it (up to the
+ * next heading) its answer. Read from the same markdown the page renders, so
+ * the FAQPage JSON-LD matches the visible questions word for word.
+ */
+export function faqFromMarkdown(content: string | null): FaqPair[] {
+  if (!content) return []
+  const lines = content.split('\n')
+  const start = lines.findIndex((l) => /^##\s+(frequently asked questions|faqs?)\s*$/i.test(l.trim()))
+  if (start < 0) return []
+  const out: FaqPair[] = []
+  let q: string | null = null
+  let body: string[] = []
+  const flush = () => {
+    const a = plain(body.join(' '))
+    if (q && a) out.push({ q: plain(q), a })
+  }
+  for (const line of lines.slice(start + 1)) {
+    const t = line.trim()
+    if (/^##\s/.test(t)) break
+    if (/^###\s/.test(t)) { flush(); q = t.replace(/^###\s+/, ''); body = []; continue }
+    if (q) body.push(t)
+  }
+  flush()
+  return out
+}

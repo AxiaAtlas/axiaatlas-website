@@ -87,7 +87,7 @@ export default function SocialMediaPage() {
       <JsonLd data={SERVICE_LD} />
       <JsonLd data={faqJsonLd(FAQ)} />
 
-      <PageHero section="social.hero" eyebrow={NAME} title={H1} answer={ANSWER}>
+      <PageHero data-aa-section="social.hero" eyebrow={NAME} title={H1} answer={ANSWER}>
         <Link href="#tiers" className="btn-outline">See the plans</Link>
       </PageHero>
 

@@ -113,7 +113,7 @@ Prices on every page are read from the platform's `pricing.ts` through a generat
 
 ### `/` Home (NOW; "Meet Theia" THEIA)
 - Purpose: say in one screen that Axia builds your website, runs your social, and gives you a portal to see it all; agency plus software.
-- Title: `Miami Marketing Agency and Client Portal - Axia Atlas` (53). H1: `Websites, Social and a Client Portal That Run as One System` (59).
+- Title: `Miami Website Design and Social Media Agency - Axia Atlas` (57) before launch, `Websites, Social and a Client Portal in Miami - Axia Atlas` (58) at launch. H1: `Website Design and Social Media That Make You Hard to Miss` (58) before launch, `Websites, Social and a Client Portal That Run as One System` (59) at launch. (Revised in the Theia-look PR so title and H1 share enough words to pass the contract's alignment check.)
 - Sections: `home.hero` (answer block 40 to 60 words, Book a Demo, audit preview artifact) · `home.offer` (three headline service cards; Portal card reads "Coming soon" with no Theia mention until launch) · `home.how` ("Agency and software": what we do for you, what you see yourself) · `home.theia` **THEIA** ("Meet Theia": the way you work with us, lives only in your portal, knows only your business; link to /theia) · `home.addons` (four groups, one line each, link to /add-ons) · `home.results` (case studies, unchanged `id="results"` for the /case-studies 301) · `home.process` (Audit, Plan, Build, Grow; PortalShot) · `cta-band`.
 - Reuse: hero, AuditPreview, ResultsSlider, PortalShot, CtaBand, ServiceIcons. Build: three-card offer grid, add-on group strip, Theia section.
 - Remove: ticker and System marquee entries that name the model provider (pending Q3); "Nine services" H2.
@@ -148,7 +148,7 @@ Prices on every page are read from the platform's `pricing.ts` through a generat
 - The work stashed as `pre-plan edits` (sync script, `lib/pricing.ts`, generated JSON) is the base for this.
 
 ### `/services` (NOW, kept as hub)
-- Title: `Marketing Services and Add-Ons Overview - Axia Atlas` (52). H1: `Every Axia Atlas Service, From Website Builds to Advisory` (57).
+- Title: `Marketing Services and Add-Ons Overview - Axia Atlas` (52). H1: `Marketing Services From Website Builds to Advisory Add-Ons` (58).
 - Short hub: three headline cards, four add-on groups, all linking out. Keeps the URL's ranking and the ItemList JSON-LD. Includes a small script that forwards old fragments (`/services#geo`) to their new page and anchor, since fragments never reach the server.
 
 ### Others

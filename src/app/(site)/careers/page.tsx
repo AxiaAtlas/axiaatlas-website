@@ -149,7 +149,7 @@ export default function CareersPage() {
       <div data-aa-section="careers.hero" className="demo-hero">
         <div className="section-eyebrow">Careers</div>
         <h1 className="section-headline">Careers and Open Roles at a Digital Marketing Studio</h1>
-        <p className="section-sub">We build presence across search, answer engines, local, and social, and we&apos;re always glad to meet sharp, curious people who do great work. Tell us about yourself in three quick steps.</p>
+        <p className="section-sub">Axia Atlas builds websites and runs social media for businesses across the US, with search, answer engines and local on top. We&apos;re always glad to meet sharp, curious people who do great work. Tell us about yourself in three quick steps: a little about you, your experience, and your resume.</p>
       </div>
 
       <div data-aa-section="careers.apply" className="demo-body">

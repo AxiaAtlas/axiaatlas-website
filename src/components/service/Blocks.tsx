@@ -13,8 +13,11 @@
 import Link from 'next/link'
 import { Arrow, Plus } from '@/components/icons'
 
-export function PageHero({ section, eyebrow, title, answer, children }: {
-  section: string
+export function PageHero({ 'data-aa-section': mark, eyebrow, title, answer, children }: {
+  /** Written as a literal at the call site (data-aa-section="website.hero"):
+      the platform's site-map reads only literal marks, and the page that
+      holds the hero's copy is the file Select mode should open. */
+  'data-aa-section': string
   eyebrow: string
   title: string
   /** The 40 to 60 word answer to the page's question. */
@@ -22,7 +25,7 @@ export function PageHero({ section, eyebrow, title, answer, children }: {
   children?: React.ReactNode
 }) {
   return (
-    <div data-aa-section={section} className="services-hero sv-hero">
+    <div data-aa-section={mark} className="services-hero sv-hero">
       <div className="section-eyebrow">{eyebrow}</div>
       <h1 className="section-headline">{title}</h1>
       <div className="section-sub sv-hero-side">

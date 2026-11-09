@@ -100,7 +100,7 @@ export default function AddOnsPage() {
     <div className="page sv-page">
       <JsonLd data={LD} />
 
-      <PageHero section="addons.hero" eyebrow="Add-ons" title={H1} answer={ANSWER}>
+      <PageHero data-aa-section="addons.hero" eyebrow="Add-ons" title={H1} answer={ANSWER}>
         <Link href="/pricing#add-ons" className="btn-outline">Compare prices</Link>
       </PageHero>
 

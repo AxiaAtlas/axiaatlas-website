@@ -32,7 +32,7 @@ const PLAN_WORD = monthsWord(W.paymentPlanMonths ?? 0)
 const ADDON_LO = Math.min(...ADDON_IDS.flatMap((id) => pricingFor(id).tiers.map((t) => t.monthly).filter((n) => n > 0)))
 
 const TITLE = THEIA_LAUNCH ? 'Website, Social and Client Portal Pricing' : 'Website and Social Media Pricing, Plus Add-Ons'
-const H1 = THEIA_LAUNCH ? 'Published Prices for Websites, Social and the Portal' : 'Published Prices for Websites, Social Media and Add-Ons'
+const H1 = THEIA_LAUNCH ? 'Published Pricing for Website, Social and the Client Portal' : 'Published Prices for Websites, Social Media and Add-Ons'
 
 const ANSWER =
   `A website is a one-time build from ${money(WEB_LO)} to ${money(WEB_HI)}, paid once or over ${PLAN_WORD} months at the same total, ` +

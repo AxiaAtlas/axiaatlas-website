@@ -5,10 +5,10 @@ const DESCRIPTION =
   "Book your Axia Atlas demo. Tell us about your business and your goals. We audit how you show up beforehand and come to the call with your pain points pinpointed and solutions to propose."
 
 export const metadata: Metadata = {
-  title: 'Book a Demo and Visibility Audit',
+  title: 'Book a Marketing Demo With a Visibility Audit',
   description: DESCRIPTION,
   alternates: { canonical: '/demo' },
-  ...social({ title: pageTitle('Book a Demo and Visibility Audit'), description: DESCRIPTION, path: '/demo' }),
+  ...social({ title: pageTitle('Book a Marketing Demo With a Visibility Audit'), description: DESCRIPTION, path: '/demo' }),
 }
 
 export default function DemoLayout({ children }: { children: React.ReactNode }) {

@@ -102,7 +102,7 @@ export default function WebsiteDesignPage() {
       <JsonLd data={SERVICE_LD} />
       <JsonLd data={faqJsonLd(FAQ)} />
 
-      <PageHero section="website.hero" eyebrow={NAME} title={H1} answer={ANSWER}>
+      <PageHero data-aa-section="website.hero" eyebrow={NAME} title={H1} answer={ANSWER}>
         <Link href="#tiers" className="btn-outline">See the tiers</Link>
       </PageHero>
 
