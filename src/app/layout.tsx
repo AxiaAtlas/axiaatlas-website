@@ -221,7 +221,11 @@ const SAME_AS = [
 ]
 
 const ORG_NODE = {
-  '@type': ['Organization', 'ProfessionalService'],
+  // Organization only. ProfessionalService is a LocalBusiness subtype, which
+  // claims premises a customer can visit; the SEO contract (platform
+  // seo-contract.ts) refuses it for a brand without them. The platform's
+  // organization-schema.ts still carries it and should follow.
+  '@type': 'Organization',
   '@id': ORG_ID,
   name: 'Axia Atlas',
   legalName: 'Axia Atlas Inc.',
@@ -326,10 +330,16 @@ const JSON_LD = {
   ],
 }
 
+// Re-applies a saved light/dark choice before first paint. With nothing saved
+// the page follows the OS through CSS alone (see THEME in globals.css). Must
+// match THEME_KEY in components/ThemeToggle.tsx.
+const THEME_INIT = `try{var t=localStorage.getItem('aa-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}`
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={montserrat.variable}>
+    <html lang="en" className={montserrat.variable} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}

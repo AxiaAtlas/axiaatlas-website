@@ -1,7 +1,7 @@
 // ============================================================================
 // PORTED FROM axiaatlas-platform/src/components/charts/theme.ts
 //
-// ONE CHART PALETTE, BUILT FOR THE DARK GROUND.
+// ONE CHART PALETTE, FOR BOTH GROUNDS (the default mark follows the theme).
 //
 // The portal's charts sit on a near-black page (#070C09) inside cards a shade
 // above it (#131A15). Everything here is chosen to hold contrast against that
@@ -36,11 +36,13 @@ export type SeriesStyle = {
  * a reader is matching swatches rather than reading a chart.
  */
 export const SERIES: SeriesStyle[] = [
-  { color: '#7FB69A', dash: '', marker: 'circle' },    // sage — the brand-adjacent default
-  { color: '#D9B37C', dash: '', marker: 'square' },    // sand
+  // The default series is THE data mark: spruce on light, sage on dark
+  // (--pf-mark in globals.css), as in the portal.
+  { color: 'var(--pf-mark)', dash: '', marker: 'circle' },
+  { color: '#6FB0A8', dash: '', marker: 'square' },    // sea (warm hues are warnings)
   { color: '#7FA6CC', dash: '', marker: 'diamond' },   // sky
   { color: '#C98F82', dash: '', marker: 'triangle' },  // clay
-  { color: '#AC9CCB', dash: '', marker: 'circle' },    // lilac
+  { color: '#8A9E94', dash: '', marker: 'circle' },    // stone
   { color: '#A8BE73', dash: '', marker: 'square' },    // moss
 ]
 
