@@ -74,47 +74,36 @@ const nextConfig = {
       { source: '/case-studies', destination: '/#results', statusCode: 301 },
       { source: '/case-studies/:path*', destination: '/#results', statusCode: 301 },
 
-      // ── services under /services/<slug> (2026-11) ──────────────────────────
-      // Two headline services have pages of their own and every other service
-      // is an add-on, anchored on /services/add-ons. Each old address, and the
-      // short forms people guess, 301s to its new home in one hop. Fragments
-      // on /services itself (/services#geo) never reach the server; the hub
-      // page forwards those in the browser.
+      // ── the SaaS rebuild (2026-11) ───────────────────────────────────────
+      // Axia Atlas is investment campaign analytics software now. Social, SEO,
+      // local and the other agency add-ons came off the site, and website
+      // design moved to /website-design. Every retired address, and the short
+      // forms people guess, 301s in one hop to the page that replaced it.
       ...[
-        ['/services/website', '/services/website-design'],
-        ['/services/social', '/services/social-media-management'],
-        ['/services/geo', '/services/add-ons#seo-aeo'],
-        ['/services/seo', '/services/add-ons#seo-aeo'],
-        ['/services/aeo', '/services/add-ons#seo-aeo'],
-        ['/services/local', '/services/add-ons#local'],
-        ['/services/leadgen', '/services/add-ons#lead-generation'],
-        ['/services/executive', '/services/add-ons#executive-brand'],
-        ['/services/intel', '/services/add-ons#competitive-intelligence'],
-        ['/services/strategy', '/services/add-ons#strategic-advisory'],
-        ['/services/dashboards', '/services/add-ons#custom-dashboards'],
-        ['/website', '/services/website-design'],
-        ['/web-design', '/services/website-design'],
-        ['/website-design', '/services/website-design'],
-        ['/social', '/services/social-media-management'],
-        ['/social-media', '/services/social-media-management'],
-        ['/social-media-management', '/services/social-media-management'],
-        ['/add-ons', '/services/add-ons'],
-        ['/addons', '/services/add-ons'],
-        ['/services/addons', '/services/add-ons'],
+        ['/services', '/platform'],
+        ['/services/portal', '/platform'],
+        ['/services/website-design', '/website-design'],
+        ['/services/website', '/website-design'],
+        ['/website', '/website-design'],
+        ['/web-design', '/website-design'],
+        ['/portal', '/platform'],
+        ['/dashboards', '/platform'],
+        ['/live-campaigns', '/platform#live-campaigns'],
+        ['/raise-ledger', '/platform#raise-ledger'],
+        ['/theia-reports', '/theia#reports'],
+        ['/ask-theia', '/theia#ask'],
+        ['/privacy-and-security', '/security'],
+        ['/trust', '/security'],
+        ['/plans', '/pricing'],
       ].map(([source, destination]) => ({ source, destination, statusCode: 301 })),
-
-      // Anything else under /services/ never existed: the hub is the nearest
-      // live page. The live slugs are excluded, or this rule would answer
-      // before the page does (redirects run ahead of the filesystem). `portal`
-      // is excluded too: before the Theia launch it 404s rather than
-      // redirecting, because a browser caches a 301 and would keep sending
-      // people away after launch.
-      {
-        source: '/services/:slug((?!website-design$|social-media-management$|add-ons$|portal$).*)',
-        destination: '/services',
+      // Social, SEO, local and the add-ons are no longer sold here. They go to
+      // the home page rather than a page that would have to explain why.
+      { source: '/services/:slug*', destination: '/', statusCode: 301 },
+      ...['/social', '/social-media', '/social-media-management', '/add-ons', '/addons', '/seo', '/aeo', '/local'].map((source) => ({
+        source,
+        destination: '/',
         statusCode: 301,
-      },
-      { source: '/services/:slug/:rest+', destination: '/services', statusCode: 301 },
+      })),
     ]
   },
 

@@ -5,7 +5,7 @@ import GoogleAnalytics from '@/components/GoogleAnalytics'
 import SiteBehavior from '@/components/SiteBehavior'
 import SelectBridge from '@/components/SelectBridge'
 import { SITE_URL, HOME_TITLE, BRAND_TAIL, OG_IMAGE } from '@/lib/seo'
-import { ADDON_IDS, serviceHref, serviceName, type ServiceId } from '@/lib/services'
+import { ORG_DESCRIPTION, PATHS, PRODUCTS, TAGLINE } from '@/lib/site'
 import { APP_ICONS } from '@/lib/brand/app-icons'
 
 const montserrat = Montserrat({
@@ -16,7 +16,7 @@ const montserrat = Montserrat({
 })
 
 const DESCRIPTION =
-  'Axia Atlas is a marketing agency headquartered in Miami that designs and builds websites and runs social media for brands, local businesses, and founders across the US, with add-ons for search, answer engines, local, leads and strategy. Strategy first, then the work.'
+  'Axia Atlas is investment campaign analytics software. Every dollar behind your raise in one dashboard, set against reported investments, with Theia, our proprietary AI-powered analysis assistant, built in.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -29,21 +29,16 @@ export const metadata: Metadata = {
   },
   description: DESCRIPTION,
   keywords: [
-    'digital marketing',
-    'SEO',
-    'answer engine optimization',
-    'AEO',
-    'GEO',
-    'ChatGPT',
-    'Perplexity',
-    'Gemini',
-    'social media management',
-    'competitive intelligence',
-    'local SEO',
-    'website design and build',
-    'lead generation',
-    'executive personal brand',
-    'strategic advisory',
+    'investment campaign analytics',
+    'capital raise marketing analytics',
+    'cost per investor',
+    'Reg CF campaign reporting',
+    'Reg A+ campaign reporting',
+    'investor reporting',
+    'campaign dashboards',
+    'Live Campaigns',
+    'Raise Ledger',
+    'Theia',
     'Axia Atlas',
   ],
   applicationName: 'Axia Atlas',
@@ -169,26 +164,6 @@ export const metadata: Metadata = {
   },
 }
 
-// The services, in the same order as /services — price order, highest first.
-// Kept here so the Organization node advertises the full catalog on every page.
-//
-// IT MUST MATCH /services, AND NOT LOOSELY. This array and the ItemList that
-// page builds from its own SERVICES both publish under the SAME @id
-// (`/services#catalog`), so a parser reading the services page merges them. For
-// as long as both said the same eight that was harmless. The moment they
-// disagreed — one node claiming eight offers, the other listing nine — the
-// merge stopped being a no-op and started being a coin toss over which count
-// the entity is described by.
-// It is DERIVED now, not typed. Nine names hand-copied here was exactly the
-// failure this comment describes waiting to happen a second time: lib/services
-// mirrors the platform's SERVICES table once, and both this node and the
-// /services ItemList read that mirror, so the two can no longer disagree about
-// a name OR about an order.
-// 2026-11: the two headline services first, then the add-ons in group order.
-// /services must publish its ItemList in this same order under the same @id.
-const CATALOG_IDS: ServiceId[] = ['website', 'social', ...ADDON_IDS]
-const SERVICE_CATALOG = CATALOG_IDS.map((id) => ({ name: serviceName(id), url: `${SITE_URL}${serviceHref(id)}` }))
-
 // ── The canonical Organization node ─────────────────────────────────────────
 // KEEP IN SYNC with axiaatlas-platform/src/lib/brand/organization-schema.ts,
 // which carries the full rationale. The short version: Google's AI Overview for
@@ -241,12 +216,12 @@ const ORG_NODE = {
     caption: 'Axia Atlas',
   },
   image: ORG_LOGO_URL,
-  description: DESCRIPTION,
+  description: ORG_DESCRIPTION,
   // Names the sector we are confused WITH, not the company. Enough to break the
   // match without putting another business's name in our markup.
   disambiguatingDescription:
-    'Axia Atlas is a digital marketing and SEO studio. It is not a healthcare provider, medical group, or patient services organization, and is unaffiliated with any similarly named business in healthcare.',
-  slogan: 'To be found is to be seen.',
+    'Axia Atlas is a software company that makes investment campaign analytics software. It is not a healthcare provider, medical group, or patient services organization, and is unaffiliated with any similarly named business in healthcare.',
+  slogan: TAGLINE,
   email: 'partner@axiaatlas.com',
   /* HEADQUARTERED IN MIAMI, WORKING ACROSS THE US. The /contact answer and the
      chat widget say the same sentence ("headquartered in Miami, working with
@@ -258,40 +233,22 @@ const ORG_NODE = {
   areaServed: { '@type': 'Country', name: 'United States' },
   address: { '@type': 'PostalAddress', addressLocality: 'Miami', addressRegion: 'FL', addressCountry: 'US' },
   // An engine that cannot tell what sector a company is in falls back to
-  // whichever same-named entity it DOES have a sector for. Stating it explicitly
-  // is what makes a healthcare entity a bad match rather than a plausible one.
-  // Not "Advertising": Axia Atlas does not run or manage ads (2026-11).
-  industry: 'Marketing & Digital Services',
-  naics: '541613', // Marketing Consulting Services
+  // whichever same-named entity it DOES have a sector for. Software, not
+  // marketing (2026-11): Axia Atlas never runs or manages ads.
+  industry: 'Software',
+  naics: '513210', // Software Publishers
   knowsAbout: [
-    'Answer Engine Optimization',
-    'Generative Engine Optimization',
-    'Search Engine Optimization',
-    'Local SEO',
-    'Social Media Management',
-    'Content Marketing',
-    'Competitive Intelligence',
-    'Lead Generation',
-    'Website Design and Development',
-    'Executive Personal Branding',
+    'Investment campaign analytics',
+    'Capital raise marketing',
+    'Cost per investor',
+    'Regulation Crowdfunding (Reg CF)',
+    'Regulation A+',
+    'Marketing spend tracking',
+    'Multi-platform ad reporting',
+    'Investor reporting',
+    'Website design',
   ],
   sameAs: SAME_AS,
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    '@id': `${SITE_URL}/services#catalog`,
-    // Not "N ways to get found" any more, and for the reason given on the
-    // /services ItemList this mirrors: Portals & Dashboards is not a way to get
-    // found. It is behind a login and indexed by nobody, so a catalogue name
-    // that calls every member a discovery channel is making a claim about it
-    // that is false. `numberOfItems` still carries the count.
-    name: 'Axia Atlas service catalog',
-    numberOfItems: SERVICE_CATALOG.length,
-    itemListElement: SERVICE_CATALOG.map(({ name, url }, i) => ({
-      '@type': 'Offer',
-      position: i + 1,
-      itemOffered: { '@type': 'Service', name, serviceType: name, url, provider: { '@id': ORG_ID } },
-    })),
-  },
 }
 
 const JSON_LD = {
@@ -307,25 +264,25 @@ const JSON_LD = {
       inLanguage: 'en-US',
       publisher: { '@id': ORG_ID },
     },
-    // Declares the portal FROM the marketing domain as well. "Axia Atlas client
-    // portal" is a query about a specific piece of software; both domains now
-    // assert that it exists and whose it is.
+    // THE PRODUCT. One SoftwareApplication for Axia Atlas itself, the thing
+    // a buyer signs in to at app.axiaatlas.com. /theia adds a node for Theia
+    // with isPartOf pointing here. No `offers`: the site prints no prices.
     {
-      '@type': 'WebApplication',
-      '@id': `${APP_URL}/#webapp`,
-      name: 'Axia Atlas Client Portal',
-      alternateName: 'Axia Atlas Portal',
-      url: APP_URL,
+      '@type': 'SoftwareApplication',
+      '@id': `${SITE_URL}/#software`,
+      name: 'Axia Atlas',
+      alternateName: 'Axia Atlas investment platform',
+      url: `${SITE_URL}${PATHS.platform}`,
+      installUrl: APP_URL,
       applicationCategory: 'BusinessApplication',
-      applicationSubCategory: 'Client Portal',
-      operatingSystem: 'Any (web browser)',
-      description:
-        'The client portal for Axia Atlas, a marketing agency. Axia Atlas clients sign in to review deliverables, approve content, and see performance across search, answer engines and social.',
+      applicationSubCategory: 'Investment campaign analytics',
+      operatingSystem: 'Web browser',
+      description: ORG_DESCRIPTION,
+      featureList: [PRODUCTS.live, PRODUCTS.ledger, PRODUCTS.reports, PRODUCTS.ask],
       image: ORG_LOGO_URL,
-      provider: { '@id': ORG_ID },
       publisher: { '@id': ORG_ID },
-      isAccessibleForFree: false,
-      audience: { '@type': 'Audience', audienceType: 'Axia Atlas clients' },
+      provider: { '@id': ORG_ID },
+      audience: { '@type': 'BusinessAudience', audienceType: 'Companies raising capital and the marketing agencies that support them' },
     },
   ],
 }

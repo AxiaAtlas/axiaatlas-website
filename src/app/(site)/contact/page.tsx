@@ -3,9 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
 import { Arrow, Check, Plus } from '@/components/icons'
-import { PORTAL_PATH, THEIA_PATH, serviceHref, serviceName } from '@/lib/services'
-import { THEIA_LAUNCH } from '@/lib/flags'
-import { ADDONS_PRICE, CARE_PRICE, SOCIAL_PRICE, WEBSITE_PRICE } from '@/lib/price-facts'
+import { AEO, PATHS, PORTAL_URL } from '@/lib/site'
 import { aaTrack } from '@/lib/aa-track'
 
 /* ────────────────────────────────────────────────────────────────────────────
@@ -24,14 +22,10 @@ import { aaTrack } from '@/lib/aa-track'
       that warms up for three lines is an answer that gets truncated before it
       says anything.
 
-   3. NOTHING HERE IS A NEW CLAIM. Every fact below already ships on this site:
-      the services and their descriptions from /services, prices and terms
-      from lib/pricing (the platform's pricing.ts), the audit-plan-build-grow sequence and
-      the week-one output from the home page and /about, the two inboxes and
-      the 24-hour reply from this page, and `areaServed` from the Organization
-      node in app/layout.tsx. The local-intent question is answered from that
-      last one: headquartered in Miami, working with clients across the US. The
-      chat widget and the Organization node say the same sentence.
+   3. NOTHING HERE IS A NEW CLAIM. The buyer questions are lib/site's AEO
+      list (the platform's saas-copy.md section 6), shared with the other
+      pages, the chat widget and /llms.txt; the contact answers repeat the two
+      inboxes and the 24-hour reply printed on this page.
 
    ANSWERS ARE PLAIN STRINGS, with an optional trailing link, so that the
    visible copy and the FAQPage JSON-LD below are generated from ONE source and
@@ -41,151 +35,58 @@ import { aaTrack } from '@/lib/aa-track'
 type Faq = { q: string; a: string; link?: { href: string; label: string; external?: boolean } }
 type FaqSection = { id: string; title: string; items: Faq[] }
 
+/* The twelve buyer questions from lib/site (saas-copy.md section 6), grouped,
+   then the contact questions only this page answers. */
+const aeo = (id: string, link?: Faq['link']): Faq => {
+  const f = AEO.find((x) => x.id === id)
+  if (!f) throw new Error(`Unknown AEO id: ${id}`)
+  return { q: f.q, a: f.a, link }
+}
+
 const FAQ_SECTIONS: FaqSection[] = [
   {
-    id: 'services',
-    title: 'Services',
+    id: 'platform',
+    title: 'The platform',
     items: [
-      {
-        q: 'What services does Axia Atlas offer?',
-        a: `Two headline services: ${serviceName('website')} and ${serviceName('social')}. Everything else is an add-on you bolt on when it pays off: SEO and answer engine optimization, local presence and maps, lead generation, executive personal brand, competitive intelligence, strategic advisory, and custom dashboards. We tell you on the demo call which add-ons, if any, are worth it first.`,
-        link: { href: '/services', label: 'See every service and add-on' },
-      },
-      {
-        q: 'What is answer engine optimization (AEO), and do I need it?',
-        a: 'Answer engine optimization is the work of getting your business named and cited when buyers ask ChatGPT, Perplexity, Gemini or another answer engine which company to use. We measure it first: the exact prompts a buyer in your category would type, run across those platforms, recorded so you can see who gets named today. Then we fix the entity data, schema, and source pages those systems read. It is sold as an add-on with SEO.',
-        link: { href: serviceHref('geo'), label: 'How answer engine optimization works' },
-      },
-      {
-        q: 'Do you do local SEO and Google Business Profile management?',
-        a: 'Yes, as an add-on. Two results decide whether a nearby buyer finds you: the map pack and the organic listings under it. We work both. That means a Google Business Profile built out properly with categories, services, hours, photos and Q&A; citations kept consistent across the directories that feed the map; a review program; and the service and location pages that rank for "service in city". Rankings and calls are tracked per location.',
-        link: { href: serviceHref('local'), label: `${serviceName('local')} in detail` },
-      },
-      {
-        q: 'Can you build or rebuild my website?',
-        a: 'Yes. It is one of our two headline services. It starts with positioning (what you sell, who it is for, and why a buyer picks you), which drives the copy, which drives the layout. Search foundations go in during the build rather than after it. You get a working site, not a mockup handed to someone else to interpret.',
-        link: { href: serviceHref('website'), label: 'What a website build includes' },
-      },
-      {
-        q: 'Do you run or manage paid ads?',
-        a: 'No. We do not run, buy or manage advertising. If you already run ads, a custom dashboard can show how they perform beside the rest of your numbers, read from the ad accounts you own. The spend, the accounts and the decisions stay yours.',
-        link: { href: serviceHref('dashboards'), label: 'Custom dashboards' },
-      },
-      {
-        q: 'Do you work with B2B and B2C?',
-        a: 'Both. We work with consumer brands, local businesses, and B2B and professional services. The playbook adapts, but the goal is the same: make you impossible to miss where your buyers actually spend attention. What changes between them is which add-ons are worth your money first, which is the first thing we tell you.',
-      },
-    ],
-  },
-  ...(THEIA_LAUNCH
-    ? [
-        {
-          id: 'portal',
-          title: 'Portal and Theia',
-          items: [
-            {
-              q: 'What is the Axia Atlas client portal?',
-              a: 'One login for your results, deliverables, approvals and reports. It also shows how the ads you already run are performing, read from your own accounts; we do not run or buy ads. Portal pricing is on request, and we walk you through it on the demo call.',
-              link: { href: PORTAL_PATH, label: 'See the client portal' },
-            },
-            {
-              q: 'Who is Theia?',
-              a: 'Theia by Axia Atlas is our proprietary assistant inside the client portal. She knows only your business and helps you understand your data, then build your own reports, decks and plans from it. She lives only in your portal, never on your website, and she does not create the work we deliver for you.',
-              link: { href: THEIA_PATH, label: 'Meet Theia' },
-            },
-          ],
-        },
-      ]
-    : []),
-  {
-    id: 'pricing',
-    title: 'Pricing',
-    items: [
-      {
-        q: 'How much does Axia Atlas cost?',
-        a: `We publish our prices. ${WEBSITE_PRICE} ${SOCIAL_PRICE} ${ADDONS_PRICE}`,
-        link: { href: '/pricing', label: 'See every price' },
-      },
-      {
-        q: 'Can I pay for a website over time?',
-        a: `Yes. ${WEBSITE_PRICE}`,
-        link: { href: '/pricing', label: 'Website prices' },
-      },
-      {
-        q: 'Do you maintain websites after launch?',
-        a: `${CARE_PRICE} If someone else built your site, we would quote a rebuild rather than care for it.`,
-        link: { href: serviceHref('website'), label: 'The website care plan' },
-      },
-      {
-        q: 'Am I locked into a long contract?',
-        a: `No long lock-ins. A website build is a one-time fee. ${serviceName('social')} and the website care plan carry a short minimum term so the work has time to show results, and any add-on with a minimum term says so beside its price. After that you stay because it is working.`,
-        link: { href: '/pricing', label: 'Terms beside every price' },
-      },
-      {
-        q: 'Can I start with just one service?',
-        a: 'Yes. Most clients start with a website or social media and add more once the first one is paying off. You do not need every add-on, and we would rather tell you which one will pay off fastest than sell you everything on day one.',
-      },
+      aeo('what', { href: PATHS.platform, label: 'See the platform' }),
+      aeo('cost-per-investor', { href: `${PATHS.platform}#raise-ledger`, label: 'About Raise Ledger' }),
+      aeo('why-not-raise-platform'),
+      aeo('channels', { href: `${PATHS.platform}#live-campaigns`, label: 'About Live Campaigns' }),
+      aeo('agencies'),
     ],
   },
   {
-    id: 'process',
-    title: 'Process',
+    id: 'theia',
+    title: 'Theia',
     items: [
-      {
-        q: 'How does working with Axia Atlas start?',
-        a: 'It starts with a demo. Before the call we audit where you show up today, where you do not, and the fastest wins, so we arrive with your pain points pinpointed and solutions to propose, then build a clear 90-day plan. There is no 30-day onboarding; real output lands in week one.',
-        link: { href: '/demo', label: 'Book a demo' },
-      },
-      {
-        q: 'What happens before the demo call?',
-        a: 'We run an audit of how you show up today across search, answer engines, local, and social. That means the call itself is about your pain points and the solutions we would propose, not a generic pitch. You leave with the map either way, whether or not you work with us.',
-      },
-      {
-        q: 'How fast will I see results?',
-        a: 'Work starts in week one and you will see output immediately. Compounding channels like SEO and answer engine optimization build over 60 to 90 days; local and social can move faster. We set expectations channel by channel on your demo call rather than promising one timeline for all of them.',
-      },
-      {
-        q: 'How do you report on results?',
-        a: 'In plain English, on the cadence your tier sets. We measure pipeline, rankings, citations, and compounding assets, not posts published. Current clients can also sign in to the client portal to see deliverables and reports between meetings.',
-        link: { href: 'https://app.axiaatlas.com', label: 'The client portal', external: true },
-      },
-      {
-        q: 'Who actually does the work?',
-        a: 'The people you meet. We operate as an extension of your team rather than a faceless vendor, and you get direct access to the people doing the work. We take on fewer clients than most agencies, on purpose, so we can go deep instead of wide.',
-        link: { href: '/about', label: 'How we work, and why' },
-      },
+      aeo('theia', { href: PATHS.theia, label: 'Meet Theia' }),
+      aeo('analyst'),
+      aeo('reports', { href: `${PATHS.theia}#reports`, label: 'About Theia Reports' }),
+      aeo('roas'),
+    ],
+  },
+  {
+    id: 'trust',
+    title: 'Ads, data and privacy',
+    items: [
+      aeo('ads'),
+      aeo('security', { href: PATHS.security, label: 'Security and privacy' }),
     ],
   },
   {
     id: 'company',
     title: 'Company',
     items: [
-      {
-        q: 'Are you a marketing agency in Miami?',
-        /* THE LOCAL-INTENT ANSWER. The studio is based in Miami and works with
-           clients across the country, and the answer says both: being in a
-           city and serving nationwide are not in conflict. The home title in
-           lib/seo.ts names Miami too, so the two move together.
-
-           NATIONWIDE, NOT WORLDWIDE. Corrected on direction: the reach claim is
-           the United States, and "worldwide" was overstating it. The
-           Organization node's `areaServed` in app/layout.tsx and the Service
-           nodes on /services carried the same overstatement as structured data
-           and were corrected with it — a visible answer that says nationwide
-           over a machine-readable claim that says worldwide is exactly the
-           drift this file exists to prevent. */
-        a: 'Yes. Axia Atlas is headquartered in Miami, working with clients across the US. For a Miami business the local work is the same as anywhere: a Google Business Profile built out for your categories and service area, citations kept consistent across the directories that feed the map, a review program, and service and location pages that rank for "service in Miami". Rankings and calls are tracked per location.',
-        link: { href: serviceHref('local'), label: 'How local presence work is done' },
-      },
+      aeo('websites', { href: PATHS.website, label: 'Website design' }),
       {
         q: "I'm a current client. Who do I contact?",
-        a: 'Email strategy@axiaatlas.com and your strategist will pick it up. You can also sign in to the client portal for reporting, deliverables, and messages. Use this inbox for anything about your account, your plan, or your deliverables rather than the general one.',
-        link: { href: 'https://app.axiaatlas.com', label: 'Sign in to the client portal', external: true },
+        a: 'Email strategy@axiaatlas.com and our team will pick it up. You can also sign in to Axia Atlas at app.axiaatlas.com to see your dashboards, ask Theia, or send us a message. Use this inbox for anything about your account or your plan rather than the general one.',
+        link: { href: PORTAL_URL, label: 'Sign in to Axia Atlas', external: true },
       },
       {
         q: "I'm new. What's the right email to reach you?",
-        a: 'Write to partner@axiaatlas.com. That inbox covers new and prospective clients, partnerships, and general questions. If you are ready to talk, the fastest path is to book a demo instead: we audit your presence beforehand and come to the call with specific recommendations rather than questions.',
-        link: { href: '/demo', label: 'Book a demo' },
+        a: 'Write to partner@axiaatlas.com. That inbox covers new and prospective clients, agencies, partnerships, and general questions. If you are ready to see the platform, the fastest path is to book a demo: we walk you through Axia Atlas and Theia on a demo raise, then talk through your own channels.',
+        link: { href: PATHS.demo, label: 'Book a demo' },
       },
       {
         q: 'How quickly will you reply?',
@@ -249,8 +150,8 @@ export default function ContactPage() {
     <div className="page contact-page">
       <div data-aa-section="contact.hero" className="contact-hero">
         <div className="section-eyebrow">Contact</div>
-        <h1 className="section-headline">Contact Our Miami Marketing Team With Any Question</h1>
-        <p className="section-sub">Send us a message about our services, pricing or your account and we&apos;ll reply within 24 hours. Axia Atlas is headquartered in Miami and works with clients across the US. Ready to start? The fastest path is to <Link href="/demo" className="inline-link">book a demo</Link>, where we audit your visibility before the call.</p>
+        <h1 className="section-headline">Contact the Axia Atlas Team About the Platform or Theia</h1>
+        <p className="section-sub">Send us a message about the platform, Theia, pricing or your account and we&apos;ll reply within 24 hours. Axia Atlas is investment campaign analytics software, headquartered in Miami and working with clients across the US. Ready to see it? The fastest path is to <Link href="/demo" className="inline-link">book a demo</Link> on a demo raise.</p>
       </div>
 
       <div className="contact-body">
@@ -269,7 +170,7 @@ export default function ContactPage() {
             <h3 className="contact-info-label">Current clients</h3>
             <div className="contact-info-value"><a href="mailto:strategy@axiaatlas.com">strategy@axiaatlas.com</a></div>
             <div style={{ fontWeight: 400, fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-muted)', marginTop: 4 }}>
-              Already working with us? Reach your strategist here for anything about your account, plan, or deliverables.
+              Already on Axia Atlas? Reach our team here for anything about your account or your plan.
             </div>
           </div>
 
@@ -281,7 +182,7 @@ export default function ContactPage() {
           <div className="contact-info-item">
             <h3 className="contact-info-label">Ready to start?</h3>
             <div className="contact-info-value" style={{ fontWeight: 400, fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-muted)' }}>
-              Skip the back-and-forth and <Link href="/demo" style={{ color: 'var(--accent)' }}>book a demo</Link>: a quick survey, then we audit how you show up today and come to the call with your pain points pinpointed and solutions to propose.
+              Skip the back-and-forth and <Link href="/demo" style={{ color: 'var(--accent)' }}>book a demo</Link>: a quick survey, then a walkthrough of Axia Atlas and Theia on a demo raise.
             </div>
           </div>
 
@@ -363,7 +264,7 @@ export default function ContactPage() {
           <div className="section-head centred">
             <div className="section-eyebrow">FAQ</div>
             <h2 className="section-headline">Frequently Asked Questions</h2>
-            <p className="section-sub">Straight answers about our services, pricing, process, and what working with us actually looks like.</p>
+            <p className="section-sub">Straight answers about the platform, Theia, your data, and working with us.</p>
           </div>
 
           {FAQ_SECTIONS.map((sec) => (

@@ -193,8 +193,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
       <CtaBand
         eyebrow="Book a Demo"
-        headline="Ready to get found?"
-        sub="Book a demo. We audit how you show up beforehand, so we can show you exactly where buyers are missing you and what we would do about it."
+        headline="See every dollar behind your raise."
+        sub="Book a demo of Axia Atlas. We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise."
       />
 
       <Footer />

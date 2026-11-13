@@ -20,7 +20,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Axia Atlas',
     short_name: 'Axia Atlas',
-    description: 'Marketing that makes you impossible to miss.',
+    description: 'Investment campaign analytics. Everything in sight.',
     start_url: '/',
     display: 'standalone',
     // The site's ground, not the brand green: these paint the PWA splash and

@@ -4,6 +4,20 @@ The source of truth for the Axia Atlas marketing site's visual language. All tok
 live in `src/app/globals.css` under `:root`. This document explains the intent so
 future work stays cohesive.
 
+> **2026-11-12: SaaS rebuild.** The site sells Axia Atlas, investment campaign
+> analytics software (Live Campaigns, Raise Ledger, Theia Reports, Ask Theia),
+> plus website design as one-off projects. Shared words live in `src/lib/site.ts`
+> (taglines "Everything in sight" and "Growth, engineered", the 12 buyer answers,
+> the privacy sentences copied from the platform's `docs/security/privacy-claims.md`).
+> "AI-powered" is allowed for Theia, always as "proprietary AI-powered"; the
+> "never say AI" rule below is superseded. Product images are slots
+> (`src/lib/shots.ts`, `components/ShotSlot.tsx`). `/theia` follows the Theia
+> design and is a dark island on Theia's black (`var(--shade)` under
+> `color-scheme: dark`). PortalShot, the chart primitives, the results slider and
+> the agency artifacts were removed with the pages that used them.
+> `npm test` runs `scripts/check-copy.mjs`. Hand steps:
+> `docs/runbooks/website-saas-rebuild.md`.
+
 > **2026-11: light and dark, in the Theia look.** The site now ships both themes
 > and wears the client portal's assistant skin (Theia). This note overrides any
 > "single theme" wording further down.
