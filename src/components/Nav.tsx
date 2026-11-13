@@ -4,22 +4,18 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { AMark, WordmarkText } from './Logo'
 import ThemeToggle from './ThemeToggle'
-import { THEIA_LAUNCH } from '@/lib/flags'
-import { ADDONS_PATH, HEADLINE_PAGES, PORTAL_PATH, THEIA_PATH } from '@/lib/services'
+import { PATHS, PORTAL_URL } from '@/lib/site'
 
-const PORTAL_URL = 'https://app.axiaatlas.com'
-
-/* The headline services lead, then add-ons and pricing. The Portal and Theia
-   join at the Theia launch (lib/flags). */
+/* The product first (the platform, then Theia), then the one-off service,
+   then trust, price and the company. */
 const LINKS = [
-  ...(THEIA_LAUNCH ? [{ href: PORTAL_PATH, label: 'Portal' }] : []),
-  { href: HEADLINE_PAGES.website, label: 'Website Design' },
-  { href: HEADLINE_PAGES.social, label: 'Social Media' },
-  { href: ADDONS_PATH, label: 'Add-ons' },
-  { href: '/pricing', label: 'Pricing' },
-  ...(THEIA_LAUNCH ? [{ href: THEIA_PATH, label: 'Theia' }] : []),
-  { href: '/blog', label: 'Insights' },
-  { href: '/about', label: 'About' },
+  { href: PATHS.platform, label: 'Platform' },
+  { href: PATHS.theia, label: 'Theia' },
+  { href: PATHS.website, label: 'Website Design' },
+  { href: PATHS.security, label: 'Security' },
+  { href: PATHS.pricing, label: 'Pricing' },
+  { href: PATHS.about, label: 'About' },
+  { href: PATHS.contact, label: 'Contact' },
 ]
 
 const isActive = (pathname: string | null, href: string) =>
@@ -32,11 +28,8 @@ export default function Nav() {
 
   return (
     <nav data-aa-section="nav" className="nav">
-      {/* Side-by-side lockup composed the same way the portal composes it
-          (AMark + WordmarkText, same path data, same 28/18 sizes) so the mark
-          and the letters are each sized on their own ink. The single combined
-          <Wordmark> used to be sized here at 24px total, which scaled the
-          letterforms down to roughly half the portal's. */}
+      {/* Side-by-side lockup composed the way the portal composes it (AMark +
+          WordmarkText, same path data, same 28/18 sizes). */}
       <Link href="/" className="nav-brand brand-lockup" onClick={close} aria-label="Axia Atlas home">
         <AMark className="brand-mark" />
         <WordmarkText className="brand-word" />
@@ -57,8 +50,8 @@ export default function Nav() {
         ))}
         <li className="nav-actions">
           <ThemeToggle />
-          <a href={PORTAL_URL} className="nav-login" onClick={close}>Client Portal</a>
-          <Link href="/demo" className="nav-cta" onClick={close}>Book a Demo</Link>
+          <a href={PORTAL_URL} className="nav-login" onClick={close}>Sign In</a>
+          <Link href={PATHS.demo} className="nav-cta" onClick={close}>Book a Demo</Link>
         </li>
       </ul>
 

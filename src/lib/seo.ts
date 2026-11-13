@@ -38,22 +38,14 @@
 // than merging it — which is how /blog silently lost its og:image.
 // ============================================================================
 
-import { THEIA_LAUNCH } from './flags'
-
 export const SITE_URL = 'https://axiaatlas.com'
 
 /** The tail every non-home title ends with. Two words, nine characters plus
     the separator. */
 export const BRAND_TAIL = 'Axia Atlas'
 
-/**
- * The home title, keyword-led and carrying the city. Before the Theia launch
- * it names the two live headline services; at launch it names the portal.
- * Both are 50 to 60 characters.
- */
-export const HOME_TITLE = THEIA_LAUNCH
-  ? 'Websites, Social and a Client Portal in Miami - Axia Atlas'
-  : 'Miami Website Design and Social Media Agency - Axia Atlas'
+/** The home title, keyword-led, 50 to 60 characters. */
+export const HOME_TITLE = 'Investment Campaign Analytics Software - Axia Atlas'
 
 /** "<Keyword phrase> - Axia Atlas". Target the whole string at 50-60 chars. */
 export const pageTitle = (name: string) => `${name} - ${BRAND_TAIL}`
@@ -75,7 +67,7 @@ export const OG_IMAGE = {
   url: '/og-card.png',
   width: 1200,
   height: 630,
-  alt: 'Axia Atlas, Website Design and Social Media',
+  alt: 'Axia Atlas, investment campaign analytics. Everything in sight.',
 } as const
 
 type SocialArgs = {

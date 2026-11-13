@@ -31,7 +31,7 @@ type Tile = {
 
 const TILES: Tile[] = [
   { key: 'website', label: 'Website', sub: 'axiaatlas.com', href: '/', Icon: Home, variant: 'feature' },
-  { key: 'demo', label: 'Book a Demo', sub: 'We audit how you show up first, then bring solutions.', href: '/demo', Icon: Compass, variant: 'featured', pill: 'Demo' },
+  { key: 'demo', label: 'Book a Demo', sub: 'See Live Campaigns, Raise Ledger and Theia on a demo raise.', href: '/demo', Icon: Compass, variant: 'featured', pill: 'Demo' },
   { key: 'linkedin', label: 'LinkedIn', sub: 'Axia Atlas', href: 'https://www.linkedin.com/company/axia-atlas', Icon: LinkedIn, variant: 'social', external: true },
   { key: 'instagram', label: 'Instagram', sub: '@axiaatlas', href: 'https://www.instagram.com/axiaatlas/', Icon: Instagram, variant: 'social', external: true },
   { key: 'facebook', label: 'Facebook', sub: '@AxiaAtlas', href: 'https://www.facebook.com/AxiaAtlas', Icon: Facebook, variant: 'social', external: true },
@@ -54,10 +54,10 @@ export default function LinksPage() {
             <AMark className="lt-mark" />
           </span>
           <h1 className="lt-eyebrow">Axia Atlas</h1>
-          <p className="lt-tagline">To be found is to be seen.</p>
+          <p className="lt-tagline">Everything in sight.</p>
           <p className="lt-desc">
-            Strategy-led marketing that makes brands, local businesses, and founders
-            impossible to miss: in search, in answer engines, and in the feeds where buyers decide.
+            Investment campaign analytics for companies raising capital: every dollar behind
+            the raise in one view, explained by Theia.
           </p>
         </header>
 

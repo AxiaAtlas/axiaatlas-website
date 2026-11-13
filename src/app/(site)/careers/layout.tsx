@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import { pageTitle, social } from '@/lib/seo'
 
 const DESCRIPTION =
-  'Join Axia Atlas. We help businesses become impossible to miss across search, answer engines, local, and social. Apply in three quick steps and attach your resume.'
+  'Join Axia Atlas, investment campaign analytics software with Theia built in. Engineering, data, design and client roles. Apply in three quick steps.'
 
 export const metadata: Metadata = {
-  title: 'Careers and Open Roles in Digital Marketing',
+  title: 'Careers in Investment Campaign Analytics',
   description: DESCRIPTION,
   alternates: { canonical: '/careers' },
-  ...social({ title: pageTitle('Careers and Open Roles in Digital Marketing'), description: DESCRIPTION, path: '/careers' }),
+  ...social({ title: pageTitle('Careers in Investment Campaign Analytics'), description: DESCRIPTION, path: '/careers' }),
 }
 
 export default function CareersLayout({ children }: { children: React.ReactNode }) {

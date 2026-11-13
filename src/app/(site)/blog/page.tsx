@@ -124,8 +124,8 @@ export default async function BlogIndexPage() {
 
       <CtaBand
         eyebrow="Book a Demo"
-        headline="Want this working for your business?"
-        sub="Book a demo. We audit how you show up across search, answer engines, and social beforehand, so we can show you exactly where buyers are missing you."
+        headline="See every dollar behind your raise."
+        sub="Book a demo of Axia Atlas. We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise."
       />
 
       <Footer />

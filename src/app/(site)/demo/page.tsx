@@ -3,17 +3,17 @@ import { useCallback, useEffect, useState } from 'react'
 import Footer from '@/components/Footer'
 import { Arrow } from '@/components/icons'
 import { aaTrack } from '@/lib/aa-track'
-import { THEIA_LAUNCH } from '@/lib/flags'
 
-/* The three headline services, then add-ons as one choice. The client portal
-   joins only at the Theia launch (lib/flags). The API takes any non-empty
-   string and records it as the prospect's focus. */
+/* What the prospect wants to see first. The API takes any non-empty string and
+   records it as the prospect's focus. */
 const GROWTH_AREAS = [
-  'Website design and build',
-  'Social media management',
-  ...(THEIA_LAUNCH ? ['Client portal'] : []),
-  'An add-on (SEO, local, leads, research or advisory)',
-  'Not sure yet: help me figure it out',
+  'Cost per investor across every channel (Raise Ledger)',
+  'All my ad platforms in one dashboard (Live Campaigns)',
+  'Weekly and monthly investor reports (Theia Reports)',
+  'Answers about my campaigns (Ask Theia)',
+  'Reporting for my agency’s raise clients',
+  'A website project',
+  'Not sure yet: show me everything',
 ]
 
 /* On-site booking. After the survey saves the lead to Prospects, step 3 fetches
@@ -51,7 +51,6 @@ export default function DemoPage() {
   const set = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }))
 
-  const socialCount = [form.linkedin, form.instagram, form.facebook, form.x].filter((v) => v.trim()).length
 
   // ── Step 3 — on-site booking picker ──────────────────────────────────────
   const [slots, setSlots] = useState<Slot[]>([])
@@ -180,8 +179,7 @@ export default function DemoPage() {
     setError('')
     if (!form.companyName.trim()) { setError('Please add your company name.'); return }
     if (!form.noWebsite && !form.websiteUrl.trim()) { setError('Please add your website, or check that you don’t have one yet.'); return }
-    if (!form.growthArea) { setError('Please pick what you need help with first.'); return }
-    if (!form.noSocials && socialCount < 2) { setError('Please add at least two social platforms, or check that you don’t have a social presence.'); return }
+    if (!form.growthArea) { setError('Please pick what you want to see first.'); return }
     setSending(true)
     try {
       const res = await fetch('/api/demo', {
@@ -226,8 +224,8 @@ export default function DemoPage() {
       <div className="demo-hero demo-lead">
         <div data-aa-section="demo.copy" className="demo-lead-copy">
           <div className="section-eyebrow">Book a Demo</div>
-          <h1 className="section-headline">Book a Demo, and We Audit Your Visibility Before the Call</h1>
-          <p className="demo-lead-note">Before we meet, we audit how you show up across search, answer engines, local maps and social feeds. We arrive at the call with your gaps already mapped, a short list of fixes in the order we would make them, and the prices for that work. No pitch deck, and no pressure to sign.</p>
+          <h1 className="section-headline">Book a Demo of Axia Atlas and Theia on a Demo Raise</h1>
+          <p className="demo-lead-note">We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise, then talk through your own channels, your team and how you report to investors. You leave knowing which plan fits and what it costs. No pitch deck, and no pressure to sign.</p>
         </div>
 
         <div data-aa-section="demo.form" className="demo-lead-form">
@@ -322,7 +320,7 @@ export default function DemoPage() {
 
                   <div className="form-row">
                     <label>
-                      Social profiles {form.noSocials ? <span className="form-hint">(none)</span> : <span className="form-hint">(add at least 2)</span>}
+                      Social profiles {form.noSocials ? <span className="form-hint">(none)</span> : <span className="form-hint">(optional)</span>}
                     </label>
                   </div>
 
@@ -362,7 +360,7 @@ export default function DemoPage() {
                   </label>
 
                   <div className="form-row demo-growth-row">
-                    <label>What do you need help with first? *</label>
+                    <label>What do you want to see first? *</label>
                     <select value={form.growthArea} onChange={set('growthArea')} required>
                       <option value="">Select an area</option>
                       {GROWTH_AREAS.map((g) => <option key={g} value={g}>{g}</option>)}

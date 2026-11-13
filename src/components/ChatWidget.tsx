@@ -3,9 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { AMark } from './Logo'
 import { Send, Arrow } from './icons'
-import { ADDONS_PATH, PORTAL_PATH, THEIA_PATH, serviceHref, serviceName, serviceShort, type ServiceId } from '@/lib/services'
-import { THEIA_LAUNCH } from '@/lib/flags'
-import { ADDONS_PRICE, CARE_PRICE, SOCIAL_PRICE, WEBSITE_PRICE } from '@/lib/price-facts'
+import { AEO, PATHS, PORTAL_URL } from '@/lib/site'
 import { aaTrack } from '@/lib/aa-track'
 
 type ChatLink = { label: string; href: string }
@@ -13,172 +11,132 @@ type Message = { role: 'user' | 'assistant'; content: string; at?: string; links
 type VisitorInfo = { name?: string; email?: string; phone?: string; company?: string }
 
 const WELCOME =
-  "Hi, I'm the Axia Atlas assistant. Ask me what we do, what it costs, or how to get started. Pick a question below or type your own."
+  "Hi, I'm the Axia Atlas assistant. Ask me what Axia Atlas does, how Theia works, how your data is protected, or how to see a demo. Pick a question below or type your own."
 
-// ── Predetermined Q&A. No external calls. First entry that matches wins. ──
-// `topic: true` marks an entry that maps to a specific page (a service section
-// or careers). These win ties against the broad "what do you do / services"
-// overview entries so a topic question always links the right page.
+// ── Predetermined Q&A. No external calls. Best keyword match wins. ──
+// The answers are lib/site's twelve buyer answers (the same text on the pages
+// and in /llms.txt), so the widget cannot say something the site does not.
+// `topic: true` marks an entry for one product or page; it wins ties against
+// the broad overview.
 type QA = { keywords: string[]; answer: string; links?: ChatLink[]; followups: string[]; topic?: boolean }
 
-/* A link to one service. The label comes from lib/services and the href from
-   serviceHref(), so a link cannot name one service and point at another. */
-const svcLink = (id: ServiceId): ChatLink => ({
-  label: `${serviceShort(id)} details`,
-  href: serviceHref(id),
-})
-
 const L = {
-  demo: { label: 'Book a Demo', href: '/demo' },
-  services: { label: 'See all services', href: '/services' },
-  addons: { label: 'See the add-ons', href: ADDONS_PATH },
-  pricing: { label: 'View pricing', href: '/pricing' },
-  /* '/#results', not '/case-studies': the old page 301s to this anchor, so
-     linking it directly saves the hop. */
-  cases: { label: 'See results', href: '/#results' },
-  contact: { label: 'Contact us', href: '/contact' },
+  demo: { label: 'Book a Demo', href: PATHS.demo },
+  platform: { label: 'See the platform', href: PATHS.platform },
+  ledger: { label: 'About Raise Ledger', href: `${PATHS.platform}#raise-ledger` },
+  live: { label: 'About Live Campaigns', href: `${PATHS.platform}#live-campaigns` },
+  theia: { label: 'Meet Theia', href: PATHS.theia },
+  reports: { label: 'About Theia Reports', href: `${PATHS.theia}#reports` },
+  security: { label: 'Security and privacy', href: PATHS.security },
+  pricing: { label: 'See the plans', href: PATHS.pricing },
+  website: { label: 'Website design', href: PATHS.website },
+  contact: { label: 'Contact us', href: PATHS.contact },
   careers: { label: 'See open roles', href: '/careers' },
-  portal: { label: 'About the portal', href: PORTAL_PATH },
-  theia: { label: 'Meet Theia', href: THEIA_PATH },
-  social: svcLink('social'),
-  intel: svcLink('intel'),
-  geo: svcLink('geo'),
-  local: svcLink('local'),
-  executive: svcLink('executive'),
-  website: svcLink('website'),
-  leadgen: svcLink('leadgen'),
-  strategy: svcLink('strategy'),
-  dashboards: svcLink('dashboards'),
+  signin: { label: 'Sign in', href: PORTAL_URL },
 } satisfies Record<string, ChatLink>
+
+const A = (id: string) => {
+  const f = AEO.find((x) => x.id === id)
+  if (!f) throw new Error(`Unknown AEO id: ${id}`)
+  return f.a
+}
 
 const QA_SET: QA[] = [
   {
-    keywords: ['what do you do', 'what is axia', 'who are you', 'about', 'services overview', 'what you offer'],
-    answer:
-      `Axia Atlas is a marketing agency headquartered in Miami. We design and build websites and run social media for brands, local businesses, and founders, and we offer add-ons for search, answer engines, local, leads and strategy. We start with strategy, then do the work.`,
-    links: [L.services, L.demo],
-    followups: ['What services do you offer?', 'How much does it cost?'],
+    keywords: ['what do you do', 'what is axia', 'who are you', 'about', 'what you offer', 'what does axia', 'overview'],
+    answer: A('what'),
+    links: [L.platform, L.demo],
+    followups: ['What is Theia?', 'How do I see cost per investor?'],
   },
   {
-    keywords: ['service', 'offer', 'what can you', 'help with', 'channels', 'what do you sell', 'add-on', 'add on', 'addon'],
-    answer:
-      `Two headline services: ${serviceName('website')} and ${serviceName('social')}. ` +
-      `Everything else is an add-on you bolt on when it pays off: SEO and answer engines, local search and maps, lead generation, executive brand, competitor research, strategic advisory, and custom dashboards.`,
-    links: [L.services, L.addons, L.demo],
-    followups: ['How much does it cost?', 'How does answer engine optimization work?'],
-  },
-  ...(THEIA_LAUNCH
-    ? [
-        {
-          keywords: ['theia', 'assistant in the portal', 'portal assistant'],
-          answer:
-            "Theia by Axia Atlas is our proprietary assistant inside the client portal. She knows only your business and helps you understand your data, then build your own reports, decks and plans from it. She lives only in your portal, never on your website.",
-          links: [L.theia, L.demo],
-          topic: true,
-          followups: ['What is the client portal?', 'How do I get started?'],
-        },
-        {
-          keywords: ['client portal', 'what is the portal', 'portal pricing', 'saas', 'software'],
-          answer:
-            'The client portal is one login for your results, deliverables, approvals and reports, with Theia inside it. It also shows how the ads you already run are performing. We do not run or buy ads. Portal pricing is on request: book a demo and we will walk you through it.',
-          links: [L.portal, L.demo],
-          topic: true,
-          followups: ['Who is Theia?', 'How do I get started?'],
-        },
-      ] satisfies QA[]
-    : []),
-  {
-    keywords: ['answer engine', 'answer-engine', 'chatgpt', 'perplexity', 'gemini', 'geo', 'aeo', 'cited', 'citation', 'generative', 'llm'],
-    answer:
-      "SEO & Answer Engine Optimization is one add-on, because ranking in Google and getting named by an assistant run on the same work: articles built on real keyword research, the schema and entity data behind them, and source pages written to be quoted whole. We baseline the exact prompts a buyer would type across ChatGPT, Perplexity, Gemini and other answer engines, record who gets named today, build presence on the sources those systems fall back on, then re-run the same prompts monthly so you can see where you are cited and where you are still left out.",
-    links: [L.geo, L.demo],
+    keywords: ['cost per investor', 'raise ledger', 'ledger', 'affiliate', 'newspaper', 'print', 'press', 'every channel', 'all spend'],
+    answer: A('cost-per-investor'),
+    links: [L.ledger, L.demo],
     topic: true,
-    followups: ['How long until I see results?', 'How much does it cost?'],
+    followups: ['Which channels do you cover?', 'What is Theia?'],
   },
   {
-    keywords: ['local', 'google business', 'map pack', 'maps', 'near me', 'review'],
-    answer:
-      "Local Presence & Maps is an add-on that works the map pack and the organic results under it together: a fully built Google Business Profile, consistent citations, a review program with public responses, plus the service and location pages that rank for 'service in city'. Rankings and calls are tracked per location.",
-    links: [L.local, L.demo],
+    keywords: ['raise platform', 'reg cf', 'reg a', 'reg d', 'crowdfunding', 'investments'],
+    answer: A('why-not-raise-platform'),
+    links: [L.platform, L.demo],
     topic: true,
-    followups: ['What services do you offer?', 'How do I get started?'],
+    followups: ['How do I see cost per investor?', 'Do you run my ads?'],
   },
   {
-    keywords: ['social media', 'instagram', 'tiktok', 'facebook', 'linkedin', 'content calendar', 'posting'],
-    answer:
-      `${serviceName('social')} is one of our two headline services: we pick the two or three platforms worth your time, set recurring content pillars, produce and publish natively for each platform, and answer the comments and messages. ${SOCIAL_PRICE}`,
-    links: [L.social, L.demo],
+    keywords: ['theia', 'assistant', 'ask theia'],
+    answer: A('theia'),
+    links: [L.theia, L.demo],
     topic: true,
-    followups: ['How much does it cost?', 'How do I get started?'],
+    followups: ['Does Theia replace an analyst?', 'How do investor reports work?'],
   },
   {
-    keywords: ['competitor', 'competitive intelligence', 'competition', 'benchmark', 'market research', 'share of voice', 'rivals'],
-    answer:
-      "Competitive Intelligence is an add-on that tracks the competitors you choose and reports what they actually did: pricing and packaging changes, the queries and pages they rank for that you don't, publishing cadence and what earned engagement, hiring signals, review sentiment, and whether the answer engines name them when they don't name you. Every claim is sourced and dated.",
-    links: [L.intel, L.demo],
+    keywords: ['analyst', 'replace', 'human', 'person'],
+    answer: A('analyst'),
+    links: [L.theia, L.contact],
     topic: true,
-    followups: ['What services do you offer?', 'How do I get started?'],
+    followups: ['What is Theia?', 'Is my data secure?'],
   },
   {
-    keywords: ['seo', 'search engine optimization', 'ranking', 'rank', 'keyword', 'organic', 'blog', 'article'],
-    answer:
-      "SEO is sold as the SEO & Answer Engine Optimization add-on, because organic search and the assistants buyers now ask run on one content pipeline. Search foundations are also laid during every website build, and the proximity side (location pages, the map pack, citations) is the Local Presence & Maps add-on.",
-    links: [L.geo, L.website],
+    keywords: ['run my ads', 'run ads', 'buy media', 'media buyer', 'manage ads', 'ad spend', 'manage my', 'agency fee'],
+    answer: A('ads'),
+    links: [L.platform, L.demo],
     topic: true,
-    followups: ['How does answer engine optimization work?', 'How long until I see results?'],
+    followups: ['Which channels do you cover?', 'What is Theia?'],
   },
   {
-    keywords: ['website', 'web design', 'web site', 'landing page', 'redesign', 'site speed', 'conversion'],
-    answer:
-      `${serviceName('website')} is one of our two headline services: positioning first, then the copy, the design and the build, with search foundations laid during the build. ${WEBSITE_PRICE}`,
-    links: [L.website, L.pricing, L.demo],
+    keywords: ['channel', 'platforms', 'meta', 'facebook', 'google ads', 'linkedin', 'integration', 'connect', 'live campaigns', 'dashboard'],
+    answer: A('channels'),
+    links: [L.live, L.demo],
     topic: true,
-    followups: ['What is the care plan?', 'How do I get started?'],
+    followups: ['How do I see cost per investor?', 'How much does it cost?'],
   },
   {
-    keywords: ['care plan', 'maintenance', 'maintain', 'updates', 'retainer', 'hosting', 'support'],
-    answer: `${CARE_PRICE} If someone else built your site, we would quote a rebuild rather than care for it.`,
-    links: [L.website, L.pricing],
+    keywords: ['report', 'deck', 'investor report', 'theia reports', 'slides', 'board'],
+    answer: A('reports'),
+    links: [L.reports, L.demo],
     topic: true,
-    followups: ['How much is a website?', 'How do I get started?'],
+    followups: ['What is Theia?', 'How much does it cost?'],
   },
   {
-    keywords: ['assistant on my site', 'website assistant', 'chat on my site', 'chat widget for my site'],
-    answer:
-      'Website assistant is a website add-on: a chat assistant on your own site that answers visitor questions and sends leads to your contacts. It is priced on the pricing page.',
-    links: [L.website, L.pricing],
+    keywords: ['roas', 'return on ad spend', 'dropped', 'why did', 'performance', 'cpa', 'cpl'],
+    answer: A('roas'),
+    links: [L.theia, L.demo],
     topic: true,
-    followups: ['How much is a website?', 'How do I get started?'],
+    followups: ['Does Theia replace an analyst?', 'How do investor reports work?'],
   },
   {
-    keywords: ['advisory', 'strategy', 'strategic', 'consulting', 'embedded', 'pricing decision', 'positioning'],
-    answer:
-      "Strategic Advisory & Embedded Thinking is an add-on: standing access to a strategist who knows your business, for the decisions that don't fit one channel: what to charge, how to package it, which segment is next, what to say when a competitor undercuts you. Decisions get written down and revisited.",
-    links: [L.strategy, L.demo],
+    keywords: ['secure', 'security', 'privacy', 'private', 'encrypt', 'data', 'mask', 'train', 'gdpr', 'soc'],
+    answer: A('security'),
+    links: [L.security, L.demo],
     topic: true,
-    followups: ['How much does it cost?', 'How do I get started?'],
+    followups: ['What is Theia?', 'How do I get started?'],
   },
   {
-    keywords: ['lead gen', 'lead generation', 'outbound', 'prospecting', 'cold email', 'outreach', 'pipeline'],
-    answer:
-      'Lead Generation is an add-on that fills the pipeline now while search and content compound: targeted prospecting over email and LinkedIn, written for each company rather than dropped into a template.',
-    links: [L.leadgen, L.demo],
+    keywords: ['agency', 'agencies', 'my clients', 'white label', 'for clients'],
+    answer: A('agencies'),
+    links: [L.pricing, L.demo],
     topic: true,
-    followups: ['What services do you offer?', 'How do I get started?'],
+    followups: ['How much does it cost?', 'How do investor reports work?'],
   },
   {
-    keywords: ['founder', 'executive', 'personal brand', 'thought leadership'],
-    answer:
-      "Executive Personal Brand is an add-on that builds a founder's voice separately from the company's: positions drawn out of you in interviews, then written up as posts and essays that sound like you, with inbound triaged so real buyers get a real reply. The audience and the archive stay yours.",
-    links: [L.executive, L.demo],
+    keywords: ['website', 'web design', 'web site', 'landing page', 'redesign'],
+    answer: A('websites'),
+    links: [L.website, L.demo],
     topic: true,
-    followups: ['How much does it cost?', 'See some results?'],
+    followups: ['What is Axia Atlas?', 'How do I get started?'],
   },
   {
-    keywords: ['dashboard', 'custom dashboard', 'operations dashboard', 'ad dashboard', 'ads dashboard', 'ad campaign', 'ads', 'advertising'],
+    keywords: ['price', 'pricing', 'cost', 'how much', 'budget', 'fee', 'tier', 'plan', 'package', 'seat'],
     answer:
-      "Portals & Dashboards is a custom-build add-on: one dashboard for your own operation (stock, orders, pipeline, or the ads you already run), read from the systems you use, behind your own login. We show how your ads perform; we do not run or buy them.",
-    links: [L.dashboards, L.demo],
+      'There are three plans, Launch, Campaign and Portfolio. Each includes Live Campaigns, Raise Ledger and Theia, with full seats for the people who ask Theia questions, view-only seats for everyone else, live ad channels and investor decks each month. Pricing depends on your raise, so we share it on a demo.',
+    links: [L.pricing, L.demo],
+    followups: ['What is the difference between seats?', 'How do I get started?'],
+  },
+  {
+    keywords: ['full seat', 'view-only', 'view only', 'difference between seats'],
+    answer:
+      'A full seat includes Theia: that person can ask questions, build reports and share them. A view-only seat can sign in and read every dashboard and report, without Theia. Most teams give full seats to the people who run the raise and view-only seats to the board and partners.',
+    links: [L.pricing, L.demo],
     topic: true,
     followups: ['How much does it cost?', 'How do I get started?'],
   },
@@ -188,59 +146,38 @@ const QA_SET: QA[] = [
     answer:
       "We're glad you asked. Open roles and how to apply live on our careers page. If your skills fit how we work, we'd love to see your application.",
     links: [L.careers, L.contact],
-    followups: ['What services do you offer?', 'Where are you located?'],
+    followups: ['What is Axia Atlas?', 'Where are you located?'],
   },
   {
-    keywords: ['price', 'pricing', 'cost', 'how much', 'budget', 'rate', 'fee', 'tier', 'plan', 'package'],
-    answer: `We publish our prices. ${WEBSITE_PRICE} ${SOCIAL_PRICE} ${ADDONS_PRICE}`,
-    links: [L.pricing, L.demo],
-    followups: ['What is the care plan?', 'How do I get started?'],
-  },
-  {
-    keywords: ['start', 'get started', 'begin', 'sign up', 'onboard', 'first step', 'how do i', 'audit', 'demo', 'book', 'consult'],
+    keywords: ['start', 'get started', 'begin', 'sign up', 'onboard', 'first step', 'how do i', 'demo', 'book', 'trial'],
     answer:
-      "Getting started is one step: book a demo. It's a quick survey: your business, then your goals. Before the call we audit how you show up today, so we arrive with your pain points pinpointed and specific solutions to propose. Work begins in week one.",
-    links: [L.demo, L.services],
-    followups: ['How much does it cost?', 'See some results?'],
+      'Book a demo. It is a quick survey, then a walkthrough of Live Campaigns, Raise Ledger and Theia on a demo raise. We talk through your own channels and team, and you leave knowing which plan fits and what it costs.',
+    links: [L.demo, L.pricing],
+    followups: ['How much does it cost?', 'Is my data secure?'],
   },
   {
-    keywords: ['contact', 'email', 'reach', 'talk', 'call', 'message', 'question'],
+    keywords: ['contact', 'email', 'reach', 'talk', 'call', 'message'],
     answer:
-      'New and prospective clients can email partner@axiaatlas.com. Current clients reach their strategist at strategy@axiaatlas.com. We reply within 24 hours, usually the same day. Or, if you’re ready to start, the fastest path is to book a demo.',
+      'New and prospective clients can email partner@axiaatlas.com. Current clients can reach our team at strategy@axiaatlas.com. We reply within 24 hours, usually the same day. If you want to see the platform, the fastest path is to book a demo.',
     links: [L.contact, L.demo],
-    followups: ['How do I get started?', 'What services do you offer?'],
+    followups: ['How do I get started?', 'What is Axia Atlas?'],
   },
   {
     keywords: ['portal', 'login', 'log in', 'client login', 'sign in', 'account'],
-    answer:
-      'Existing clients can sign in to the portal at app.axiaatlas.com. There’s also a Client Portal button at the top of every page.',
-    links: [{ label: 'Client Portal', href: 'https://app.axiaatlas.com' }, L.contact],
-    followups: ['How do I get started?', 'What services do you offer?'],
+    answer: 'Clients sign in to Axia Atlas at app.axiaatlas.com. There is also a Sign In link at the top of every page.',
+    links: [L.signin, L.contact],
+    followups: ['How do I get started?', 'What is Theia?'],
   },
   {
     keywords: ['where', 'located', 'location', 'remote', 'city', 'based', 'miami', 'headquarters'],
     answer: "We're headquartered in Miami, working with clients across the US.",
     links: [L.demo, L.contact],
-    followups: ['What services do you offer?', 'How do I get started?'],
-  },
-  {
-    keywords: ['b2c', 'consumer', 'ecommerce', 'e-commerce', 'retail', 'shop', 'brand', 'b2b'],
-    answer:
-      'Yes. We work with B2C and consumer brands as well as B2B and professional services. The playbook adapts: the goal is the same, making you impossible to miss where your buyers spend attention.',
-    links: [L.cases, L.demo],
-    followups: ['What services do you offer?', 'How do I get started?'],
-  },
-  {
-    keywords: ['result', 'guarantee', 'roi', 'work', 'proof', 'case study', 'results', 'how long', 'how fast', 'timeline'],
-    answer:
-      'We measure success in pipeline, rankings, citations, and compounding assets, not posts published. Work starts in week one; compounding channels build over 60 to 90 days. See real outcomes:',
-    links: [L.cases, L.demo],
-    followups: ['How much does it cost?', 'How do I get started?'],
+    followups: ['What is Axia Atlas?', 'How do I get started?'],
   },
 ]
 
 const DEFAULT_LINKS: ChatLink[] = [L.demo, L.contact]
-const SUGGESTIONS = ['What do you do?', 'How much does it cost?', 'How do I get started?', 'How do answer engines work?']
+const SUGGESTIONS = ['What is Axia Atlas?', 'What is Theia?', 'How much does it cost?', 'Is my data secure?']
 
 // Score a question against an entry. Each keyword must start on a word boundary
 // (so "seo" can't fire inside "season" or "rank" inside "frank"), but we don't
@@ -282,7 +219,7 @@ function answerFor(text: string): Message {
     content:
       "Good question. I don't have a ready answer for that one. The fastest way to a real answer is to book a demo, or email partner@axiaatlas.com and we'll reply within 24 hours.",
     links: DEFAULT_LINKS,
-    followups: ['What services do you offer?', 'How much does it cost?'],
+    followups: ['What is Axia Atlas?', 'How much does it cost?'],
   }
 }
 
@@ -401,7 +338,7 @@ export default function ChatWidget() {
           content: `Got it. We'll follow up at ${visitorRef.current.email}. Keep the questions coming in the meantime.`,
           at: replyAt,
           links: [L.demo, L.contact],
-          followups: ['What services do you offer?', 'How do I get started?'],
+          followups: ['What is Axia Atlas?', 'How do I get started?'],
         })
       } else {
         replies.push({ ...answerFor(text), at: replyAt })

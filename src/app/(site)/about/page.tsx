@@ -2,66 +2,56 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
 import { Arrow } from '@/components/icons'
-import { getPosts, postDate, formatDate } from '@/lib/blog'
 import { pageTitle, social } from '@/lib/seo'
+import { PATHS, TAGLINE, TAGLINE_2 } from '@/lib/site'
 
-// The articles teased below come from the same hourly-revalidated source as
-// /blog, so a newly published post surfaces here without a deploy. The teasers
-// are links out to /blog/<slug>; the articles themselves are never served from
-// an /about path.
-export const revalidate = 3600
-
+const NAME = 'About Axia Atlas, Investment Campaign Analytics'
 const DESCRIPTION =
-  'Axia Atlas is a marketing agency headquartered in Miami, built on one idea: to be found is to be seen. We design and build websites and run social media for brands, local businesses, and founders across the US.'
+  'Axia Atlas builds investment campaign analytics software for companies raising capital and the agencies behind them, with Theia built in. Everything in sight.'
 
 export const metadata: Metadata = {
-  title: 'About Our Miami Website and Social Media Agency',
+  title: NAME,
   description: DESCRIPTION,
-  alternates: { canonical: '/about' },
-  ...social({ title: pageTitle('About Our Miami Website and Social Media Agency'), description: DESCRIPTION, path: '/about' }),
+  alternates: { canonical: PATHS.about },
+  ...social({ title: pageTitle(NAME), description: DESCRIPTION, path: PATHS.about }),
 }
 
-export default async function AboutPage() {
-  // Three most recent articles, teased here purely as navigation. If the query
-  // comes back empty the section is dropped rather than rendered hollow.
-  const latest = (await getPosts()).slice(0, 3)
+const BELIEFS = [
+  { n: '01', title: 'Present, analyze, recommend', desc: 'We show you what happened, explain why, and say what we recommend. We never buy media or run your ads, and the decision is always yours.' },
+  { n: '02', title: 'Every dollar counts', desc: 'A raise is paid for by every channel, including the ones no platform reports. If it was spent on the raise, it belongs in the ledger.' },
+  { n: '03', title: 'Private by default', desc: 'Names and figures are masked before any analysis, and our analysis provider does not train its models on your data.' },
+]
 
+export default function AboutPage() {
   return (
     <div className="page">
       <div data-aa-section="about.hero" className="about-hero">
         <div className="about-hero-text">
           <div className="section-eyebrow">About</div>
-          <h1 className="section-headline">About the Miami Agency Behind Your Website and Social Media</h1>
-          <p className="section-sub">Axia Atlas is a marketing agency headquartered in Miami, working with clients across the US. We design and build websites and run social media for brands, local businesses and founders, and add search, local, lead and strategy work when it will pay off. We also build the software our clients use to see that work.</p>
+          <h1 className="section-headline">About Axia Atlas, the Company Behind the Platform and Theia</h1>
+          <p className="section-sub">Axia Atlas is a software company. We build investment campaign analytics for companies raising capital and the marketing agencies that support them, with Theia, our proprietary AI-powered analysis assistant, built in. We also design websites as one-off projects. Headquartered in Miami, working with clients across the US.</p>
         </div>
       </div>
 
       <div data-aa-section="about.why" className="about-section">
         <div className="about-inner">
-          <h2 className="about-headline">Why we exist</h2>
+          <h2 className="about-headline">Why we built it</h2>
           <div className="about-body">
-            <p>Axia Atlas was founded after watching too many good businesses get mediocre results from agencies that were busy, not effective. The reason was rarely effort. It was the model. Most agencies bill for hours and deliverables, so that&apos;s what they optimize for.</p>
-            <p>The usual relationship goes like this: you pay a retainer, you get a content calendar, you get a monthly report full of charts. Plenty of activity. No promise that any of it brings you a single new customer. Six months later you have a library of posts and not much else.</p>
-            <p>That works for the agency. It doesn&apos;t work for you.</p>
-            <p>We do it differently. Every engagement starts with strategy. We only recommend channels we believe will pay off, and every month we ask one question: is this making the business easier to find and quicker to choose than it was last month?</p>
-            <p>We take on fewer clients than most agencies, on purpose, so we can go deep instead of wide.</p>
+            <p>Companies raising capital spend heavily on campaigns: prospecting and retargeting ads on every platform, affiliate partners, newspaper placements, press. Their raise platform shows the investments coming in. Nothing showed the spend and the investments together.</p>
+            <p>So most issuers learned what worked only after the budget was gone. Agencies running those campaigns rebuilt the same spreadsheet every week to answer one question: what did each channel actually return?</p>
+            <p>Axia Atlas answers it while the raise is still running. Live Campaigns shows every platform in one place. Raise Ledger sets every dollar against the investments reported. Theia explains what changed and builds the investor report.</p>
           </div>
         </div>
       </div>
 
-      <div data-aa-section="about.seen" className="about-section">
+      <div data-aa-section="about.taglines" className="about-section">
         <div className="about-inner about-seen">
-          <h2 className="about-headline">&quot;To be found is to be seen.&quot;</h2>
+          <h2 className="about-headline">{TAGLINE}. {TAGLINE_2}.</h2>
           <div className="about-body">
-            <p>That&apos;s the idea behind everything we build. When your business shows up where buyers are already looking (in search, in answer engines, in your local market, in the feeds people scroll), you don&apos;t have to convince anyone you exist. You just have to be the obvious choice.</p>
-            <p>Visibility like that isn&apos;t flashy and it isn&apos;t instant. But once it&apos;s built, it&apos;s yours, and it keeps working.</p>
+            <p>Everything in sight is the promise: every platform, every channel and every investment in one view, with nothing left in an invoice or a spreadsheet. Growth, engineered is how we keep it: measured, explained, and recommended, never guessed.</p>
           </div>
           <div className="beliefs-grid">
-            {[
-              { n: '01', title: 'Results over activity', desc: 'We measure success in customers, rankings, and reputation, not posts published or hours billed.' },
-              { n: '02', title: 'Strategy before spend', desc: "We don't start until we understand your business, your buyers, and where the real opportunity is." },
-              { n: '03', title: 'Plain talk, always', desc: "No jargon, no smoke. You'll always know what we're doing, why, and whether it's working." },
-            ].map((b) => (
+            {BELIEFS.map((b) => (
               <div key={b.n} className="belief-card spotlight">
                 <div className="belief-num">{b.n}</div>
                 <h3 className="belief-title">{b.title}</h3>
@@ -72,49 +62,16 @@ export default async function AboutPage() {
         </div>
       </div>
 
-      {latest.length ? (
-        <div data-aa-section="about.insights" className="about-section">
-          <div className="about-insights-inner">
-            <h2 className="about-headline">What we&apos;re writing about</h2>
-            <p className="about-insights-sub">
-              We publish what we learn: how buyers actually search, how answer engines pick
-              who to cite, and what moves local visibility. Same thinking we bring to the work.
-            </p>
-            <div className="blog-grid">
-              {latest.map((p) => (
-                <Link key={p.id} href={`/blog/${p.slug}`} className="blog-card">
-                  <div className="blog-meta">
-                    {p.category ? <span className="blog-cat">{p.category}</span> : null}
-                    <time dateTime={postDate(p)}>{formatDate(postDate(p))}</time>
-                  </div>
-                  <h3 className="blog-card-title">{p.title}</h3>
-                  {p.excerpt ? <p className="blog-card-excerpt">{p.excerpt}</p> : null}
-                  <span className="blog-more">
-                    Read <Arrow className="arr" />
-                  </span>
-                </Link>
-              ))}
-            </div>
-            <div className="about-insights-all">
-              <Link href="/blog" className="btn-outline">
-                All insights <Arrow className="arr" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
       <div data-aa-section="about.working" className="about-section">
         <div className="about-inner">
-          <h2 className="about-headline">How working with us feels</h2>
+          <h2 className="about-headline">People, not only software</h2>
           <div className="about-body">
-            <p>Every engagement starts with an audit. We map where you show up today, where you don&apos;t, and the fastest wins available, then build a clear 90-day plan around them.</p>
-            <p>Then we get to work. No 30-day onboarding, no committee approvals. Real output lands in week one.</p>
-            <p>We operate as an extension of your team, not a faceless vendor. You get direct access to the people doing the work, meetings and reports on the cadence your plan sets, and reporting written in language you can actually read.</p>
-            <p>Whether you&apos;re a growing brand, a local business, or the founder who is the brand, the goal is the same: make you impossible to miss.</p>
+            <p>Theia gives you fast answers between meetings. Our analysts are still there whenever you want a person, for the questions that deserve a second pair of eyes.</p>
+            <p>Every plan starts with a demo on a demo raise, then setup of your own channels. You get one dashboard, one ledger, and a report that builds itself.</p>
           </div>
-          <div style={{ marginTop: 36 }}>
-            <Link href="/demo" className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
+          <div className="sv-hero-actions" style={{ marginTop: 36 }}>
+            <Link href={PATHS.demo} className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
+            <Link href="/careers" className="btn-outline">Careers</Link>
           </div>
         </div>
       </div>

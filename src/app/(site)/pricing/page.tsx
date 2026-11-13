@@ -3,204 +3,135 @@ import Link from 'next/link'
 import Footer from '@/components/Footer'
 import CtaBand from '@/components/CtaBand'
 import { Arrow } from '@/components/icons'
-import { SectionHead, TierCards, AddonList, JsonLd } from '@/components/service/Blocks'
+import { FaqList, JsonLd, PageHero, SectionHead, faqJsonLd, type Faq } from '@/components/service/Blocks'
 import { pageTitle, social, SITE_URL } from '@/lib/seo'
-import { THEIA_LAUNCH } from '@/lib/flags'
-import { ADDON_IDS, HEADLINE_PAGES, PORTAL_PATH, serviceHref, serviceName } from '@/lib/services'
-import { SERVICE_ADDON_COPY } from '@/lib/service-copy'
-import {
-  CURRENCY, addOn, addOnPrice, addOnsFor, money, monthsWord, paymentPlan, pricingFor, range, termLabel, tierNotes, tierPrice,
-} from '@/lib/pricing'
+import { PATHS } from '@/lib/site'
 
-/* ── EVERY FIGURE ON THIS PAGE COMES FROM THE PLATFORM ────────────────────
-   lib/pricing reads pricing-catalog.json, which scripts/sync-pricing.mjs
-   writes by running the platform's src/lib/pricing.ts. Nothing numeric is
-   typed in this file. When the platform reprices, run `npm run sync:pricing`.
+/* /pricing: three plans, NO PRICES. Every plan's button is "Book a demo".
+   Plan names and what each includes follow the platform's
+   docs/pricing/pricing-analysis.md, Option A (recommended). The figures are
+   kept to what a buyer compares (seats, channels, decks); prices, analyst
+   hours and implementation fees stay off the site. */
 
-   THE SHAPE FOLLOWS THE SITE MODEL: the headline services first (website,
-   with its payment plan and care plan, then social), the Portal at the Theia
-   launch with no invented figure, then every add-on in one compact table.
-   Service JSON-LD carries only prices printed on the page. */
-
-const W = pricingFor('website')
-const S = pricingFor('social')
-const [WEB_LO, WEB_HI] = range('website', 'oneTime')
-const [SOCIAL_LO, SOCIAL_HI] = range('social', 'monthly')
-const CARE = addOn('website', 'care_plan')
-const CARE_PRICES = CARE.tierPrices ?? [CARE.price]
-const PLAN_WORD = monthsWord(W.paymentPlanMonths ?? 0)
-const ADDON_LO = Math.min(...ADDON_IDS.flatMap((id) => pricingFor(id).tiers.map((t) => t.monthly).filter((n) => n > 0)))
-
-const TITLE = THEIA_LAUNCH ? 'Website, Social and Client Portal Pricing' : 'Website and Social Media Pricing, Plus Add-Ons'
-const H1 = THEIA_LAUNCH ? 'Published Pricing for Website, Social and the Client Portal' : 'Published Prices for Websites, Social Media and Add-Ons'
+const NAME = 'Pricing for Investment Campaign Analytics Plans'
+const H1 = 'Pricing Plans for Investment Campaign Analytics Software'
+const DESCRIPTION =
+  'Three Axia Atlas plans, Launch, Campaign and Portfolio, each with Theia seats, view-only seats, live ad channels and investor decks. Book a demo for pricing.'
 
 const ANSWER =
-  `A website is a one-time build from ${money(WEB_LO)} to ${money(WEB_HI)}, paid once or over ${PLAN_WORD} months at the same total, ` +
-  `with an optional care plan from ${money(Math.min(...CARE_PRICES))} a month. ` +
-  `Social media management runs ${money(SOCIAL_LO)} to ${money(SOCIAL_HI)} a month. ` +
-  `Add-ons start at ${money(ADDON_LO)} a month, and you buy only what you need.`
-
-const DESCRIPTION =
-  `Published prices: websites from ${money(WEB_LO)} one-time or over ${PLAN_WORD} months, care plans from ${money(Math.min(...CARE_PRICES))} a month, ` +
-  `social media from ${money(SOCIAL_LO)} a month, and add-ons from ${money(ADDON_LO)} a month.`
+  'Axia Atlas has three plans: Launch, Campaign and Portfolio. Each includes Live Campaigns, Raise Ledger and Theia, with seats for the people who ask Theia questions, view-only seats for everyone else, live ad channels and Theia Reports decks each month. Pricing depends on your raise, so every plan starts with a demo.'
 
 export const metadata: Metadata = {
-  title: TITLE,
+  title: NAME,
   description: DESCRIPTION,
-  alternates: { canonical: '/pricing' },
-  ...social({ title: pageTitle(TITLE), description: DESCRIPTION, path: '/pricing' }),
+  alternates: { canonical: PATHS.pricing },
+  ...social({ title: pageTitle(NAME), description: DESCRIPTION, path: PATHS.pricing }),
 }
 
-const monthlySpec = (price: number) => ({ '@type': 'UnitPriceSpecification', price, priceCurrency: CURRENCY, unitCode: 'MON' })
+const PLANS = [
+  {
+    name: 'Launch',
+    for: 'One raise, a small team, the first channels live.',
+    notes: ['3 full seats with Theia', '10 view-only seats', '2 live ad channels', '1 Theia Reports deck a month', 'Analyst review each month'],
+  },
+  {
+    name: 'Campaign',
+    for: 'A raise in full swing across several platforms, reported weekly.',
+    notes: ['6 full seats with Theia', '25 view-only seats', '4 live ad channels', '4 Theia Reports decks a month', 'More analyst review each month'],
+    featured: true,
+  },
+  {
+    name: 'Portfolio',
+    for: 'Several raises, or an agency reporting for many clients.',
+    notes: ['15 full seats with Theia', '60 view-only seats', '6 live ad channels', '8 Theia Reports decks a month', 'The most analyst review each month'],
+  },
+]
 
-const PRICING_JSON_LD = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Service', '@id': `${SITE_URL}${HEADLINE_PAGES.website}#service`, name: serviceName('website'),
-      url: `${SITE_URL}/pricing#website`, provider: { '@id': `${SITE_URL}/#organization` },
-      offers: [
-        ...W.tiers.map((t) => ({ '@type': 'Offer', name: `${serviceName('website')}: ${t.label}`, price: t.oneTime, priceCurrency: CURRENCY })),
-        ...W.tiers.map((t, i) => ({ '@type': 'Offer', name: `${CARE.label}: ${t.label}`, price: CARE_PRICES[i] ?? CARE_PRICES[0], priceCurrency: CURRENCY, priceSpecification: monthlySpec(CARE_PRICES[i] ?? CARE_PRICES[0]) })),
-      ],
-    },
-    {
-      '@type': 'Service', '@id': `${SITE_URL}${HEADLINE_PAGES.social}#service`, name: serviceName('social'),
-      url: `${SITE_URL}/pricing#social`, provider: { '@id': `${SITE_URL}/#organization` },
-      offers: S.tiers.map((t) => ({ '@type': 'Offer', name: `${serviceName('social')}: ${t.label}`, price: t.monthly, priceCurrency: CURRENCY, priceSpecification: monthlySpec(t.monthly) })),
-    },
-  ],
-}
+const EXTRAS = [
+  { t: 'Extra seats', d: 'Add full seats with Theia, or view-only seats, on any plan.' },
+  { t: 'Extra channels', d: 'Add another ad platform, or a channel with no connector, such as an affiliate network, by manual import.' },
+  { t: 'A new connector', d: 'A platform we do not connect yet can be added for you. We quote it on a call.' },
+  { t: 'A campaign website', d: 'Designed and built as a one-off project, separate from your plan.' },
+]
 
-function addonRows(id: 'website' | 'social') {
-  return addOnsFor(id)
-    .filter((a) => a.key !== 'care_plan')
-    .map((a) => ({ key: a.key, name: SERVICE_ADDON_COPY[a.key]?.label ?? a.label, price: addOnPrice(a), what: SERVICE_ADDON_COPY[a.key]?.what ?? '' }))
-}
+const FAQ: Faq[] = [
+  {
+    q: 'Why is there no price on the page?',
+    a: 'Pricing depends on how many channels you run, how many people need Theia and how often you report to investors. On a demo we walk through Axia Atlas on a demo raise, ask about your channels and your team, and send the price for the plan that fits. There is no obligation to buy.',
+  },
+  {
+    q: 'What is the difference between a full seat and a view-only seat?',
+    a: 'A full seat includes Theia: that person can ask questions, build reports and share them. A view-only seat can sign in and read every dashboard and report, without Theia. Most teams give full seats to the people who run the raise and view-only seats to the board and partners.',
+  },
+  {
+    q: 'Does Axia Atlas charge a share of ad spend?',
+    a: 'No. Axia Atlas never buys media, runs ads or manages ad spend, so nothing is priced on a percentage of your budget. Each plan is a set of seats, channels and reports, and anything added on top, such as another seat or channel, is priced on its own.',
+  },
+]
 
 export default function PricingPage() {
   return (
-    <div className="page sv-page pricing-page">
-      <JsonLd data={PRICING_JSON_LD} />
+    <div className="page sv-page">
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        '@id': `${SITE_URL}${PATHS.pricing}`,
+        url: `${SITE_URL}${PATHS.pricing}`,
+        name: pageTitle(NAME),
+        description: ANSWER,
+        about: { '@id': `${SITE_URL}/#software` },
+        publisher: { '@id': `${SITE_URL}/#organization` },
+      }} />
+      <JsonLd data={faqJsonLd(FAQ)} />
 
-      <div data-aa-section="pricing.hero" className="services-hero sv-hero">
-        <div className="section-eyebrow">Pricing</div>
-        <h1 className="section-headline">{H1}</h1>
-        <div className="section-sub sv-hero-side">
-          <p className="sv-answer">{ANSWER}</p>
-          <nav className="sv-hero-actions sv-jump-inline" aria-label="Price sections">
-            <a href="#website">Website</a>
-            <a href="#social">Social</a>
-            {THEIA_LAUNCH && <a href="#portal">Portal</a>}
-            <a href="#add-ons">Add-ons</a>
-          </nav>
-        </div>
-      </div>
+      <PageHero data-aa-section="pricing.hero" eyebrow="Pricing" title={H1} answer={ANSWER} />
 
-      <section data-aa-section="pricing.website" className="sv-section g-raise" id="website">
+      <section data-aa-section="pricing.plans" className="sv-section g-raise">
         <div className="section-inner">
-          <SectionHead
-            eyebrow={serviceName('website')}
-            title={`Website Builds: Pay Once or Over ${PLAN_WORD} Months`}
-            lede={`A one-time fee per build. Pay it upfront, or spread it over ${PLAN_WORD} months for the same total: not financed, no interest, no fee.`}
-          />
-          <TierCards
-            tiers={W.tiers.map((t) => {
-              const plan = paymentPlan('website', t.oneTime)
-              return { name: t.label, amount: money(t.oneTime), unit: 'one-time', extra: plan ? `or ${plan.monthly} a month for ${PLAN_WORD} months` : undefined, notes: t.features }
-            })}
-          />
-          <div className="sv-subhead" id="care-plan">
-            <h3 className="sv-subhead-title">{CARE.label}</h3>
-            <p className="sv-lede">
-              {`Optional, after launch, priced by your site's tier${CARE.minTermMonths ? `, with a ${monthsWord(CARE.minTermMonths)}-month minimum` : ''}. `}
-              <strong>It covers only sites Axia Atlas built.</strong>
-            </p>
-          </div>
-          <TierCards tiers={W.tiers.map((t, i) => ({ name: `${t.label} care`, amount: money(CARE_PRICES[i] ?? CARE_PRICES[0]), unit: '/mo' }))} />
-          <div className="sv-subhead">
-            <h3 className="sv-subhead-title">Website add-ons</h3>
-          </div>
-          <AddonList rows={addonRows('website')} />
-          <Link href={HEADLINE_PAGES.website} className="service-link sv-more">What a website build includes <Arrow className="arr" /></Link>
+          <SectionHead eyebrow="Plans" title="Three plans. Theia in every one." />
+          <ol className="px-plans">
+            {PLANS.map((p) => (
+              <li key={p.name} className={`px-plan${p.featured ? ' featured' : ''}`}>
+                <h3 className="px-plan-name">{p.name}</h3>
+                <p className="px-plan-for">{p.for}</p>
+                <div className="px-plan-price">Pricing on a demo</div>
+                <ul className="sv-tier-notes">
+                  {p.notes.map((n) => <li key={n}>{n}</li>)}
+                </ul>
+                <Link href={PATHS.demo} className={p.featured ? 'btn-primary' : 'btn-outline'}>Book a demo <Arrow className="arr" /></Link>
+              </li>
+            ))}
+          </ol>
+          <p className="sv-lede">
+            Every plan includes{' '}
+            <Link className="inline-link" href={PATHS.platform}>Live Campaigns and Raise Ledger</Link>,{' '}
+            <Link className="inline-link" href={PATHS.theia}>Theia Reports and Ask Theia</Link>, and setup of your channels.
+          </p>
         </div>
       </section>
 
-      <section data-aa-section="pricing.social" className="sv-section g-black" id="social">
+      <section data-aa-section="pricing.extras" className="sv-section g-black">
         <div className="section-inner">
-          <SectionHead
-            eyebrow={serviceName('social')}
-            title="Social Media Plans, Billed Monthly"
-            lede={`Three plans. The plan sets how much we publish and how often we meet and report.${S.minTermMonths ? ` ${termLabel(S)}.` : ''}`}
-          />
-          <TierCards tiers={S.tiers.map((t) => ({ name: t.label, amount: money(t.monthly), unit: '/mo', notes: tierNotes(t) }))} />
-          <div className="sv-subhead">
-            <h3 className="sv-subhead-title">Social add-ons</h3>
-          </div>
-          <AddonList rows={addonRows('social')} />
-          <Link href={HEADLINE_PAGES.social} className="service-link sv-more">How social media management works <Arrow className="arr" /></Link>
-        </div>
-      </section>
-
-      {THEIA_LAUNCH && (
-        <section data-aa-section="pricing.portal" className="sv-section g-raise" id="portal">
-          <div className="section-inner sv-note">
-            <h2 className="section-headline">The Client Portal</h2>
-            <p className="sv-lede">One login for your results, approvals and reports, with Theia by Axia Atlas built in.</p>
-            <div className="sv-tier-amount">Pricing on request</div>
-            <Link href={PORTAL_PATH} className="service-link">About the portal <Arrow className="arr" /></Link>
-          </div>
-        </section>
-      )}
-
-      <section data-aa-section="pricing.addons" className="sv-section g-raise" id="add-ons">
-        <div className="section-inner">
-          <SectionHead
-            eyebrow="Add-ons"
-            title="Every Add-On, With Its Three Tiers"
-            lede="Each add-on is priced on its own and runs alongside a website or social engagement."
-          />
-          <div className="sv-table-wrap">
-            <table className="sv-table">
-              <thead>
-                <tr><th scope="col">Add-on</th><th scope="col">Tier 1</th><th scope="col">Tier 2</th><th scope="col">Tier 3</th><th scope="col">Term</th></tr>
-              </thead>
-              <tbody>
-                {ADDON_IDS.map((id) => {
-                  const p = pricingFor(id)
-                  return (
-                    <tr key={id}>
-                      <th scope="row"><Link href={serviceHref(id)}>{serviceName(id)}</Link></th>
-                      {p.tiers.map((t) => {
-                        const pr = tierPrice(p, t)
-                        return (
-                          <td key={t.label} data-label={t.label}>
-                            <span className="sv-table-tier">{t.label}</span>
-                            <span className="sv-table-price">{pr.amount}<small>{pr.unit.replace('/mo', ' a month').replace('one-time', ' one-time')}</small></span>
-                            {pr.extra && <span className="sv-table-extra">{pr.extra}</span>}
-                          </td>
-                        )
-                      })}
-                      <td data-label="Term" className="sv-table-term">{termLabel(p)}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
+          <SectionHead eyebrow="On any plan" title="Add what your raise needs." />
+          <div className="sv-cards sv-cards-4">
+            {EXTRAS.map((e) => (
+              <div key={e.t} className="sv-card sv-card-static">
+                <h3 className="sv-card-name">{e.t}</h3>
+                <p className="sv-card-desc">{e.d}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <p data-aa-section="pricing.note" className="pricing-note">
-        Prices are in US dollars. You combine only the services you need, and the quote you sign is the price you pay. On the demo call we tell you which services and tiers will pay off first.
-      </p>
+      <section data-aa-section="pricing.faq" className="sv-section g-raise">
+        <div className="section-inner">
+          <SectionHead eyebrow="Questions" title="About plans and pricing." />
+          <FaqList items={FAQ} />
+        </div>
+      </section>
 
-      <CtaBand
-        eyebrow="Not sure which tier?"
-        headline="We'll tell you what to do first."
-        sub="Book a demo. We audit how you show up before the call, then walk you through the services and tiers that will pay off fastest."
-      />
-
+      <CtaBand headline="Find the plan that fits your raise." sub="Book a demo. We walk you through the platform on a demo raise and send the price for the plan that fits." />
       <Footer />
     </div>
   )

@@ -27,7 +27,7 @@ export default function PrivacyPage() {
           <p>
             This Privacy Policy explains how <strong>Axia Atlas Inc.</strong> (&ldquo;Axia Atlas,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;)
             collects, uses, and protects information when you visit <strong>axiaatlas.com</strong> (the &ldquo;Site&rdquo;),
-            contact us, or book a demo. We are a digital marketing studio, and we take the privacy of
+            contact us, or book a demo. We are a software company, and we take the privacy of
             prospective and existing clients seriously. By using the Site or submitting information through it,
             you agree to the practices described below.
           </p>

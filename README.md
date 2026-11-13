@@ -1,6 +1,6 @@
 # Axia Atlas — Marketing Website
 
-Marketing site for **Axia Atlas**, a digital marketing studio that makes brands, local businesses, and founders impossible to miss — in search, in answer engines, and in the feeds where buyers decide.
+Marketing site for **Axia Atlas**, investment campaign analytics software for companies raising capital, with Theia, its proprietary AI-powered analysis assistant, built in. Everything in sight.
 
 Built with Next.js (App Router) and a hand-built CSS design system, with Supabase powering the contact form, case studies, and blog.
 
@@ -22,7 +22,7 @@ Single source of truth lives in the `:root` / `[data-theme="dark"]` tokens in `s
 - Montserrat for display/UI, Arial for body copy
 - 0–4px radii, bento-grid layouts, generous whitespace
 - First-class **light and dark** themes; cartographic-editorial motion
-- Brand rule: never say "AI" in client-facing copy — use "answer engines" / "AEO"
+- Copy rules: `src/lib/site.ts` and `npm test` (Theia is always "proprietary AI-powered"; the provider is never named)
 
 ## Getting started
 
@@ -47,7 +47,7 @@ The Supabase values are public (browser-safe) config; `NEXT_PUBLIC_GA_ID` is opt
 ## Project layout
 
 ```
-src/app/            Routes: /, /services, /pricing, /case-studies, /about, /blog, /contact
+src/app/            Routes: /, /platform, /theia, /website-design, /security, /pricing, /about, /contact, /demo, /llms.txt
 src/app/api/contact Contact form → Supabase (contact_submissions + prospects)
 src/components/      Nav, Footer, ChatWidget (local Q&A, no API), NewsletterForm
 src/lib/supabase/    Supabase browser client
