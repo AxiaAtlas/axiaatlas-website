@@ -28,7 +28,7 @@ const T = {
   get end() { return this.p4 + 2900 },
 }
 
-const STEPS = [`Reading Meta, Google and LinkedIn for ${CO}`, 'Comparing click rate week by week', 'Checking frequency and creative age']
+const STEPS = [`Reading Meta, Google and Microsoft for ${CO}`, 'Comparing click rate week by week', 'Checking frequency and creative age']
 const P1 = 'Click rate fell from 1.42% to 0.98% over the last three weeks. Spend held steady, so each click cost 38% more.'
 const P3 = 'Three Meta creatives carry most of the drop. Each has run six weeks or more, and Meta frequency rose to 4.1.'
 const P4 = 'We recommend testing fresh cuts of these three and reviewing frequency with your media buyer. Google Search held its click rate.'

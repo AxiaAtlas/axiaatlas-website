@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 const BELIEFS = [
   { n: '01', title: 'Present, analyze, recommend', desc: 'We show what happened, explain why, and say what we recommend. We never buy media or run your ads, and the decision is always yours.' },
   { n: '02', title: 'Every dollar counts', desc: 'A raise is paid for by every channel, including the ones no platform reports. If it was spent on the raise, it belongs in the ledger.' },
-  { n: '03', title: 'Private by default', desc: 'Names and figures are masked before any analysis, and our analysis provider does not train its models on your data.' },
+  { n: '03', title: 'A person when you want one', desc: 'Theia answers in seconds. Our analysts are there for the questions that deserve a second pair of eyes.' },
 ]
 
 export default function AboutPage() {
@@ -86,7 +86,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <Cta data-aa-section="about.cta" />
+      <Cta data-aa-section="about.cta" title="Growth, engineered." lede="See what every channel behind your raise returned, on a demo raise first." />
     </>
   )
 }

@@ -202,16 +202,14 @@
 .addons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 56px); border-top: 1px solid var(--edge); }
 .addons li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; padding: 18px 0; border-bottom: 1px solid var(--edge); }
 .addons .t { color: var(--fg); }
-.addons .p { color: var(--fg); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .addons .d { grid-column: 1 / -1; color: var(--soft); font-size: 14.5px; line-height: 1.55; }
-@media (max-width: 760px) { .addons { grid-template-columns: minmax(0, 1fr); } .addons .p { white-space: normal; } }
+@media (max-width: 760px) { .addons { grid-template-columns: minmax(0, 1fr); } }
 
 /* Website tiers */
 .tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 20px); }
 .tier { padding: clamp(22px, 2.4vw, 32px); display: flex; flex-direction: column; gap: 12px; }
 .tier .label { color: var(--muted); }
-.tier .price { font-family: var(--font-display); font-weight: 500; font-size: clamp(2rem, 1.6rem + 1.2vw, 2.625rem); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
-.tier .price small { font-family: var(--font-body); font-size: 14px; color: var(--muted); letter-spacing: 0; margin-left: 6px; }
+.tier .tier-name { font-size: clamp(1.5rem, 1.25rem + 0.8vw, 1.875rem); }
 .tier .plan-for { color: var(--soft); font-size: 15px; line-height: 1.55; }
 .tier ul { border-top: 1px solid var(--edge); margin-top: 4px; }
 .tier li { padding: 10px 0; border-bottom: 1px solid var(--edge); color: var(--soft); font-size: 14.5px; }
@@ -243,3 +241,4 @@
 .band { padding-bottom: calc(var(--sec) * 0.75); }
 .th-chapter.sec-flush-top { padding-top: 0; }
 .th-hero h1 { max-width: 15ch; }
+.tiers + .quote-line { margin-top: 20px; }

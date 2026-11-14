@@ -9,14 +9,15 @@ import { PLANS, PLAN_ADDONS, PLAN_ROWS } from '@/lib/plans'
 
 /* /pricing: what each plan includes (from the platform's pricing analysis,
    Option A, in lib/plans), a side-by-side table, add-ons and questions. NO
-   SOFTWARE PRICES until Amit sets the price book: "Book a demo for a quote" is
-   said once. Website projects show their prices, from the platform's
-   pricing.ts. */
+   PRICES ANYWHERE: the website never shows a dollar figure for anything we
+   sell (Amit, 2026-11-14). Pricing is discussed on a demo, said once on this
+   page beside the Book a demo button. Website tiers show what each includes,
+   from the platform's pricing.ts, without a price. */
 
 const NAME = 'Pricing for Investment Campaign Analytics Plans'
 const H1 = 'Pricing for investment campaign analytics and website projects'
 const DESCRIPTION =
-  'Three Axia Atlas plans, Launch, Campaign and Portfolio, with what each includes, plus website projects from $3,500. Book a demo for a software quote.'
+  'Three Axia Atlas plans, Launch, Campaign and Portfolio, with what each includes, plus website projects in three tiers. Pricing is discussed on a demo.'
 const ANSWER =
   'Axia Atlas has three plans: Launch, Campaign and Portfolio. Each includes Live Campaigns, Raise Ledger and Theia, with full seats for the people who ask Theia questions and view-only seats for everyone else. They differ in raises, channels read live, how often you report and analyst time. Website projects are priced separately.'
 
@@ -29,8 +30,8 @@ export const metadata: Metadata = {
 
 const FAQ: Faq[] = [
   {
-    q: 'Why is there no software price on the page?',
-    a: 'The price depends on how many raises you run, how many channels you connect, how many people need Theia and how often you report. On a demo we walk through Axia Atlas on a demo raise, ask about your channels and your team, and send a quote for the plan that fits. There is no obligation to buy.',
+    q: 'Why is there no price on the page?',
+    a: 'The price depends on how many raises you run, how many channels you connect, how many people need Theia and how often you report. On a demo we walk through Axia Atlas on a demo raise, ask about your channels and your team, and send a quote for the plan that fits. Website projects are quoted the same way, after a short call. There is no obligation to buy.',
   },
   {
     q: 'What is the difference between a full seat and a view-only seat?',
@@ -38,7 +39,7 @@ const FAQ: Faq[] = [
   },
   {
     q: 'What counts as a channel?',
-    a: 'A channel is one ad platform account read live, such as Meta Ads, Google Ads or LinkedIn Ads. Affiliates, newspapers, press and platforms without a connector are imported from their exports or entered by hand, and they are included on every plan.',
+    a: 'A channel is one ad platform account read live, such as Meta Ads or Google Ads. Affiliates, newspapers, press and platforms without a connector are imported from their exports or entered by hand, and they are included on every plan.',
   },
   {
     q: 'Does Axia Atlas charge a share of ad spend?',
@@ -46,7 +47,7 @@ const FAQ: Faq[] = [
   },
   {
     q: 'Do I need a plan to commission a website?',
-    a: 'No. Website projects are one-off and priced on their own: Starter, Growth or Authority, paid once or in six monthly payments that add up to the same total. You can commission a site without using the platform.',
+    a: 'No. Website projects are one-off and priced on their own: Starter, Growth or Authority, each scoped with you on a call. You can commission a site without using the platform.',
   },
 ]
 
@@ -87,15 +88,15 @@ export default function PricingPage() {
                   <li><Check /><span><strong>{p.raises}</strong></span></li>
                   <li><Check /><span>{p.channels}, plus imported and manual channels</span></li>
                   <li><Check /><span>{p.cadence}</span></li>
-                  <li><Check /><span><strong>Full seats</strong> with Theia, {p.fullSeats}</span></li>
-                  <li><Check /><span><strong>View-only seats</strong> without Theia, {p.viewSeats}</span></li>
+                  <li><Check /><span><strong>{p.fullSeats} full seats</strong> with Theia</span></li>
+                  <li><Check /><span><strong>{p.viewSeats} view-only seats</strong> without Theia</span></li>
                   <li><Check /><span>{p.analyst}</span></li>
                 </ul>
               </li>
             ))}
           </ol>
           <div className="quote-line rv">
-            <p>Every plan includes Live Campaigns, Raise Ledger, Ask Theia, Theia Reports and setup of your channels. Book a demo for a quote.</p>
+            <p>Every plan includes Live Campaigns, Raise Ledger, Ask Theia, Theia Reports and setup of your channels. Pricing for the plans and for website projects is discussed on a demo.</p>
             <Link href={PATHS.demo} className="btn btn-ink">Book a demo <Arrow className="arr" /></Link>
           </div>
         </div>
@@ -153,7 +154,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <Cta data-aa-section="pricing.cta" lede="See the platform on a demo raise and leave with a quote for the plan that fits." />
+      <Cta data-aa-section="pricing.cta" title="Leave the demo with a quote." lede="See the platform on a demo raise and leave with a quote for the plan that fits." />
     </>
   )
 }

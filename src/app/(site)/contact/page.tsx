@@ -58,7 +58,7 @@ const FAQ_SECTIONS: FaqSection[] = [
     id: 'theia',
     title: 'Theia',
     items: [
-      aeo('theia', { href: PATHS.theia, label: 'Meet Theia' }),
+      aeo('theia', { href: PATHS.theia, label: 'Explore Theia' }),
       aeo('analyst'),
       aeo('reports', { href: `${PATHS.theia}#reports`, label: 'About Theia Reports' }),
       aeo('roas'),
@@ -66,10 +66,9 @@ const FAQ_SECTIONS: FaqSection[] = [
   },
   {
     id: 'trust',
-    title: 'Ads, data and privacy',
+    title: 'Ads and control',
     items: [
       aeo('ads'),
-      aeo('security', { href: PATHS.security, label: 'Security and privacy' }),
     ],
   },
   {
@@ -263,7 +262,7 @@ export default function ContactPage() {
           <div className="section-head centred">
             <div className="section-eyebrow">FAQ</div>
             <h2 className="section-headline">Frequently Asked Questions</h2>
-            <p className="section-sub">Straight answers about the platform, Theia, your data, and working with us.</p>
+            <p className="section-sub">Straight answers about the platform, Theia and working with us.</p>
           </div>
 
           {FAQ_SECTIONS.map((sec) => (

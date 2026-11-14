@@ -29,7 +29,6 @@ const STATIC_ROUTES: { path: string; priority: number; freq: MetadataRoute.Sitem
   { path: '/platform', priority: 0.9, freq: 'monthly' },
   { path: '/theia', priority: 0.9, freq: 'monthly' },
   { path: '/pricing', priority: 0.9, freq: 'monthly' },
-  { path: '/security', priority: 0.8, freq: 'monthly' },
   { path: '/website-design', priority: 0.7, freq: 'monthly' },
   { path: '/demo', priority: 0.9, freq: 'monthly' },
   { path: '/about', priority: 0.6, freq: 'monthly' },

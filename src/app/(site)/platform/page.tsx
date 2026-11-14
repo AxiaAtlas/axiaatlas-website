@@ -8,7 +8,7 @@ import LedgerMock from '@/components/mocks/LedgerMock'
 import ShareMock from '@/components/mocks/ShareMock'
 import { Cta, FaqList, Head, JsonLd, faqJsonLd } from '@/components/site/Blocks'
 import { pageTitle, social, SITE_URL } from '@/lib/seo'
-import { PATHS, PRIVACY_CLAIMS, PRODUCTS, faq } from '@/lib/site'
+import { PATHS, PRODUCTS, faq } from '@/lib/site'
 
 const NAME = 'Investment Campaign Analytics Platform'
 const DESCRIPTION =
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
 const FAQ = faq('channels', 'cost-per-investor', 'why-not-raise-platform', 'ads', 'agencies')
 
 const SOURCES = [
-  { k: 'Live', t: 'Connected ad platforms', d: 'Meta Ads, Google Ads and LinkedIn Ads are read live, down to the campaign, the ad set and the ad.' },
+  { k: 'Live', t: 'Connected ad platforms', d: 'Meta Ads and Google Ads are read live, down to the campaign, the ad set and the ad.' },
   { k: 'Live', t: 'Your raise platform', d: 'DealMaker is read live. StartEngine, Republic, Wefunder and others are read from the export you download.' },
-  { k: 'Manual', t: 'Everything else', d: 'Affiliates, newspapers, press and other ad platforms are imported from a file or entered by hand.' },
+  { k: 'Manual', t: 'Everything else', d: 'Microsoft Ads, X Ads, affiliates, newspapers and press are imported from a file or entered by hand.' },
 ]
 
 export default function PlatformPage() {
@@ -50,9 +50,11 @@ export default function PlatformPage() {
         <div className="glow" aria-hidden="true" />
         <div className="wrap hero2-grid">
           <div className="hero2-copy">
-            <div className="kicker">The platform</div>
-            <h1 className="h1 platform-h1">The investment campaign analytics platform</h1>
-            <p className="lede">{ANSWER}</p>
+            <h1 className="display">
+              <span className="h1-kw">The investment campaign analytics platform</span>
+              Every channel. Every investor.
+            </h1>
+            <p className="lede">Live Campaigns shows every ad platform in one live dashboard. Raise Ledger sets that spend against the investors it brought.</p>
             <div className="actions">
               <Link href={PATHS.demo} className="btn btn-ink">Book a demo <Arrow className="arr" /></Link>
               <Link href="#raise-ledger" className="btn btn-quiet">Go to {PRODUCTS.ledger}</Link>
@@ -64,7 +66,7 @@ export default function PlatformPage() {
         </div>
       </section>
 
-      <ProofBand mark="platform.proof" claim={PRIVACY_CLAIMS.r3} />
+      <ProofBand mark="platform.proof" />
 
       <section data-aa-section="platform.live" className="sec">
         <div className="wrap trust">
@@ -134,7 +136,7 @@ export default function PlatformPage() {
       <section data-aa-section="platform.theia" className="sec sec-flush-top">
         <div className="wrap rv">
           <p className="statement-wide">Every view comes with someone to ask. <em>Theia reads the same numbers you see.</em></p>
-          <div className="actions actions-gap"><Link href={PATHS.theia} className="link-arrow">Meet Theia <Arrow className="arr" /></Link></div>
+          <div className="actions actions-gap"><Link href={PATHS.theia} className="link-arrow">Explore Theia <Arrow className="arr" /></Link></div>
         </div>
       </section>
 
@@ -148,7 +150,7 @@ export default function PlatformPage() {
         </div>
       </section>
 
-      <Cta data-aa-section="platform.cta" lede="See Live Campaigns and Raise Ledger on a demo raise, then talk through your own channels." />
+      <Cta data-aa-section="platform.cta" title="Your raise, in one place." lede="See Live Campaigns and Raise Ledger on a demo raise, then talk through your own channels." />
     </>
   )
 }

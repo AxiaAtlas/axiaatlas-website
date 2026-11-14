@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Arrow } from '@/components/icons'
 import FilmSlot from '@/components/site/FilmSlot'
-import Shot from '@/components/site/Shot'
 import ThinkingMark from '@/components/site/ThinkingMark'
 import PinnedStage from '@/components/site/PinnedStage'
 import AskTheiaMock from '@/components/mocks/AskTheiaMock'
@@ -10,7 +9,7 @@ import ReportsMock from '@/components/mocks/ReportsMock'
 import ShareMock from '@/components/mocks/ShareMock'
 import { Cta, FaqList, JsonLd, faqJsonLd } from '@/components/site/Blocks'
 import { social, SITE_URL } from '@/lib/seo'
-import { PATHS, PRIVACY_CLAIMS, PRODUCTS, faq } from '@/lib/site'
+import { PATHS, PRODUCTS, faq } from '@/lib/site'
 
 /* ════════════════════════════════════════════════════════════════════════════
    /theia: THE CANONICAL PAGE FOR THEIA.
@@ -41,7 +40,13 @@ export const metadata: Metadata = {
   ...social({ title: TITLE, description: DESCRIPTION, path: PATHS.theia }),
 }
 
-const FAQ = faq('theia', 'analyst', 'roas', 'reports', 'security')
+const FAQ = faq('theia', 'analyst', 'roas', 'reports')
+
+const MAKES = [
+  { t: 'Charts', d: 'Ask for a chart and Theia draws it from your live numbers. Open it, zoom in, export it.' },
+  { t: 'Slideshows', d: 'A deck for the board in your brand, built from the same data, ready to present or share.' },
+  { t: 'Scheduled reports', d: 'Weekly and monthly reports that arrive on their own, with the slide worth a look flagged.' },
+]
 
 export default function TheiaPage() {
   return (
@@ -72,20 +77,13 @@ export default function TheiaPage() {
         <div className="glow" aria-hidden="true" />
         <div className="wrap">
           <ThinkingMark size={72} />
-          <h1 className="h1">Theia: everything in sight, explained.</h1>
+          <h1 className="h1">Meet Theia</h1>
           <p className="lede">{ANSWER}</p>
           <div className="actions">
             <Link href={PATHS.demo} className="btn btn-ink">Book a demo <Arrow className="arr" /></Link>
             <Link href="#ask" className="btn btn-quiet">Watch Theia answer</Link>
           </div>
         </div>
-      </section>
-
-      <section data-aa-section="theia.product" className="th-full">
-        <figure className="figure rv">
-          <div className="frame frame-flush"><Shot id="theia-home" priority sizes="100vw" /></div>
-          <figcaption>Theia in the Axia Atlas portal.</figcaption>
-        </figure>
       </section>
 
       <section data-aa-section="theia.line" className="th-chapter">
@@ -124,13 +122,6 @@ export default function TheiaPage() {
         </div>
       </section>
 
-      <section data-aa-section="theia.work" className="th-full th-chapter">
-        <figure className="figure rv">
-          <div className="frame frame-flush"><Shot id="theia-thinking" sizes="100vw" /></div>
-          <figcaption>Theia shows each step while it works.</figcaption>
-        </figure>
-      </section>
-
       <section data-aa-section="theia.principle" className="th-chapter">
         <div className="wrap rv">
           <p className="th-line th-line-center">Theia recommends. <span className="dim">You decide.</span></p>
@@ -138,26 +129,20 @@ export default function TheiaPage() {
         </div>
       </section>
 
-      <section data-aa-section="theia.library" className="th-full">
-        <figure className="figure rv">
-          <div className="frame frame-flush"><Shot id="theia-library" sizes="100vw" /></div>
-          <figcaption>Everything Theia builds stays in your Library.</figcaption>
-        </figure>
-      </section>
-
-      <section data-aa-section="theia.privacy" className="th-chapter">
-        <div className="wrap trust">
-          <div className="rv">
-            <div className="kicker">Your data</div>
-            <h2 className="h2">{PRIVACY_CLAIMS.r3}</h2>
-            <div className="actions actions-gap"><Link href={PATHS.security} className="link-arrow">Security and privacy <Arrow className="arr" /></Link></div>
+      <section data-aa-section="theia.makes" className="sec">
+        <div className="wrap">
+          <div className="split-head rv">
+            <div className="kicker">What Theia makes</div>
+            <h2 className="h2">More than an answer.</h2>
           </div>
-          <ul className="claims claims-1 rv">
-            <li><span className="label">Names</span><p>{PRIVACY_CLAIMS.r1}</p></li>
-            <li><span className="label">Numbers</span><p>{PRIVACY_CLAIMS.r2}</p></li>
-            <li><span className="label">A last check</span><p>{PRIVACY_CLAIMS.r5}</p></li>
-            <li><span className="label">Training</span><p>{PRIVACY_CLAIMS.r12}</p></li>
-          </ul>
+          <div className="trio">
+            {MAKES.map((m, i) => (
+              <div key={m.t} className="rv" style={{ ['--d' as string]: `${i * 90}ms` }}>
+                <h3 className="h3">{m.t}</h3>
+                <p>{m.d}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -171,7 +156,7 @@ export default function TheiaPage() {
         </div>
       </section>
 
-      <Cta data-aa-section="theia.cta" lede="Watch Theia answer questions about a demo raise and build its investor report, then talk through your own." />
+      <Cta data-aa-section="theia.cta" title="Ask Theia yourself." lede="Watch Theia answer questions about a demo raise and build its investor report, then talk through your own." />
     </>
   )
 }

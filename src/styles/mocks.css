@@ -14,7 +14,7 @@
   font-size: clamp(10px, 1.3cqi, 15px); line-height: 1.45; color: var(--fg);
   user-select: none; -webkit-user-select: none;
 }
-.mock-window::before {
+.mk-ask .mock-window::before {
   content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.55;
   background: url('/media/waves.webp') 70% center / cover no-repeat;
 }
@@ -299,7 +299,9 @@
 .mk-live-list li em { display: block; }
 @container (max-width: 620px) { .mk-live-list li:nth-child(n+3) { display: none; } }
 .mk-funnel { display: flex; flex-direction: column; }
-.mk-funnel ol { flex: 1; display: flex; flex-direction: column; justify-content: space-evenly; }
+/* One tight funnel, centered in its panel: no screen-high gaps between steps. */
+.mk-funnel ol { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 1.5em; }
+.mk-funnel .mk-funnel-track { height: 2.2em; }
 .mk-total { border-bottom: 0; border-top: 1px solid rgba(var(--ink-rgb), 0.24); font-weight: 700; }
 .mk-total .mk-ch { font-weight: 700; }
 @container (max-width: 620px) {
