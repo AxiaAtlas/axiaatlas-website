@@ -1,16 +1,18 @@
 import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
 import ChatWidget from '@/components/ChatWidget'
-import SiteFX from '@/components/SiteFX'
+import Reveal from '@/components/site/Reveal'
 
-/* Chrome for the main marketing site. Pages outside this route group
-   (e.g. /links, the 404) render bare — no nav, footer, or chat. */
+/* Chrome for the marketing site. Pages outside this route group (/links, the
+   404, /go) render bare: no nav, footer or chat. */
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Nav />
-      {children}
+      <main id="main">{children}</main>
+      <Footer />
       <ChatWidget />
-      <SiteFX />
+      <Reveal />
     </>
   )
 }

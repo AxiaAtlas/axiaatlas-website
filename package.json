@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "icons": "node scripts/gen-icons.mjs",
+    "media": "node scripts/build-media.mjs",
     "og": "node scripts/gen-og-card.mjs",
     "check:em-dash": "node scripts/check-no-em-dash.mjs",
     "check:seo": "node scripts/check-seo.mjs",

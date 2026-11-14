@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import Footer from '@/components/Footer'
 import { Arrow, Check, Plus } from '@/components/icons'
 import { AEO, PATHS, PORTAL_URL } from '@/lib/site'
 import { aaTrack } from '@/lib/aa-track'
@@ -302,7 +301,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <Footer />
     </div>
   )
 }

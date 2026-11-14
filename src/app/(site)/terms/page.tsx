@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Footer from '@/components/Footer'
 import { pageTitle, social } from '@/lib/seo'
 
 const DESCRIPTION =
@@ -17,10 +16,10 @@ const UPDATED = 'November 8, 2026'
 
 export default function TermsPage() {
   return (
-    <div className="page">
-      <article data-aa-section="terms.text" className="legal-page">
-        <div className="section-eyebrow">Legal</div>
-        <h1 className="legal-title">Terms of Service</h1>
+    <div className="legal">
+      <article data-aa-section="terms.text" className="wrap wrap-text">
+        <div className="kicker">Legal</div>
+        <h1 className="h1">Terms of Service</h1>
         <p className="legal-updated">Last updated {UPDATED}</p>
 
         <div className="legal-body">
@@ -115,7 +114,6 @@ export default function TermsPage() {
         </div>
       </article>
 
-      <Footer />
     </div>
   )
 }

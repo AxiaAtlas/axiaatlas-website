@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Footer from '@/components/Footer'
-import CtaBand from '@/components/CtaBand'
 import { Arrow } from '@/components/icons'
 import { getPosts, postDate, formatDate, readingTime } from '@/lib/blog'
 import { SITE_URL, pageTitle, social } from '@/lib/seo'
-import { JsonLd } from '@/components/service/Blocks'
+import { Cta, JsonLd } from '@/components/site/Blocks'
 
 // The articles live in the database, so the index is regenerated hourly rather
 // than frozen at build time. Publishing a post in the platform puts it on the
@@ -79,8 +77,8 @@ export default async function BlogIndexPage() {
             New articles land here as they go live. In the meantime, the case studies show
             the work itself.
           </p>
-          <Link href="/#results" className="btn-primary">
-            See case studies <Arrow className="arr" />
+          <Link href="/platform" className="btn-primary">
+            See the platform <Arrow className="arr" />
           </Link>
         </div>
       ) : (
@@ -122,13 +120,8 @@ export default async function BlogIndexPage() {
         </div>
       )}
 
-      <CtaBand
-        eyebrow="Book a Demo"
-        headline="See every dollar behind your raise."
-        sub="Book a demo of Axia Atlas. We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise."
-      />
+      <Cta data-aa-section="blog.cta" title="See every dollar behind your raise." lede="Book a demo of Axia Atlas. We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise." />
 
-      <Footer />
     </div>
   )
 }

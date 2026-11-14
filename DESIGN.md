@@ -4,6 +4,30 @@ The source of truth for the Axia Atlas marketing site's visual language. All tok
 live in `src/app/globals.css` under `:root`. This document explains the intent so
 future work stays cohesive.
 
+> **2026-11-13: dark only, the portal's Theia look, the real product.** This
+> note overrides everything below it. The site has no light theme, no theme
+> switch and no prefers-color-scheme branch (the favicon pair in
+> `app/layout.tsx` is browser chrome, not page theme). Tokens in
+> `app/globals.css` are the portal's dark values, read from
+> axiaatlas-platform `portal-theme.css` and `src/app/globals.css`: black
+> ground, Theia's waves at 0.30, glass cards (sheen, edge, rim), Montserrat 600
+> uppercase tracked over Arial, radii 4 / 6 / 10 / 14, Theia's ease and rise.
+> Styles live in `src/styles/` (layout, mocks, forms).
+>
+> - **Real product.** `npm run media` (`scripts/build-media.mjs`) turns the
+>   Theia design pack into AVIF, WebP and a PNG fallback at web widths, plus the
+>   mark's frame sequences as sprites. Only dark shots, each checked for names.
+>   `components/site/Shot` reserves the box from the source size (no shift).
+> - **Mock interactions** (`components/mocks`): Ask Theia, Theia Reports, Live
+>   Campaigns, Raise Ledger, Share. Each is a pure function of one timeline
+>   (`scene.ts`): the server draws the finished still, it plays once in view,
+>   pauses off screen, replays on demand, and stays still under reduced motion.
+>   Sample data is Kova (`mocks/data.ts`), labelled "sample data" on every mock.
+> - **Film slots** (`lib/films.ts`, `components/site/FilmSlot`): one hero and
+>   one per product. Empty slots show the mock. Briefs: `docs/runbooks/films.md`.
+> - The old `ShotSlot`, `ThemeToggle`, `SiteFX`, `CtaBand` and the
+>   service blocks are gone.
+
 > **2026-11-12: SaaS rebuild.** The site sells Axia Atlas, investment campaign
 > analytics software (Live Campaigns, Raise Ledger, Theia Reports, Ask Theia),
 > plus website design as one-off projects. Shared words live in `src/lib/site.ts`

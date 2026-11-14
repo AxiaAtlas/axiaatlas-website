@@ -24,10 +24,10 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: '/',
     display: 'standalone',
     // The site's ground, not the brand green: these paint the PWA splash and
-    // the Android browser chrome, and a spruce bar above a #070C09 page reads
+    // the Android browser chrome, and a spruce bar above a #000000 page reads
     // as a rendering bug rather than as branding.
-    background_color: '#070C09',
-    theme_color: '#070C09',
+    background_color: '#000000',
+    theme_color: '#000000',
     icons: [
       { src: APP_ICONS.icon48, sizes: '48x48', type: 'image/png', purpose: 'any' },
       { src: APP_ICONS.icon96, sizes: '96x96', type: 'image/png', purpose: 'any' },

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Montserrat } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import SiteBehavior from '@/components/SiteBehavior'
@@ -8,11 +8,17 @@ import { SITE_URL, HOME_TITLE, BRAND_TAIL, OG_IMAGE } from '@/lib/seo'
 import { ORG_DESCRIPTION, PATHS, PRODUCTS, TAGLINE } from '@/lib/site'
 import { APP_ICONS } from '@/lib/brand/app-icons'
 
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+/* Montserrat, the portal's own variable files (axiaatlas-platform
+   src/app/fonts, OFL), so the site and the portal draw the same letters.
+   next/font preloads it and sizes an Arial fallback to match, so the swap
+   moves nothing. */
+const montserrat = localFont({
+  src: [
+    { path: './fonts/montserrat-latin.woff2', weight: '100 900', style: 'normal' },
+  ],
   variable: '--font-montserrat',
   display: 'swap',
+  fallback: ['Arial', 'sans-serif'],
 })
 
 const DESCRIPTION =
@@ -287,10 +293,18 @@ const JSON_LD = {
   ],
 }
 
+// DARK ONLY. There is no theme to restore. This only marks that JavaScript is
+// running, before paint, so blocks that rise into view (.rv) are hidden only
+// when something will reveal them.
+const JS_FLAG = `document.documentElement.classList.add('js')`
+
+export const viewport = { themeColor: '#000000', colorScheme: 'dark' }
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="dark" className={montserrat.variable}>
+    <html lang="en" className={montserrat.variable} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: JS_FLAG }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
