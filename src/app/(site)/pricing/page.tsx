@@ -39,7 +39,7 @@ const FAQ: Faq[] = [
   },
   {
     q: 'What counts as a channel?',
-    a: 'A channel is one ad platform account read live, such as Meta Ads, Google Ads or LinkedIn Ads. Affiliates, newspapers, press and platforms without a connector are imported from their exports or entered by hand, and they are included on every plan.',
+    a: 'A channel is one ad platform account read live, such as Meta Ads or Google Ads. Affiliates, newspapers, press and platforms without a connector are imported from their exports or entered by hand, and they are included on every plan.',
   },
   {
     q: 'Does Axia Atlas charge a share of ad spend?',
@@ -154,7 +154,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <Cta data-aa-section="pricing.cta" lede="See the platform on a demo raise and leave with a quote for the plan that fits." />
+      <Cta data-aa-section="pricing.cta" title="Leave the demo with a quote." lede="See the platform on a demo raise and leave with a quote for the plan that fits." />
     </>
   )
 }

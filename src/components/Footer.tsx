@@ -22,7 +22,6 @@ export default function Footer() {
               <li><Link href={`${PATHS.platform}#raise-ledger`}>{PRODUCTS.ledger}</Link></li>
               <li><Link href={`${PATHS.theia}#ask`}>{PRODUCTS.ask}</Link></li>
               <li><Link href={`${PATHS.theia}#reports`}>{PRODUCTS.reports}</Link></li>
-              <li><Link href={PATHS.security}>Security and privacy</Link></li>
               <li><Link href={PATHS.pricing}>Pricing</Link></li>
             </ul>
           </div>

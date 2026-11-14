@@ -12,7 +12,7 @@ import ShareMock from '@/components/mocks/ShareMock'
 import AskTheiaMock from '@/components/mocks/AskTheiaMock'
 import { Cta, FaqList, JsonLd, faqJsonLd } from '@/components/site/Blocks'
 import { SITE_URL, HOME_TITLE } from '@/lib/seo'
-import { PATHS, PRIVACY_CLAIMS, PRODUCTS, TAGLINE, faq } from '@/lib/site'
+import { PATHS, PRODUCTS, TAGLINE, faq } from '@/lib/site'
 
 /* The home page's own canonical, SITE_URL with no trailing slash, to match the
    sitemap and the Organization node (see app/layout.tsx). */
@@ -54,7 +54,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <ProofBand mark="home.proof" claim={PRIVACY_CLAIMS.r3} />
+      <ProofBand mark="home.proof" />
 
       <section data-aa-section="home.statement" className="sec">
         <div className="wrap rv">
@@ -101,7 +101,7 @@ export default function HomePage() {
             <div className="kicker"><TheiaMark className="tm-mark" /> Meet Theia</div>
             <h2 className="h2">Know why your number moved, with the evidence, in the time it takes to ask.</h2>
             <p className="lede">Theia is our proprietary AI-powered analysis assistant, built into Axia Atlas. Ask in plain words and get the reason, the numbers behind it, and what we recommend.</p>
-            <div className="actions"><Link href={PATHS.theia} className="link-arrow">Meet Theia <Arrow className="arr" /></Link></div>
+            <div className="actions"><Link href={PATHS.theia} className="link-arrow">Explore Theia <Arrow className="arr" /></Link></div>
           </div>
           <div className="rv band-stage">
             <FilmSlot id="ask-theia"><AskTheiaMock /></FilmSlot>
@@ -128,18 +128,10 @@ export default function HomePage() {
       </section>
 
       <section data-aa-section="home.trust" className="sec">
-        <div className="wrap trust">
-          <div className="rv">
-            <div className="kicker">How we work</div>
-            <h2 className="h2">We present, analyze and recommend. You decide.</h2>
-            <p className="lede">Axia Atlas never buys media, runs ads or manages ad spend. Your team or your media buyer stays in control of every campaign.</p>
-            <div className="actions"><Link href={PATHS.security} className="link-arrow">How we protect your data <Arrow className="arr" /></Link></div>
-          </div>
-          <ul className="claims claims-1 rv">
-            <li><span className="label">Masked</span><p>{PRIVACY_CLAIMS.r1}</p></li>
-            <li><span className="label">Never trained on</span><p>{PRIVACY_CLAIMS.r12}</p></li>
-            <li><span className="label">Encrypted</span><p>{PRIVACY_CLAIMS.r8} {PRIVACY_CLAIMS.r9}</p></li>
-          </ul>
+        <div className="wrap statement rv">
+          <div className="kicker">How we work</div>
+          <h2 className="h2">We present, analyze and recommend. You decide.</h2>
+          <p className="lede">Axia Atlas never buys media, runs ads or manages ad spend. Your team or your media buyer stays in control of every campaign.</p>
         </div>
       </section>
 

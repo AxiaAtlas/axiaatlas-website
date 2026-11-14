@@ -114,7 +114,7 @@ export default function WebsiteDesignPage() {
         </div>
       </section>
 
-      <Cta data-aa-section="website.cta" lede="Tell us what the site has to do. We start with a short call." />
+      <Cta data-aa-section="website.cta" title="Start your website project." lede="Tell us what the site has to do. We start with a short call." />
     </>
   )
 }

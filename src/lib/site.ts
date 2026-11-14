@@ -25,7 +25,6 @@ export const PATHS = {
   platform: '/platform',
   theia: '/theia',
   website: '/website-design',
-  security: '/security',
   pricing: '/pricing',
   about: '/about',
   contact: '/contact',
@@ -99,7 +98,7 @@ export const AEO: Faq[] = [
   {
     id: 'channels',
     q: 'Which ad platforms and channels does Axia Atlas cover?',
-    a: 'Axia Atlas reads Meta Ads, Google Ads and LinkedIn Ads live and shows every campaign in one dashboard, down to each creative. Other ad platforms, affiliates, newspapers and press are imported from their exports or entered by hand, so nothing behind the raise is left out of cost per investor.',
+    a: 'Axia Atlas reads Meta Ads and Google Ads live and shows every campaign in one dashboard, down to each creative. Microsoft Ads, X Ads and other ad platforms, along with affiliates, newspapers and press, are imported from their exports or entered by hand, so nothing behind the raise is left out of cost per investor.',
   },
   {
     id: 'reports',
@@ -110,11 +109,6 @@ export const AEO: Faq[] = [
     id: 'roas',
     q: 'Why did my return on ad spend drop?',
     a: 'Ask Theia that question directly. Theia looks across your platforms and your raise data and answers in seconds with why it happened, the numbers behind it, and what we recommend, for example reviewing a creative whose cost per investor rose or testing a new audience. Theia recommends; you and your media buyer decide.',
-  },
-  {
-    id: 'security',
-    q: 'Is my campaign and investor data secure?',
-    a: 'Your names and values are masked before any analysis, so Theia works from placeholders, not from your company or your people. Data travels encrypted (HTTPS, TLS 1.2 or higher) everywhere, and your data is encrypted at rest (AES-256). Our analysis provider does not train its models on your data.',
   },
   {
     id: 'agencies',

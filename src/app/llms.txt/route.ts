@@ -10,7 +10,6 @@ export const dynamic = 'force-static'
 const PAGES: [string, string, string][] = [
   ['Investment platform', PATHS.platform, `${PRODUCTS.live} and ${PRODUCTS.ledger}: every ad platform, campaign and channel behind a raise, set against reported investments.`],
   ['Theia', PATHS.theia, `${PRODUCTS.ask} and ${PRODUCTS.reports}: the proprietary AI-powered analysis assistant built into Axia Atlas.`],
-  ['Security and privacy', PATHS.security, 'How names and figures are masked before analysis, and how data is encrypted.'],
   ['Pricing', PATHS.pricing, 'Launch, Campaign and Portfolio plans. Pricing is shared on a demo.'],
   ['Website design', PATHS.website, 'Websites designed and built as one-off projects, separate from the platform.'],
   ['About', PATHS.about, 'The company behind Axia Atlas and Theia.'],

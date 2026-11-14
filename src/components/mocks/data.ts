@@ -37,7 +37,7 @@ const wave = (base: number, amp: number, phase: number, drift: number) =>
 export const CHANNELS: Channel[] = [
   { id: 'meta', name: 'Meta', spend: 21_640, clicks: 18_320, source: 'live', series: wave(720, 90, 0.4, 1.2) },
   { id: 'google', name: 'Google', spend: 12_880, clicks: 9_960, source: 'live', series: wave(430, 60, 1.6, 0.4) },
-  { id: 'linkedin', name: 'LinkedIn', spend: 6_320, clicks: 2_140, source: 'live', series: wave(210, 34, 2.4, -0.3) },
+  { id: 'microsoft', name: 'Microsoft', spend: 6_320, clicks: 2_140, source: 'manual', series: wave(210, 34, 2.4, -0.3) },
   { id: 'affiliates', name: 'Affiliates', spend: 7_400, clicks: 4_870, source: 'manual', series: wave(246, 40, 0.9, 0.2) },
 ]
 export const META_CAMPAIGNS = [

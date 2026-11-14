@@ -75,10 +75,10 @@ for (const f of site.AEO) {
   const n = words(f.a)
   if (n < 40 || n > 60) fail(join(SRC, 'lib/site.ts'), 0, `AEO "${f.id}" answer is ${n} words (40 to 60)`)
 }
-if (site.AEO.length !== 12) fail(join(SRC, 'lib/site.ts'), 0, `expected 12 AEO answers, found ${site.AEO.length}`)
+if (site.AEO.length !== 11) fail(join(SRC, 'lib/site.ts'), 0, `expected 11 AEO answers, found ${site.AEO.length}`)
 
 // The pages that state security facts must take them from PRIVACY_CLAIMS.
-for (const rel of ['app/(site)/security/page.tsx', 'app/(site)/theia/page.tsx']) {
+for (const rel of ['app/(site)/theia/page.tsx']) {
   const p = join(SRC, rel)
   if (!existsSync(p)) continue
   const s = readFileSync(p, 'utf8')
