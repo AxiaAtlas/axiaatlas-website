@@ -1792,9 +1792,8 @@ section {
    reaches the footer as a finished color; the footer is a dark island and
    would otherwise always pick the dark side. */
 @property --footer-bg { syntax: '<color>'; inherits: true; initial-value: #050906; }
-:root { color-scheme: light dark; }
-:root[data-theme="light"] { color-scheme: light; }
-:root[data-theme="dark"] { color-scheme: dark; }
+/* Dark only: no light theme and no switch (Amit, 13 Nov 2026). */
+:root, :root[data-theme] { color-scheme: dark; }
 
 :root {
   /* ── Type: Montserrat 600 uppercase tracked for display, Arial for body ── */
@@ -4251,28 +4250,6 @@ a.sv-card:hover, a.sv-group-link:hover, .service-card:hover, .blog-card:hover {
 .form-row input, .form-row select, .form-row textarea { border-radius: var(--r); }
 
 /* ── Theme button (nav) ── */
-.theme-toggle {
-  display: inline-grid; place-items: center;
-  width: 36px; height: 36px;
-  border-radius: var(--r);
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
-}
-.theme-toggle:hover { color: var(--text); border-color: var(--border-strong); background: var(--accent-soft); }
-.theme-toggle svg { width: 16px; height: 16px; }
-.theme-toggle .ic-sun { display: none; }
-.theme-toggle .ic-moon { display: block; }
-/* Show the sun while dark is in effect: whatever the OS says, unless pinned. */
-:root[data-theme="dark"] .theme-toggle .ic-sun { display: block; }
-:root[data-theme="dark"] .theme-toggle .ic-moon { display: none; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .ic-sun { display: block; }
-  :root:not([data-theme="light"]) .theme-toggle .ic-moon { display: none; }
-}
-@media (max-width: 900px) { .theme-toggle { width: 100%; height: 40px; } }
 
 /* An underlined link inside running copy (the contact hero's "book a demo"). */
 .inline-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }

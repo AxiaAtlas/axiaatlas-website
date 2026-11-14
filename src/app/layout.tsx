@@ -287,16 +287,10 @@ const JSON_LD = {
   ],
 }
 
-// Re-applies a saved light/dark choice before first paint. With nothing saved
-// the page follows the OS through CSS alone (see THEME in globals.css). Must
-// match THEME_KEY in components/ThemeToggle.tsx.
-const THEME_INIT = `try{var t=localStorage.getItem('aa-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}`
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={montserrat.variable} suppressHydrationWarning>
+    <html lang="en" data-theme="dark" className={montserrat.variable}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
