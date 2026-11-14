@@ -3,8 +3,8 @@
 
    Software plans: axiaatlas-platform docs/pricing/pricing-analysis.md,
    "Option A, plans with included seats" (origin/preview/staging, 2026-11-14).
-   The inclusions are shown WITHOUT numbers: no seat counts, channel counts,
-   analyst hours or software prices until Amit sets the price book. "Book a demo for a quote" is said once on the page.
+   The inclusions are shown with their counts (Amit approved the cards as
+   shown, 13 Nov 2026). No price of any kind appears on the site. "Book a demo for a quote" is said once on the page.
 
    Website projects: axiaatlas-platform src/lib/pricing.ts, service `website`
    (origin/preview/staging). Tier names, page counts (web_page qty) and
@@ -23,8 +23,8 @@ export type Plan = {
   raises: string
   channels: string
   cadence: string
-  fullSeats: string
-  viewSeats: string
+  fullSeats: number
+  viewSeats: number
   analyst: string
 }
 
@@ -33,42 +33,42 @@ export const PLANS: Plan[] = [
     name: 'Launch',
     for: 'An issuer running its first raise, with a small team and a couple of paid channels live.',
     raises: 'One raise',
-    channels: 'Your first ad channels read live',
+    channels: '2 ad channels read live',
     cadence: 'A monthly investor report',
-    fullSeats: 'for a small team',
-    viewSeats: 'for your board',
-    analyst: 'Analyst review each month',
+    fullSeats: 3,
+    viewSeats: 10,
+    analyst: '1.5 hours of analyst review a month',
   },
   {
     name: 'Campaign',
     for: 'A raise in full swing across several platforms, reported to the board every week.',
     raises: 'One raise',
-    channels: 'More ad channels read live',
+    channels: '4 ad channels read live',
     cadence: 'Weekly investor reports',
-    fullSeats: 'for the whole marketing team',
-    viewSeats: 'for the board and partners',
-    analyst: 'More analyst review each month',
+    fullSeats: 6,
+    viewSeats: 25,
+    analyst: '3 hours of analyst review a month',
   },
   {
     name: 'Portfolio',
     for: 'An issuer with several raises, or an agency reporting on raises for many clients.',
     raises: 'Several raises or clients, each in its own workspace',
-    channels: 'The most ad channels read live',
+    channels: '6 ad channels read live',
     cadence: 'Weekly reports across every raise',
-    fullSeats: 'across every raise',
-    viewSeats: 'for each raise\u2019s board and partners',
-    analyst: 'The most analyst review each month',
+    fullSeats: 15,
+    viewSeats: 60,
+    analyst: '6 hours of analyst review a month',
   },
 ]
 
 /** Rows of the side-by-side table. */
 export const PLAN_ROWS: { k: string; get: (p: Plan) => string }[] = [
   { k: 'Raises', get: (p) => p.raises },
-  { k: 'Ad channels read live', get: (p) => p.channels.replace(' ad channels read live', '') },
+  { k: 'Ad channels read live', get: (p) => p.channels.split(' ')[0] },
   { k: 'Investor reports', get: (p) => p.cadence },
-  { k: 'Full seats, with Theia', get: (p) => 'Included, ' + p.fullSeats },
-  { k: 'View-only seats, without Theia', get: (p) => 'Included, ' + p.viewSeats },
-  { k: 'Analyst review', get: (p) => p.analyst.replace(/ ?analyst review/i, '').trim().replace(/^./, (c) => c.toUpperCase()) },
+  { k: 'Full seats, with Theia', get: (p) => String(p.fullSeats) },
+  { k: 'View-only seats, without Theia', get: (p) => String(p.viewSeats) },
+  { k: 'Analyst review', get: (p) => p.analyst.replace(' of analyst review', '') },
   { k: 'Live Campaigns and Raise Ledger', get: () => 'Included' },
   { k: 'Ask Theia and Theia Reports', get: () => 'Included' },
   { k: 'Manual and imported channels', get: () => 'Included' },
