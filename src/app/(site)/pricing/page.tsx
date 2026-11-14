@@ -87,8 +87,8 @@ export default function PricingPage() {
                   <li><Check /><span><strong>{p.raises}</strong></span></li>
                   <li><Check /><span>{p.channels}, plus imported and manual channels</span></li>
                   <li><Check /><span>{p.cadence}</span></li>
-                  <li><Check /><span><strong>{p.fullSeats} full seats</strong> with Theia</span></li>
-                  <li><Check /><span><strong>{p.viewSeats} view-only seats</strong> without Theia</span></li>
+                  <li><Check /><span><strong>Full seats</strong> with Theia, {p.fullSeats}</span></li>
+                  <li><Check /><span><strong>View-only seats</strong> without Theia, {p.viewSeats}</span></li>
                   <li><Check /><span>{p.analyst}</span></li>
                 </ul>
               </li>
