@@ -3,7 +3,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { AMark, WordmarkText } from './Logo'
-import ThemeToggle from './ThemeToggle'
 import { PATHS, PORTAL_URL } from '@/lib/site'
 
 /* The product first (the platform, then Theia), then the one-off service,
@@ -49,7 +48,6 @@ export default function Nav() {
           </li>
         ))}
         <li className="nav-actions">
-          <ThemeToggle />
           <a href={PORTAL_URL} className="nav-login" onClick={close}>Sign In</a>
           <Link href={PATHS.demo} className="nav-cta" onClick={close}>Book a Demo</Link>
         </li>
