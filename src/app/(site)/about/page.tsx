@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Arrow } from '@/components/icons'
-import Shot from '@/components/site/Shot'
+import LedgerMock from '@/components/mocks/LedgerMock'
 import { Cta, Head } from '@/components/site/Blocks'
 import { pageTitle, social } from '@/lib/seo'
-import { PATHS, TAGLINE, TAGLINE_2 } from '@/lib/site'
+import { PATHS, TAGLINE } from '@/lib/site'
 
 const NAME = 'About Axia Atlas, Investment Campaign Analytics'
 const DESCRIPTION =
@@ -30,7 +30,7 @@ export default function AboutPage() {
         <div className="glow" aria-hidden="true" />
         <div className="wrap">
           <div className="kicker">About</div>
-          <h1 className="h1">About Axia Atlas, the Company Behind the Platform and Theia</h1>
+          <h1 className="h1">About Axia Atlas, the company behind the platform and Theia</h1>
           <p className="lede">Axia Atlas is a software company. We build investment campaign analytics for companies raising capital and the marketing agencies that support them, with Theia, our proprietary AI-powered analysis assistant, built in. We also design websites as one-off projects. Headquartered in Miami, working with clients across the US.</p>
         </div>
       </section>
@@ -46,18 +46,15 @@ export default function AboutPage() {
               <p>Axia Atlas answers it while the raise is still running.</p>
             </div>
           </div>
-          <figure className="figure rv">
-            <div className="frame frame-flush"><Shot id="theia-thinking" sizes="(max-width: 960px) 100vw, 720px" /></div>
-            <figcaption>Theia working through a question, step by step.</figcaption>
-          </figure>
+          <div className="rv"><LedgerMock /></div>
         </div>
       </section>
 
       <section data-aa-section="about.taglines" className="sec">
         <div className="wrap statement rv">
           <div className="kicker">What we promise</div>
-          <h2 className="display">{TAGLINE}. {TAGLINE_2}.</h2>
-          <p className="lede">Everything in sight is the promise: every platform, every channel and every investment in one view, with nothing left in an invoice or a spreadsheet. Growth, engineered is how we keep it: measured, explained and recommended, never guessed.</p>
+          <h2 className="display">{TAGLINE}.</h2>
+          <p className="lede">That is the promise: every platform, every channel and every investment in one view, with nothing left in an invoice or a spreadsheet, measured, explained and recommended, never guessed.</p>
         </div>
       </section>
 

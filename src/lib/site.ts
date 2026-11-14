@@ -84,12 +84,12 @@ export const AEO: Faq[] = [
   {
     id: 'theia',
     q: 'What is Theia?',
-    a: 'Theia is the proprietary AI-powered analysis assistant built into Axia Atlas. Ask her anything about your campaigns and your raise and she answers in seconds with what changed, the numbers behind it, and what we recommend. She also builds weekly and monthly investor-ready reports in your brand. Our analysts remain available whenever you want a person.',
+    a: 'Theia is the proprietary AI-powered analysis assistant built into Axia Atlas. Ask Theia anything about your campaigns and your raise and Theia answers in seconds with what changed, the numbers behind it, and what we recommend. Theia also builds weekly and monthly investor-ready reports in your brand. Our analysts remain available whenever you want a person.',
   },
   {
     id: 'analyst',
     q: 'Does Theia replace a data analyst?',
-    a: 'No. Theia gives you fast, accurate answers between meetings, built on decades of analytics practice and trained by real data analysts and engineers. She recommends; she never instructs, and decisions stay with you. Our analysts are still available for deeper questions, so you get quick answers without giving up expert review.',
+    a: 'No. Theia gives you fast, accurate answers between meetings, built on decades of analytics practice and trained by real data analysts and engineers. Theia recommends and never instructs, and decisions stay with you. Our analysts are still available for deeper questions, so you get quick answers without giving up expert review.',
   },
   {
     id: 'ads',
@@ -99,7 +99,7 @@ export const AEO: Faq[] = [
   {
     id: 'channels',
     q: 'Which ad platforms and channels does Axia Atlas cover?',
-    a: 'Axia Atlas connects the ad platforms behind your raise and shows every campaign in one dashboard, down to each creative and audience. Spend no media buyer touches, including affiliates, newspapers and press, can be entered by hand or imported, so nothing behind the raise is left out of cost per investor.',
+    a: 'Axia Atlas reads Meta Ads, Google Ads and LinkedIn Ads live and shows every campaign in one dashboard, down to each creative. Other ad platforms, affiliates, newspapers and press are imported from their exports or entered by hand, so nothing behind the raise is left out of cost per investor.',
   },
   {
     id: 'reports',
@@ -109,7 +109,7 @@ export const AEO: Faq[] = [
   {
     id: 'roas',
     q: 'Why did my return on ad spend drop?',
-    a: 'Ask Theia that question directly. She looks across your platforms and your raise data and answers in seconds with why it happened, the numbers behind it, and what we recommend, for example reviewing a creative whose cost per investor rose or testing a new audience. She recommends; you and your media buyer decide.',
+    a: 'Ask Theia that question directly. Theia looks across your platforms and your raise data and answers in seconds with why it happened, the numbers behind it, and what we recommend, for example reviewing a creative whose cost per investor rose or testing a new audience. Theia recommends; you and your media buyer decide.',
   },
   {
     id: 'security',

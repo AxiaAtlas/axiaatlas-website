@@ -146,7 +146,7 @@ export default function CareersPage() {
     <div className="page careers-page">
       <div data-aa-section="careers.hero" className="demo-hero">
         <div className="section-eyebrow">Careers</div>
-        <h1 className="section-headline">Careers at Axia Atlas, Building Campaign Analytics Software</h1>
+        <h1 className="section-headline">Careers at Axia Atlas, building campaign analytics software</h1>
         <p className="section-sub">Axia Atlas builds investment campaign analytics software for companies raising capital, with Theia, our proprietary AI-powered analysis assistant, built in. We&apos;re always glad to meet sharp, curious people who do great work. Tell us about yourself in three quick steps: a little about you, your experience, and your resume.</p>
       </div>
 

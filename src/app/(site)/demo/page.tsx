@@ -224,11 +224,11 @@ export default function DemoPage() {
       <div className="demo-hero demo-lead">
         <div data-aa-section="demo.copy" className="demo-lead-copy">
           <div className="section-eyebrow">Book a Demo</div>
-          <h1 className="section-headline">Book a Demo of Axia Atlas and Theia on a Demo Raise</h1>
+          <h1 className="section-headline">Book a demo of Axia Atlas and Theia on a demo raise</h1>
           <p className="demo-lead-note">We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise, then talk through your own channels, your team and how you report to investors. You leave knowing which plan fits and what it costs. No pitch deck, and no pressure to sign.</p>
           <figure className="figure shot-aside">
             <div className="frame frame-flush"><Shot id="cu-greeting" sizes="(max-width: 960px) 100vw, 480px" /></div>
-            <figcaption>On the demo, Theia answers questions about a sample raise.</figcaption>
+            <figcaption>On the demo, Theia answers questions about Kova, a demo raise.</figcaption>
           </figure>
         </div>
 

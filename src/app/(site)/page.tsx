@@ -1,15 +1,18 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Arrow } from '@/components/icons'
-import { AMark } from '@/components/Logo'
+import TheiaMark from '@/components/TheiaMark'
 import FilmSlot from '@/components/site/FilmSlot'
-import Shot from '@/components/site/Shot'
+import PinnedStage from '@/components/site/PinnedStage'
+import ProofBand from '@/components/site/ProofBand'
 import LiveMock from '@/components/mocks/LiveMock'
 import LedgerMock from '@/components/mocks/LedgerMock'
+import ReportsMock from '@/components/mocks/ReportsMock'
+import ShareMock from '@/components/mocks/ShareMock'
 import AskTheiaMock from '@/components/mocks/AskTheiaMock'
-import { Cta, FaqList, Head, JsonLd, faqJsonLd } from '@/components/site/Blocks'
+import { Cta, FaqList, JsonLd, faqJsonLd } from '@/components/site/Blocks'
 import { SITE_URL, HOME_TITLE } from '@/lib/seo'
-import { PATHS, PITCH_50, PRIVACY_CLAIMS, PRODUCTS, TAGLINE, faq } from '@/lib/site'
+import { PATHS, PRIVACY_CLAIMS, PRODUCTS, TAGLINE, faq } from '@/lib/site'
 
 /* The home page's own canonical, SITE_URL with no trailing slash, to match the
    sitemap and the Organization node (see app/layout.tsx). */
@@ -18,131 +21,139 @@ export const metadata: Metadata = {
   alternates: { canonical: SITE_URL },
 }
 
-const GAP = [
-  { k: 'Ad platforms', t: 'Record spend, not investors', d: 'Each platform reports its own clicks and costs. None of them knows who invested.' },
-  { k: 'Raise platform', t: 'Records investments, not spend', d: 'It shows who invested and how much. It cannot see the marketing that brought them.' },
-  { k: 'Affiliates, print, press', t: 'Live in invoices', d: 'Spend no media buyer touches sits in spreadsheets, outside every report.' },
-]
-
 const FAQ = faq('what', 'cost-per-investor', 'why-not-raise-platform', 'theia', 'ads', 'agencies')
+
+const ONBOARD = [
+  { n: '01', t: 'See it on a demo raise', d: 'We walk you through Live Campaigns, Raise Ledger and Theia on Kova, a demo raise, then talk through your channels.' },
+  { n: '02', t: 'Connect your channels', d: 'Sign in to your ad accounts and your raise platform. Anything without a connector is imported from its export.' },
+  { n: '03', t: 'Read your first report', d: 'Your dashboards fill, the ledger balances, and Theia builds your first investor report in your brand.' },
+]
 
 export default function HomePage() {
   return (
     <>
       <JsonLd data={faqJsonLd(FAQ.map((f) => ({ q: f.q, a: f.a })))} />
 
-      <section data-aa-section="home.hero" className="hero">
+      <section data-aa-section="home.hero" className="hero2">
+        <div className="glow" aria-hidden="true" />
+        <div className="wrap hero2-grid">
+          <div className="hero2-copy">
+            <h1 className="display">
+              <span className="h1-kw">Investment campaign analytics for companies raising capital</span>
+              {TAGLINE}.
+            </h1>
+            <p className="lede">Every dollar behind your raise, from every ad platform, affiliate and press buy, set against the investors it brought.</p>
+            <div className="actions">
+              <Link href={PATHS.demo} className="btn btn-ink">Book a demo <Arrow className="arr" /></Link>
+              <Link href={PATHS.platform} className="btn btn-quiet">See the platform</Link>
+            </div>
+          </div>
+          <div className="hero2-stage">
+            <FilmSlot id="home-hero"><LiveMock /></FilmSlot>
+          </div>
+        </div>
+      </section>
+
+      <ProofBand mark="home.proof" claim={PRIVACY_CLAIMS.r3} />
+
+      <section data-aa-section="home.statement" className="sec">
+        <div className="wrap rv">
+          <p className="statement-wide">
+            Ad platforms count clicks. Your raise platform counts investors. <em>Axia Atlas shows what each investor cost.</em>
+          </p>
+        </div>
+      </section>
+
+      <section className="sec sec-flush-top">
+        <div className="wrap">
+          <PinnedStage
+            mark="home.platform"
+            steps={[
+              {
+                kicker: PRODUCTS.ledger,
+                title: 'Cost per investor, channel by channel, while there is still budget to move.',
+                body: 'Every dollar behind the raise, from ads to affiliates, print and press, set against the investments your raise platform reports.',
+                extra: <Link href={`${PATHS.platform}#raise-ledger`} className="link-arrow">Explore {PRODUCTS.ledger} <Arrow className="arr" /></Link>,
+                stage: <LedgerMock />,
+              },
+              {
+                kicker: PRODUCTS.reports,
+                title: 'The investor report builds itself.',
+                body: 'Weekly and monthly decks, in your brand, from live campaign and raise data. Theia flags the slide worth a look before the board meeting.',
+                extra: <Link href={`${PATHS.theia}#reports`} className="link-arrow">See {PRODUCTS.reports} <Arrow className="arr" /></Link>,
+                stage: <ReportsMock />,
+              },
+              {
+                kicker: 'Share',
+                title: 'Send the board a link, not a spreadsheet.',
+                body: 'Choose who can view and who can edit, copy the link, and everyone reads the same numbers.',
+                stage: <ShareMock />,
+              },
+            ]}
+          />
+        </div>
+      </section>
+
+      <section data-aa-section="home.theia" className="band band-theia">
         <div className="glow" aria-hidden="true" />
         <div className="wrap">
-          <AMark className="hero-mark hero-mark-axia" />
-          <h1 className="display">
-            {TAGLINE}
-            <span className="h1-sub">Investment campaign analytics for companies raising capital</span>
-          </h1>
-          <p className="lede">{PITCH_50}</p>
-          <div className="actions">
-            <Link href={PATHS.demo} className="btn btn-ink">Book a demo <Arrow className="arr" /></Link>
-            <Link href={PATHS.platform} className="btn btn-quiet">See the platform</Link>
+          <div className="band-head rv">
+            <div className="kicker"><TheiaMark className="tm-mark" /> Meet Theia</div>
+            <h2 className="h2">Know why your number moved, with the evidence, in the time it takes to ask.</h2>
+            <p className="lede">Theia is our proprietary AI-powered analysis assistant, built into Axia Atlas. Ask in plain words and get the reason, the numbers behind it, and what we recommend.</p>
+            <div className="actions"><Link href={PATHS.theia} className="link-arrow">Meet Theia <Arrow className="arr" /></Link></div>
           </div>
-        </div>
-        <div className="wrap hero-stage rv">
-          <FilmSlot id="home-hero">
-            <LiveMock />
-          </FilmSlot>
-        </div>
-      </section>
-
-      <section data-aa-section="home.gap" className="sec">
-        <div className="wrap">
-          <Head
-            kicker="The gap"
-            title="Your spend and your investors live in different places."
-            lede="Most issuers learn what worked only after the budget is gone. Axia Atlas brings all three together, so you see what each channel returned while the raise is still running."
-          />
-          <div className="trio">
-            {GAP.map((g, i) => (
-              <div key={g.k} className="rv" style={{ ['--d' as string]: `${i * 90}ms` }}>
-                <div className="label">{g.k}</div>
-                <h3 className="h3">{g.t}</h3>
-                <p>{g.d}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section data-aa-section="home.ledger" className="sec">
-        <div className="wrap split split-rev">
-          <div className="split-copy rv">
-            <div className="kicker">{PRODUCTS.ledger}</div>
-            <h2 className="h2">Cost per investor, by channel, while it still matters.</h2>
-            <p className="lede">Every dollar behind the raise, from ads to affiliates, print and press, set against the investments your raise platform reports.</p>
-            <div className="actions"><Link href={`${PATHS.platform}#raise-ledger`} className="link-arrow">Explore {PRODUCTS.ledger} <Arrow className="arr" /></Link></div>
-          </div>
-          <div className="rv">
-            <FilmSlot id="raise-ledger"><LedgerMock /></FilmSlot>
-          </div>
-        </div>
-      </section>
-
-      <section data-aa-section="home.theia" className="sec">
-        <div className="wrap">
-          <Head
-            center
-            kicker="Meet Theia"
-            title="Ask why. Theia answers in seconds."
-            lede="Theia is our proprietary AI-powered analysis assistant, built into Axia Atlas. She explains what changed, shows the numbers behind it, and says what we recommend. The decision stays yours."
-          />
-          <div className="rv">
+          <div className="rv band-stage">
             <FilmSlot id="ask-theia"><AskTheiaMock /></FilmSlot>
           </div>
         </div>
       </section>
 
-      <section data-aa-section="home.reports" className="sec">
-        <div className="wrap split">
-          <div className="split-copy rv">
-            <div className="kicker">{PRODUCTS.reports}</div>
-            <h2 className="h2">The investor report builds itself.</h2>
-            <p className="lede">Weekly and monthly decks, in your brand, from live campaign and raise data. Theia flags the slides that matter most, so you review and present instead of assembling.</p>
-            <div className="actions"><Link href={`${PATHS.theia}#reports`} className="link-arrow">See {PRODUCTS.reports} <Arrow className="arr" /></Link></div>
-          </div>
-          <figure className="figure rv">
-            <div className="frame frame-flush"><Shot id="theia-deck" sizes="(max-width: 960px) 100vw, 720px" /></div>
-            <figcaption>A deck Theia built, open in the slide editor beside the chat that asked for it.</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section data-aa-section="home.principle" className="sec">
-        <div className="wrap statement rv">
-          <div className="kicker">How we work</div>
-          <h2 className="h2">We present, analyze and recommend. You decide.</h2>
-          <p className="lede">Axia Atlas never buys media, runs ads or manages ad spend. Your team or your media buyer stays in control of every campaign.</p>
-        </div>
-      </section>
-
-      <section data-aa-section="home.security" className="sec">
+      <section data-aa-section="home.onboarding" className="sec">
         <div className="wrap">
-          <Head kicker="Security and privacy" title={PRIVACY_CLAIMS.r3} />
-          <ul className="claims rv">
+          <div className="split-head rv">
+            <div className="kicker">Getting started</div>
+            <h2 className="h2">Live in three steps.</h2>
+          </div>
+          <ol className="steps steps-3">
+            {ONBOARD.map((s, i) => (
+              <li key={s.n} className="rv" style={{ ['--d' as string]: `${i * 90}ms` }}>
+                <span className="num">{s.n}</span>
+                <h3 className="h3">{s.t}</h3>
+                <p>{s.d}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section data-aa-section="home.trust" className="sec">
+        <div className="wrap trust">
+          <div className="rv">
+            <div className="kicker">How we work</div>
+            <h2 className="h2">We present, analyze and recommend. You decide.</h2>
+            <p className="lede">Axia Atlas never buys media, runs ads or manages ad spend. Your team or your media buyer stays in control of every campaign.</p>
+            <div className="actions"><Link href={PATHS.security} className="link-arrow">How we protect your data <Arrow className="arr" /></Link></div>
+          </div>
+          <ul className="claims claims-1 rv">
             <li><span className="label">Masked</span><p>{PRIVACY_CLAIMS.r1}</p></li>
             <li><span className="label">Never trained on</span><p>{PRIVACY_CLAIMS.r12}</p></li>
-            <li><span className="label">In transit</span><p>{PRIVACY_CLAIMS.r8}</p></li>
-            <li><span className="label">At rest</span><p>{PRIVACY_CLAIMS.r9}</p></li>
+            <li><span className="label">Encrypted</span><p>{PRIVACY_CLAIMS.r8} {PRIVACY_CLAIMS.r9}</p></li>
           </ul>
-          <div className="actions rv" style={{ marginTop: 32 }}><Link href={PATHS.security} className="link-arrow">How we protect your data <Arrow className="arr" /></Link></div>
         </div>
       </section>
 
       <section data-aa-section="home.faq" className="sec">
-        <div className="wrap">
-          <Head kicker="Questions" title="What buyers ask before a demo." />
+        <div className="wrap faq-split">
+          <div className="rv">
+            <div className="kicker">Questions</div>
+            <h2 className="h2">What buyers ask before a demo.</h2>
+          </div>
           <FaqList items={FAQ.map((f) => ({ q: f.q, a: f.a }))} />
         </div>
       </section>
 
-      <Cta data-aa-section="home.cta" lede="We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise, then talk through your own channels." />
+      <Cta data-aa-section="home.cta" lede="See Live Campaigns, Raise Ledger and Theia on a demo raise, then talk through your own channels." />
     </>
   )
 }

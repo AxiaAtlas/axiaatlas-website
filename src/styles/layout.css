@@ -261,7 +261,6 @@ figure.figure figcaption { margin-top: 14px; font-size: var(--fs-sm); color: var
 .badge-live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px rgba(127, 182, 154, 0.18); }
 .badge-manual { background: rgba(var(--sage-rgb), 0.10); color: var(--accent); }
 .badge-flag { background: rgba(var(--ink-rgb), 0.92); color: var(--on-ink); }
-.badge-sample { background: transparent; color: var(--muted); border: 1px solid var(--edge); }
 
 /* ── Glass cards (portal .card) ── */
 .card {

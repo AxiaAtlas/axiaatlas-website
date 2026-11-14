@@ -4,7 +4,7 @@
    itself is aria-hidden: it repeats what the sentence says. */
 import { useCallback, useEffect, useState, type ReactNode, type RefObject } from 'react'
 import type { useScene } from './scene'
-import { SAMPLE } from './data'
+import { COMPANY } from './data'
 
 type Scene = ReturnType<typeof useScene>
 
@@ -14,7 +14,7 @@ export default function MockFrame({ scene, desc, className = '', children, note 
   desc: string
   className?: string
   children: ReactNode
-  /** A line under the frame, beside the sample-data note. */
+  /** A line under the frame, beside the company name. */
   note?: ReactNode
 }) {
   return (
@@ -24,7 +24,7 @@ export default function MockFrame({ scene, desc, className = '', children, note 
       </div>
       <figcaption className="mock-cap">
         <span className="sr-only">{desc}</span>
-        <span className="mock-sample">{SAMPLE}</span>
+        <span className="mock-company">{COMPANY}</span>
         {note && <span className="mock-note">{note}</span>}
         {scene.state !== 'still' && (
           <button type="button" className="mock-replay" onClick={scene.replay} disabled={scene.state === 'playing'}>

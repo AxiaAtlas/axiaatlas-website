@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Arrow } from '@/components/icons'
 import { Cta, FaqList, Head, JsonLd, faqJsonLd } from '@/components/site/Blocks'
+import { SiteAddons, SiteSteps, SiteTierCards } from '@/components/site/SiteTiers'
 import { pageTitle, social, SITE_URL } from '@/lib/seo'
 import { PATHS, faq } from '@/lib/site'
 
@@ -11,11 +12,11 @@ import { PATHS, faq } from '@/lib/site'
    rather than with a placeholder frame. */
 
 const NAME = 'Website Design and Build as One-Off Projects'
-const H1 = 'Website Design and Build for Issuers and Marketing Agencies'
+const H1 = 'Website design and build for issuers and marketing agencies'
 const DESCRIPTION =
-  'Axia Atlas designs and builds websites as one-off projects, separate from the analytics platform. No subscription needed. Book a demo for a quote.'
+  'Axia Atlas designs and builds websites as one-off projects, separate from the analytics platform. No subscription needed. Projects from $3,500.'
 const ANSWER =
-  'Axia Atlas designs and builds websites as one-off projects, separate from the analytics platform, so an issuer or agency can commission a site without a subscription. Each project covers positioning, copy, design and build, with search foundations laid from day one, and is quoted after a short call.'
+  'Axia Atlas designs and builds websites as one-off projects, separate from the analytics platform, so an issuer or agency can commission a site without a subscription. Each project covers positioning, copy, design and build, with search foundations laid from day one. Projects run from $3,500 for a Starter Site to $10,000 for an Authority Site.'
 
 export const metadata: Metadata = {
   title: NAME,
@@ -23,13 +24,6 @@ export const metadata: Metadata = {
   alternates: { canonical: PATHS.website },
   ...social({ title: pageTitle(NAME), description: DESCRIPTION, path: PATHS.website }),
 }
-
-const STEPS = [
-  { n: '01', t: 'Positioning', d: 'What the site has to say, to whom, and what a visitor should do next. Agreed before anything is designed.' },
-  { n: '02', t: 'Copy', d: 'Every page written in plain English, built around the questions your visitors actually ask.' },
-  { n: '03', t: 'Design', d: 'A design in your brand, for desktop and phone, reviewed with you page by page.' },
-  { n: '04', t: 'Build and launch', d: 'Fast pages, search foundations and structured data in place on launch day. Then the site is yours.' },
-]
 
 const KINDS = [
   { k: 'For a raise', t: 'Campaign sites', d: 'The story, the terms and the way to invest, on one site built to be shared.' },
@@ -58,7 +52,7 @@ export default function WebsiteDesignPage() {
       <section data-aa-section="website.hero" className="page-hero">
         <div className="glow" aria-hidden="true" />
         <div className="wrap">
-          <div className="kicker">Websites · One-off projects</div>
+          <div className="kicker">Websites</div>
           <h1 className="h1">{H1}</h1>
           <p className="lede">{ANSWER}</p>
           <div className="actions">
@@ -70,7 +64,7 @@ export default function WebsiteDesignPage() {
 
       <section data-aa-section="website.what" className="sec-tight">
         <div className="wrap">
-          <Head kicker="One project, one quote" title="A website, designed and built, then handed over." />
+          <Head kicker="What we build" title="A website, designed and built, then handed over." />
           <div className="trio">
             {KINDS.map((k, i) => (
               <div key={k.t} className="rv" style={{ ['--d' as string]: `${i * 90}ms` }}>
@@ -83,18 +77,21 @@ export default function WebsiteDesignPage() {
         </div>
       </section>
 
+      <section data-aa-section="website.tiers" className="band">
+        <div className="wrap">
+          <Head kicker="Three tiers" title="Pick the size of the site. The price is the price." />
+          <SiteTierCards />
+          <div className="block-gap">
+            <div className="split-head rv"><div className="kicker">Add-ons</div></div>
+            <SiteAddons />
+          </div>
+        </div>
+      </section>
+
       <section data-aa-section="website.steps" className="sec">
         <div className="wrap">
           <Head kicker="How a project runs" title="Four steps from first call to launch." />
-          <ol className="steps">
-            {STEPS.map((s, i) => (
-              <li key={s.n} className="rv" style={{ ['--d' as string]: `${i * 90}ms` }}>
-                <span className="num">{s.n}</span>
-                <h3 className="h3">{s.t}</h3>
-                <p>{s.d}</p>
-              </li>
-            ))}
-          </ol>
+          <SiteSteps />
         </div>
       </section>
 
@@ -113,7 +110,7 @@ export default function WebsiteDesignPage() {
         </div>
       </section>
 
-      <Cta data-aa-section="website.cta" title="Growth, engineered." lede="Tell us what the site has to do. We quote the project after a short call." />
+      <Cta data-aa-section="website.cta" lede="Tell us what the site has to do. We start with a short call." />
     </>
   )
 }

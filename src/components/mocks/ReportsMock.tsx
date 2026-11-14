@@ -5,7 +5,7 @@
 import TheiaMark from '@/components/TheiaMark'
 import MockFrame from './MockFrame'
 import { useScene, seg, ease, rise, money, num, draw } from './scene'
-import { CO, CPI_BY_CHANNEL, DECK_TITLE, META_CPI_WEEKS, RAISE, SAMPLE } from './data'
+import { CO, CPI_BY_CHANNEL, DECK_TITLE, META_CPI_WEEKS, RAISE, COMPANY } from './data'
 
 const BUILD = [300, 750, 1200, 1650, 2100]
 const BUILT = 2600
@@ -32,7 +32,7 @@ function Slide({ i, t, enter }: { i: number; t: number; enter: number }) {
       <div className="sl-kicker">{CO}</div>
       <div className="sl-title sl-title-xl">{DECK_TITLE}</div>
       <div className="sl-sub">Prepared from connected data · Nov 3, 2026</div>
-      <div className="sl-foot"><span>{SAMPLE}</span><span>01</span></div>
+      <div className="sl-foot"><span>{COMPANY}</span><span>01</span></div>
     </div>
   )
   if (i === 1) {
@@ -48,7 +48,7 @@ function Slide({ i, t, enter }: { i: number; t: number; enter: number }) {
           <div><span>Average check</span><b>{money(Math.round(RAISE.avgCheck * p(300)))}</b></div>
           <div><span>Cost per investor</span><b>{money(Math.round(131 * p(300)))}</b></div>
         </div>
-        <div className="sl-foot"><span>{SAMPLE}</span><span>02</span></div>
+        <div className="sl-foot"><span>{COMPANY}</span><span>02</span></div>
       </div>
     )
   }
@@ -68,7 +68,7 @@ function Slide({ i, t, enter }: { i: number; t: number; enter: number }) {
             </li>
           ))}
         </ul>
-        <div className="sl-foot"><span>{SAMPLE}</span><span>03</span></div>
+        <div className="sl-foot"><span>{COMPANY}</span><span>03</span></div>
       </div>
     )
   }
@@ -89,7 +89,7 @@ function Slide({ i, t, enter }: { i: number; t: number; enter: number }) {
           <text x={x(0)} y={y(META_CPI_WEEKS[0]) + 18} className="mk-axis">$120</text>
         </svg>
         <div className="sl-sub">Frequency rose to 4.1 as three creatives passed six weeks.</div>
-        <div className="sl-foot"><span>{SAMPLE}</span><span>04</span></div>
+        <div className="sl-foot"><span>{COMPANY}</span><span>04</span></div>
       </div>
     )
   }
@@ -101,7 +101,7 @@ function Slide({ i, t, enter }: { i: number; t: number; enter: number }) {
         <li>Review frequency on Meta with your media buyer.</li>
         <li>Look at more weight on Google Search, the lowest cost per investor.</li>
       </ol>
-      <div className="sl-foot"><span>{SAMPLE}</span><span>05</span></div>
+      <div className="sl-foot"><span>{COMPANY}</span><span>05</span></div>
     </div>
   )
 }
