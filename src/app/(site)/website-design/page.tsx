@@ -14,9 +14,9 @@ import { PATHS, faq } from '@/lib/site'
 const NAME = 'Website Design and Build as One-Off Projects'
 const H1 = 'Website design and build for issuers and marketing agencies'
 const DESCRIPTION =
-  'Axia Atlas designs and builds websites as one-off projects, separate from the analytics platform. No subscription needed. Projects from $3,500.'
+  'Axia Atlas designs and builds websites as one-off projects, separate from the analytics platform. No subscription needed. Book a demo to talk through a project.'
 const ANSWER =
-  'Axia Atlas designs and builds websites as one-off projects, separate from the analytics platform, so an issuer or agency can commission a site without a subscription. Each project covers positioning, copy, design and build, with search foundations laid from day one. Projects run from $3,500 for a Starter Site to $10,000 for an Authority Site.'
+  'Axia Atlas designs and builds websites as one-off projects, separate from the analytics platform, so an issuer or agency can commission a site without a subscription. Each project covers positioning, copy, design and build, with search foundations laid from day one, and is scoped with you after a short call.'
 
 export const metadata: Metadata = {
   title: NAME,
@@ -79,8 +79,12 @@ export default function WebsiteDesignPage() {
 
       <section data-aa-section="website.tiers" className="band">
         <div className="wrap">
-          <Head kicker="Three tiers" title="Pick the size of the site. The price is the price." />
+          <Head kicker="Three tiers" title="Pick the size of the site." />
           <SiteTierCards />
+          <div className="quote-line rv">
+            <p>Pricing for a website project is discussed on a demo, after we hear what the site has to do.</p>
+            <Link href={PATHS.demo} className="btn btn-ink">Book a demo <Arrow className="arr" /></Link>
+          </div>
           <div className="block-gap">
             <div className="split-head rv"><div className="kicker">Add-ons</div></div>
             <SiteAddons />

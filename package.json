@@ -13,7 +13,7 @@
     "og": "node scripts/gen-og-card.mjs",
     "check:em-dash": "node scripts/check-no-em-dash.mjs",
     "check:seo": "node scripts/check-seo.mjs",
-    "test": "node scripts/check-copy.mjs && node scripts/check-no-em-dash.mjs"
+    "test": "node scripts/check-copy.mjs && node scripts/check-no-em-dash.mjs && node scripts/check-no-prices.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.2",

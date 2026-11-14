@@ -7,9 +7,14 @@
    analyst hours or software prices until Amit sets the price book. "Book a demo for a quote" is said once on the page.
 
    Website projects: axiaatlas-platform src/lib/pricing.ts, service `website`
-   (origin/preview/staging). Tiers, setup prices, page counts (web_page qty),
-   revision rounds and the six-month payment plan are copied as written there.
-   Change them there first, then here.
+   (origin/preview/staging). Tier names, page counts (web_page qty) and
+   revision rounds are copied as written there.
+
+   THE WEBSITE NEVER SHOWS A PRICE (Amit, 2026-11-14). No dollar figure for
+   anything we sell: there is deliberately no price field in this file, so one
+   cannot be rendered by mistake. Pricing is discussed on a demo.
+   scripts/check-no-prices.mjs (npm test) fails the build on a dollar figure in
+   page copy, metadata, structured data, llms.txt or the chat widget.
    ════════════════════════════════════════════════════════════════════════════ */
 
 export type Plan = {
@@ -78,22 +83,19 @@ export const PLAN_ADDONS = [
 ]
 
 /* ── Website projects (pricing.ts, service `website`) ── */
-export type SiteTier = { name: string; price: number; pages: number; revisions: number; shop: boolean; for: string }
+export type SiteTier = { name: string; pages: number; revisions: number; shop: boolean; for: string }
 
 export const SITE_TIERS: SiteTier[] = [
-  { name: 'Starter Site', price: 3500, pages: 5, revisions: 2, shop: false, for: 'A clear, fast site for a company or a single raise.' },
-  { name: 'Growth Site', price: 6500, pages: 9, revisions: 3, shop: true, for: 'Room for the full story: product, team, the raise and its questions.' },
-  { name: 'Authority Site', price: 10000, pages: 16, revisions: 4, shop: true, for: 'A complete company site that can carry every audience and offer.' },
+  { name: 'Starter Site', pages: 5, revisions: 2, shop: false, for: 'A clear, fast site for a company or a single raise.' },
+  { name: 'Growth Site', pages: 9, revisions: 3, shop: true, for: 'Room for the full story: product, team, the raise and its questions.' },
+  { name: 'Authority Site', pages: 16, revisions: 4, shop: true, for: 'A complete company site that can carry every audience and offer.' },
 ]
 
-/** Same total as paying once, spread over six months, not financed. */
-export const SITE_PAYMENT_MONTHS = 6
 
 export const SITE_ADDONS = [
-  { t: 'Extra page', price: '$350', d: 'One more page, designed and built.' },
-  { t: 'Online shop on a Starter Site', price: '$2,000', d: 'Growth and Authority sites include one.' },
-  { t: 'Website assistant', price: '$1,500', d: 'An assistant on your site that answers visitors’ questions.' },
-  { t: 'Care plan', price: '$250, $400 or $650 a month', d: 'Updates, checks, backups and small edits, priced by the site’s tier. Three-month minimum. Only for sites we built.' },
+  { t: 'Extra page', d: 'One more page, designed and built.' },
+  { t: 'Online shop on a Starter Site', d: 'Growth and Authority sites include one.' },
+  { t: 'Website assistant', d: 'An assistant on your site that answers visitors’ questions.' },
+  { t: 'Care plan', d: 'Updates, checks, backups and small edits, priced by the site’s tier. Three-month minimum. Only for sites we built.' },
 ]
 
-export const usd = (n: number) => '$' + n.toLocaleString('en-US')
