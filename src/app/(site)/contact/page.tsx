@@ -149,7 +149,7 @@ export default function ContactPage() {
     <div className="page contact-page">
       <div data-aa-section="contact.hero" className="contact-hero">
         <div className="section-eyebrow">Contact</div>
-        <h1 className="section-headline">Contact the Axia Atlas Team About the Platform or Theia</h1>
+        <h1 className="section-headline">Contact the Axia Atlas team about the platform or Theia</h1>
         <p className="section-sub">Send us a message about the platform, Theia, pricing or your account and we&apos;ll reply within 24 hours. Axia Atlas is investment campaign analytics software, headquartered in Miami and working with clients across the US. Ready to see it? The fastest path is to <Link href="/demo" className="inline-link">book a demo</Link> on a demo raise.</p>
       </div>
 

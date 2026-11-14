@@ -4,6 +4,19 @@ The source of truth for the Axia Atlas marketing site's visual language. All tok
 live in `src/app/globals.css` under `:root`. This document explains the intent so
 future work stays cohesive.
 
+> **2026-11-14: round 2, a website rather than a deck.** Overrides the notes
+> below where they disagree. Axia Atlas is the brand: its mark is the logo in
+> the hero, closing band, footer and floating button; the Theia mark appears
+> only in Meet Theia, on /theia and inside the product UI. "Everything in
+> sight" is the slogan (a headline); "Growth, engineered." is the tagline and
+> sits with the logo in the footer, never stacked with the slogan. Headlines
+> are sentence case; capitals are for kickers, labels and buttons. One spacing
+> scale (`--sec`). Round-2 rules live in `src/styles/site.css` (loaded last):
+> the split hero, the proof band (live connectors only), the pinned stage
+> (`components/site/PinnedStage`), glass bands, the header menus and pricing.
+> Plan inclusions and website prices: `src/lib/plans.ts` (sources named there).
+> Never write "sample data"; the demo company is Kova. Say "Theia", not "she".
+
 > **2026-11-13: dark only, the portal's Theia look, the real product.** This
 > note overrides everything below it. The site has no light theme, no theme
 > switch and no prefers-color-scheme branch (the favicon pair in

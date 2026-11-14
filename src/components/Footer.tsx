@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { AMark, WordmarkText } from './Logo'
-import { PATHS, PORTAL_URL, PRODUCTS, TAGLINE, TAGLINE_2 } from '@/lib/site'
+import { PATHS, PORTAL_URL, PRODUCTS, TAGLINE_2 } from '@/lib/site'
 
 export default function Footer() {
   return (
@@ -12,7 +12,7 @@ export default function Footer() {
               <AMark className="brand-mark" />
               <WordmarkText className="brand-word" />
             </Link>
-            <p className="footer-tag">{TAGLINE}<br />{TAGLINE_2}</p>
+            <p className="footer-tag">{TAGLINE_2}.</p>
             <p className="footer-desc">Investment campaign analytics for companies raising capital and the agencies behind them, with Theia, our proprietary AI-powered analysis assistant, built in.</p>
           </div>
           <div>
@@ -47,9 +47,10 @@ export default function Footer() {
         </div>
         <div className="footer-base">
           <span>© {new Date().getFullYear()} Axia Atlas Inc. Theia is a proprietary product of Axia Atlas Inc.</span>
-          <nav aria-label="Legal">
+          <nav aria-label="Legal and sign in" className="footer-legal">
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
+            <a href={PORTAL_URL}>Sign in</a>
           </nav>
         </div>
       </div>

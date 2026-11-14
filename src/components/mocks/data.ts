@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════════════
-   KOVA: THE SAMPLE RAISE EVERY MOCK IS FED FROM.
+   KOVA: THE DEMO RAISE EVERY MOCK IS FED FROM.
 
    Kova is invented. It is not a client and not based on one, and every mock
    is named beside it. The numbers agree with each other across the
@@ -8,7 +8,7 @@
    watches all five sees one raise, not five demos.
    ════════════════════════════════════════════════════════════════════════════ */
 
-export const SAMPLE = 'Kova'
+export const COMPANY = 'Kova'
 export const CO = 'Kova'
 
 /* ── The raise ── */

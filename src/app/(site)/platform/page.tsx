@@ -2,12 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Arrow } from '@/components/icons'
 import FilmSlot from '@/components/site/FilmSlot'
+import ProofBand from '@/components/site/ProofBand'
 import LiveMock from '@/components/mocks/LiveMock'
 import LedgerMock from '@/components/mocks/LedgerMock'
 import ShareMock from '@/components/mocks/ShareMock'
 import { Cta, FaqList, Head, JsonLd, faqJsonLd } from '@/components/site/Blocks'
 import { pageTitle, social, SITE_URL } from '@/lib/seo'
-import { PATHS, PRODUCTS, faq } from '@/lib/site'
+import { PATHS, PRIVACY_CLAIMS, PRODUCTS, faq } from '@/lib/site'
 
 const NAME = 'Investment Campaign Analytics Platform'
 const DESCRIPTION =
@@ -25,9 +26,9 @@ export const metadata: Metadata = {
 const FAQ = faq('channels', 'cost-per-investor', 'why-not-raise-platform', 'ads', 'agencies')
 
 const SOURCES = [
-  { k: 'Live', t: 'Connected ad platforms', d: 'Spend, clicks and results are read from each platform you connect, down to the campaign, the creative and the audience.' },
-  { k: 'Live', t: 'Your raise platform', d: 'The investments come from the platform that records them, so every channel is measured against the raise itself.' },
-  { k: 'Manual', t: 'Everything else', d: 'Affiliates, newspapers and press are entered by hand or imported from a file, so nothing behind the raise is left out.' },
+  { k: 'Live', t: 'Connected ad platforms', d: 'Meta Ads, Google Ads and LinkedIn Ads are read live, down to the campaign, the ad set and the ad.' },
+  { k: 'Live', t: 'Your raise platform', d: 'DealMaker is read live. StartEngine, Republic, Wefunder and others are read from the export you download.' },
+  { k: 'Manual', t: 'Everything else', d: 'Affiliates, newspapers, press and other ad platforms are imported from a file or entered by hand.' },
 ]
 
 export default function PlatformPage() {
@@ -45,35 +46,46 @@ export default function PlatformPage() {
       }} />
       <JsonLd data={faqJsonLd(FAQ)} />
 
-      <section data-aa-section="platform.hero" className="page-hero page-hero-center">
+      <section data-aa-section="platform.hero" className="hero2">
         <div className="glow" aria-hidden="true" />
-        <div className="wrap">
-          <div className="kicker">The platform</div>
-          <h1 className="h1">The Investment Campaign Analytics Platform</h1>
-          <p className="lede">{ANSWER}</p>
-          <div className="actions">
-            <Link href={PATHS.demo} className="btn btn-ink">Book a demo <Arrow className="arr" /></Link>
-            <Link href="#raise-ledger" className="btn btn-quiet">Go to {PRODUCTS.ledger}</Link>
+        <div className="wrap hero2-grid">
+          <div className="hero2-copy">
+            <div className="kicker">The platform</div>
+            <h1 className="h1 platform-h1">The investment campaign analytics platform</h1>
+            <p className="lede">{ANSWER}</p>
+            <div className="actions">
+              <Link href={PATHS.demo} className="btn btn-ink">Book a demo <Arrow className="arr" /></Link>
+              <Link href="#raise-ledger" className="btn btn-quiet">Go to {PRODUCTS.ledger}</Link>
+            </div>
           </div>
-        </div>
-      </section>
-
-      <section data-aa-section="platform.live" id="live-campaigns" className="sec-tight">
-        <div className="wrap">
-          <Head
-            kicker={PRODUCTS.live}
-            title="All spend, in one place."
-            lede="Every ad platform and every campaign in one live dashboard. Start from the total, then filter to a channel, a campaign or a creative. Every chart opens, zooms and exports."
-          />
-          <div className="rv">
+          <div className="hero2-stage" id="live-campaigns">
             <FilmSlot id="live-campaigns"><LiveMock /></FilmSlot>
           </div>
         </div>
       </section>
 
-      <section data-aa-section="platform.sources" className="sec">
+      <ProofBand mark="platform.proof" claim={PRIVACY_CLAIMS.r3} />
+
+      <section data-aa-section="platform.live" className="sec">
+        <div className="wrap trust">
+          <div className="rv">
+            <div className="kicker">{PRODUCTS.live}</div>
+            <h2 className="h2">All spend, in one place, while it is still running.</h2>
+            <p className="lede">Start from the total across every channel, then filter to one platform, one campaign or one creative. Every chart opens, zooms and exports.</p>
+          </div>
+          <ul className="claims claims-1 rv">
+            <li><span className="label">One view</span><p>Spend, clicks and results from every connected platform, on one timeline.</p></li>
+            <li><span className="label">Drill down</span><p>From the total to a channel, a campaign and the creative behind it.</p></li>
+            <li><span className="label">Worth a look</span><p>Diagnostics point at what changed, so you know where to start reading.</p></li>
+          </ul>
+        </div>
+      </section>
+
+      <section data-aa-section="platform.sources" className="sec sec-flush-top">
         <div className="wrap">
-          <Head kicker="Where the numbers come from" title="Read live where it can be. Entered by hand where it cannot." />
+          <div className="split-head rv">
+            <div className="kicker">Where the numbers come from</div>
+          </div>
           <div className="trio">
             {SOURCES.map((s, i) => (
               <div key={s.t} className="rv" style={{ ['--d' as string]: `${i * 90}ms` }}>
@@ -86,20 +98,20 @@ export default function PlatformPage() {
         </div>
       </section>
 
-      <section data-aa-section="platform.ledger" id="raise-ledger" className="sec">
+      <section data-aa-section="platform.ledger" id="raise-ledger" className="band">
+        <div className="glow" aria-hidden="true" />
         <div className="wrap">
-          <Head
-            kicker={PRODUCTS.ledger}
-            title="Every dollar against every investor."
-            lede="Raise Ledger sets all the spend behind the raise against the investments it brought. Cost per investor and return, channel by channel, while there is still budget to move."
-          />
-          <div className="rv">
+          <div className="band-head rv">
+            <div className="kicker">{PRODUCTS.ledger}</div>
+            <h2 className="h2">Every dollar against every investor.</h2>
+            <p className="lede">Raise Ledger sets all the spend behind the raise against the investments it brought. Cost per investor, channel by channel, while there is still budget to move.</p>
+          </div>
+          <div className="rv band-stage">
             <FilmSlot id="raise-ledger"><LedgerMock /></FilmSlot>
           </div>
-          <ul className="points rv" style={{ marginTop: 48, maxWidth: 880 }}>
+          <ul className="claims rv claims-gap">
             <li><span className="label">Live and Manual</span><p>A Live badge means the figures are read from a connected platform. A Manual badge means your team entered them or imported a file.</p></li>
-            <li><span className="label">The funnel</span><p>Visits, people who started investing, and investors, with the rate between each step.</p></li>
-            <li><span className="label">Per channel</span><p>Spend, investors and cost per investor for every channel, sorted so the outliers stand out.</p></li>
+            <li><span className="label">The funnel</span><p>Visits, people who started investing and investors, with the rate between each step.</p></li>
           </ul>
         </div>
       </section>
@@ -119,18 +131,19 @@ export default function PlatformPage() {
         </div>
       </section>
 
-      <section data-aa-section="platform.theia" className="sec">
-        <div className="wrap statement rv">
-          <div className="kicker">Theia, built in</div>
-          <h2 className="h2">Every view comes with someone to ask.</h2>
-          <p className="lede">Theia, our proprietary AI-powered analysis assistant, reads the same numbers you see. Ask her why a number moved, or have her build the investor report.</p>
-          <div className="actions"><Link href={PATHS.theia} className="link-arrow">Meet Theia <Arrow className="arr" /></Link></div>
+      <section data-aa-section="platform.theia" className="sec sec-flush-top">
+        <div className="wrap rv">
+          <p className="statement-wide">Every view comes with someone to ask. <em>Theia reads the same numbers you see.</em></p>
+          <div className="actions actions-gap"><Link href={PATHS.theia} className="link-arrow">Meet Theia <Arrow className="arr" /></Link></div>
         </div>
       </section>
 
       <section data-aa-section="platform.faq" className="sec">
-        <div className="wrap">
-          <Head kicker="Questions" title="About the platform." />
+        <div className="wrap faq-split">
+          <div className="rv">
+            <div className="kicker">Questions</div>
+            <h2 className="h2">About the platform.</h2>
+          </div>
           <FaqList items={FAQ.map((f) => ({ q: f.q, a: f.a }))} />
         </div>
       </section>

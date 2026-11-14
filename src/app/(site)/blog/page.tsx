@@ -11,17 +11,17 @@ import { Cta, JsonLd } from '@/components/site/Blocks'
 export const revalidate = 3600
 
 const DESCRIPTION =
-  'Practical writing on search, answer engines, local presence, and social from the Axia Atlas team. How buyers actually find businesses now, and what to do about it.'
+  'Practical writing for companies raising capital and the agencies behind them: cost per investor, reading a campaign while it runs, and reporting to the board.'
 
 // The hand-written openGraph block this replaces had no `images`, and Next
 // replaces openGraph rather than merging it — so /blog was the one page on the
 // site that shared with no link-preview card at all. social() always returns a
 // complete block.
 export const metadata: Metadata = {
-  title: 'Search, AEO and Social Marketing Insights',
+  title: 'Insights on Raising Capital and Analytics',
   description: DESCRIPTION,
   alternates: { canonical: '/blog' },
-  ...social({ title: pageTitle('Search, AEO and Social Marketing Insights'), description: DESCRIPTION, path: '/blog' }),
+  ...social({ title: pageTitle('Insights on Raising Capital and Analytics'), description: DESCRIPTION, path: '/blog' }),
 }
 
 export default async function BlogIndexPage() {
@@ -56,15 +56,9 @@ export default async function BlogIndexPage() {
       {posts.length > 0 && <JsonLd data={listLd} />}
       <div data-aa-section="blog.hero" className="blog-hero">
         <div className="section-eyebrow">Insights</div>
-        <h1 className="section-headline">
-          Marketing Insights on Search,
-          <br />
-          Answer Engines and Social
-        </h1>
+        <h1 className="section-headline">Insights on raising capital and campaign analytics</h1>
         <p className="section-sub">
-          Axia Atlas publishes practical guides on how buyers find a business today, through search,
-          answer engines, local maps and social feeds. Each article takes one question owners ask us,
-          explains what changed and why it matters, and ends with what to do about it this month.
+          Axia Atlas publishes short, practical articles for companies raising capital and the agencies behind them: what a channel really costs per investor, how to read a campaign while it runs, and what to put in front of the board. Each article answers one question we hear on demos.
         </p>
       </div>
 

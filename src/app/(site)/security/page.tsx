@@ -15,7 +15,7 @@ import { PATHS, PRIVACY_CLAIMS as C, faq } from '@/lib/site'
    change PRIVACY_CLAIMS in the same release. */
 
 const NAME = 'Security and Privacy for Your Campaign Data'
-const H1 = 'Security and Privacy: How We Protect Your Campaign Data'
+const H1 = 'Security and privacy: how we protect your campaign data'
 const DESCRIPTION =
   'Names and figures are masked before any analysis, data is encrypted in transit and at rest, and our analysis provider does not train on your data.'
 
@@ -98,7 +98,7 @@ export default function SecurityPage() {
           </div>
           <figure className="figure rv">
             <div className="frame frame-flush"><Shot id="cu-thinking-steps" sizes="(max-width: 960px) 100vw, 720px" /></div>
-            <figcaption>Theia at work. What she reads has been masked first.</figcaption>
+            <figcaption>Theia at work. What Theia reads has been masked first.</figcaption>
           </figure>
         </div>
       </section>

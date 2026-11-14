@@ -24,7 +24,7 @@ export function GET() {
     '',
     `> ${ORG_DESCRIPTION}`,
     '',
-    `Taglines: ${TAGLINE}. ${TAGLINE_2}.`,
+    `Slogan: ${TAGLINE}. Tagline: ${TAGLINE_2}.`,
     `Products: ${PRODUCTS.live}, ${PRODUCTS.ledger}, ${PRODUCTS.reports}, ${PRODUCTS.ask}.`,
     '',
     '## Pages',

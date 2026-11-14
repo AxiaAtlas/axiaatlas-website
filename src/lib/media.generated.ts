@@ -18,7 +18,7 @@ export const SHOTS = {
       1600,
       2400
     ],
-    "alt": "Theia thinking through a question, each step listed as she works."
+    "alt": "Theia thinking through a question, each step listed as it works."
   },
   "theia-answer": {
     "w": 6240,
@@ -78,7 +78,7 @@ export const SHOTS = {
       1200,
       1800
     ],
-    "alt": "The Theia mark above the greeting on her home screen."
+    "alt": "The Theia mark above the greeting on the Theia home screen."
   },
   "cu-thinking-steps": {
     "w": 2480,

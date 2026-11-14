@@ -3,7 +3,7 @@
    is pressed. */
 import MockFrame, { Pointer, useTargets, type Waypoint } from './MockFrame'
 import { useScene, seg, typed, rise } from './scene'
-import { CO, DECK_TITLE, SAMPLE } from './data'
+import { CO, DECK_TITLE, COMPANY } from './data'
 
 const CREATE = 1500
 const LINK = 'app.axiaatlas.com/s/kova-october'
@@ -38,7 +38,7 @@ export default function ShareMock({ className = '' }: { className?: string }) {
           <div className="sl sl-cover">
             <div className="sl-kicker">{CO}</div>
             <div className="sl-title sl-title-xl">{DECK_TITLE}</div>
-            <div className="sl-foot"><span>{SAMPLE}</span><span>01</span></div>
+            <div className="sl-foot"><span>{COMPANY}</span><span>01</span></div>
           </div>
         </div>
         <div className="mk-scrim" />

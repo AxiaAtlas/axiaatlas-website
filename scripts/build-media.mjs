@@ -7,8 +7,6 @@
 //
 //   shots/<id>-<w>.avif|webp   every width in WIDTHS, for <picture> srcset
 //   shots/<id>.png             one PNG fallback at FALLBACK width
-//   mark/reveal.webp           the build-in reveal, 36 frames, 6 x 6 grid
-//   mark/reveal-still.webp|png the reveal's last frame (reduced motion, poster)
 //   mark/thinking-<px>.webp    the thinking loop (64 and 176), 48 frames, 8 x 6 grid
 //   mark/creating.webp         the creating loop, 48 frames, 8 x 6 grid
 //   waves.webp                 Theia's ground image (from the portal)
@@ -35,7 +33,7 @@ if (!existsSync(PACK)) { console.error(`build-media: no pack at ${PACK}`); proce
 /** id: [source file, alt text]. Full screens come from 4k/, close-ups from closeups/. */
 const SCREENS = {
   'theia-home': ['4k/A01-dark-home.png', 'Theia’s home screen: a greeting, the Ask Theia composer and four suggested questions.'],
-  'theia-thinking': ['4k/A06-dark-thinking-steps.png', 'Theia thinking through a question, each step listed as she works.'],
+  'theia-thinking': ['4k/A06-dark-thinking-steps.png', 'Theia thinking through a question, each step listed as it works.'],
   'theia-answer': ['4k/A10-dark-answer-done.png', 'A finished answer in Theia: what changed, recommended next steps, and follow-up questions.'],
   'theia-deck': ['4k/B05-dark-slides-ready.png', 'A six-slide report built by Theia, open in the slide editor beside the chat.'],
   'theia-comment': ['4k/B06-dark-slides-comment.png', 'A comment left on a slide, sent to Theia to revise.'],
@@ -43,7 +41,7 @@ const SCREENS = {
   'theia-scheduled': ['4k/D04-dark-scheduled.png', 'Scheduled tasks: weekly and monthly reports Theia runs on their own.'],
 }
 const CLOSEUPS = {
-  'cu-greeting': ['closeups/CU01-mark-greeting.png', 'The Theia mark above the greeting on her home screen.'],
+  'cu-greeting': ['closeups/CU01-mark-greeting.png', 'The Theia mark above the greeting on the Theia home screen.'],
   'cu-thinking-steps': ['closeups/CU11-thinking-steps.png', 'Theia’s thinking steps, each one checked off as it completes.'],
 }
 const WIDTHS = { screen: [960, 1600, 2400], closeup: [800, 1200, 1800] }
@@ -85,15 +83,10 @@ async function sprite(dir, name, { size, cols, crop, alpha }) {
 for (const [id, v] of Object.entries(SCREENS)) await shot(id, v, 'screen')
 for (const [id, v] of Object.entries(CLOSEUPS)) await shot(id, v, 'closeup')
 
-// The mark sits in a 414 x 558 box centred on (539, 539) of a 1080 frame. The
-// reveal keeps its glow, so it takes a wider square; it is composited with
-// mix-blend-mode: screen, which turns its black ground transparent.
-const WIDE = { left: 179, top: 179, width: 720, height: 720 }
+// The Theia mark sits in a 414 x 558 box centred on (539, 539) of a 1080
+// frame. Its sprites are used only where the page is about Theia (the Theia
+// page and inside the product UI); the site's own logo is the Axia Atlas mark.
 const TIGHT = { left: 239, top: 239, width: 600, height: 600 }
-const reveal = await sprite('reveal-on-black', 'reveal', { size: 360, cols: 6, crop: WIDE })
-const last = join(PACK, 'logo-animation/reveal-on-black', reveal.files.at(-1))
-await sharp(last).extract(WIDE).resize(720, 720).webp({ quality: 88 }).toFile(join(OUT, 'mark', 'reveal-still.webp'))
-await sharp(last).extract(WIDE).resize(720, 720).png({ compressionLevel: 9 }).toFile(join(OUT, 'mark', 'reveal-still.png'))
 await sprite('thinking-transparent', 'thinking-64', { size: 64, cols: 8, crop: TIGHT, alpha: true })
 await sprite('thinking-transparent', 'thinking-176', { size: 176, cols: 8, crop: TIGHT, alpha: true })
 await sprite('creating-on-black', 'creating', { size: 160, cols: 8, crop: TIGHT })
