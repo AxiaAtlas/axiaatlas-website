@@ -2,8 +2,8 @@
    from the same array the reader sees), the closing call to action, and a
    JSON-LD tag. Every block takes its data-aa-section as a literal from the
    page so the platform's site-map can read it. */
+import { AMark } from '@/components/Logo'
 import Link from 'next/link'
-import TheiaMark from '@/components/TheiaMark'
 import { Arrow } from '@/components/icons'
 import { PATHS, TAGLINE } from '@/lib/site'
 
@@ -49,7 +49,7 @@ export function Cta({ 'data-aa-section': mark, title = `${TAGLINE}.`, lede }: { 
     <section data-aa-section={mark} className="cta">
       <div className="glow" aria-hidden="true" />
       <div className="wrap rv">
-        <TheiaMark className="cta-mark" />
+        <AMark className="cta-mark" />
         <h2 className="display">{title}</h2>
         {lede && <p className="lede">{lede}</p>}
         <div className="actions">

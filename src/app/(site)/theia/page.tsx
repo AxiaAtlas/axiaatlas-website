@@ -16,7 +16,7 @@ import { PATHS, PRIVACY_CLAIMS, PRODUCTS, faq } from '@/lib/site'
 
    Designed from the intent of Amit's "Theia Website" draft, not its layout:
    the real product in the hero, then Ask Theia and Theia Reports each played
-   as a mock interaction on sample data, close-ups from the design pack, and
+   as a mock interaction, close-ups from the design pack, and
    what happens to your data. The draft's sections, cards and words are not
    reused.
 

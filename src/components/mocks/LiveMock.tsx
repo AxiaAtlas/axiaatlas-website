@@ -49,7 +49,7 @@ export default function LiveMock({ className = '' }: { className?: string }) {
     <MockFrame
       scene={scene}
       className={`mk-live ${className}`}
-      desc={`Live Campaigns, played on sample data. Spend for the last 30 days, ${money(TOTAL)} across ${CHANNELS.map((c) => `${c.name} ${money(c.spend)}`).join(', ')}, with a chart of daily spend. Then the Meta filter is chosen and the view shows Meta alone, ${money(meta.spend)}, and its three campaigns.`}
+      desc={`Live Campaigns. Spend for the last 30 days, ${money(TOTAL)} across ${CHANNELS.map((c) => `${c.name} ${money(c.spend)}`).join(', ')}, with a chart of daily spend. Then the Meta filter is chosen and the view shows Meta alone, ${money(meta.spend)}, and its three campaigns.`}
     >
       <div className="mk-app">
         <div className="mk-live-top">

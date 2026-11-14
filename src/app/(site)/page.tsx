@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Arrow } from '@/components/icons'
-import MarkReveal from '@/components/site/MarkReveal'
+import { AMark } from '@/components/Logo'
 import FilmSlot from '@/components/site/FilmSlot'
 import Shot from '@/components/site/Shot'
 import LiveMock from '@/components/mocks/LiveMock'
@@ -34,7 +34,7 @@ export default function HomePage() {
       <section data-aa-section="home.hero" className="hero">
         <div className="glow" aria-hidden="true" />
         <div className="wrap">
-          <MarkReveal className="hero-mark" />
+          <AMark className="hero-mark hero-mark-axia" />
           <h1 className="display">
             {TAGLINE}
             <span className="h1-sub">Investment campaign analytics for companies raising capital</span>

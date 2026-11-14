@@ -118,7 +118,7 @@ export default function ReportsMock({ className = '' }: { className?: string }) 
     <MockFrame
       scene={scene}
       className={`mk-deck ${className}`}
-      desc={`Theia Reports, played on sample data. Theia builds the ${DECK_TITLE} for ${CO}, five slides, then plays it as a slideshow: the cover; the raise, ${money(RAISE.raised)} of a ${money(RAISE.goal)} goal from ${num(RAISE.investors)} investors; cost per investor by channel; and a slide Theia flagged: Meta's cost per investor rose 22% in October, from $120 to $147.`}
+      desc={`Theia Reports. Theia builds the ${DECK_TITLE} for ${CO}, five slides, then plays it as a slideshow: the cover; the raise, ${money(RAISE.raised)} of a ${money(RAISE.goal)} goal from ${num(RAISE.investors)} investors; cost per investor by channel; and a slide Theia flagged: Meta's cost per investor rose 22% in October, from $120 to $147.`}
     >
       <div className="mk-app">
         <div className="mk-deck-top">

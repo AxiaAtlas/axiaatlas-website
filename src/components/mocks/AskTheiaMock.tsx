@@ -94,7 +94,7 @@ export default function AskTheiaMock({ className = '' }: { className?: string })
     <MockFrame
       scene={scene}
       className={`mk-ask ${className}`}
-      desc={`Ask Theia, played on sample data. The question "${QUESTION}" is typed and sent. Theia thinks, then answers under four headings. What happened: ${P1} Where it fell: a chart of weekly click rate from 1.44% to 0.98%. Why: ${P3} The three creatives are ${CREATIVES.map((c) => `${c.name} (${c.format}, ${c.change}%)`).join(', ')}. What we recommend: ${P4}`}
+      desc={`Ask Theia. The question "${QUESTION}" is typed and sent. Theia thinks, then answers under four headings. What happened: ${P1} Where it fell: a chart of weekly click rate from 1.44% to 0.98%. Why: ${P3} The three creatives are ${CREATIVES.map((c) => `${c.name} (${c.format}, ${c.change}%)`).join(', ')}. What we recommend: ${P4}`}
     >
       <div className="mk-app">
         <aside className="mk-side">

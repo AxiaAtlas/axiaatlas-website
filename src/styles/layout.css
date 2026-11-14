@@ -137,6 +137,7 @@ main { display: block; }
 /* ── Home hero: the mark builds in, then the line ── */
 .hero { position: relative; isolation: isolate; padding: clamp(56px, 9vw, 120px) 0 0; text-align: center; }
 .hero-mark { width: clamp(104px, 12vw, 152px); margin: 0 auto clamp(20px, 3vw, 36px); }
+.hero-mark-axia { display: block; width: clamp(72px, 8vw, 112px); height: auto; color: var(--fg); }
 .hero h1 { max-width: 15ch; margin: 0 auto; }
 .hero h1 .h1-sub {
   display: block; margin-top: clamp(14px, 1.6vw, 22px);

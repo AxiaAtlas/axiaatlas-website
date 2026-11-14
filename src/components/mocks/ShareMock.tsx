@@ -31,7 +31,7 @@ export default function ShareMock({ className = '' }: { className?: string }) {
     <MockFrame
       scene={scene}
       className={`mk-share ${className}`}
-      desc={`Share, played on sample data. In the share dialog for the ${DECK_TITLE}, a link is created, its access is set to Can view, and Copy is pressed. The link is copied: anyone with it can view the report.`}
+      desc={`Share. In the share dialog for the ${DECK_TITLE}, a link is created, its access is set to Can view, and Copy is pressed. The link is copied: anyone with it can view the report.`}
     >
       <div className="mk-app">
         <div className="mk-share-bg">

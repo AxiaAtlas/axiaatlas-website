@@ -2,13 +2,13 @@
    KOVA: THE SAMPLE RAISE EVERY MOCK IS FED FROM.
 
    Kova is invented. It is not a client and not based on one, and every mock
-   says "sample data" beside it. The numbers agree with each other across the
+   is named beside it. The numbers agree with each other across the
    mocks (the ledger's cost per investor is the report's, the report's flagged
    Meta slide is the click-rate story Ask Theia tells), so a visitor who
    watches all five sees one raise, not five demos.
    ════════════════════════════════════════════════════════════════════════════ */
 
-export const SAMPLE = 'Kova (sample data)'
+export const SAMPLE = 'Kova'
 export const CO = 'Kova'
 
 /* ── The raise ── */

@@ -27,7 +27,7 @@ export default function LedgerMock({ className = '' }: { className?: string }) {
     <MockFrame
       scene={scene}
       className={`mk-ledger ${className}`}
-      desc={`Raise Ledger, played on sample data. ${money(LEDGER_SPEND)} of spend behind the raise brought ${num(STAGES[0].v)} visits, ${num(STAGES[1].v)} people who started investing and ${num(RAISE.investors)} investors, ${money(cpi)} per investor. By channel: ${LEDGER.map((r) => `${r.ch}, ${r.source === 'live' ? 'live' : 'entered manually'}, ${money(r.spend)}, ${r.investors} investors, ${money(Math.round(r.spend / r.investors))} each`).join('; ')}. A Live badge means the figures are read from a connected platform; a Manual badge means they were entered by hand or imported.`}
+      desc={`Raise Ledger. ${money(LEDGER_SPEND)} of spend behind the raise brought ${num(STAGES[0].v)} visits, ${num(STAGES[1].v)} people who started investing and ${num(RAISE.investors)} investors, ${money(cpi)} per investor. By channel: ${LEDGER.map((r) => `${r.ch}, ${r.source === 'live' ? 'live' : 'entered manually'}, ${money(r.spend)}, ${r.investors} investors, ${money(Math.round(r.spend / r.investors))} each`).join('; ')}. A Live badge means the figures are read from a connected platform; a Manual badge means they were entered by hand or imported.`}
     >
       <div className="mk-app">
         <div className="mk-live-top">

@@ -1,5 +1,5 @@
 'use client'
-/* The frame every mock sits in: Theia's panel glass, the "sample data" note,
+/* The frame every mock sits in: Theia's panel glass, the company name,
    the replay control and a sentence for screen readers. The animated window
    itself is aria-hidden: it repeats what the sentence says. */
 import { useCallback, useEffect, useState, type ReactNode, type RefObject } from 'react'

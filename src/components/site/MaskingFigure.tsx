@@ -1,4 +1,4 @@
-/* What masking does, drawn on sample data: the same sentence as it sits in
+/* What masking does, drawn on an example: the same sentence as it sits in
    your workspace and as analysis receives it. Names become placeholders,
    figures are multiplied by a secret factor (6, for the illustration), and a
    rate passes through unchanged. Every claim it illustrates is a "May say"
@@ -27,7 +27,7 @@ export default function MaskingFigure() {
           </p>
         </div>
       </div>
-      <figcaption>Illustration on sample data. Names become placeholders and every figure is multiplied by a secret factor (6, here), while a rate such as click rate comes out unchanged. The real names and figures are put back only inside your workspace.</figcaption>
+      <figcaption>Illustration. Names become placeholders and every figure is multiplied by a secret factor (6, here), while a rate such as click rate comes out unchanged. The real names and figures are put back only inside your workspace.</figcaption>
     </figure>
   )
 }
