@@ -1,6 +1,5 @@
 'use client'
 import { useRef, useState } from 'react'
-import Footer from '@/components/Footer'
 import { Arrow, Check, Doc } from '@/components/icons'
 import { aaTrack } from '@/lib/aa-track'
 
@@ -333,7 +332,6 @@ export default function CareersPage() {
         </p>
       </div>
 
-      <Footer />
     </div>
   )
 }

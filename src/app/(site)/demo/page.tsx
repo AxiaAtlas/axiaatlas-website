@@ -1,8 +1,8 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
-import Footer from '@/components/Footer'
 import { Arrow } from '@/components/icons'
 import { aaTrack } from '@/lib/aa-track'
+import Shot from '@/components/site/Shot'
 
 /* What the prospect wants to see first. The API takes any non-empty string and
    records it as the prospect's focus. */
@@ -226,6 +226,10 @@ export default function DemoPage() {
           <div className="section-eyebrow">Book a Demo</div>
           <h1 className="section-headline">Book a Demo of Axia Atlas and Theia on a Demo Raise</h1>
           <p className="demo-lead-note">We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise, then talk through your own channels, your team and how you report to investors. You leave knowing which plan fits and what it costs. No pitch deck, and no pressure to sign.</p>
+          <figure className="figure shot-aside">
+            <div className="frame frame-flush"><Shot id="cu-greeting" sizes="(max-width: 960px) 100vw, 480px" /></div>
+            <figcaption>On the demo, Theia answers questions about a sample raise.</figcaption>
+          </figure>
         </div>
 
         <div data-aa-section="demo.form" className="demo-lead-form">
@@ -516,7 +520,6 @@ export default function DemoPage() {
         </div>
       </div>
 
-      <Footer />
     </div>
   )
 }

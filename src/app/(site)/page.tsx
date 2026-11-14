@@ -1,13 +1,15 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Footer from '@/components/Footer'
-import CtaBand from '@/components/CtaBand'
-import ShotSlot from '@/components/ShotSlot'
-import TheiaMark from '@/components/TheiaMark'
 import { Arrow } from '@/components/icons'
-import { FaqList, JsonLd, SectionHead, faqJsonLd } from '@/components/service/Blocks'
+import MarkReveal from '@/components/site/MarkReveal'
+import FilmSlot from '@/components/site/FilmSlot'
+import Shot from '@/components/site/Shot'
+import LiveMock from '@/components/mocks/LiveMock'
+import LedgerMock from '@/components/mocks/LedgerMock'
+import AskTheiaMock from '@/components/mocks/AskTheiaMock'
+import { Cta, FaqList, Head, JsonLd, faqJsonLd } from '@/components/site/Blocks'
 import { SITE_URL, HOME_TITLE } from '@/lib/seo'
-import { PATHS, PITCH_50, PRODUCTS, TAGLINE, faq } from '@/lib/site'
+import { PATHS, PITCH_50, PRIVACY_CLAIMS, PRODUCTS, TAGLINE, faq } from '@/lib/site'
 
 /* The home page's own canonical, SITE_URL with no trailing slash, to match the
    sitemap and the Organization node (see app/layout.tsx). */
@@ -19,139 +21,128 @@ export const metadata: Metadata = {
 const GAP = [
   { k: 'Ad platforms', t: 'Record spend, not investors', d: 'Each platform reports its own clicks and costs. None of them knows who invested.' },
   { k: 'Raise platform', t: 'Records investments, not spend', d: 'It shows who invested and how much. It cannot see the marketing that brought them.' },
-  { k: 'Affiliates, print, press', t: 'Live in invoices', d: 'Spend no media buyer touches sits in spreadsheets, out of every report.' },
+  { k: 'Affiliates, print, press', t: 'Live in invoices', d: 'Spend no media buyer touches sits in spreadsheets, outside every report.' },
 ]
 
 const FAQ = faq('what', 'cost-per-investor', 'why-not-raise-platform', 'theia', 'ads', 'agencies')
 
 export default function HomePage() {
   return (
-    <div className="page">
+    <>
       <JsonLd data={faqJsonLd(FAQ.map((f) => ({ q: f.q, a: f.a })))} />
 
-      <div data-aa-section="home.hero" className="hero">
-        <div className="hero-aura" aria-hidden="true" />
-        <div className="hero-inner">
-          <div className="hero-copy">
-            <div className="hero-eyebrow"><span className="pulse" /> {PRODUCTS.live} · {PRODUCTS.ledger} · Theia</div>
-            <h1 className="hero-headline">Investment Campaign Analytics for Companies Raising Capital</h1>
-            <div className="hero-display-sub">{TAGLINE}.</div>
-            <p className="hero-sub">{PITCH_50}</p>
-            <div className="hero-actions">
-              <Link href={PATHS.demo} className="btn-primary">Book a Demo <Arrow className="arr" /></Link>
-              <Link href={PATHS.platform} className="btn-outline">See the platform</Link>
-            </div>
-          </div>
-          <div className="hero-artifact">
-            <ShotSlot id="homeHero" priority />
+      <section data-aa-section="home.hero" className="hero">
+        <div className="glow" aria-hidden="true" />
+        <div className="wrap">
+          <MarkReveal className="hero-mark" />
+          <h1 className="display">
+            {TAGLINE}
+            <span className="h1-sub">Investment campaign analytics for companies raising capital</span>
+          </h1>
+          <p className="lede">{PITCH_50}</p>
+          <div className="actions">
+            <Link href={PATHS.demo} className="btn btn-ink">Book a demo <Arrow className="arr" /></Link>
+            <Link href={PATHS.platform} className="btn btn-quiet">See the platform</Link>
           </div>
         </div>
-      </div>
+        <div className="wrap hero-stage rv">
+          <FilmSlot id="home-hero">
+            <LiveMock />
+          </FilmSlot>
+        </div>
+      </section>
 
-      <section data-aa-section="home.problem" className="sv-section g-raise">
-        <div className="section-inner">
-          <SectionHead
-            eyebrow="The gap"
+      <section data-aa-section="home.gap" className="sec">
+        <div className="wrap">
+          <Head
+            kicker="The gap"
             title="Your spend and your investors live in different places."
-            lede="Most issuers learn what worked only after the budget is gone. Axia Atlas is built to bring all three together, so you can see what each channel actually returned while the raise is still running."
+            lede="Most issuers learn what worked only after the budget is gone. Axia Atlas brings all three together, so you see what each channel returned while the raise is still running."
           />
-          <div className="sv-cards sv-cards-3">
-            {GAP.map((g) => (
-              <div key={g.k} className="sv-card sv-card-static">
-                <div className="bento-num">{g.k}</div>
-                <h3 className="sv-card-name">{g.t}</h3>
-                <p className="sv-card-desc">{g.d}</p>
+          <div className="trio">
+            {GAP.map((g, i) => (
+              <div key={g.k} className="rv" style={{ ['--d' as string]: `${i * 90}ms` }}>
+                <div className="label">{g.k}</div>
+                <h3 className="h3">{g.t}</h3>
+                <p>{g.d}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section data-aa-section="home.platform" className="sv-section g-black">
-        <div className="section-inner">
-          <SectionHead
-            eyebrow="The platform"
-            title="Every dollar behind your raise, in one view."
-            lede="Two modules, one dashboard. Paid platforms flow in on their own; anything a media buyer did not buy is entered by hand or imported."
+      <section data-aa-section="home.ledger" className="sec">
+        <div className="wrap split split-rev">
+          <div className="split-copy rv">
+            <div className="kicker">{PRODUCTS.ledger}</div>
+            <h2 className="h2">Cost per investor, by channel, while it still matters.</h2>
+            <p className="lede">Every dollar behind the raise, from ads to affiliates, print and press, set against the investments your raise platform reports.</p>
+            <div className="actions"><Link href={`${PATHS.platform}#raise-ledger`} className="link-arrow">Explore {PRODUCTS.ledger} <Arrow className="arr" /></Link></div>
+          </div>
+          <div className="rv">
+            <FilmSlot id="raise-ledger"><LedgerMock /></FilmSlot>
+          </div>
+        </div>
+      </section>
+
+      <section data-aa-section="home.theia" className="sec">
+        <div className="wrap">
+          <Head
+            center
+            kicker="Meet Theia"
+            title="Ask why. Theia answers in seconds."
+            lede="Theia is our proprietary AI-powered analysis assistant, built into Axia Atlas. She explains what changed, shows the numbers behind it, and says what we recommend. The decision stays yours."
           />
-          <div className="px-pair">
-            <Link href={`${PATHS.platform}#live-campaigns`} className="sv-card">
-              <ShotSlot id="liveOverview" caption={false} />
-              <h3 className="sv-card-name">{PRODUCTS.live}</h3>
-              <p className="sv-card-desc">Every ad platform and every campaign in one live dashboard. Drill from the total to each creative and audience; every chart opens, zooms and exports.</p>
-              <span className="service-link">Explore {PRODUCTS.live} <Arrow className="arr" /></span>
-            </Link>
-            <Link href={`${PATHS.platform}#raise-ledger`} className="sv-card">
-              <ShotSlot id="ledger" caption={false} />
-              <h3 className="sv-card-name">{PRODUCTS.ledger}</h3>
-              <p className="sv-card-desc">Every dollar behind the raise, from ads to affiliates, print and press, set against the investments your raise platform reports. Cost per investor and return, by channel.</p>
-              <span className="service-link">Explore {PRODUCTS.ledger} <Arrow className="arr" /></span>
-            </Link>
+          <div className="rv">
+            <FilmSlot id="ask-theia"><AskTheiaMock /></FilmSlot>
           </div>
         </div>
       </section>
 
-      <section data-aa-section="home.theia" className="sv-section g-spruce">
-        <div className="section-inner px-theia">
-          <div>
-            <TheiaMark className="px-theia-mark" />
-            <div className="section-eyebrow">Meet Theia</div>
-            <h2 className="section-headline">Theia explains what changed and what we recommend.</h2>
-            <p className="sv-lede">Theia is the proprietary AI-powered analysis assistant built into Axia Atlas. She answers in seconds and builds your investor reports. Our analysts are still there when you want a person.</p>
-            <ul className="px-points">
-              <li><strong>{PRODUCTS.ask}.</strong> Ask anything about your campaigns and your raise. Get the answer, the numbers behind it, and what we recommend reviewing next.</li>
-              <li><strong>{PRODUCTS.reports}.</strong> Press play and your weekly and monthly investor-ready decks build themselves in your brand, with the slides that matter flagged.</li>
-            </ul>
-            <div className="sv-hero-actions px-figure-gap">
-              <Link href={PATHS.theia} className="btn-primary">Meet Theia <Arrow className="arr" /></Link>
-            </div>
+      <section data-aa-section="home.reports" className="sec">
+        <div className="wrap split">
+          <div className="split-copy rv">
+            <div className="kicker">{PRODUCTS.reports}</div>
+            <h2 className="h2">The investor report builds itself.</h2>
+            <p className="lede">Weekly and monthly decks, in your brand, from live campaign and raise data. Theia flags the slides that matter most, so you review and present instead of assembling.</p>
+            <div className="actions"><Link href={`${PATHS.theia}#reports`} className="link-arrow">See {PRODUCTS.reports} <Arrow className="arr" /></Link></div>
           </div>
-          <ShotSlot id="homeTheia" />
+          <figure className="figure rv">
+            <div className="frame frame-flush"><Shot id="theia-deck" sizes="(max-width: 960px) 100vw, 720px" /></div>
+            <figcaption>A deck Theia built, open in the slide editor beside the chat that asked for it.</figcaption>
+          </figure>
         </div>
       </section>
 
-      <section data-aa-section="home.who" className="sv-section g-black">
-        <div className="section-inner">
-          <SectionHead eyebrow="Who it is for" title="Built for issuers, and for the agencies behind them." />
-          <div className="sv-cards">
-            <div className="sv-card sv-card-static">
-              <div className="bento-num">Companies raising capital</div>
-              <h3 className="sv-card-name">Reg CF, Reg A+ and Reg D issuers</h3>
-              <p className="sv-card-desc">See cost per investor by channel while the raise is running, and walk into every board meeting with a deck that built itself.</p>
-            </div>
-            <div className="sv-card sv-card-static">
-              <div className="bento-num">Marketing agencies</div>
-              <h3 className="sv-card-name">Agencies that run raise campaigns</h3>
-              <p className="sv-card-desc">Show each client every dollar behind their raise against the investments it produced, with a weekly and monthly deck in that client&apos;s brand.</p>
-            </div>
-          </div>
+      <section data-aa-section="home.principle" className="sec">
+        <div className="wrap statement rv">
+          <div className="kicker">How we work</div>
+          <h2 className="h2">We present, analyze and recommend. You decide.</h2>
+          <p className="lede">Axia Atlas never buys media, runs ads or manages ad spend. Your team or your media buyer stays in control of every campaign.</p>
         </div>
       </section>
 
-      <section data-aa-section="home.principle" className="sv-section g-raise">
-        <div className="section-inner sv-note">
-          <SectionHead
-            eyebrow="How we work"
-            title="We present, analyze and recommend. You decide."
-            lede="Axia Atlas never buys media, runs ads or manages ad spend. Your team or your media buyer stays in control of every campaign. We show how each one is performing against the investments your raise is actually receiving, and what we recommend reviewing next."
-          />
-          <Link href={PATHS.security} className="service-link">How we protect your data <Arrow className="arr" /></Link>
+      <section data-aa-section="home.security" className="sec">
+        <div className="wrap">
+          <Head kicker="Security and privacy" title={PRIVACY_CLAIMS.r3} />
+          <ul className="claims rv">
+            <li><span className="label">Masked</span><p>{PRIVACY_CLAIMS.r1}</p></li>
+            <li><span className="label">Never trained on</span><p>{PRIVACY_CLAIMS.r12}</p></li>
+            <li><span className="label">In transit</span><p>{PRIVACY_CLAIMS.r8}</p></li>
+            <li><span className="label">At rest</span><p>{PRIVACY_CLAIMS.r9}</p></li>
+          </ul>
+          <div className="actions rv" style={{ marginTop: 32 }}><Link href={PATHS.security} className="link-arrow">How we protect your data <Arrow className="arr" /></Link></div>
         </div>
       </section>
 
-      <section data-aa-section="home.faq" className="sv-section g-black">
-        <div className="section-inner">
-          <SectionHead eyebrow="Questions" title="What buyers ask before a demo." />
+      <section data-aa-section="home.faq" className="sec">
+        <div className="wrap">
+          <Head kicker="Questions" title="What buyers ask before a demo." />
           <FaqList items={FAQ.map((f) => ({ q: f.q, a: f.a }))} />
         </div>
       </section>
 
-      <CtaBand
-        headline={`${TAGLINE}.`}
-        sub="Book a demo. We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise, then talk through your own channels."
-      />
-
-      <Footer />
-    </div>
+      <Cta data-aa-section="home.cta" lede="We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise, then talk through your own channels." />
+    </>
   )
 }

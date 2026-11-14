@@ -4,59 +4,52 @@ import { PATHS, PORTAL_URL, PRODUCTS, TAGLINE, TAGLINE_2 } from '@/lib/site'
 
 export default function Footer() {
   return (
-    <footer data-aa-section="footer">
-      <div className="footer-inner">
-        <div className="footer-top">
-          <div className="footer-brand">
-            <div className="brand-lockup footer-lockup">
+    <footer data-aa-section="footer" className="footer">
+      <div className="wrap">
+        <div className="footer-grid">
+          <div>
+            <Link href="/" className="footer-brand" aria-label="Axia Atlas home">
               <AMark className="brand-mark" />
               <WordmarkText className="brand-word" />
-            </div>
-            <p className="footer-tagline">{TAGLINE}. {TAGLINE_2}. Investment campaign analytics for companies raising capital and the agencies behind them.</p>
+            </Link>
+            <p className="footer-tag">{TAGLINE}<br />{TAGLINE_2}</p>
+            <p className="footer-desc">Investment campaign analytics for companies raising capital and the agencies behind them, with Theia, our proprietary AI-powered analysis assistant, built in.</p>
           </div>
-
           <div>
-            <div className="footer-col-title">Product</div>
+            <div className="footer-title">Product</div>
             <ul className="footer-links">
               <li><Link href={`${PATHS.platform}#live-campaigns`}>{PRODUCTS.live}</Link></li>
               <li><Link href={`${PATHS.platform}#raise-ledger`}>{PRODUCTS.ledger}</Link></li>
-              <li><Link href={`${PATHS.theia}#reports`}>{PRODUCTS.reports}</Link></li>
               <li><Link href={`${PATHS.theia}#ask`}>{PRODUCTS.ask}</Link></li>
-              <li><Link href={PATHS.security}>Security</Link></li>
+              <li><Link href={`${PATHS.theia}#reports`}>{PRODUCTS.reports}</Link></li>
+              <li><Link href={PATHS.security}>Security and privacy</Link></li>
               <li><Link href={PATHS.pricing}>Pricing</Link></li>
             </ul>
-            <div className="footer-col-title footer-col-sub">Projects</div>
-            <ul className="footer-links">
-              <li><Link href={PATHS.website}>Website Design</Link></li>
-            </ul>
           </div>
-
           <div>
-            <div className="footer-col-title">Company</div>
+            <div className="footer-title">Company</div>
             <ul className="footer-links">
               <li><Link href={PATHS.about}>About</Link></li>
+              <li><Link href={PATHS.website}>Websites</Link></li>
               <li><Link href="/blog">Insights</Link></li>
               <li><Link href="/careers">Careers</Link></li>
               <li><Link href={PATHS.contact}>Contact</Link></li>
             </ul>
           </div>
-
           <div>
-            <div className="footer-col-title">Get Started</div>
+            <div className="footer-title">Get started</div>
             <ul className="footer-links">
-              <li><Link href={PATHS.demo}>Book a Demo</Link></li>
-              <li><a href={PORTAL_URL}>Sign In</a></li>
+              <li><Link href={PATHS.demo}>Book a demo</Link></li>
+              <li><a href={PORTAL_URL}>Sign in</a></li>
               <li><a href="mailto:partner@axiaatlas.com">partner@axiaatlas.com</a></li>
             </ul>
           </div>
         </div>
-
-        <div className="footer-bottom">
-          <span className="footer-copy">© {new Date().getFullYear()} Axia Atlas Inc. All rights reserved. Theia™ is a proprietary product of Axia Atlas Inc.</span>
-          <nav className="footer-legal">
-            <Link href="/privacy" className="footer-copy">Privacy</Link>
-            <Link href="/terms" className="footer-copy">Terms</Link>
-            <a href={PORTAL_URL} className="footer-copy footer-portal-link">Sign In →</a>
+        <div className="footer-base">
+          <span>© {new Date().getFullYear()} Axia Atlas Inc. Theia is a proprietary product of Axia Atlas Inc.</span>
+          <nav aria-label="Legal">
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/terms">Terms</Link>
           </nav>
         </div>
       </div>

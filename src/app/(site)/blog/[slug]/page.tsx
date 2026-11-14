@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { Cta } from '@/components/site/Blocks'
 import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
-import Footer from '@/components/Footer'
-import CtaBand from '@/components/CtaBand'
 import { Arrow } from '@/components/icons'
 import { getPost, getPosts, postDate, formatDate, readingTime, faqFromMarkdown } from '@/lib/blog'
 import { social, articleTitle } from '@/lib/seo'
@@ -191,13 +190,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         </div>
       ) : null}
 
-      <CtaBand
-        eyebrow="Book a Demo"
-        headline="See every dollar behind your raise."
-        sub="Book a demo of Axia Atlas. We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise."
-      />
+      <Cta data-aa-section="blog.cta" title="See every dollar behind your raise." lede="Book a demo of Axia Atlas. We walk you through Live Campaigns, Raise Ledger and Theia on a demo raise." />
 
-      <Footer />
     </div>
   )
 }
